@@ -128,7 +128,7 @@ global.SET_REMIND = `${SERVER_IP}${COMMON}store-config/remind`
 // post store-config/view-time 显示营业时间
 global.GET_TIME = `${SERVER_IP}${COMMON}store-config/view-time`
 // post store-config/business-time 营业时间设置
-global.SET_BUSINESS_TIME = `${SERVER_IP}${COMMON}store-config/business-time`
+global.SET_TIME = `${SERVER_IP}${COMMON}store-config/business-time`
 
 //5、当前用户
 // post user/info 当前用户信息

@@ -25,7 +25,8 @@
 </template>
 
 <script>
-  import settingApi from '../../api/setting'
+  import storeApi from '../../api/store'
+
   export default {
   	name:'open-time-set',
     data() {
@@ -38,9 +39,9 @@
     	this.fnGetTime();
     },
     methods:{
-    	//显示
+    	//显示时间
     	fnGetTime(){
-    		settingApi.getTime().then((res) => {
+    		storeApi.getTime().then((res) => {
     			if(res.data.errno === 0){
 					console.log(res.data.data);
 					this.$data.startTime = res.data.data.start_time;
@@ -50,7 +51,6 @@
     			}
     		})
     	},
-
     	//设置
     	fnSetTime(){
     		var startTime = this.$data.startTime;
@@ -72,11 +72,11 @@
     			return false;
     		}
 			let list = {
-		        	'start_time' : startTime,
-		        	'end_time'   : endTime
-		    	}
+	        	'start_time' : startTime,
+	        	'end_time'   : endTime
+	    	}
 		    let qs = require('querystring')
-    		settingApi.setBusinessTime(qs.stringify(list)).then((res) => {
+    		storeApi.setTime(qs.stringify(list)).then((res) => {
     			if(res.data.errno === 0){
 					console.log(res)
 					this.$message({

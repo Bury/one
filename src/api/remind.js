@@ -5,15 +5,6 @@ import axios from 'axios'
 
 export default {
 	
-	remindList (list) {
-    return new Promise((resolve, reject) => {
-      axios.post(global.GET_REMIND_LIST, list).then((res) => {
-        resolve(res)
-      }).catch((err) => {
-        reject(err)
-      })
-    })
-  },
 
   personalInfo(customer_id){
     return new Promise((resolve, reject) => {

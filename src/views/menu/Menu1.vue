@@ -6,16 +6,17 @@
                  background-color="#545c64"
                  text-color="#fff"
                  active-text-color="#409EFF">
+
             <router-link :to="{name: 'Statistics'}">
                 <el-menu-item index="/">
                     <i class="el-icon-menu"></i>
-                    <span slot="title">客流统计</span>
+                    <span slot="title">系统通知</span>
                 </el-menu-item>
             </router-link>
-            <router-link :to="{name: 'RemindList'}">
-                <el-menu-item index="/RemindList">
-                    <i class="el-icon-bell"></i>
-                    <span slot="title">提醒列表</span>
+            <router-link :to="{name: 'Statistics'}">
+                <el-menu-item index="/Statistics">
+                    <i class="el-icon-view"></i>
+                    <span slot="title">客流统计</span>
                 </el-menu-item>
             </router-link>
             <router-link :to="{name: 'GuestList'}">
@@ -30,12 +31,7 @@
                     <span slot="title">订单管理</span>
                 </el-menu-item>
             </router-link>
-            <router-link :to="{name: 'LabelList'}">
-                <el-menu-item index="/LabelList">
-                    <i class="el-icon-info"></i>
-                    <span slot="title">标签管理</span>
-                </el-menu-item>
-            </router-link>
+            
             <router-link :to="{name: 'DeviceList'}">
                 <el-menu-item index="/DeviceList">
                     <i class="el-icon-view"></i>
@@ -59,20 +55,26 @@
                     <i class="el-icon-setting"></i>
                     <span slot="title">系统设置</span>
                 </template>
+                <router-link :to="{name: 'LabelList'}">
+                    <el-menu-item index="/LabelList">
+                        <i class="el-icon-info"></i>
+                        <span slot="title">标签管理</span>
+                    </el-menu-item>
+                </router-link>
                 <router-link :to="{name: 'StoreSet'}">
                     <el-menu-item index="/StoreSet">门店管理</el-menu-item>
                 </router-link>
                 <router-link :to="{name: 'RoleSet'}">
                     <el-menu-item index="/RoleSet">角色管理</el-menu-item>
                 </router-link>
-                <router-link :to="{name: 'RemindSet'}">
-                    <el-menu-item index="/RemindSet">提醒配置</el-menu-item>
+                <router-link :to="{name: 'StoreRemind'}">
+                    <el-menu-item index="/StoreRemind">提醒配置</el-menu-item>
                 </router-link>
-                <router-link :to="{name: 'OpenTimeSet'}">
-                    <el-menu-item index="/OpenTimeSet">营业时间设置</el-menu-item>
+                <router-link :to="{name: 'StoreTime'}">
+                    <el-menu-item index="/StoreTime">营业时间设置</el-menu-item>
                 </router-link>
-                <router-link :to="{name: 'Personal'}">
-                    <el-menu-item index="/Personal">个人中心</el-menu-item>
+                <router-link :to="{name: 'UserPersonal'}">
+                    <el-menu-item index="/UserPersonal">个人中心</el-menu-item>
                 </router-link>
             </el-submenu>
         </el-menu>

@@ -2,17 +2,17 @@
     <div class="login-form">
       
       <el-card>
-        <div class="company">杭州知己鹰眼管理系统</div>
-        <div class="title">登录</div>
+        <div class="company">杭州知己鹰眼管理系统-总部</div>
         <el-form :model="loginInfo" :rules="rules" ref="loginForm" label-width="0px">
+            <div class="title"></div>
             <el-form-item prop="username">
-              <el-input type="text" v-model="loginInfo.username" auto-complete="off" placeholder="用户名" />
+              <el-input type="text" v-model="loginInfo.username" auto-complete="off" placeholder="帐号" />
             </el-form-item>
             <el-form-item prop="password">
-              <el-input type="password" v-model="loginInfo.password" auto-complete="off" placeholder="登录密码" />
+              <el-input type="password" v-model="loginInfo.password" auto-complete="off" placeholder="密码" />
             </el-form-item>
             <div class="login-btn-box">
-              <el-button @click="reset" class="login-btn">重置</el-button>
+              <!--<el-button @click="reset" class="login-btn">重置</el-button>-->
               <el-button type="primary" @click="login" class="login-btn">登录</el-button>
             </div>
         </el-form>
@@ -23,6 +23,7 @@
 
 <script>
 import userApi from '../../api/user.js'
+
 export default {
   name: 'login-form',
   data () {
@@ -33,7 +34,7 @@ export default {
       },
       rules: {
         username: [
-          { required: true, message: '请填写用户名', trigger: 'blur' },
+          { required: true, message: '请填写登录帐号', trigger: 'blur' },
         ],
         password: [
           { required: true, message: '请填写登录密码', trigger: 'blur' },
@@ -47,9 +48,11 @@ export default {
   mounted: function () {
   },
   methods: {
+    /*
     reset() {
       this.$refs.loginForm.resetFields();
     },
+    */
     login() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {

@@ -17,8 +17,8 @@
 	</div>
 </template>
 <script>
-  import settingApi from '../../api/setting'
-  const typeOptions = ['新客匿名', '新客VIP', '熟客匿名', '熟客VIP'];
+  import storeApi from '../../api/store'
+  const typeOptions = ['新客', '熟客', '未购买', '已购买'];
   const typeId = ["1","2","3","4"]
   export default {
     data() {
@@ -36,7 +36,7 @@
     methods: {
         //显示
         fnGetRemind(){
-            settingApi.getRemind().then((res) => {
+            storeApi.getRemind().then((res) => {
                 if(res.data.errno === 0){
                     console.log(res);
                     this.checkedType = res.data.data.remind_ids.split(",");
@@ -58,7 +58,7 @@
                     'remind_ids' :  this.checkedType.toString(),
                 }
             let qs = require('querystring')
-            settingApi.setRemind(qs.stringify(list)).then((res) => {
+            storeApi.setRemind(qs.stringify(list)).then((res) => {
                 if(res.data.errno === 0){
                     console.log(res);
                     this.fnGetRemind();

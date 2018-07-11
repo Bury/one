@@ -7,7 +7,7 @@
               杭州知己科技有限公司
             </div>-->
             <div class="main">
-              <login-form></login-form>
+              <user-login-form></user-login-form>
             </div>
           </div>
         </div>
@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import LoginForm from './LoginForm'
+import UserLoginForm from './UserLoginForm'
 
 export default {
   name: 'home',
   components: {
-    LoginForm
+    UserLoginForm
   },
   data () {
     return {
@@ -47,7 +47,7 @@ export default {
     fetchData: function () {
       let pathName = this.$route.name.toLowerCase()
       this.show = pathName
-
+      alert(pathName)
       this.handleResize()
     },
     handleResize () {

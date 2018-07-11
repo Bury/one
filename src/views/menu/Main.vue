@@ -2,7 +2,7 @@
 <template>
     <div class="main-box">
         <div class="header-wrap">
-            <div class="company">鹰眼管理系统</div>
+            <div class="company">鹰眼管理系统-总部</div>
             <!-- <div class="top-menu" style="float:left;">
                 <el-menu :default-active="horizontalIndex"
                       class="el-menu-demo"
@@ -25,7 +25,7 @@
                     </span>
                     <el-dropdown-menu slot="dropdown" style="text-align:center;">
                         <el-dropdown-item divided>个人中心</el-dropdown-item>
-                        <el-dropdown-item divided command="logout" >退出</el-dropdown-item>
+                        <el-dropdown-item divided @click.native="logout" command="logout" >退出</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
@@ -45,6 +45,8 @@
 
 <script>
 import Menu1 from './Menu1'
+
+import userApi from '../../api/user.js'
 
 export default {
   name: 'main-box',
@@ -85,6 +87,18 @@ export default {
     handleClose(key, keyPath) {
         console.log(key, keyPath);
     },
+    logout(){
+        userApi.logout().then((res) => {
+            if(res.data.errno === 0){
+                alert('退出成功')
+                localStorage.setItem('knock_knock', null)
+                localStorage.setItem('username', '')
+                this.$router.replace({name: 'UserLogin'})
+            }else{
+                //logout failed
+            }
+        });
+    }
   }
 }
 </script>

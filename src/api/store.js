@@ -1,82 +1,77 @@
 /**
- * 个人中心
+ * 门店管理
  */
 import axios from 'axios'
 
 export default {
 
-  //账号
-  accountList(list){
+  lists(list){
     return new Promise((resolve, reject) => {
-      axios.post(global.GET_ACCOUNT_LIST,list).then((res) => {
+      axios.post(global.GET_STORE_LIST,list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
       })
     })
   },
-  addAccount (list) {
+  adds (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.ADD_ACCOUNT,list).then((res) => {
+      axios.post(global.ADD_STORE,list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
       })
     })
   },
-  detailAccount (list){
+  edit (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.DETAIL_ACCOUNT,list).then((res) => {
+      axios.post(global.EDIT_STORE,list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
       })
     })
   },
-  editAccount (list) {
+  dele (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.EDIT_ACCOUNT,list).then((res) => {
+      axios.post(global.DELE_STORE,list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
       })
     })
   },
-
-  deleAccount (list) {
+  //提醒配置
+  getRemind () {
     return new Promise((resolve, reject) => {
-      axios.post(global.DELE_ACCOUNT,list).then((res) => {
+      axios.post(global.GET_REMIND).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
       })
     })
   },
-
-  changPwdAccount(list){
+  setRemind (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.CHANGEpWD_ACCOUNT,list).then((res) => {
-        resolve(res)
-      }).catch((err) => {
-        reject(err)
-      })
-    })
-
-  },
-
-  allPermission (list) {
-    return new Promise((resolve, reject) => {
-      axios.post(global.GET_ALL_PERMISSION,list).then((res) => {
+      axios.post(global.SET_REMIND, list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
       })
     })
   },
-
-  editPermission (list) {
+  getTime () {
     return new Promise((resolve, reject) => {
-      axios.post(global.EDIT_PERMISSION,list).then((res) => {
+      axios.post(global.GET_TIME).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  setTime (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.SET_TIME, list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)

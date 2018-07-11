@@ -1,31 +1,31 @@
 <template>
 	<div class="personal-page">
 		<div class="top-box">
-			<h3>用户中心</h3>
+			<h3></h3>
 			<div class="editBtn">
 				<el-button type="primary" plain @click="fnChangePWD()">修改密码</el-button>
 			</div>
 		</div>
 		<el-form ref="form" :model="userForm" label-width="75px" disabled>
-		  	<el-form-item label="用户名：">
-		    	<el-input v-model="userForm.role_name"></el-input>
-		  	</el-form-item>
-		  	<el-form-item label="联系人：">
+		  	<el-form-item label="帐号：">
 		    	<el-input v-model="userForm.username"></el-input>
+		  	</el-form-item>
+		  	<el-form-item label="角色：">
+		    	<el-input v-model="userForm.role_name"></el-input>
 		  	</el-form-item>
 		</el-form>
 
 		<!-- 修改密码 -->
 		<el-dialog title="修改密码" :visible.sync="dialogFormVisible" style="min-width:800px;">
 		  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-		    <el-form-item label="原密码：" prop="oldPwd">
-		      <el-input v-model="ruleForm.oldPwd" ></el-input>
+		    <el-form-item label="当前密码：" prop="oldPwd">
+		      <el-input type="password" v-model="ruleForm.oldPwd" ></el-input>
 		    </el-form-item>
-		    <el-form-item label="新密码：" prop="newPwd">
-		      <el-input v-model="ruleForm.newPwd" ></el-input>
+		    <el-form-item label="新的密码：" prop="newPwd">
+		      <el-input type="password" v-model="ruleForm.newPwd" ></el-input>
 		    </el-form-item>
 		    <el-form-item label="确认密码：" prop="reNewPwd">
-		      <el-input v-model="ruleForm.reNewPwd" ></el-input>
+		      <el-input type="password" v-model="ruleForm.reNewPwd" ></el-input>
 		    </el-form-item>
 		  </el-form>
 		  <div slot="footer" class="dialog-footer">
@@ -37,6 +37,7 @@
 </template>
 <script>
 	import userApi from '../../api/user'
+
   export default {
   	name:'personal',
     data() {
@@ -50,11 +51,11 @@
         },
         rules: {
           oldPwd: [
-            { required: true, message: '请输入原密码：', trigger: 'blur' },
+            { required: true, message: '请输入当前密码：', trigger: 'blur' },
             { min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }
           ],
           newPwd: [
-            { required: true, message: '请输入新密码：', trigger: 'blur' },
+            { required: true, message: '请输入新的密码：', trigger: 'blur' },
             { min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }
           ],
           reNewPwd: [
@@ -91,12 +92,11 @@
       fnChangePWD(){
       	this.$data.dialogFormVisible = true;
       },
-
       cancel(){
       	this.$data.dialogFormVisible = false;
       	this.$data.ruleForm.oldPwd = '';
         this.$data.ruleForm.newPwd = '';
-        this.$data.ruleForm.reNowPwd = '';
+        this.$data.ruleForm.reNewPwd = '';
       },
       submitForm(formName){
 		this.$refs[formName].validate((valid) => {
@@ -104,17 +104,19 @@
 	        if (valid) {
 	        	let list = {
 					'old_password': this.$data.ruleForm.oldPwd,
-					'new_password':this.$data.ruleForm.newPwd 
+					'new_password':this.$data.ruleForm.newPwd,
+					'new_password2':this.$data.ruleForm.reNewPwd 
 				}
 				let qs = require('querystring')
 				userApi.changePWD(qs.stringify(list)).then((res) => {
 					if(res.data.errno === 0){
+						alert('操作成功')
 						userApi.logout().then((res1) => {
 							if(res1.data.errno === 0){
 								localStorage.setItem('knock_knock', '')
             					localStorage.setItem('username', '')
 								this.$router.replace({
-									name: 'Login'
+									name: 'UserLogin'
 								});
 							}else{
 								this.$message.error(res1.data.msg);
