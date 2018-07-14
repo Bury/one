@@ -16,7 +16,7 @@
 			  	</el-form-item>
 			  	<el-form-item label="版本：">
 				    <el-select v-model="requestParameters.version" placeholder="请选择">
-				      <el-option v-for="(item,idx) in allVersions" :label="allVersions[idx].val" :value="allVersions[idx].id"></el-option>
+				      <el-option v-for="(item,idx) in allVersions" :label="allVersions[idx].val" :value="allVersions[idx].id" :key="idx"></el-option>
 				    </el-select>
 			  	</el-form-item>
 				<el-form-item label="启用时间：">
@@ -30,7 +30,7 @@
 				</el-form-item>
 				<el-form-item label="所属门店：">
 				    <el-select v-model="requestParameters.belong_sid" placeholder="请选择">
-				        <el-option v-for="(item,idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id"></el-option>
+				        <el-option v-for="(item,idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id" :key="idx"></el-option>
 				    </el-select>
 				</el-form-item>
 				<el-form-item>
@@ -101,7 +101,7 @@
 		 	<el-form :model="operationForm" :rules="operationRules" ref="operationForm" label-width="100px" class="demo-ruleForm" style="margin-bottom:50px;">
 			    <el-form-item label="所属门店：" prop="belong_sid">
 			    	<el-select v-model="operationForm.belong_sid" placeholder="请选择">
-				        <el-option v-for="(item,idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id"></el-option>
+				        <el-option v-for="(item,idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id" :key="idx"></el-option>
 				    </el-select>
 			    </el-form-item>
 		    </el-form>

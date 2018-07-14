@@ -76,67 +76,49 @@ global.GET_DEVICE_LIST_STORE = `${SERVER_IP}${COMMON}device/device-list`
 // post device/operation 按门店分配
 global.SET_OPERATION = `${SERVER_IP}${COMMON}device/operation`
 
+//2、角色管理
+global.ROLE_LISTS = `${SERVER_IP}${COMMON}role/list`
+global.ROLE_ADDS = `${SERVER_IP}${COMMON}role/adds`
+global.ROLE_EDIT = `${SERVER_IP}${COMMON}role/edit`
+global.ROLE_DELE = `${SERVER_IP}${COMMON}role/dele`
 
-/*个人中心*/
-//1、门店管理
-// psot store/lists 门店列表
-global.GET_STORE_LIST = `${SERVER_IP}${COMMON}store/lists`
-// post store/adds 添加门店
-global.ADD_STORE = `${SERVER_IP}${COMMON}store/adds`
-// post store/edit 编辑门店
-global.EDIT_STORE = `${SERVER_IP}${COMMON}store/edit`
-// post store/dele 删除门店
-global.DELE_STORE = `${SERVER_IP}${COMMON}store/dele`
+//permisstion
+global.ROLE_PERMISSION_VIEW = `${SERVER_IP}${COMMON}role/view-permission`
+global.ROLE_PERMISSION_EDIT = `${SERVER_IP}${COMMON}role/edit-permission`
 
 //账号管理
-// post account/list 账号列表
-global.GET_ACCOUNT_LIST = `${SERVER_IP}${COMMON}account/list`
-// post account/adds 
-global.ADD_ACCOUNT = `${SERVER_IP}${COMMON}account/adds`
-// post account/view 详情
-global.DETAIL_ACCOUNT = `${SERVER_IP}${COMMON}account/view`
-// post account/edit 
-global.EDIT_ACCOUNT = `${SERVER_IP}${COMMON}account/edit`
-// post account/dele 
-global.DELE_ACCOUNT = `${SERVER_IP}${COMMON}account/dele`
-//post account/edit-password 
-global.CHANGEpWD_ACCOUNT = `${SERVER_IP}${COMMON}account/edit-password`
+global.ACCOUNT_LISTS = `${SERVER_IP}${COMMON}account/list`
+global.ACCOUNT_ADDS = `${SERVER_IP}${COMMON}account/adds`
+global.ACCOUNT_VIEW = `${SERVER_IP}${COMMON}account/view`
+global.ACCOUNT_EDIT = `${SERVER_IP}${COMMON}account/edit`
+global.ACCOUNT_DELE = `${SERVER_IP}${COMMON}account/dele`
+global.ACCOUNT_PASSWORD_EDIT = `${SERVER_IP}${COMMON}account/edit-password`
 
+//门店管理
+global.STORE_LISTS = `${SERVER_IP}${COMMON}store/lists`
+global.STORE_ADDS = `${SERVER_IP}${COMMON}store/adds`
+global.STORE_EDIT = `${SERVER_IP}${COMMON}store/edit`
+global.STORE_DELE = `${SERVER_IP}${COMMON}store/dele`
 
-//2、角色管理
-// post role/list 角色列表
-global.GET_ROLE_LIST = `${SERVER_IP}${COMMON}role/list`
-// post role/adds 添加
-global.ADD_ROLE = `${SERVER_IP}${COMMON}role/adds`
-// POST role/edit 修改
-global.EDIT_ROLE = `${SERVER_IP}${COMMON}role/edit`
-// post role/dele 删除
-global.DELE_ROLE = `${SERVER_IP}${COMMON}role/dele`
-// post role/view-permission 所有权限
-global.GET_ALL_PERMISSION = `${SERVER_IP}${COMMON}role/view-permission`
-// post role/edit-permission 编辑权限
-global.EDIT_PERMISSION = `${SERVER_IP}${COMMON}role/edit-permission`
+//账号管理
+global.STORE_ACCOUNT_LISTS = `${SERVER_IP}${COMMON}account/list`
+global.STORE_ACCOUNT_ADDS = `${SERVER_IP}${COMMON}account/adds`
+global.STORE_ACCOUNT_VIEW = `${SERVER_IP}${COMMON}account/view`
+global.STORE_ACCOUNT_EDIT = `${SERVER_IP}${COMMON}account/edit`
+global.STORE_ACCOUNT_DELE = `${SERVER_IP}${COMMON}account/dele`
+global.STORE_ACCOUNT_PASSWORD_EDIT = `${SERVER_IP}${COMMON}account/edit-password`
 
+//提醒设置
+global.STORE_REMIND_VIEW = `${SERVER_IP}${COMMON}store-config/view-remind`
+global.STORE_REMIND_SET = `${SERVER_IP}${COMMON}store-config/remind`
 
-//3、提醒设置
-// post store-config/view-remind 显示提醒
-global.GET_REMIND = `${SERVER_IP}${COMMON}store-config/view-remind`
-// post store-config/remind 设置提醒
-global.SET_REMIND = `${SERVER_IP}${COMMON}store-config/remind`
+//营业时间
+global.STORE_TIME_VIEW = `${SERVER_IP}${COMMON}store-config/view-time`
+global.STORE_TIME_SET = `${SERVER_IP}${COMMON}store-config/business-time`
 
-//4、营业时间设置
-// post store-config/view-time 显示营业时间
-global.GET_TIME = `${SERVER_IP}${COMMON}store-config/view-time`
-// post store-config/business-time 营业时间设置
-global.SET_TIME = `${SERVER_IP}${COMMON}store-config/business-time`
-
-//5、当前用户
-// post user/info 当前用户信息
-global.GET_USER_INFO = `${SERVER_IP}${COMMON}user/info`
-// post user/change-password 修改密码
-global.CHANGE_PASSWORD = `${SERVER_IP}${COMMON}user/change-password`
-// post user/logout 退出
-global.LOGOUT = `${SERVER_IP}${COMMON}user/logout`
-// post user/login 登陆
-global.LOGIN = `${SERVER_IP}${COMMON}user/login`
+//user
+global.USER_VIEW = `${SERVER_IP}${COMMON}user/info`
+global.USER_CHANGE_PASSWORD = `${SERVER_IP}${COMMON}user/change-password`
+global.USER_LOGOUT = `${SERVER_IP}${COMMON}user/logout`
+global.USER_LOGIN = `${SERVER_IP}${COMMON}user/login`
 

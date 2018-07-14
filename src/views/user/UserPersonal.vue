@@ -75,11 +75,11 @@
       }
     },
     created:function(){
-    	this.getUserInfo();
+    	this.view();
     },
     methods: {
-      getUserInfo(){
-		userApi.getUserInfo().then((res) => {
+      view(){
+		userApi.view().then((res) => {
 			if(res.data.errno === 0){
 				console.log(res);
 				this.$data.userForm = res.data.data.user;

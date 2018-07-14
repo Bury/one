@@ -7,7 +7,7 @@ export default {
 
   lists (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.GET_ROLE_LIST,list).then((res) => {
+      axios.post(global.ROLE_LISTS,list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
@@ -16,7 +16,7 @@ export default {
   },
   adds (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.ADD_ROLE,list).then((res) => {
+      axios.post(global.ROLE_ADDS,list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
@@ -25,7 +25,7 @@ export default {
   },
   edit (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.EDIT_ROLE,list).then((res) => {
+      axios.post(global.ROLE_EDIT,list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
@@ -35,7 +35,7 @@ export default {
 
   dele (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.DELE_ROLE,list).then((res) => {
+      axios.post(global.ROLE_DELE,list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)

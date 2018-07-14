@@ -16,7 +16,7 @@
             </div>
             <div class="user-tags">
                 标签： 
-                    <el-tag v-for="(item,key) in userInfo.tag" style="margin-right:10px;">{{userInfo.tag[key].name}}</el-tag>
+                    <el-tag v-for="(item,key) in userInfo.tag" style="margin-right:10px;" :key="key">{{userInfo.tag[key].name}}</el-tag>
             </div>
             <p class="user-remarks">备注： {{userInfo.remark === null ? '暂无备注' : userInfo.remark}}</p>
             <el-button type="primary" plain size="small" class="edit-btn" @click="editUserInfo()">编辑</el-button>

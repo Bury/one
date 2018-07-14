@@ -38,6 +38,25 @@
                     <span slot="title">设备管理</span>
                 </el-menu-item>
             </router-link>
+
+            <el-submenu index="7-2">
+                <template slot="title">
+                    <i class="el-icon-setting"></i>
+                    <span slot="title">门店管理</span>
+                </template>
+                <router-link :to="{name: 'Store'}">
+                    <el-menu-item index="/Store">
+                        <span slot="title">门店列表</span>
+                    </el-menu-item>
+                </router-link>
+                <router-link :to="{name: 'StoreRemind'}">
+                    <el-menu-item index="/StoreRemind">提醒配置</el-menu-item>
+                </router-link>
+                <router-link :to="{name: 'StoreTime'}">
+                    <el-menu-item index="/StoreTime">营业时间设置</el-menu-item>
+                </router-link>
+            </el-submenu>
+
             <!-- <el-submenu index="1-6">
                 <template slot="title">
                     <i class="el-icon-view"></i>
@@ -55,23 +74,11 @@
                     <i class="el-icon-setting"></i>
                     <span slot="title">系统设置</span>
                 </template>
-                <router-link :to="{name: 'LabelList'}">
-                    <el-menu-item index="/LabelList">
-                        <i class="el-icon-info"></i>
-                        <span slot="title">标签管理</span>
-                    </el-menu-item>
+                <router-link :to="{name: 'Account'}">
+                    <el-menu-item index="/Account">账号管理</el-menu-item>
                 </router-link>
-                <router-link :to="{name: 'StoreSet'}">
-                    <el-menu-item index="/StoreSet">门店管理</el-menu-item>
-                </router-link>
-                <router-link :to="{name: 'RoleSet'}">
-                    <el-menu-item index="/RoleSet">角色管理</el-menu-item>
-                </router-link>
-                <router-link :to="{name: 'StoreRemind'}">
-                    <el-menu-item index="/StoreRemind">提醒配置</el-menu-item>
-                </router-link>
-                <router-link :to="{name: 'StoreTime'}">
-                    <el-menu-item index="/StoreTime">营业时间设置</el-menu-item>
+                <router-link :to="{name: 'Role'}">
+                    <el-menu-item index="/Role">角色管理</el-menu-item>
                 </router-link>
                 <router-link :to="{name: 'UserPersonal'}">
                     <el-menu-item index="/UserPersonal">个人中心</el-menu-item>

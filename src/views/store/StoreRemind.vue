@@ -8,11 +8,11 @@
         </div>
 		<div class="type-list">
             <el-checkbox-group v-model="checkedType" @change="fnChangeType">
-                <el-checkbox v-for="(tpye,key) in types" :label="tpye">{{typeVal[key]}}</el-checkbox>
+                <el-checkbox v-for="(tpye,key) in types" :label="tpye" :key="key">{{typeVal[key]}}</el-checkbox>
             </el-checkbox-group>
         </div>
 		<div class="saveBtn">
-            <el-button type="primary" class="save-btn" @click="fnSetRemind">保存</el-button>
+            <el-button type="primary" class="save-btn" @click="fnRemindSet">保存</el-button>
         </div>
 	</div>
 </template>
@@ -31,12 +31,12 @@
       };
     },
     created:function(){
-        this.fnGetRemind();
+        this.fnRemindView();
     },
     methods: {
         //显示
-        fnGetRemind(){
-            storeApi.getRemind().then((res) => {
+        fnRemindView(){
+            storeApi.remindView().then((res) => {
                 if(res.data.errno === 0){
                     console.log(res);
                     this.checkedType = res.data.data.remind_ids.split(",");
@@ -53,15 +53,20 @@
         },
 
         //设置
-        fnSetRemind(){
+        fnRemindSet(){
             let list = {
                     'remind_ids' :  this.checkedType.toString(),
                 }
             let qs = require('querystring')
-            storeApi.setRemind(qs.stringify(list)).then((res) => {
+            storeApi.remindSet(qs.stringify(list)).then((res) => {
                 if(res.data.errno === 0){
-                    console.log(res);
-                    this.fnGetRemind();
+                    console.log(res)
+                    this.$message({
+                      message: '营业时间设置成功',
+                      type: 'success',
+                      duration:1500
+                    });
+                    this.fnRemindView();
                 }else{
                     this.$message.error(res.data.msg);
                 }

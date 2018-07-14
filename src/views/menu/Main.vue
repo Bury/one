@@ -35,7 +35,7 @@
                 <el-radio-button :label="false" v-if="isCollapse">展开</el-radio-button>
                 <el-radio-button :label="true" v-if="!isCollapse">收起</el-radio-button>
             </el-radio-group>
-            <Menu1 v-if="leftMenu.leftMenu1" :isCollapse="isCollapse" :isShow="leftMenu.leftMenu1"></Menu1>
+            <MenuLeft v-if="leftMenu.leftMenu1" :isCollapse="isCollapse" :isShow="leftMenu.leftMenu1"></MenuLeft>
         </div>
         <div class="content-wrap" ref="content" :style="isCollapse ? 'margin-left:70px;' : 'margin-left:160px;'">
             <router-view></router-view>
@@ -44,14 +44,14 @@
 </template>
 
 <script>
-import Menu1 from './Menu1'
+import MenuLeft from './MenuLeft'
 
 import userApi from '../../api/user.js'
 
 export default {
   name: 'main-box',
   components: {
-    Menu1
+    MenuLeft
   },
   data () {
     return {

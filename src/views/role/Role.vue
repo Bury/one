@@ -3,7 +3,8 @@
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdd()">新增</el-button>
 		</div>
-		<el-table :data="tableData" border height="448" style="width:621px;text-align:center;">
+		<el-table :data="tableData" border height="448" style="width:840px;text-align:center;">
+			<el-table-column prop="id" label="ID" width="220"></el-table-column>
 	    	<el-table-column prop="name" label="角色名" width="320"></el-table-column>
 		    <el-table-column label="操作" width="300">
 			    <template slot-scope="scope">
@@ -18,6 +19,7 @@
 	    </el-table>
 
 	    <!-- 分页 -->
+	    <!--
 	    <div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
 	    	<el-pagination 
 				background
@@ -30,6 +32,7 @@
 	            :total="pagination.totalCount">
 	        </el-pagination>
 	    </div>
+	    -->
 
 		<!-- 添加、修改 -->
 	    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
@@ -68,7 +71,7 @@
 	</div>
 </template>
 <script>
-	import settingApi from '../../api/setting'
+	import roleApi from '../../api/role'
 	export default{
 		name:'role-set',
 		data(){
@@ -102,13 +105,13 @@
 			}
 		},
 		created:function(){
-			this.roleList();
+			this.lists();
 		},
 		methods: {
 			//列表
-			roleList(){
+			lists(){
 				let qs = require('querystring')
-	    		settingApi.roleList(qs.stringify(this.$data.requestParameters)).then((res) => {
+	    		roleApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
 	    			if(res.data.errno === 0){
 						console.log(res);
 						this.$data.tableData = res.data.data.list;
@@ -123,7 +126,7 @@
 	    	handleCurrentChange(currentPage) {
 	            console.log(currentPage)
 	            this.$data.requestParameters.page = currentPage;
-	            this.roleList();
+	            this.lists();
 	        },
 
 			fnRemove(row){
@@ -136,14 +139,14 @@
 						'id': row.id
 					}
 					let qs = require('querystring')
-	        		settingApi.deleRole(qs.stringify(list)).then((res) => {
+	        		roleApi.dele(qs.stringify(list)).then((res) => {
 	        			if(res.data.errno === 0){
 							console.log(res)
 							this.$message({
 					            type: 'success',
 					            message: '删除成功!'
 					          });
-							this.roleList();
+							this.lists();
 	        			}else{
 							this.$message.error(res.data.msg);
 	        			}
@@ -187,10 +190,15 @@
 								'name':this.$data.ruleForm.name
 							}
 							let qs = require('querystring')
-			        		settingApi.editRole(qs.stringify(list)).then((res) => {
+			        		roleApi.edit(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
 									console.log(res)
-									this.roleList();
+									this.$message({
+				                      message: '营业时间设置成功',
+				                      type: 'success',
+				                      duration:1500
+				                    });
+									this.lists();
 									this.$data.ruleForm.name = '';
 									this.$data.currentId = '';
 									this.$data.dialogFormVisible = false;
@@ -205,10 +213,15 @@
 						        'name':this.$data.ruleForm.name
 						    }
 						    let qs = require('querystring')
-			        		settingApi.addRole(qs.stringify(list)).then((res) => {
+			        		roleApi.adds(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
 									console.log(res)
-									this.roleList();
+									this.$message({
+				                      message: '营业时间设置成功',
+				                      type: 'success',
+				                      duration:1500
+				                    });
+									this.lists();
 									this.$data.ruleForm.name = '';
 									this.$data.currentId = '';
 									this.$data.dialogFormVisible = false;
@@ -217,7 +230,6 @@
 			        				this.$message.error(res.data.msg);
 
 			        			}
-			        			
 			        		})
 						}
 			        } 
@@ -231,7 +243,7 @@
 			        'role_id':row.id
 			    }
 			    let qs = require('querystring')
-        		settingApi.allPermission(qs.stringify(list)).then((res) => {
+        		roleApi.allPermission(qs.stringify(list)).then((res) => {
         			if(res.data.errno === 0){
 						console.log(res)
 						this.$data.dialogForm2 = res.data.data;
@@ -274,7 +286,7 @@
 			        'permission_ids':this.$data.checkedIds.toString()
 			    }
 			    let qs = require('querystring')
-        		settingApi.editPermission(qs.stringify(list)).then((res) => {
+        		roleApi.editPermission(qs.stringify(list)).then((res) => {
         			if(res.data.errno === 0){
 						console.log(res)
 						this.$data.currentId = '';

@@ -28,12 +28,15 @@ import DeviceList from '../views/device/DeviceList'
 import StoreDetail from '../views/device/StoreDetail'
 
 /*****系统设置*****/
-//门店管理
-import StoreSet from '../views/setting/storeSet/StoreSet'
 
-import AccountSet from '../views/setting/storeSet/AccountSet'
 //角色管理
-import RoleSet from '../views/setting/RoleSet'
+import Role from '../views/role/Role'
+
+//门店管理
+import Store from '../views/store/Store'
+
+//StoreAccount
+import StoreAccount from '../views/store/StoreAccount'
 
 //提醒设置
 import StoreRemind from '../views/store/StoreRemind'
@@ -60,9 +63,9 @@ const router = new Router({
         {path: 'LabelDetail',name: 'LabelDetail',component: LabelDetail},
         {path: 'DeviceList',name: 'DeviceList',component: DeviceList},
         {path: 'StoreDetail',name: 'StoreDetail',component: StoreDetail},
-        {path: 'StoreSet',name:'StoreSet',component:StoreSet},
-        {path: 'AccountSet',name:'AccountSet',component:AccountSet},
-        {path: 'RoleSet',name:'RoleSet',component:RoleSet},
+        {path: 'Store',name:'Store',component:Store},
+        {path: 'StoreAccount',name:'StoreAccount',component:StoreAccount},
+        {path: 'Role',name:'Role',component:Role},
         {path: 'StoreRemind',name: 'StoreRemind',component: StoreRemind},
         {path: 'StoreTime',name: 'StoreTime',component: StoreTime},
         {path: 'Personal',name: 'UserPersonal',component: UserPersonal},

@@ -19,7 +19,7 @@
 			</el-time-select>
 		</div>
 		<div class="saveBtn">
-			<el-button type="primary" class="save-btn" @click="fnSetTime">保存</el-button>
+			<el-button type="primary" class="save-btn" @click="fnTimeSet">保存</el-button>
 		</div>
 	</div>
 </template>
@@ -36,12 +36,12 @@
       };
     },
     created:function(){
-    	this.fnGetTime();
+    	this.timeView();
     },
     methods:{
     	//显示时间
-    	fnGetTime(){
-    		storeApi.getTime().then((res) => {
+    	timeView(){
+    		storeApi.timeView().then((res) => {
     			if(res.data.errno === 0){
 					console.log(res.data.data);
 					this.$data.startTime = res.data.data.start_time;
@@ -52,7 +52,7 @@
     		})
     	},
     	//设置
-    	fnSetTime(){
+    	fnTimeSet(){
     		var startTime = this.$data.startTime;
     		var endTime = this.$data.endTime;
     		if(startTime == ''){
@@ -76,7 +76,7 @@
 	        	'end_time'   : endTime
 	    	}
 		    let qs = require('querystring')
-    		storeApi.setTime(qs.stringify(list)).then((res) => {
+    		storeApi.timeSet(qs.stringify(list)).then((res) => {
     			if(res.data.errno === 0){
 					console.log(res)
 					this.$message({

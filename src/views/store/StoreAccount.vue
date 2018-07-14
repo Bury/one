@@ -1,13 +1,13 @@
 <template>
 	<div class="store-set-page">
 		<div class="top-box">
-			<el-button type="primary" size="small" class="add-btn" @click="fnAdd()">新增</el-button>
+			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
 		</div>
-		<el-table :data="tableData" border height="448" style="width:962px;text-align:center;">
-			<el-table-column prop="store_name" label="所属门店" width="220"></el-table-column>
-	    	<el-table-column prop="username" label="账号名" width="160"></el-table-column>
+
+		<el-table :data="tableData" border height="448" style="width:742px;text-align:center;">
+	    	<el-table-column prop="username" label="账号" width="160"></el-table-column>
 	    	<el-table-column prop="role_name" label="角色" width="100"></el-table-column>
-	    	<el-table-column prop="role_desc" label="使用人" width="100"></el-table-column>
+	    	<el-table-column prop="role_desc" label="姓名" width="100"></el-table-column>
 	    	<el-table-column label="创建时间" width="160">
 	    		<template slot-scope="scope">
 	    			{{scope.row.created_at | date(4)}}
@@ -16,7 +16,7 @@
 		    <el-table-column label="操作" width="220">
 			    <template slot-scope="scope">
 			    	<el-button type="primary" plain icon="el-icon-setting" circle size="small"
-			    		@click="fnChangePwd(scope.row)"></el-button>
+			    		@click="fnEditPassword(scope.row)"></el-button>
 			    	<el-button type="warning" plain icon="el-icon-edit" circle size="small"
 			    		@click="fnEdit(scope.row)"></el-button>
 			    	<el-button type="danger" plain icon="el-icon-delete" circle size="small"
@@ -41,15 +41,15 @@
 	    <!-- 编辑 -->
 	    <el-dialog title="编辑" :visible.sync="editFormVisible">
 		  <el-form :model="editFormData" :rules="editRules" ref="editFormData" label-width="100px" class="demo-ruleForm">
-			  <el-form-item label="账号名：" prop="username">
+			  <el-form-item label="账号：" prop="username">
 			    <el-input v-model="editFormData.username"></el-input>
 			  </el-form-item>
-			  <el-form-item label="使用人：" prop="desc">
+			  <el-form-item label="姓名：" prop="desc">
 			    <el-input v-model="editFormData.desc"></el-input>
 			  </el-form-item>
 			  <el-form-item label="角色：" prop="role_id">
 			    <el-select v-model="editFormData.role_id" placeholder="请选择">
-				    <el-option v-for="(item,idx) in allRole" :label="allRole[idx].name" :value="allRole[idx].id"></el-option>
+				    <el-option v-for="(item,idx) in allRole" :label="allRole[idx].name" :value="allRole[idx].id" :key="idx"></el-option>
 				</el-select>
 			  </el-form-item>
 		  </el-form>
@@ -63,47 +63,47 @@
 		<el-dialog title="修改密码" :visible.sync="changePwdFormVisible">
 		  <el-form :model="changePwdFormData" :rules="changePwdRules" ref="changePwdFormData" label-width="100px" class="demo-ruleForm">
 			  <el-form-item label="新密码：" prop="password">
-			    <el-input v-model="changePwdFormData.password"></el-input>
+			    <el-input type="password" v-model="changePwdFormData.password"></el-input>
 			  </el-form-item>
 			  <el-form-item label="确认密码：" prop="repassword">
-			    <el-input v-model="changePwdFormData.repassword"></el-input>
+			    <el-input type="password" v-model="changePwdFormData.repassword"></el-input>
 			  </el-form-item>
 		  </el-form>
 		  <div slot="footer" class="dialog-footer">
-		    <el-button @click="changePwdCancel">取 消</el-button>
-		    <el-button type="primary" @click="changePwdSubmit('changePwdFormData')">确 定</el-button>
+		    <el-button @click="editPasswordCancel">取 消</el-button>
+		    <el-button type="primary" @click="editPasswordSubmit('changePwdFormData')">确 定</el-button>
 		  </div>
 		</el-dialog>
 
 		<!-- 添加 -->
-		<el-dialog :title="!avatarFormVisible? '添加' : '关联头像'" :visible.sync="addFormVisible" :fullscreen="avatarFormVisible" :before-close="closeChange" >
-		  <el-form :model="addFormData" :rules="addRules" ref="addFormData" label-width="100px" class="demo-ruleForm" v-if="!avatarFormVisible" >
-			  <el-form-item label="账号名：" prop="username">
-			    <el-input v-model="addFormData.username"></el-input>
+		<el-dialog :title="!avatarFormVisible? '添加' : '关联头像'" :visible.sync="addsFormVisible" :fullscreen="avatarFormVisible" :before-close="closeChange" >
+		  <el-form :model="addsFormData" :rules="addsRules" ref="addsFormData" label-width="100px" class="demo-ruleForm" v-if="!avatarFormVisible" >
+			  <el-form-item label="账号：" prop="username">
+			    <el-input v-model="addsFormData.username"></el-input>
 			  </el-form-item>
-			  <el-form-item label="使用人：" prop="desc">
-			    <el-input v-model="addFormData.desc"></el-input>
+			  <el-form-item label="姓名：" prop="desc">
+			    <el-input v-model="addsFormData.desc"></el-input>
 			  </el-form-item>
 			  <el-form-item label="角色：" prop="role_id">
-			    <el-select v-model="addFormData.role_id" placeholder="请选择">
-				    <el-option v-for="(item,idx) in allRole" :label="allRole[idx].name" :value="allRole[idx].id"></el-option>
+			    <el-select v-model="addsFormData.role_id" placeholder="请选择">
+				    <el-option v-for="(item,idx) in allRole" :label="allRole[idx].name" :value="allRole[idx].id" :key="idx"></el-option>
 				</el-select>
 			  </el-form-item>
 			  <el-form-item label="头像：" prop="avatar">
-			    <el-input v-model="addFormData.avatar" style="display:none;"></el-input>
-			    <img v-if="addFormData.avatar !== '' " :src="addFormData.avatar" style="display:inline-block;width:60px;height:60px;border:1px solid #ccc;">
+			    <el-input v-model="addsFormData.avatar" style="display:none;"></el-input>
+			    <img v-if="addsFormData.avatar !== '' " :src="addsFormData.avatar" style="display:inline-block;width:60px;height:60px;border:1px solid #ccc;">
 			    <el-button type="primary" size="small" plain @click="avatarFormVisible=true">选择头像</el-button>
 			  </el-form-item>
 			  <el-form-item label="初始密码：" prop="password">
-			    <el-input v-model="addFormData.password"></el-input>
+			    <el-input type="password" v-model="addsFormData.password"></el-input>
 			  </el-form-item>
 			  <el-form-item label="确认密码：" prop="repassword">
-			    <el-input v-model="addFormData.repassword"></el-input>
+			    <el-input type="password" v-model="addsFormData.repassword"></el-input>
 			  </el-form-item>
 		  </el-form>
 		  <div slot="footer" class="dialog-footer" v-if="!avatarFormVisible">
 		    <el-button @click="addCancel">取 消</el-button>
-		    <el-button type="primary" @click="addSubmit('addFormData')">确 定</el-button>
+		    <el-button type="primary" @click="addsSubmit('addsFormData')">确 定</el-button>
 		  </div>
 		  <guest-list v-if="avatarFormVisible" :avatarFormVisible="avatarFormVisible" @getChildData="getAvatarData"></guest-list>
 		</el-dialog>
@@ -111,13 +111,16 @@
 	</div>
 </template>
 <script>
-	import GuestList from '../../guest/GuestList'
-	import settingApi from '../../../api/setting'
+	//import GuestList from '../../guest/GuestList'
+	import roleApi from '../../api/role'
+	import storeAccountApi from '../../api/store_account'
 	export default{
 		name:'accoun-set',
+		/*
 		components: {
 		   GuestList
 		},
+		*/
 		data(){
 			return{
 				tableData: [],
@@ -140,11 +143,11 @@
 	            },
 	            editRules:{
 	            	username: [
-		            	{ required: true, message: '请输入账号名称', trigger: 'blur' },
+		            	{ required: true, message: '请输入账号', trigger: 'blur' },
 		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
 		          	],
 		          	desc:[
-		          		{ required: true, message: '请输入使用人姓名', trigger: 'blur' },
+		          		{ required: true, message: '请输入姓名', trigger: 'blur' },
 		            	{ min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
 		          	],
 		          	role_id:[
@@ -177,8 +180,8 @@
           
 	            	]
 	            },
-	            addFormVisible:false,
-	            addFormData:{
+	            addsFormVisible:false,
+	            addsFormData:{
 	            	store_id:'',
 	            	username:'',
 	            	desc:'',
@@ -189,17 +192,17 @@
 	            	customer_id:''
 
 	            },
-	            addRules:{
+	            addsRules:{
 	            	store_id:[
 	            		{ required: true, message: '请输入店铺名称', trigger: 'blur' },
 		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
 	            	],
 	            	username:[
-	            		{ required: true, message: '请输入账号名称', trigger: 'blur' },
+	            		{ required: true, message: '请输入账号称', trigger: 'blur' },
 		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
 	            	],
 	            	desc:[
-	            		{ required: true, message: '请输入使用人姓名', trigger: 'blur' },
+	            		{ required: true, message: '请输入姓名姓名', trigger: 'blur' },
 		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
 	            	],
 	            	role_id:[
@@ -216,7 +219,7 @@
 	            		{ required: true, message: '请再次输入密码', trigger: 'blur' },
 			            {
 			                validator: (rule, value, callback) => {
-			                    if (value !== this.$data.addFormData.password) {
+			                    if (value !== this.$data.addsFormData.password) {
 			                        callback(new Error('两次输入密码不一致!'));
 			                    } else {
 			                        callback();
@@ -230,14 +233,14 @@
 			}
 		},
 		created:function(){
-			this.accountList();
+			this.accountLists();
 		},
 		methods: {
 			//列表
-			accountList(){
+			accountLists(){
 				this.$data.requestParameters.sid = this.$route.query.StoreId;
 				let qs = require('querystring')
-	    		settingApi.accountList(qs.stringify(this.$data.requestParameters)).then((res) => {
+	    		storeAccountApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
 	    			if(res.data.errno === 0){
 						console.log(res);
 						this.$data.tableData = res.data.data.list;
@@ -264,14 +267,14 @@
 						'id': row.id
 					}
 					let qs = require('querystring')
-	        		settingApi.deleAccount(qs.stringify(list)).then((res) => {
+	        		storeAccountApi.dele(qs.stringify(list)).then((res) => {
 	        			if(res.data.errno === 0){
 							console.log(res)
 							this.$message({
 					            type: 'success',
-					            message: '删除成功!'
+					            message: '操作成功'
 					          });
-							this.accountList();
+							this.accountLists();
 	        			}else{
 							this.$message.error(res.data.msg);
 	        			}
@@ -286,12 +289,12 @@
 			},
 			fnEdit(row){
 				console.log(row);
-				this.roleList();
-				this.detailAccount(row.id);
+				this.getRoleLists();
+				this.viewAccount(row.id);
 			},
-			detailAccount(id){
+			viewAccount(id){
 				let qs = require('querystring')
-        		settingApi.detailAccount(qs.stringify({
+        		storeAccountApi.view(qs.stringify({
         			id:id
         		})).then((res) => {
         			if(res.data.errno === 0){
@@ -305,9 +308,9 @@
         			
         		})
 			},
-			roleList(){
+			getRoleLists(){
 				let qs = require('querystring')
-	    		settingApi.roleList(qs.stringify(this.$data.requestParameters)).then((res) => {
+	    		roleApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
 	    			if(res.data.errno === 0){
 						console.log(res);
 						this.$data.allRole = res.data.data.list;
@@ -330,10 +333,14 @@
 					console.log(valid)
 			        if (valid) {
 						let qs = require('querystring')
-		        		settingApi.editAccount(qs.stringify(this.$data.editFormData)).then((res) => {
+		        		storeAccountApi.edit(qs.stringify(this.$data.editFormData)).then((res) => {
 		        			if(res.data.errno === 0){
 								console.log(res)
-								this.accountList();
+								this.$message({
+						            type: 'success',
+						            message: '操作成功'
+					          	});
+								this.accountLists();
 								this.$data.editFormData = {
 									id:'',
 									username:'',
@@ -352,7 +359,7 @@
 		        });
 
 			},
-			fnChangePwd(row){
+			fnEditPassword(row){
 				console.log(row)
 				this.$data.changePwdFormVisible = true;
 				this.$data.changePwdFormData = {
@@ -361,26 +368,30 @@
 	            	repassword:'',
 				}
 			},
-			changePwdCancel(){
+			editPasswordCancel(){
 				this.$data.changePwdFormVisible = false;
 				this.$data.changePwdFormData = {
-					id:row.id,
+					id:'',
 					password:'',
 	            	repassword:'',
 				}
 			},
-			changePwdSubmit(formName){
+			editPasswordSubmit(formName){
 				this.$refs[formName].validate((valid) => {
 					console.log(valid)
 			        if (valid) {
 			        	
 						let qs = require('querystring')
-		        		settingApi.changPwdAccount(qs.stringify(this.$data.changePwdFormData)).then((res) => {
+		        		storeAccountApi.password_edit(qs.stringify(this.$data.changePwdFormData)).then((res) => {
 		        			if(res.data.errno === 0){
 								console.log(res)
-								this.accountList();
+								this.$message({
+						            type: 'success',
+						            message: '操作成功'
+					          	});
+								this.accountLists();
 								this.$data.changePwdFormData = {
-									id:row.id,
+									id:'',
 									password:'',
 					            	repassword:'',
 								}
@@ -396,8 +407,8 @@
 		        });
 
 			},
-			fnClearAddFormData(){
-				this.$data.addFormData = {
+			fnClearAddsFormData(){
+				this.$data.addsFormData = {
 	            	store_id:'',
 	            	username:'',
 	            	desc:'',
@@ -410,34 +421,40 @@
 	            };
 			},
 			
-			fnAdd(){
-				this.fnClearAddFormData();
-				this.roleList();
-				this.$data.addFormVisible = true;
+			fnAdds(){
+				this.fnClearAddsFormData();
+				this.getRoleLists();
+				this.$data.addsFormVisible = true;
 			},
 			//头像选择
 			getAvatarData(childData){
 	        	this.$data.avatarFormVisible = false;
-	        	this.$data.addFormData.avatar = childData.avatar;
-	        	this.$data.addFormData.customer_id = childData.customer_id;
+	        	this.$data.addsFormData.avatar = childData.avatar;
+	        	this.$data.addsFormData.customer_id = childData.customer_id;
 	        },
 			addCancel(){
-				this.$data.addFormVisible = false;
-				this.fnClearAddFormData();
+				this.$data.addsFormVisible = false;
+				this.fnClearAddsFormData();
 			},
-			addSubmit(formName){
+			addsSubmit(formName){
+				this.$data.addsFormData.avatar='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1531579299157&di=8c51bd304046d2aa79540b0f764dd2a6&imgtype=0&src=http%3A%2F%2Fimg4.a0bi.com%2Fttq%2F20170105%2F1483589492564.jpeg';
+				this.$data.addsFormData.customer_id=1;
+
 				this.$refs[formName].validate((valid) => {
 					console.log(valid)
 			        if (valid) {
-			        	this.$data.addFormData . store_id = this.$route.query.StoreId;
+			        	this.$data.addsFormData.store_id = this.$route.query.StoreId;
 						let qs = require('querystring')
-		        		settingApi.addAccount(qs.stringify(this.$data.addFormData)).then((res) => {
+		        		storeAccountApi.adds(qs.stringify(this.$data.addsFormData)).then((res) => {
 		        			if(res.data.errno === 0){
 								console.log(res)
-								this.accountList();
-								this.fnClearAddFormData();
-								this.$data.addFormVisible = false;
-
+								this.$message({
+						            type: 'success',
+						            message: '操作成功'
+					          	});
+								this.accountLists();
+								this.fnClearAddsFormData();
+								this.$data.addsFormVisible = false;
 		        			}else{
 								this.$message.error(res.data.msg);	
 							}		        			

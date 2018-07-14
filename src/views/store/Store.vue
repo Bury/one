@@ -1,11 +1,11 @@
 <template>
 	<div class="store-set-page">
 		<div class="top-box">
-			<el-button type="primary" size="small" class="add-btn" @click="fnAdd()" >新增</el-button>
+			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()" >新增</el-button>
 		</div>
 		<el-table :data="tableData" border height="448" style="width:701px;text-align:center;">
-	    	<el-table-column prop="name" label="门店名" width="220"></el-table-column>
-	    	<el-table-column prop="person_in_charge" label="门店负责人" width="140"></el-table-column>
+	    	<el-table-column prop="name" label="门店名称" width="220"></el-table-column>
+	    	<el-table-column prop="person_in_charge" label="负责人" width="140"></el-table-column>
 	    	<el-table-column prop="phone" label="联系方式" width="120"></el-table-column>
 		    <el-table-column label="操作" width="220">
 			    <template slot-scope="scope">
@@ -53,7 +53,7 @@
 	</div>
 </template>
 <script>
-	import settingApi from '../../../api/setting'
+	import storeApi from '../../api/store'
 	export default{
 		name:'store-set',
 		data(){
@@ -102,13 +102,13 @@
 			}
 		},
 		created:function(){
-			this.storeList();
+			this.storeLists();
 		},
 		methods: {
 			//列表
-			storeList(){
+			storeLists(){
 				let qs = require('querystring')
-	    		settingApi.storeList(qs.stringify(this.$data.requestParameters)).then((res) => {
+	    		storeApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
 	    			if(res.data.errno === 0){
 						console.log(res);
 						this.$data.tableData = res.data.data.list;
@@ -123,7 +123,7 @@
 	    	handleCurrentChange(currentPage) {
 	            console.log(currentPage)
 	            this.$data.requestParameters.page = currentPage;
-	            this.storeList();
+	            this.storeLists();
 	        },
 
 			fnRemove(row){
@@ -136,7 +136,7 @@
 						'id': row.id
 					}
 					let qs = require('querystring')
-	        		settingApi.deleStore(qs.stringify(list)).then((res) => {
+	        		storeApi.dele(qs.stringify(list)).then((res) => {
 	        			console.log(res)
 	        			if(res.data.errno === 0){
 							console.log(res)
@@ -144,7 +144,7 @@
 					            type: 'success',
 					            message: '删除成功!'
 					          });
-							this.storeList();
+							this.storeLists();
 	        			}else{
 							this.$message.error(res.data.msg);
 	        			}
@@ -165,7 +165,7 @@
 				this.$data.dialogFormVisible = true;
 				
 			},
-			fnAdd(){
+			fnAdds(){
 				this.$data.dialogTitle = '门店添加';
 				this.$data.currentId = "";
 				this.$data.ruleForm = {
@@ -196,14 +196,19 @@
 					          	'phone':this.$data.ruleForm.phone
 							}
 							let qs = require('querystring')
-			        		settingApi.editStore(qs.stringify(list)).then((res) => {
+			        		storeApi.edit(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
 									console.log(res)
-									this.roleList();
+									this.$message({
+				                      message: '营业时间设置成功',
+				                      type: 'success',
+				                      duration:1500
+				                    });
+									this.storeLists();
 									this.$data.currentId = '';
 									this.$data.ruleForm = {
 							          	name: '',
-							          	person_in_charge:'',
+							          	person_in_csharge:'',
 							          	phone:''
 							        };
 									this.$data.dialogFormVisible = false;
@@ -220,10 +225,15 @@
 					          	'phone':this.$data.ruleForm.phone
 						    }
 						    let qs = require('querystring')
-			        		settingApi.addStore(qs.stringify(list)).then((res) => {
+			        		storeApi.adds(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
 									console.log(res)
-									this.storeList();
+									this.$message({
+				                      message: '营业时间设置成功',
+				                      type: 'success',
+				                      duration:1500
+				                    });
+									this.storeLists();
 									this.$data.currentId = '';
 									this.$data.ruleForm = {
 							          	name: '',
@@ -244,7 +254,7 @@
 			},
 			fnGoPage(row){
 				this.$router.push({
-					name: 'AccountSet',
+					name: 'StoreAccount',
 					query: {
 	                    StoreId: row.id
 	                }

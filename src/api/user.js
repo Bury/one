@@ -4,18 +4,18 @@
 import axios from 'axios'
 
 export default {
-	getUserInfo () {
+  view () {
     return new Promise((resolve, reject) => {
-      axios.post(global.GET_USER_INFO).then((res) => {
+      axios.post(global.USER_VIEW).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
       })
     })
   },
-	changePWD (list) {
+  changePWD (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.CHANGE_PASSWORD, list).then((res) => {
+      axios.post(global.USER_CHANGE_PASSWORD, list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
@@ -24,7 +24,7 @@ export default {
   },
   logout (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.LOGOUT, list).then((res) => {
+      axios.post(global.USER_LOGOUT, list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
@@ -33,7 +33,7 @@ export default {
   },
   login (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.LOGIN, list).then((res) => {
+      axios.post(global.USER_LOGIN, list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)

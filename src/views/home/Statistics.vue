@@ -5,7 +5,7 @@
             <el-form :inline="true" class="demo-form-inline" size="mini">
               <el-form-item label="门店选择：" v-if="allStores && allStores.length>0">
                 <el-select v-model="guestParameters.store_id" placeholder="门店选择">
-                  <el-option v-for="(item, idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id"></el-option>
+                  <el-option v-for="(item, idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id" :key="idx"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="时间选择：">
