@@ -64,11 +64,8 @@ global.DELE_CHILD_LABEL = `${SERVER_IP}${COMMON}tag/childs-dele`
 //设备管理
 global.DEVICE_LISTS = `${SERVER_IP}${COMMON}device/list`
 global.DEVICE_EDIT = `${SERVER_IP}${COMMON}device/edit`
-
-// post device/camera-depoly 按设备分配
 global.DEVICE_DISTRIBUTION = `${SERVER_IP}${COMMON}device/camera-depoly`
-// post device/device-list 按门店
-global.GET_DEVICE_LIST_STORE = `${SERVER_IP}${COMMON}device/device-list`
+global.STORE_DEVICE_SUM_LISTS = `${SERVER_IP}${COMMON}device/device-list`
 // post device/operation 按门店分配
 global.SET_OPERATION = `${SERVER_IP}${COMMON}device/operation`
 

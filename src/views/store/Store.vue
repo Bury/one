@@ -3,8 +3,9 @@
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()" >新增</el-button>
 		</div>
-		<el-table :data="tableData" border height="448" style="width:701px;text-align:center;">
-	    	<el-table-column prop="name" label="门店名称" width="220"></el-table-column>
+		<el-table :data="tableData" border height="448" style="width:801px;text-align:center;">
+			<el-table-column fixed prop="id" label="ID" width="100"></el-table-column>
+	    	<el-table-column prop="name" label="门店" width="220"></el-table-column>
 	    	<el-table-column prop="person_in_charge" label="负责人" width="140"></el-table-column>
 	    	<el-table-column prop="phone" label="联系方式" width="120"></el-table-column>
 		    <el-table-column label="操作" width="220">
@@ -41,7 +42,28 @@
 			  <el-form-item label="负责人：" prop="person_in_charge">
 			    <el-input v-model="ruleForm.person_in_charge"></el-input>
 			  </el-form-item>
-			  <el-form-item label="联系方式：" prop="phone">
+			  <el-form-item label="联系电话：" prop="phone">
+			    <el-input v-model="ruleForm.phone"></el-input>
+			  </el-form-item>
+			  <el-form-item label="省份：" prop="phone">
+			  	<el-select v-model="requestParameters.version" placeholder="请选择">
+				      <el-option v-for="(item,idx) in allVersions" :label="allVersions[idx].val" :value="allVersions[idx].id" :key="idx"></el-option>
+			    </el-select>
+			  </el-form-item>
+			  <el-form-item label="城市：" prop="phone">
+			    <el-select v-model="requestParameters.version" placeholder="请选择">
+				      <el-option v-for="(item,idx) in allVersions" :label="allVersions[idx].val" :value="allVersions[idx].id" :key="idx"></el-option>
+			    </el-select>
+			  </el-form-item>
+			  <el-form-item label="地区：" prop="phone">
+			    <el-select v-model="requestParameters.version" placeholder="请选择">
+				      <el-option v-for="(item,idx) in allVersions" :label="allVersions[idx].val" :value="allVersions[idx].id" :key="idx"></el-option>
+			    </el-select>
+			  </el-form-item>
+			  <el-form-item label="详细地址：" prop="phone">
+			    <el-input v-model="ruleForm.phone"></el-input>
+			  </el-form-item>
+			  <el-form-item label="百度经纬度坐标值：" prop="phone">
 			    <el-input v-model="ruleForm.phone"></el-input>
 			  </el-form-item>
 		  </el-form>
@@ -54,6 +76,7 @@
 </template>
 <script>
 	import storeApi from '../../api/store'
+
 	export default{
 		name:'store-set',
 		data(){
@@ -256,7 +279,8 @@
 				this.$router.push({
 					name: 'StoreAccount',
 					query: {
-	                    StoreId: row.id
+	                    StoreId: row.id,
+	                    StoreName:row.name
 	                }
 				});
 			}

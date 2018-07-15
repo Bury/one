@@ -1,66 +1,36 @@
 <template>
 	<div class="device-box">
-		<div class="top-box">
-			<el-form :inline="true" :model="requestParameters" class="demo-form-inline" size="mini">
-				<el-form-item label="添加时间：">
-					<el-date-picker
-				      v-model="createdTimes"
-				      type="datetimerange"
-				      range-separator="至"
-				      start-placeholder="开始时间"
-				      end-placeholder="结束时间">
-				    </el-date-picker>
-				</el-form-item>
-				<el-form-item label="设备编号：">
-			    	<el-input v-model="requestParameters.device_id"></el-input>
-			  	</el-form-item>
-			  	<el-form-item label="版本：">
-				    <el-select v-model="requestParameters.version" placeholder="请选择">
-				      <el-option v-for="(item,idx) in allVersions" :label="allVersions[idx].val" :value="allVersions[idx].id" :key="idx"></el-option>
-				    </el-select>
-			  	</el-form-item>
-				<el-form-item label="启用时间：">
-					<el-date-picker
-				      v-model="startTimes"
-				      type="datetimerange"
-				      range-separator="至"
-				      start-placeholder="开始时间"
-				      end-placeholder="结束时间">
-				    </el-date-picker>
-				</el-form-item>
-				<el-form-item>
-				    <el-button type="primary" @click="onSubmit">查询</el-button>
-				</el-form-item>
-			</el-form>
-		</div>
+		<h4>
+			{{this.$route.query.storeName}}
+		</h4>
 		<!-- 列表 -->
-		<el-table :data="tableData" border style="text-align:center;">
-	    	<el-table-column fixed prop="device_id" label="设备编号" width="120"></el-table-column>
-	    	<el-table-column label="设备种类" width="120">
+		<el-table :data="tableData" border style="width:1132px;text-align:center;">
+			<el-table-column fixed prop="id" label="ID" width="100"></el-table-column>
+	    	<el-table-column fixed prop="device_id" label="编号" width="120"></el-table-column>
+	    	<el-table-column prop="version" label="版本" width="100"></el-table-column>
+	    	<el-table-column label="类型" width="120">
 	    		<template slot-scope="scope">
 	    			{{scope.row.type == 'face' ? '人脸摄像头' : scope.row.type}}
 	    		</template>
 	    	</el-table-column>
-		    <el-table-column prop="version" label="版本" width="100"></el-table-column>
+		    <el-table-column label="安装位置" width="160">
+		    	<template slot-scope="scope">
+		    		{{scope.row.locate}} —— {{scope.row.locate_desc}}
+		    	</template>
+		    </el-table-column>
+		    <el-table-column prop="status" label="运行情况" width="90">
+		    	<template slot-scope="scope">
+		    		{{scope.row.status == 0 ? '断开' : '正常'}}
+		    	</template>
+		    </el-table-column>
+		    <el-table-column label="是否启用" width="160">
+		    	<template slot-scope="scope">
+		    		{{scope.row.is_start == 0 ? '是' : '否'}}
+		    	</template>
+		    </el-table-column>
 		    <el-table-column label="添加时间" width="160">
 		    	<template slot-scope="scope">
 		    		{{scope.row.created_at | date(4)}}
-		    	</template>
-		    </el-table-column>
-		    <el-table-column label="启用时间" width="160">
-		    	<template slot-scope="scope">
-		    		{{scope.row.start_at | date(4)}}
-		    	</template>
-		    </el-table-column>
-		    <el-table-column label="是否启用" width="90">
-		    	<template slot-scope="scope">
-		    		{{scope.row.is_start == 0 ? '未启用' : '已启用'}}
-		    	</template>
-		    </el-table-column>
-		    <el-table-column prop="store.name" label="所属门店" width="220"></el-table-column>
-		    <el-table-column label="分配状态" width="90">
-		    	<template slot-scope="scope">
-		    		{{scope.row.belong_sid == 0 ? '未分配' : '已分配'}}
 		    	</template>
 		    </el-table-column>
 		    <el-table-column fixed="right" label="操作" width="120">
@@ -126,13 +96,10 @@
 		  </div>
 		</el-dialog>
 
-		
-		
 	</div>
 </template>
 <script>
 	import deviceApi from '../../api/device'
-	import remindApi from '../../api/remind'
 	export default{
 		name:'device',
 		data(){
@@ -169,17 +136,17 @@
 		},
 		created:function(){
 			this.deviceList();
-			this.allVersion();
+			//this.allVersion();
 		},
 		methods:{
 			deviceList(){
-				this.$data.requestParameters.belong_sid = this.$route.query.storeId;
+				//this.$data.requestParameters.belong_sid = this.$route.query.storeId;
 				this.$data.requestParameters.created_at_begin = this.$data.createdTimes[0];
 	            this.$data.requestParameters.cteated_at_end = this.$data.createdTimes[1];
 	            this.$data.requestParameters.start_at_begin = this.$data.startTimes[0];
 	            this.$data.requestParameters.start_at_end = this.$data.startTimes[1];
 			    let qs = require('querystring');
-        		deviceApi.deviceList(qs.stringify(this.$data.requestParameters)).then((res) => {
+        		deviceApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
         			if(res.data.errno === 0){
 						console.log(res) 
 						this.$data.tableData = res.data.data.list;
@@ -209,9 +176,6 @@
 	            this.$data.requestParameters.page = currentPage;
 	            this.deviceList();
 	        },
-			onSubmit(){
-				this.deviceList();
-			},
 			fnOperation(row){
 				this.$data.operationForm = {
 					id:row.id,
@@ -222,7 +186,7 @@
 					status:row.is_start,
 					store_id:row.store.id
 				}
-        		remindApi.getStores().then((res) => {
+        		storeApi.listsResults().then((res) => {
         			if(res.data.errno === 0){
 						console.log(res)
 						this.$data.allStores = res.data.data;

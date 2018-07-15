@@ -5,9 +5,9 @@ import axios from 'axios'
 
 export default {
 	
-	guestList (list) {
+	lists (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.GET_GUEST_LIST, list).then((res) => {
+      axios.post(global.GUEST_LISTS, list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)

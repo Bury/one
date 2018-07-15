@@ -1,9 +1,12 @@
 <template>
+
 	<div class="store-set-page">
+		<h4>
+			{{this.$route.query.storeName}}
+		</h4>
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
 		</div>
-
 		<el-table :data="tableData" border height="448" style="width:822px;text-align:center;">
 			<el-table-column prop="id" label="ID" width="80"></el-table-column>
 	    	<el-table-column prop="username" label="账号" width="160"></el-table-column>
@@ -112,14 +115,15 @@
 	</div>
 </template>
 <script>
-	//import GuestList from '../../guest/GuestList'
+	//import Guest from '../../guest/Guest'
 	import roleApi from '../../api/role'
 	import storeAccountApi from '../../api/store_account'
+	
 	export default{
 		name:'accoun-set',
 		/*
 		components: {
-		   GuestList
+		   Guest
 		},
 		*/
 		data(){

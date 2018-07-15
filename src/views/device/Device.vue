@@ -7,24 +7,23 @@
 			</div>
 		</div>
 		<lists v-if="isShow"></lists>
-		<store v-if="!isShow"></store>
+		<StoreDeviceSumLists v-if="!isShow"></StoreDeviceSumLists>
 	</div>
 </template>
 <script>
 	import Lists from './Lists'
-	import Store from './Store'
+	import StoreDeviceSumLists from './StoreDeviceSumLists'
 	export default{
 		name:"device-list",
 		components: {
 		    Lists,
-		    Store
+		    StoreDeviceSumLists
 		},
 		data(){
 			return{
 				isShow:true
 			}
 		},
-		
 	}
 </script>
 <style lang="scss" scoped>
@@ -39,8 +38,6 @@
 				bottom:-1px;
 				right:20px;
 			}
-			
 		}
-
 	}
 </style>

@@ -2,7 +2,7 @@
 <template>
     <div class="main-box">
         <div class="header-wrap">
-            <div class="company">鹰眼管理系统-总部</div>
+            <div class="company">鹰眼商家管理系统</div>
             <!-- <div class="top-menu" style="float:left;">
                 <el-menu :default-active="horizontalIndex"
                       class="el-menu-demo"

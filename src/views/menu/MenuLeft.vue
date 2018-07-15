@@ -19,8 +19,8 @@
                     <span slot="title">客流统计</span>
                 </el-menu-item>
             </router-link>
-            <router-link :to="{name: 'GuestList'}">
-                <el-menu-item index="/GuestList">
+            <router-link :to="{name: 'Guest'}">
+                <el-menu-item index="/Guest">
                     <i class="el-icon-service"></i>
                     <span slot="title">来客列表</span>
                 </el-menu-item>
@@ -74,9 +74,11 @@
                     <i class="el-icon-setting"></i>
                     <span slot="title">系统设置</span>
                 </template>
+                <!--
                 <router-link :to="{name: 'Account'}">
                     <el-menu-item index="/Account">账号管理</el-menu-item>
                 </router-link>
+                -->
                 <router-link :to="{name: 'Role'}">
                     <el-menu-item index="/Role">角色管理</el-menu-item>
                 </router-link>

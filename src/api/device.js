@@ -31,9 +31,9 @@ export default {
 	      })
 	    })
 	},
-	deviceListStore (list) {
+	storeDeviceSumLists (list) {
 	    return new Promise((resolve, reject) => {
-	      axios.post(global.GET_DEVICE_LIST_STORE,list).then((res) => {
+	      axios.post(global.STORE_DEVICE_SUM_LISTS,list).then((res) => {
 	        resolve(res)
 	      }).catch((err) => {
 	        reject(err)

@@ -2,7 +2,7 @@
 	<div class="device-box">
 		<div class="top-box">
 			<el-form :inline="true" :model="requestParameters" class="demo-form-inline" size="mini">
-				<el-form-item label="设备编号：">
+				<el-form-item label="编号：">
 			    	<el-input v-model="requestParameters.device_id"></el-input>
 			  	</el-form-item>
 			  	<el-form-item label="版本：">
@@ -10,7 +10,12 @@
 				      <el-option v-for="(item,idx) in allVersions" :label="allVersions[idx].val" :value="allVersions[idx].id" :key="idx"></el-option>
 				    </el-select>
 			  	</el-form-item>
-				<el-form-item label="所属门店：">
+			  	<el-form-item label="类型：">
+				    <el-select v-model="requestParameters.belong_sid" placeholder="请选择">
+				        <el-option v-for="(item,idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id" :key="idx"></el-option>
+				    </el-select>
+				</el-form-item>
+				<el-form-item label="门店：">
 				    <el-select v-model="requestParameters.belong_sid" placeholder="请选择">
 				        <el-option v-for="(item,idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id" :key="idx"></el-option>
 				    </el-select>
@@ -20,36 +25,44 @@
 				</el-form-item>
 			</el-form>
 		</div>
+		<el-menu :default-active="activeIndex" class="el-menu-demo" <el-tabs v-model="activeName" @tab-click="handleClick">
+		    <el-tab-pane label="已分配" name="first"></el-tab-pane>
+		    <el-tab-pane label="待分配" name="second"></el-tab-pane>
+	  	</el-tabs>
+
 		<!-- 列表 -->
-		<el-table :data="tableData" border style="width:1122px;text-align:center;">
-	    	<el-table-column fixed prop="device_id" label="设备编号" width="120"></el-table-column>
+		<el-table :data="tableData" border style="width:1210px;text-align:center;">
+			<el-table-column fixed prop="id" label="ID" width="100"></el-table-column>
+	    	<el-table-column prop="device_id" label="编号" width="120"></el-table-column>
 		    <el-table-column prop="version" label="版本" width="100"></el-table-column>
-		    <el-table-column prop="store.name" label="所属门店" width="220"></el-table-column>
-		    <el-table-column label="安装位置" width="160">
+		    <el-table-column prop="version" label="类型" width="100"></el-table-column>
+		    <el-table-column label="门店" width="220">
+		    	<template slot-scope="scope">
+		    		<span v-if="scope.row.store.name.length>0">
+				          {{scope.row.store.name}}
+				    </span>
+				    <span v-else><el-button @click="fnDistribution(scope.row)" type="text" size="small" >分配</el-button></span>
+		    	</template>
+		    </el-table-column>
+		    <el-table-column label="位置" width="160">
 		    	<template slot-scope="scope">
 		    		{{scope.row.locate}} —— {{scope.row.locate_desc}}
 		    	</template>
 		    </el-table-column>
-		    <el-table-column prop="status" label="运行状态" width="90">
+		    <el-table-column prop="status" label="运行情况" width="90">
 		    	<template slot-scope="scope">
 		    		{{scope.row.status == 0 ? '断开' : '正常'}}
 		    	</template>
 		    </el-table-column>
 		    <el-table-column label="是否启用" width="160">
 		    	<template slot-scope="scope">
-		    		{{scope.row.is_start == 0 ? '等待启用' : '已经启用'}}
+		    		{{scope.row.is_start == 0 ? '是' : '否'}}
 		    	</template>
 		    </el-table-column>
 		    <el-table-column label="添加时间" width="160">
 		    	<template slot-scope="scope">
 		    		{{scope.row.created_at | date(2)}}
 		    	</template>
-		    </el-table-column>
-		    <el-table-column fixed="right" label="操作" width="120">
-			    <template slot-scope="scope">
-			        <el-button @click="fnDistribution(scope.row)" type="text" size="small">分配</el-button>
-			        <el-button @click="fnEdit(scope.row)" type="text" size="small">编辑</el-button>
-			    </template>
 		    </el-table-column>
 	    </el-table>
 
@@ -177,9 +190,9 @@
 						//待分配的设备没有门店信息
 						var i=0;
 						for(i=0;i<res.data.data.list.length;i++){
-							if(res.data.data.list[i].belong_sid==0){
-								res.data.data.list[i].store.name='/';
-							}
+							//if(res.data.data.list[i].belong_sid==0){
+								res.data.data.list[i].store.name='';
+							//}
 						}
 
 						this.$data.tableData = res.data.data.list;
@@ -302,6 +315,9 @@
 		        		})
 			        } 
 		        });
+			},
+			handleClick(){
+			
 			}
 		}
 	}

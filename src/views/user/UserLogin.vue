@@ -4,7 +4,7 @@
         <div class="table" >
           <div class="container">
             <!--<div class="logo">
-              杭州知己科技有限公司
+              鹰眼商家管理系统
             </div>-->
             <div class="main">
               <user-login-form></user-login-form>

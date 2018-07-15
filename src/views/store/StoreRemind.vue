@@ -18,6 +18,7 @@
 </template>
 <script>
   import storeApi from '../../api/store'
+  
   const typeOptions = ['新客', '熟客', '未购买', '已购买'];
   const typeId = ["1","2","3","4"]
   export default {

@@ -14,7 +14,7 @@ import UserPersonal from '../views/user/UserPersonal'
 import Statistics from '../views/home/Statistics'
 
 //来客列表
-import GuestList from '../views/guest/GuestList'
+import Guest from '../views/guest/Guest'
 
 /*订单管理*/
 import Order from '../views/order/Order'
@@ -25,24 +25,16 @@ import LabelDetail from '../views/label/LabelDetail'
 
 /*设备管理*/
 import Device from '../views/device/Device'
-import StoreDetail from '../views/device/StoreDetail'
-
+import StoreDeviceDetailLists from '../views/device/StoreDeviceDetailLists'
 
 
 /*****门店管理*****/
 
 //门店管理
 import Store from '../views/store/Store'
-
-//StoreAccount
 import StoreAccount from '../views/store/StoreAccount'
-
-//提醒设置
 import StoreRemind from '../views/store/StoreRemind'
-
-//营业时间设置
 import StoreTime from '../views/store/StoreTime'
-
 
 /*****系统设置*****/
 
@@ -66,17 +58,20 @@ const router = new Router({
       component: Main,
       children: [
         {path: '/',name: 'Statistics',component: Statistics},
-        {path: 'GuestList',name: 'GuestList',component: GuestList},
+        {path: 'Guest',name: 'Guest',component: Guest},
         {path: 'Order',name: 'Order',component: Order},
         {path: 'LabelList',name: 'LabelList',component: LabelList},
         {path: 'LabelDetail',name: 'LabelDetail',component: LabelDetail},
+        
         {path: 'Device',name: 'Device',component: Device},
-        {path: 'StoreDetail',name: 'StoreDetail',component: StoreDetail},
+        {path: 'StoreDeviceDetailLists',name: 'StoreDeviceDetailLists',component: StoreDeviceDetailLists},
+
         {path: 'Store',name:'Store',component:Store},
         {path: 'StoreAccount',name:'StoreAccount',component:StoreAccount},
-        {path: 'Role',name:'Role',component:Role},
         {path: 'StoreRemind',name: 'StoreRemind',component: StoreRemind},
         {path: 'StoreTime',name: 'StoreTime',component: StoreTime},
+        
+        {path: 'Role',name:'Role',component:Role},
         {path: 'Personal',name: 'UserPersonal',component: UserPersonal},
       ]
   }]

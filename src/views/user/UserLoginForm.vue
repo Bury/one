@@ -2,7 +2,7 @@
     <div class="login-form">
       
       <el-card>
-        <div class="company">杭州知己鹰眼管理系统-总部</div>
+        <div class="company">鹰眼商家管理系统</div>
         <el-form :model="loginInfo" :rules="rules" ref="loginForm" label-width="0px">
             <div class="title"></div>
             <el-form-item prop="username">

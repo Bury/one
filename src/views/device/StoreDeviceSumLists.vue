@@ -1,8 +1,10 @@
 <template>
 	<div class="store-box">
-		<el-table :data="tableData" border style="width:521px;text-align:center;">
-	    	<el-table-column prop="name" label="门店名" width="200"></el-table-column>
-	    	<el-table-column prop="count" label="设备数" width="160"></el-table-column>
+		<el-table :data="tableData" border style="width:781px;text-align:center;">
+			<el-table-column fixed prop="id" label="ID" width="100"></el-table-column>
+	    	<el-table-column prop="name" label="门店" width="200"></el-table-column>
+	    	<el-table-column prop="count" label="总数" width="160"></el-table-column>
+	    	<el-table-column prop="count" label="待分配数" width="160"></el-table-column>
 		    <el-table-column label="操作" width="160">
 			    <template slot-scope="scope">
 			    	<el-button @click="fnGoPage(scope.row)" type="text" size="small">详情</el-button>
@@ -43,12 +45,12 @@
 			}
 		},
 		created:function(){
-			this.deviceListStore();
+			this.storeDeviceSumLists();
 		},
 		methods:{
-			deviceListStore(){
+			storeDeviceSumLists(){
 				let qs = require('querystring');
-				deviceApi.deviceListStore(qs.stringify(this.$data.requestParameters)).then((res) => {
+				deviceApi.storeDeviceSumLists(qs.stringify(this.$data.requestParameters)).then((res) => {
         			if(res.data.errno === 0){
 						console.log(res) 
 						this.$data.tableData = res.data.data.list;
@@ -64,13 +66,14 @@
 			handleCurrentChange(currentPage) {
 	            console.log(currentPage)
 	            this.$data.requestParameters.page = currentPage;
-	            this.deviceListStore();
+	            this.storeDeviceSumLists();
 	        },
 			fnGoPage(row){
 				this.$router.push({
-					name: 'StoreDetail',
+					name: 'StoreDeviceDetailLists',
 					query: {
-	                    storeId: row.id
+	                    storeId: row.id,
+	                    storeName: row.name
 	                }
 				});
 			}
