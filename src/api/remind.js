@@ -57,6 +57,7 @@ export default {
     })
   },
 
+  /*
   getStores(){
     return new Promise((resolve, reject) => {
       axios.post(global.GET_STORES).then((res) => {
@@ -66,6 +67,7 @@ export default {
       })
     })
   },
+  */
 
   isReception(list){
     return new Promise((resolve, reject) => {

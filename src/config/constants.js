@@ -26,8 +26,7 @@ global.GET_STORE_RECORE = `${SERVER_IP}${COMMON}customer/store-recore`
 global.GET_ORDER_RECORE = `${SERVER_IP}${COMMON}customer/order-recore`
 // post customer/levels 提醒列表用户等级筛选项
 global.GET_LEVELS = `${SERVER_IP}${COMMON}customer/levels`
-// post customer/store-list 门店筛选项
-global.GET_STORES = `${SERVER_IP}${COMMON}customer/store-list`
+
 // post customer/is-reception 接待
 global.IS_RECEPTION = `${SERVER_IP}${COMMON}customer/is-reception`
 
@@ -63,18 +62,19 @@ global.EDIT_CHILD_LABEL = `${SERVER_IP}${COMMON}tag/childs-edit`
 global.DELE_CHILD_LABEL = `${SERVER_IP}${COMMON}tag/childs-dele`
 
 //设备管理
-// post device/list 按设备
-global.GET_DEVICE_LIST = `${SERVER_IP}${COMMON}device/list`
-// post device/version 
-global.GET_ALL_VERSION = `${SERVER_IP}${COMMON}device/version`
+global.DEVICE_LISTS = `${SERVER_IP}${COMMON}device/list`
+global.DEVICE_EDIT = `${SERVER_IP}${COMMON}device/edit`
+
 // post device/camera-depoly 按设备分配
-global.SET_DEPOLY = `${SERVER_IP}${COMMON}device/camera-depoly`
-// post device/edit
-global.EDIT_DEVICE = `${SERVER_IP}${COMMON}device/edit`
+global.DEVICE_DISTRIBUTION = `${SERVER_IP}${COMMON}device/camera-depoly`
 // post device/device-list 按门店
 global.GET_DEVICE_LIST_STORE = `${SERVER_IP}${COMMON}device/device-list`
 // post device/operation 按门店分配
 global.SET_OPERATION = `${SERVER_IP}${COMMON}device/operation`
+
+//设备版本管理
+// post device/version 
+global.DEVICE_VERSION_LISTS_RESULTS = `${SERVER_IP}${COMMON}device_version/lists_results`
 
 //2、角色管理
 global.ROLE_LISTS = `${SERVER_IP}${COMMON}role/list`
@@ -95,7 +95,8 @@ global.ACCOUNT_DELE = `${SERVER_IP}${COMMON}account/dele`
 global.ACCOUNT_PASSWORD_EDIT = `${SERVER_IP}${COMMON}account/edit-password`
 
 //门店管理
-global.STORE_LISTS = `${SERVER_IP}${COMMON}store/lists`
+global.STORE_LISTS = `${SERVER_IP}${COMMON}store/lists`//带有分页的门店列表数据
+global.STORE_LISTS_RESULTS = `${SERVER_IP}${COMMON}store/lists_results`//全部门店数据
 global.STORE_ADDS = `${SERVER_IP}${COMMON}store/adds`
 global.STORE_EDIT = `${SERVER_IP}${COMMON}store/edit`
 global.STORE_DELE = `${SERVER_IP}${COMMON}store/dele`

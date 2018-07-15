@@ -14,6 +14,15 @@ export default {
       })
     })
   },
+  listsResults(list){
+    return new Promise((resolve, reject) => {
+      axios.post(global.STORE_LISTS_RESULTS,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
   adds (list) {
     return new Promise((resolve, reject) => {
       axios.post(global.STORE_ADDS,list).then((res) => {

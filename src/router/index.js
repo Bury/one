@@ -17,20 +17,19 @@ import Statistics from '../views/home/Statistics'
 import GuestList from '../views/guest/GuestList'
 
 /*订单管理*/
-import OrderList from '../views/order/OrderList'
+import Order from '../views/order/Order'
 
 /*标签管理*/
 import LabelList from '../views/label/LabelList'
 import LabelDetail from '../views/label/LabelDetail'
 
 /*设备管理*/
-import DeviceList from '../views/device/DeviceList'
+import Device from '../views/device/Device'
 import StoreDetail from '../views/device/StoreDetail'
 
-/*****系统设置*****/
 
-//角色管理
-import Role from '../views/role/Role'
+
+/*****门店管理*****/
 
 //门店管理
 import Store from '../views/store/Store'
@@ -43,6 +42,16 @@ import StoreRemind from '../views/store/StoreRemind'
 
 //营业时间设置
 import StoreTime from '../views/store/StoreTime'
+
+
+/*****系统设置*****/
+
+//帐号管理
+
+//角色管理
+import Role from '../views/role/Role'
+
+
 
 
 
@@ -58,10 +67,10 @@ const router = new Router({
       children: [
         {path: '/',name: 'Statistics',component: Statistics},
         {path: 'GuestList',name: 'GuestList',component: GuestList},
-        {path: 'OrderList',name: 'OrderList',component: OrderList},
+        {path: 'Order',name: 'Order',component: Order},
         {path: 'LabelList',name: 'LabelList',component: LabelList},
         {path: 'LabelDetail',name: 'LabelDetail',component: LabelDetail},
-        {path: 'DeviceList',name: 'DeviceList',component: DeviceList},
+        {path: 'Device',name: 'Device',component: Device},
         {path: 'StoreDetail',name: 'StoreDetail',component: StoreDetail},
         {path: 'Store',name:'Store',component:Store},
         {path: 'StoreAccount',name:'StoreAccount',component:StoreAccount},

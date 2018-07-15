@@ -119,18 +119,18 @@
             }
         },
         created: function () {
-		    this.orderList();
+		    this.lists();
 		},
         methods: {
         	//列表
-        	orderList(){
+        	lists(){
         		this.$data.requestParameters.cash_t_start = this.$data.cashTimes[0];
         		this.$data.requestParameters.cash_t_end = this.$data.cashTimes[1];
         		this.$data.requestParameters.created_at_start = this.$data.createdTimes[0];
         		this.$data.requestParameters.created_at_end = this.$data.createdTimes[1];
 
         		let qs = require('querystring'); 
-        		OrderApi.orderList(qs.stringify(this.$data.requestParameters)).then((res) => {
+        		OrderApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
         			if(res.data.errno === 0){
         				console.log(res.data.data.list)
         				this.$data.tableData = res.data.data.list;
@@ -147,10 +147,10 @@
         	handleCurrentChange(currentPage) {
 	            console.log(currentPage)
 	            this.$data.requestParameters.page = currentPage;
-	            this.orderList();
+	            this.lists();
 	        },
         	onSubmit() {
-		        this.orderList();
+		        this.lists();
 		    },
 		    fnRemove(row){
 				this.$confirm('确认删除该订单：'+row.sn+' ？', '删除提示', {
@@ -184,8 +184,6 @@
 		          // });          
 		        });
 			},
-
-		    
 	    },
     }
 </script>

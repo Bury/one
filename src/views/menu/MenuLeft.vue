@@ -25,15 +25,15 @@
                     <span slot="title">来客列表</span>
                 </el-menu-item>
             </router-link>
-            <router-link :to="{name: 'OrderList'}">
-                <el-menu-item index="/OrderList">
+            <router-link :to="{name: 'Order'}">
+                <el-menu-item index="/Order">
                     <i class="el-icon-phone-outline"></i>
                     <span slot="title">订单管理</span>
                 </el-menu-item>
             </router-link>
             
-            <router-link :to="{name: 'DeviceList'}">
-                <el-menu-item index="/DeviceList">
+            <router-link :to="{name: 'Device'}">
+                <el-menu-item index="/Device">
                     <i class="el-icon-view"></i>
                     <span slot="title">设备管理</span>
                 </el-menu-item>

@@ -4,36 +4,27 @@
 import axios from 'axios'
 
 export default {
-	deviceList (list) {
+	lists (list) {
 	    return new Promise((resolve, reject) => {
-	      axios.post(global.GET_DEVICE_LIST,list).then((res) => {
+	      axios.post(global.DEVICE_LISTS,list).then((res) => {
 	        resolve(res)
 	      }).catch((err) => {
 	        reject(err)
 	      })
 	    })
 	},
-	allVersion () {
-	    return new Promise((resolve, reject) => {
-	      axios.post(global.GET_ALL_VERSION).then((res) => {
-	        resolve(res)
-	      }).catch((err) => {
-	        reject(err)
-	      })
-	    })
-	},
-	setDepoly(list){
+	edit(list){
 		return new Promise((resolve, reject) => {
-	      axios.post(global.SET_DEPOLY,list).then((res) => {
+	      axios.post(global.DEVICE_EDIT,list).then((res) => {
 	        resolve(res)
 	      }).catch((err) => {
 	        reject(err)
 	      })
 	    })
 	},
-	editDevice(list){
+	distribution(list){
 		return new Promise((resolve, reject) => {
-	      axios.post(global.EDIT_DEVICE,list).then((res) => {
+	      axios.post(global.DEVICE_DISTRIBUTION,list).then((res) => {
 	        resolve(res)
 	      }).catch((err) => {
 	        reject(err)

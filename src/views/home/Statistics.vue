@@ -90,6 +90,7 @@
 
 <script>
 import remindApi from '../../api/remind'
+import storeApi from '../../api/Store'
 import statisticsApi from '../../api/statistics'
 import GuestChart from './GuestChart'
 import NewOldChart from './NewOldChart'
@@ -141,7 +142,7 @@ export default {
   methods: {
     //门店
     getStores(){
-        remindApi.getStores().then((res) => {
+        storeApi.listsResults().then((res) => {
             if(res.data.errno === 0){
                 console.log(res)
                 this.$data.allStores = res.data.data;
