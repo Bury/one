@@ -29,6 +29,7 @@
 </template>
 <script>
 	import deviceApi from '../../api/device'
+	
 	export default{
 		name:'store',
 		data(){

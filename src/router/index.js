@@ -11,9 +11,7 @@ import UserLogin from '../views/user/UserLogin'
 import UserPersonal from '../views/user/UserPersonal'
 
 //客流统计
-import Statistics from '../views/home/Statistics'
-
-//来客列表
+import Statistics from '../views/guest/Statistics'
 import Guest from '../views/guest/Guest'
 
 /*订单管理*/
@@ -53,9 +51,11 @@ const router = new Router({
   routes: [
     { path: '/login',name: 'UserLogin',component: UserLogin},
     {
+      
       path: '/',
       meta: { requiresAuth: true },
       component: Main,
+      
       children: [
         {path: '/',name: 'Statistics',component: Statistics},
         {path: 'Guest',name: 'Guest',component: Guest},
@@ -67,6 +67,7 @@ const router = new Router({
         {path: 'StoreDeviceDetailLists',name: 'StoreDeviceDetailLists',component: StoreDeviceDetailLists},
 
         {path: 'Store',name:'Store',component:Store},
+        
         {path: 'StoreAccount',name:'StoreAccount',component:StoreAccount},
         {path: 'StoreRemind',name: 'StoreRemind',component: StoreRemind},
         {path: 'StoreTime',name: 'StoreTime',component: StoreTime},
@@ -74,6 +75,7 @@ const router = new Router({
         {path: 'Role',name:'Role',component:Role},
         {path: 'Personal',name: 'UserPersonal',component: UserPersonal},
       ]
+      
   }]
 })
 

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-  import storeApi from '../../api/store'
+  import storeTimeApi from '../../api/store'
 
   export default {
   	name:'open-time-set',
@@ -41,7 +41,7 @@
     methods:{
     	//显示时间
     	timeView(){
-    		storeApi.timeView().then((res) => {
+    		storeTimeApi.timeView().then((res) => {
     			if(res.data.errno === 0){
 					console.log(res.data.data);
 					this.$data.startTime = res.data.data.start_time;
@@ -76,7 +76,7 @@
 	        	'end_time'   : endTime
 	    	}
 		    let qs = require('querystring')
-    		storeApi.timeSet(qs.stringify(list)).then((res) => {
+    		storeTimeApi.timeSet(qs.stringify(list)).then((res) => {
     			if(res.data.errno === 0){
 					console.log(res)
 					this.$message({

@@ -67,6 +67,7 @@
                 <guest-chart :guestData="guestData" :type="type"></guest-chart>
                
             </li>
+            <!--
             <li class="charts-wrap">
                 <new-old-chart :newOldData="newOldData"></new-old-chart>
             </li>
@@ -82,6 +83,7 @@
             <li class="charts-wrap">
                 <device-chart :deviceData="deviceData"></device-chart>
             </li>
+            -->
 
         </ul>
 
@@ -89,24 +91,27 @@
 </template>
 
 <script>
-import remindApi from '../../api/remind'
-import storeApi from '../../api/Store'
+import storeApi from '../../api/store'
 import statisticsApi from '../../api/statistics'
+
 import GuestChart from './GuestChart'
-import NewOldChart from './NewOldChart'
-import VipChart from './VipChart'
-import AgeChart from './AgeChart'
-import SexChart from './SexChart'
-import DeviceChart from './DeviceChart'
+//import NewOldChart from './NewOldChart'
+//import VipChart from './VipChart'
+//import AgeChart from './AgeChart'
+//import SexChart from './SexChart'
+//import DeviceChart from './DeviceChart'
+
 export default {
   name: 'dashboard',
   components: {
         GuestChart,
+        /*
         NewOldChart,
         VipChart,
         AgeChart,
         SexChart,
         DeviceChart
+        */
   },
   data () {
     return {
@@ -139,7 +144,18 @@ export default {
     this.setData();
 
   },
+  mounted:function(){
+    //this.gocolumnChart();
+  },
   methods: {
+    gocolumnChart(){
+        /*
+        chart.series[0].update({
+                type: 'column'
+        })
+        */
+        //let guestCharts = this.$refs.guestCharts;
+    },
     //门店
     getStores(){
         storeApi.listsResults().then((res) => {

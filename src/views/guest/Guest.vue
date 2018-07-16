@@ -2,9 +2,9 @@
 	<div class="remind-list-page">
 		<div class="top-box">
 			<el-form :inline="true" :model="requestParameters" class="demo-form-inline" size="mini">
-			  <el-form-item label="门店选择：" v-if="allStores.length > 0">
+			  <el-form-item label="门店选择：" v-if="allStores">
 			    <el-select v-model="requestParameters.store_id" placeholder="门店选择">
-			      <el-option v-for="(item, idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id" :key="idx"></el-option>
+			      <el-option v-for="(item, idx) in allStores" :key="idx" :label="allStores[idx].name" :value="allStores[idx].id"></el-option>
 			    </el-select>
 			  </el-form-item>
 			  <el-form-item label="进店时间：">
@@ -16,10 +16,13 @@
 			      end-placeholder="结束时间">
 			    </el-date-picker>
 			  </el-form-item>
-			   <el-form-item label="人脸ID：">
-			    <el-input v-model="requestParameters.id"></el-input>
+			  <el-form-item label="消费金额：">
+			    <el-input v-model="requestParameters.consume_money_start"></el-input>
 			  </el-form-item>
-			  <el-form-item label="客户等级：">
+			  <el-form-item label="至">
+			    <el-input v-model="requestParameters.consume_money_end"></el-input>
+			  </el-form-item>
+				<el-form-item label="客户等级：">
 			    <el-select v-model="requestParameters.level" placeholder="客户等级">
 			      <el-option label="全部" value="0"></el-option>
 			      <el-option label="新客匿名" value="1"></el-option>
@@ -27,12 +30,6 @@
 			      <el-option label="熟客匿名" value="3"></el-option>
 			      <el-option label="熟客VIP" value="4"></el-option>
 			    </el-select>
-			  </el-form-item>
-			  <el-form-item label="消费金额：">
-			    <el-input v-model="requestParameters.consume_money_start"></el-input>
-			  </el-form-item>
-			  <el-form-item label="至">
-			    <el-input v-model="requestParameters.consume_money_end"></el-input>
 			  </el-form-item>
 			  <el-form-item label="年龄：">
 			    <el-select v-model="requestParameters.age" placeholder="年龄">
@@ -59,7 +56,7 @@
 		</div>
 		<!-- 列表 -->
 		<el-table :data="tableData" border height="380" style="margin:0 auto;width: 1551px;text-align:center;">
-	    	<el-table-column fixed prop="id" label="人脸ID" width="80"></el-table-column>
+	    	<el-table-column fixed type="index" label="序号" width="80"></el-table-column>
 		    <el-table-column label="人脸" width="60">
 		    	<template slot-scope="scope">
 		           <img :src="scope.row.avatar" style="display:block;margin:0 auto;width:100%;">
@@ -134,29 +131,28 @@
 </template>
 <script>
 	import guestApi from '../../api/guest'
-	//import remindApi from '../../api/remind'
-	//import UserInfo from '../../components/UserInfo'
-	//import StoreRecord from '../../components/StoreRecord'
-	//import OrderRecord from '../../components/OrderRecord'
-	/*
+	import remindApi from '../../api/remind'
+	import UserInfo from '../../components/UserInfo'
+	import StoreRecord from '../../components/StoreRecord'
+	import OrderRecord from '../../components/OrderRecord'
     export default {
         name:'guest-list',
         components: {
-		    //UserInfo,
-		    //StoreRecord,
-		    //OrderRecord
+		    UserInfo,
+		    StoreRecord,
+		    OrderRecord
 		},
 		props:{
 			avatarFormVisible:Boolean
 		},
         data(){
-            return{
-		        tableData: [],
-		        allStores:[],
-		        pagination:{
-		        	currentPage:1,
-		        	totalCount:0,
-		        },
+					return{
+						tableData: [],
+						allStores:[],
+						pagination:{
+							currentPage:1,
+							totalCount:0,
+						},
 		        dialogVisible:false,//弹窗是否显示
 		        activeName: 'first',
 		        value4: ['',''],
@@ -180,21 +176,23 @@
             }
         },
         created:function(){
-        	this.lists();
-        	//this.getStores();
+        	this.guestList();
+        	this.getStores();
         },
         methods: {
         	//列表
-        	lists(){
+        	guestList(){
         		this.$data.requestParameters.store_time_start = this.$data.value4[0];
-	            this.$data.requestParameters.store_time_end = this.$data.value4[1];
-			    let qs = require('querystring');
-        		guestApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-        			if(res.data.errno === 0){
-						console.log(res) 
-						this.$data.tableData = res.data.data.list;
-						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
-		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
+						this.$data.requestParameters.store_time_end = this.$data.value4[1];
+						let qs = require('querystring');
+        		guestApi.guestList(qs.stringify(this.$data.requestParameters)).then((res) => {
+        			let result = res.data
+							if(result.errno === 0){
+								console.log('aa')
+								console.log(result.data.list) 
+								this.tableData = result.data.list;
+								this.$data.pagination.currentPage = result.data.pagination.currentPage;
+		        		this.$data.pagination.totalCount = result.data.pagination.totalCount;
 
         			}else{
 
@@ -207,8 +205,7 @@
         	getStores(){
         		remindApi.getStores().then((res) => {
         			if(res.data.errno === 0){
-						console.log(res)
-						//this.$data.allStores = res.data.data;
+								this.$data.allStores = res.data.data;
         			}else{
 
         			}
@@ -218,16 +215,13 @@
 
 
         	handleCurrentChange(currentPage) {
-	            console.log(currentPage)
 	            this.$data.requestParameters.page = currentPage;
-	            this.lists();
+	            this.guestList();
 	        },
         	onSubmit() {
-        		console.log(this.$data.value4)
-		        this.lists();
+		        this.guestList();
 		    },
 		    showDialog(row) {
-		        console.log(row);
 		        this.$data.showInfoEdit = false;
 		        this.$data.currentCustomerId = row.customer_id;
 		        this.$data.activeName = 'first';
@@ -247,9 +241,7 @@
 	        	this.$emit('getChildData',row);
 	        }
 	    },
-
     }
-    */
 </script>
 <style lang="scss" scoped>
 

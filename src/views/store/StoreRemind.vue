@@ -17,7 +17,7 @@
 	</div>
 </template>
 <script>
-  import storeApi from '../../api/store'
+  import storeRemindApi from '../../api/store'
   
   const typeOptions = ['新客', '熟客', '未购买', '已购买'];
   const typeId = ["1","2","3","4"]
@@ -37,7 +37,7 @@
     methods: {
         //显示
         fnRemindView(){
-            storeApi.remindView().then((res) => {
+            storeRemindApi.remindView().then((res) => {
                 if(res.data.errno === 0){
                     console.log(res);
                     this.checkedType = res.data.data.remind_ids.split(",");
@@ -59,7 +59,7 @@
                     'remind_ids' :  this.checkedType.toString(),
                 }
             let qs = require('querystring')
-            storeApi.remindSet(qs.stringify(list)).then((res) => {
+            storeRemindApi.remindSet(qs.stringify(list)).then((res) => {
                 if(res.data.errno === 0){
                     console.log(res)
                     this.$message({
