@@ -83,7 +83,7 @@ global.ROLE_DELE = `${SERVER_IP}${COMMON}role/dele`
 global.ROLE_PERMISSION_VIEW = `${SERVER_IP}${COMMON}role/view-permission`
 global.ROLE_PERMISSION_EDIT = `${SERVER_IP}${COMMON}role/edit-permission`
 
-//账号管理
+//帐号管理
 global.ACCOUNT_LISTS = `${SERVER_IP}${COMMON}account/list`
 global.ACCOUNT_ADDS = `${SERVER_IP}${COMMON}account/adds`
 global.ACCOUNT_VIEW = `${SERVER_IP}${COMMON}account/view`
@@ -98,7 +98,7 @@ global.STORE_ADDS = `${SERVER_IP}${COMMON}store/adds`
 global.STORE_EDIT = `${SERVER_IP}${COMMON}store/edit`
 global.STORE_DELE = `${SERVER_IP}${COMMON}store/dele`
 
-//账号管理
+//帐号管理
 global.STORE_ACCOUNT_LISTS = `${SERVER_IP}${COMMON}account/list`
 global.STORE_ACCOUNT_ADDS = `${SERVER_IP}${COMMON}account/adds`
 global.STORE_ACCOUNT_VIEW = `${SERVER_IP}${COMMON}account/view`

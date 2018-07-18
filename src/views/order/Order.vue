@@ -2,14 +2,11 @@
 	<div class="guest-list-page">
 		<div class="top-box">
 			<el-form :inline="true" :model="requestParameters" class="demo-form-inline" size="mini">
-			  <el-form-item label="人脸ID：">
-			    <el-input v-model="requestParameters.id"></el-input>
-			  </el-form-item>
 			  <el-form-item label="订单编号：">
-			    <el-input v-model="requestParameters.sn"></el-input>
+			    <el-input v-model="requestParameters.no"></el-input>
 			  </el-form-item>
-			  <el-form-item label="商品名：">
-			    <el-input v-model="requestParameters.goods_name"></el-input>
+			  <el-form-item label="商品名称：">
+			    <el-input v-model="requestParameters.product_name"></el-input>
 			  </el-form-item>
 			  <el-form-item label="收银时间：">
 				<el-date-picker
@@ -35,28 +32,25 @@
 			</el-form>
 		</div>
 		<!-- 列表 -->
-		<el-table :data="tableData" border style="width: 2298px;text-align:center;">
-	    	<el-table-column fixed prop="id" label="人脸ID" width="75"></el-table-column>
-		    <el-table-column prop="sn" label="订单编号" width="160"></el-table-column>
-		    <el-table-column prop="goods_names" label="商品名" width="160"></el-table-column>
-		    <el-table-column prop="price" label="成交总额" width="120"></el-table-column>
-		    <el-table-column label="收银时间" width="160">
-		    	<template slot-scope="scope">
-		    		{{scope.row.cash_t | date(4)}}
-		    	</template>
-		    </el-table-column>
-		    <el-table-column label="人脸" width="80">
+		<el-table :data="tableData" border style="width: 1598px;text-align:center;">
+		    <el-table-column prop="no" label="订单编号" width="160"></el-table-column>
+		    <el-table-column prop="product_name" label="商品名称" width="160"></el-table-column>
+		    <el-table-column prop="price" label="成交金额" width="120"></el-table-column>
+		    <el-table-column label="客户人脸" width="80">
 		    	<template slot-scope="scope">
 		           <img :src="scope.row.traffic. avatar" style="display:block;margin:0 auto;width:100%;">
 		        </template>
 		    </el-table-column>
-		    <el-table-column prop="customer_name" label="姓名" width="160"></el-table-column>
-		    <el-table-column label="客户等级" width="160">
+		    <el-table-column prop="customer_name" label="客户姓名" width="160"></el-table-column>
+		    <el-table-column label="客户类型" width="160">
 		    	<template slot-scope="scope">
-		    		<span v-if="scope.row.traffic.is_new == 1 && scope.row.traffic.vip_level == 0">新客匿名</span>
-			    	<span v-if="scope.row.traffic.is_new == 1 && scope.row.traffic.vip_level == 1">新客VIP</span>
-			    	<span v-if="scope.row.traffic.is_new == 0 && scope.row.traffic.vip_level == 0">熟客匿名</span>
-			    	<span v-if="scope.row.traffic.is_new == 0 && scope.row.traffic.vip_level == 1">熟客VIP</span>
+			    	<span v-if="scope.row.traffic.is_new == 1 && scope.row.traffic.vip_level == 1">新客</span>
+			    	<span v-if="scope.row.traffic.is_new == 0 && scope.row.traffic.vip_level == 1">熟客</span>
+		    	</template>
+		    </el-table-column>
+		    <el-table-column label="收银时间" width="160">
+		    	<template slot-scope="scope">
+		    		{{scope.row.cash_t | date(4)}}
 		    	</template>
 		    </el-table-column>
 		    <el-table-column label="创建时间" width="160">
@@ -106,9 +100,9 @@
 		        requestParameters: {
 	                page: 1,
 	                page_size:10,
-	                sn:'',
+	                no:'',
 	                id:'',
-	                goods_name:'',
+	                product_name:'',
 	                price_start:'',
 	                price_end:'',
 	                cash_t_start:'',
@@ -153,7 +147,7 @@
 		        this.lists();
 		    },
 		    fnRemove(row){
-				this.$confirm('确认删除该订单：'+row.sn+' ？', '删除提示', {
+				this.$confirm('确认删除该订单：'+row.no+' ？', '删除提示', {
 		          confirmButtonText: '确定',
 		          cancelButtonText: '取消',
 		          type: 'warning'

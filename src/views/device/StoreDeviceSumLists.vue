@@ -57,7 +57,6 @@
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
-
         			}else{
 
         			}

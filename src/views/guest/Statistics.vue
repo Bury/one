@@ -201,6 +201,9 @@ export default {
             if(res.data.errno === 0){
                 console.log(res)
                 let thisData = res.data.data;
+                if(thisData==null || thisData==''){
+                    return false;
+                }
                 if(types == 'face'){
                     let newData = [];
                     for(var i=0; i<thisData.face.length; i++){

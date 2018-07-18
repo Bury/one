@@ -7,24 +7,22 @@
                  text-color="#fff"
                  active-text-color="#409EFF">
 
+            <!--
             <router-link :to="{name: 'Statistics'}">
                 <el-menu-item index="/">
                     <i class="el-icon-menu"></i>
                     <span slot="title">系统通知</span>
                 </el-menu-item>
             </router-link>
+            -->
+
             <router-link :to="{name: 'Statistics'}">
                 <el-menu-item index="/Statistics">
                     <i class="el-icon-view"></i>
                     <span slot="title">客流统计</span>
                 </el-menu-item>
             </router-link>
-            <router-link :to="{name: 'Guest'}">
-                <el-menu-item index="/Guest">
-                    <i class="el-icon-service"></i>
-                    <span slot="title">来客列表</span>
-                </el-menu-item>
-            </router-link>
+
             <router-link :to="{name: 'Order'}">
                 <el-menu-item index="/Order">
                     <i class="el-icon-phone-outline"></i>
@@ -74,16 +72,17 @@
                     <i class="el-icon-setting"></i>
                     <span slot="title">系统设置</span>
                 </template>
-                <!--
-                <router-link :to="{name: 'Account'}">
-                    <el-menu-item index="/Account">账号管理</el-menu-item>
+                <router-link :to="{name: 'UserPersonal'}">
+                    <el-menu-item index="/UserPersonal">个人中心</el-menu-item>
                 </router-link>
-                -->
+                <router-link :to="{name: 'Department'}">
+                    <el-menu-item index="/Department">部门管理</el-menu-item>
+                </router-link>
                 <router-link :to="{name: 'Role'}">
                     <el-menu-item index="/Role">角色管理</el-menu-item>
                 </router-link>
-                <router-link :to="{name: 'UserPersonal'}">
-                    <el-menu-item index="/UserPersonal">个人中心</el-menu-item>
+                <router-link :to="{name: 'User'}">
+                    <el-menu-item index="/User">帐号管理</el-menu-item>
                 </router-link>
             </el-submenu>
         </el-menu>

@@ -10,6 +10,8 @@ import UserLogin from '../views/user/UserLogin'
 //个人中心
 import UserPersonal from '../views/user/UserPersonal'
 
+import User from '../views/user/User'
+
 //客流统计
 import Statistics from '../views/guest/Statistics'
 import Guest from '../views/guest/Guest'
@@ -72,6 +74,7 @@ const router = new Router({
         {path: 'StoreRemind',name: 'StoreRemind',component: StoreRemind},
         {path: 'StoreTime',name: 'StoreTime',component: StoreTime},
         
+        {path: 'User',name:'User',component:User},
         {path: 'Role',name:'Role',component:Role},
         {path: 'Personal',name: 'UserPersonal',component: UserPersonal},
       ]

@@ -39,31 +39,25 @@
 			  <el-form-item label="门店名称：" prop="name">
 			    <el-input v-model="ruleForm.name"></el-input>
 			  </el-form-item>
-			  <el-form-item label="负责人：" prop="person_in_charge">
+			  <el-form-item label="帐号：" prop="person_in_charge">
+			    <el-input v-model="ruleForm.person_in_charge"></el-input>
+			  </el-form-item>
+			  <el-form-item label="密码：" prop="person_in_charge">
 			    <el-input v-model="ruleForm.person_in_charge"></el-input>
 			  </el-form-item>
 			  <el-form-item label="联系电话：" prop="phone">
 			    <el-input v-model="ruleForm.phone"></el-input>
 			  </el-form-item>
 			  <el-form-item label="省份：" prop="phone">
-			  	<el-select v-model="requestParameters.version" placeholder="请选择">
-				      <el-option v-for="(item,idx) in allVersions" :label="allVersions[idx].val" :value="allVersions[idx].id" :key="idx"></el-option>
-			    </el-select>
+			  	
 			  </el-form-item>
 			  <el-form-item label="城市：" prop="phone">
-			    <el-select v-model="requestParameters.version" placeholder="请选择">
-				      <el-option v-for="(item,idx) in allVersions" :label="allVersions[idx].val" :value="allVersions[idx].id" :key="idx"></el-option>
-			    </el-select>
+			   
 			  </el-form-item>
 			  <el-form-item label="地区：" prop="phone">
-			    <el-select v-model="requestParameters.version" placeholder="请选择">
-				      <el-option v-for="(item,idx) in allVersions" :label="allVersions[idx].val" :value="allVersions[idx].id" :key="idx"></el-option>
-			    </el-select>
+			    
 			  </el-form-item>
 			  <el-form-item label="详细地址：" prop="phone">
-			    <el-input v-model="ruleForm.phone"></el-input>
-			  </el-form-item>
-			  <el-form-item label="百度经纬度坐标值：" prop="phone">
 			    <el-input v-model="ruleForm.phone"></el-input>
 			  </el-form-item>
 		  </el-form>

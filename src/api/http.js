@@ -33,6 +33,9 @@ axios.interceptors.response.use(function (res) {
         }
     return res;
   }, function (err) {
+    if(err.data==undefined || err.data==''){
+        return;
+    }
      if (err.data.errno == 1000000 || err.data.msg=='access-token不能为空' || res.data.msg=='用户不存在') {
             localStorage.setItem('knock_knock', '')
             localStorage.setItem('username', '')
@@ -40,7 +43,7 @@ axios.interceptors.response.use(function (res) {
                 path: '/login',
                 query: {redirect: router.currentRoute.fullPath}
             })
-        }
+    }
     return Promise.reject(err);
   });
 

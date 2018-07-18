@@ -47,7 +47,6 @@ export default {
     fetchData: function () {
       let pathName = this.$route.name.toLowerCase()
       this.show = pathName
-      alert(pathName)
       this.handleResize()
     },
     handleResize () {

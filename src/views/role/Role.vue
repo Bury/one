@@ -1,15 +1,20 @@
 <template>
 	<div class="role-set-page">
 		<div class="top-box">
-			<el-button type="primary" size="small" class="add-btn" @click="fnAdd()">新增</el-button>
+			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
 		</div>
-		<el-table :data="tableData" border height="448" style="width:840px;text-align:center;">
+		<el-table :data="tableData" border height="448" style="width:1204px;text-align:center;">
 			<el-table-column prop="id" label="ID" width="220"></el-table-column>
-	    	<el-table-column prop="name" label="角色名" width="320"></el-table-column>
-		    <el-table-column label="操作" width="300">
-			    <template slot-scope="scope">
-			    	<el-button type="primary" plain icon="el-icon-setting" circle size="small"
+	    	<el-table-column prop="name" label="名称" width="320"></el-table-column>
+	    	<el-table-column prop="sort" label="排序" width="220"></el-table-column>
+	    	<el-table-column label="权限" width="220">
+	    		<template slot-scope="scope">
+	    			<el-button type="primary" plain icon="el-icon-setting" circle size="small"
 			    		@click="fnSet(scope.row)"></el-button>
+	    		</template>
+	    	</el-table-column>
+		    <el-table-column label="操作" width="220">
+			    <template slot-scope="scope">
 			    	<el-button type="warning" plain icon="el-icon-edit" circle size="small"
 			    		@click="fnEdit(scope.row)"></el-button>
 			    	<el-button type="danger" plain icon="el-icon-delete" circle size="small"
@@ -37,12 +42,17 @@
 		<!-- 添加、修改 -->
 	    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
 		  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-			  <el-form-item label="角色名：" prop="name">
+			  <el-form-item label="名称：" prop="name">
 			    <el-input v-model="ruleForm.name"></el-input>
 			  </el-form-item>
 		  </el-form>
+		  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+			  <el-form-item label="排序：" prop="sort">
+			    <el-input v-model="ruleForm.sort" :maxlength="2" style="width:60px"></el-input>
+			  </el-form-item>
+		  </el-form>
 		  <div slot="footer" class="dialog-footer">
-		    <el-button @click="cancel">取 消</el-button>
+		    <el-button @click="fnCancel">取 消</el-button>
 		    <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
 		  </div>
 		</el-dialog>
@@ -51,7 +61,7 @@
 	    <el-dialog title="权限管理" :visible.sync="dialogForm2Visible">
 		  <h3 class="role-info">岗位名称：{{currentName}}</h3>
 		  <div style="margin:20px 0;overflow:hidden;">
-		  	<h3 style="float:left;">权限设置：</h3>
+		  	<h3 style="float:left;">权限：</h3>
 		  	<el-tree
 			  :data="dialogForm2"
 			  show-checkbox
@@ -64,7 +74,7 @@
 			</el-tree>
 		  </div>
 		  <div slot="footer" class="dialog-footer">
-		    <el-button @click="cancel">取 消</el-button>
+		    <el-button @click="fnCancel">取 消</el-button>
 		    <el-button type="primary" @click="submitForm2">确 定</el-button>
 		  </div>
 		</el-dialog>
@@ -85,13 +95,18 @@
 				dialogFormVisible: false,
 		        ruleForm: {
 		          	name: '',
+		          	sort: '0',
 		        },
 		        currentId:'',
 		        currentName:'',
 		        rules: {
 		          name: [
-		            { required: true, message: '请输入角色名', trigger: 'blur' },
+		            { required: true, message: '请输入名称', trigger: 'blur' },
 		            { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
+		          ],
+		          sort: [
+		            { required: true, message: '请输入排序', trigger: 'blur' },
+		            { min: 1, max: 2, message: '长度在 1 到 2 个数字', trigger: 'blur' }
 		          ]
 		        },
 		        dialogForm2Visible:false,
@@ -132,7 +147,7 @@
 			fnRemove(row){
 				this.$confirm('确认删除该角色：'+row.name+' ？', '删除提示', {
 		          confirmButtonText: '确定',
-		          cancelButtonText: '取消',
+		          fnCancelButtonText: '取消',
 		          type: 'warning'
 		        }).then(() => {
 		          let list = {
@@ -164,20 +179,22 @@
 				this.$data.dialogTitle = '编辑'; 
 				this.$data.currentId = row.id;
 				this.$data.ruleForm.name = row.name;
+				this.$data.ruleForm.sort = row.sort;
 				this.$data.dialogFormVisible = true;
 				
 			},
-			fnAdd(){
+			fnAdds(){
 				this.$data.dialogTitle = '添加';
 				this.$data.currentId = "";
 				this.$data.ruleForm.name = "";
+				this.$data.ruleForm.sort = 0;
 				this.$data.dialogFormVisible = true;
 			},
-			
-			cancel(){
+			fnCancel(){
 				this.$data.dialogFormVisible = false;
 				this.$data.dialogForm2Visible = false;
 				this.$data.ruleForm.name = '';
+				this.$data.ruleForm.name = 0;
 				this.$data.currentId = '';
 			},
 			submitForm(formName){
@@ -187,19 +204,21 @@
 						if(this.$data.currentId !== ''){
 							let list = {
 								'id': this.$data.currentId,
-								'name':this.$data.ruleForm.name
+								'name':this.$data.ruleForm.name,
+								'sort':this.$data.ruleForm.sort
 							}
 							let qs = require('querystring')
 			        		roleApi.edit(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
 									console.log(res)
 									this.$message({
-				                      message: '营业时间设置成功',
+				                      message: '操作成功',
 				                      type: 'success',
 				                      duration:1500
 				                    });
 									this.lists();
 									this.$data.ruleForm.name = '';
+									this.$data.ruleForm.sort = 0;
 									this.$data.currentId = '';
 									this.$data.dialogFormVisible = false;
 
@@ -210,19 +229,21 @@
 			        		})
 						}else{
 							let list = {
-						        'name':this.$data.ruleForm.name
+						        'name':this.$data.ruleForm.name,
+						        'sort':this.$data.ruleForm.sort
 						    }
 						    let qs = require('querystring')
 			        		roleApi.adds(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
 									console.log(res)
 									this.$message({
-				                      message: '营业时间设置成功',
+				                      message: '操作成功',
 				                      type: 'success',
 				                      duration:1500
 				                    });
 									this.lists();
 									this.$data.ruleForm.name = '';
+									this.$data.ruleForm.sort = '';
 									this.$data.currentId = '';
 									this.$data.dialogFormVisible = false;
 
@@ -237,6 +258,8 @@
 			},
 
 			fnSet(row){
+				alert('暂未支持');
+				return ;
 				this.$data.currentName = row.name;
 				this.$data.currentId = row.id;
 				let list = {

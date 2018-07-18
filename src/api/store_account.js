@@ -5,7 +5,7 @@ import axios from 'axios'
 
 export default {
 
-  //账号
+  //帐号
   lists(list){
     return new Promise((resolve, reject) => {
       axios.post(global.STORE_ACCOUNT_LISTS,list).then((res) => {

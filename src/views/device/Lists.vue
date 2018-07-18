@@ -25,7 +25,7 @@
 				</el-form-item>
 			</el-form>
 		</div>
-		<el-menu :default-active="activeIndex" class="el-menu-demo" <el-tabs v-model="activeName" @tab-click="handleClick">
+		<el-menu :default-active="activeIndex" class="el-menu-demo" <el-tabs @tab-click="handleClick">
 		    <el-tab-pane label="已分配" name="first"></el-tab-pane>
 		    <el-tab-pane label="待分配" name="second"></el-tab-pane>
 	  	</el-tabs>

@@ -11,7 +11,7 @@
 	</div>
 </template>
 <script>
-/*
+
 	import Lists from './Lists'
 	import StoreDeviceSumLists from './StoreDeviceSumLists'
 	export default{
@@ -26,7 +26,7 @@
 			}
 		},
 	}
-	*/
+
 </script>
 <style lang="scss" scoped>
 	.device-list-page{

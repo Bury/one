@@ -117,22 +117,11 @@
 		        requestParameters: {
 	                page: 1,
 	                page_size:10,
-	                device_id:'',
-	                version:'',
-	                belong_sid:'',
-	                name:'',
-	                created_at_begin:'',
-	                cteated_at_end:'',
-	                start_at_begin:'',
-	                start_at_end:''
 	            },
 	            operationFormVisible:false,
 	            operationForm:{
 	            	
 	            },
-	            
-
-	           
 			}
 		},
 		created:function(){
@@ -142,10 +131,6 @@
 		methods:{
 			deviceList(){
 				//this.$data.requestParameters.belong_sid = this.$route.query.storeId;
-				this.$data.requestParameters.created_at_begin = this.$data.createdTimes[0];
-	            this.$data.requestParameters.cteated_at_end = this.$data.createdTimes[1];
-	            this.$data.requestParameters.start_at_begin = this.$data.startTimes[0];
-	            this.$data.requestParameters.start_at_end = this.$data.startTimes[1];
 			    let qs = require('querystring');
         		deviceApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
         			if(res.data.errno === 0){

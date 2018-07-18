@@ -9,7 +9,7 @@
 		</div>
 		<el-table :data="tableData" border height="448" style="width:822px;text-align:center;">
 			<el-table-column prop="id" label="ID" width="80"></el-table-column>
-	    	<el-table-column prop="username" label="账号" width="160"></el-table-column>
+	    	<el-table-column prop="username" label="帐号" width="160"></el-table-column>
 	    	<el-table-column prop="role_name" label="角色" width="100"></el-table-column>
 	    	<el-table-column prop="role_desc" label="姓名" width="100"></el-table-column>
 	    	<el-table-column label="创建时间" width="160">
@@ -45,7 +45,7 @@
 	    <!-- 编辑 -->
 	    <el-dialog title="编辑" :visible.sync="editFormVisible">
 		  <el-form :model="editFormData" :rules="editRules" ref="editFormData" label-width="100px" class="demo-ruleForm">
-			  <el-form-item label="账号：" prop="username">
+			  <el-form-item label="帐号：" prop="username">
 			    <el-input v-model="editFormData.username"></el-input>
 			  </el-form-item>
 			  <el-form-item label="姓名：" prop="desc">
@@ -82,7 +82,7 @@
 		<!-- 添加 -->
 		<el-dialog :title="!avatarFormVisible? '添加' : '关联头像'" :visible.sync="addsFormVisible" :fullscreen="avatarFormVisible" :before-close="closeChange" >
 		  <el-form :model="addsFormData" :rules="addsRules" ref="addsFormData" label-width="100px" class="demo-ruleForm" v-if="!avatarFormVisible" >
-			  <el-form-item label="账号：" prop="username">
+			  <el-form-item label="帐号：" prop="username">
 			    <el-input v-model="addsFormData.username"></el-input>
 			  </el-form-item>
 			  <el-form-item label="姓名：" prop="desc">
@@ -148,7 +148,7 @@
 	            },
 	            editRules:{
 	            	username: [
-		            	{ required: true, message: '请输入账号', trigger: 'blur' },
+		            	{ required: true, message: '请输入帐号', trigger: 'blur' },
 		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
 		          	],
 		          	desc:[
@@ -203,7 +203,7 @@
 		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
 	            	],
 	            	username:[
-	            		{ required: true, message: '请输入账号称', trigger: 'blur' },
+	            		{ required: true, message: '请输入帐号称', trigger: 'blur' },
 		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
 	            	],
 	            	desc:[
@@ -263,7 +263,7 @@
 	        },
 
 			fnRemove(row){
-				this.$confirm('确认删除该账号：'+row.username+' ？', '删除提示', {
+				this.$confirm('确认删除该帐号：'+row.username+' ？', '删除提示', {
 		          confirmButtonText: '确定',
 		          cancelButtonText: '取消',
 		          type: 'warning'
