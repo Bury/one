@@ -27,38 +27,23 @@ global.GET_ORDER_RECORE = `${SERVER_IP}${COMMON}customer/order-recore`
 // post customer/levels 提醒列表用户等级筛选项
 global.GET_LEVELS = `${SERVER_IP}${COMMON}customer/levels`
 
-// post customer/is-reception 接待
-global.IS_RECEPTION = `${SERVER_IP}${COMMON}customer/is-reception`
-
-/*来客列表*/
-// post customer/visitor-list 获取提醒列表
-global.GET_GUEST_LIST = `${SERVER_IP}${COMMON}customer/visitor-list`
-
 /*订单管理*/
-// post order/list订单列表
 global.GET_ORDER_LIST = `${SERVER_IP}${COMMON}order/list`
-// post order/dele
 global.DELE_OTDER = `${SERVER_IP}${COMMON}order/dele`
 
 /*标签管理*/
 //1、父级
 // post tag/list 标签列表
 global.GET_LABEL_LIST = `${SERVER_IP}${COMMON}tag/parent-list`
-// post tag/parent-adds 添加
 global.ADD_LABEL = `${SERVER_IP}${COMMON}tag/parent-adds`
-// post tag/parent-edit 修改
 global.EDIT_LABEL = `${SERVER_IP}${COMMON}tag/parent-edit`
-// post tag/parent-dele 删除
 global.DELE_LABEL = `${SERVER_IP}${COMMON}tag/parent-dele`
 
 //2、子级
 // post tag/childs-list 标签列表
 global.GET_CHILD_LABEL_LIST = `${SERVER_IP}${COMMON}tag/childs-list`
-// post tag/childs-adds 添加
 global.ADD_CHILD_LABEL = `${SERVER_IP}${COMMON}tag/childs-adds`
-// post tag/childs-edit 修改
 global.EDIT_CHILD_LABEL = `${SERVER_IP}${COMMON}tag/childs-edit`
-// post tag/childs-dele 删除
 global.DELE_CHILD_LABEL = `${SERVER_IP}${COMMON}tag/childs-dele`
 
 //设备管理
@@ -69,27 +54,6 @@ global.STORE_DEVICE_SUM_LISTS = `${SERVER_IP}${COMMON}device/device-list`
 // post device/operation 按门店分配
 global.SET_OPERATION = `${SERVER_IP}${COMMON}device/operation`
 
-//设备版本管理
-// post device/version 
-global.DEVICE_VERSION_LISTS_RESULTS = `${SERVER_IP}${COMMON}device_version/lists_results`
-
-//2、角色管理
-global.ROLE_LISTS = `${SERVER_IP}${COMMON}role/list`
-global.ROLE_ADDS = `${SERVER_IP}${COMMON}role/adds`
-global.ROLE_EDIT = `${SERVER_IP}${COMMON}role/edit`
-global.ROLE_DELE = `${SERVER_IP}${COMMON}role/dele`
-
-//permisstion
-global.ROLE_PERMISSION_VIEW = `${SERVER_IP}${COMMON}role/view-permission`
-global.ROLE_PERMISSION_EDIT = `${SERVER_IP}${COMMON}role/edit-permission`
-
-//帐号管理
-global.ACCOUNT_LISTS = `${SERVER_IP}${COMMON}account/list`
-global.ACCOUNT_ADDS = `${SERVER_IP}${COMMON}account/adds`
-global.ACCOUNT_VIEW = `${SERVER_IP}${COMMON}account/view`
-global.ACCOUNT_EDIT = `${SERVER_IP}${COMMON}account/edit`
-global.ACCOUNT_DELE = `${SERVER_IP}${COMMON}account/dele`
-global.ACCOUNT_PASSWORD_EDIT = `${SERVER_IP}${COMMON}account/edit-password`
 
 //门店管理
 global.STORE_LISTS = `${SERVER_IP}${COMMON}store/lists`//带有分页的门店列表数据
@@ -99,12 +63,12 @@ global.STORE_EDIT = `${SERVER_IP}${COMMON}store/edit`
 global.STORE_DELE = `${SERVER_IP}${COMMON}store/dele`
 
 //帐号管理
-global.STORE_ACCOUNT_LISTS = `${SERVER_IP}${COMMON}account/list`
-global.STORE_ACCOUNT_ADDS = `${SERVER_IP}${COMMON}account/adds`
-global.STORE_ACCOUNT_VIEW = `${SERVER_IP}${COMMON}account/view`
-global.STORE_ACCOUNT_EDIT = `${SERVER_IP}${COMMON}account/edit`
-global.STORE_ACCOUNT_DELE = `${SERVER_IP}${COMMON}account/dele`
-global.STORE_ACCOUNT_PASSWORD_EDIT = `${SERVER_IP}${COMMON}account/edit-password`
+global.STORE_USER_LISTS = `${SERVER_IP}${COMMON}account/list`
+global.STORE_USER_ADDS = `${SERVER_IP}${COMMON}account/adds`
+global.STORE_USER_VIEW = `${SERVER_IP}${COMMON}account/view`
+global.STORE_USER_EDIT = `${SERVER_IP}${COMMON}account/edit`
+global.STORE_USER_DELE = `${SERVER_IP}${COMMON}account/dele`
+global.STORE_USER_PASSWORD_EDIT = `${SERVER_IP}${COMMON}account/edit-password`
 
 //提醒设置
 global.STORE_REMIND_VIEW = `${SERVER_IP}${COMMON}store-config/view-remind`
@@ -114,9 +78,38 @@ global.STORE_REMIND_SET = `${SERVER_IP}${COMMON}store-config/remind`
 global.STORE_TIME_VIEW = `${SERVER_IP}${COMMON}store-config/view-time`
 global.STORE_TIME_SET = `${SERVER_IP}${COMMON}store-config/business-time`
 
-//user
+//个人中心
 global.USER_VIEW = `${SERVER_IP}${COMMON}user/info`
 global.USER_CHANGE_PASSWORD = `${SERVER_IP}${COMMON}user/change-password`
-global.USER_LOGOUT = `${SERVER_IP}${COMMON}user/logout`
+
+//商家部门管理
+global.DEPARTMENT_LISTS = `${SERVER_IP}${COMMON}department/list`
+global.DEPARTMENT_LISTS_RESULTS = `${SERVER_IP}${COMMON}department/list_results`
+global.DEPARTMENT_ADDS = `${SERVER_IP}${COMMON}department/adds`
+global.DEPARTMENT_EDIT = `${SERVER_IP}${COMMON}department/edit`
+global.DEPARTMENT_DELE = `${SERVER_IP}${COMMON}department/dele`
+
+//商家角色管理
+global.ROLE_LISTS = `${SERVER_IP}${COMMON}role/list`
+global.ROLE_LISTS_RESULTS = `${SERVER_IP}${COMMON}role/list_results`
+global.ROLE_ADDS = `${SERVER_IP}${COMMON}role/adds`
+global.ROLE_EDIT = `${SERVER_IP}${COMMON}role/edit`
+global.ROLE_DELE = `${SERVER_IP}${COMMON}role/dele`
+
+//permisstion
+// global.ROLE_PERMISSION_VIEW = `${SERVER_IP}${COMMON}role/view-permission`
+// global.ROLE_PERMISSION_EDIT = `${SERVER_IP}${COMMON}role/edit-permission`
+
+//商家帐号管理
+global.USER_LISTS = `${SERVER_IP}${COMMON}merchant-account/list`
+global.USER_ADDS = `${SERVER_IP}${COMMON}merchant-account/adds`
+global.USER_VIEW = `${SERVER_IP}${COMMON}merchant-account/view`
+global.USER_EDIT = `${SERVER_IP}${COMMON}merchant-account/edit`
+global.USER_DELE = `${SERVER_IP}${COMMON}merchant-account/dele`
+global.USER_PASSWORD_EDIT = `${SERVER_IP}${COMMON}merchant-account/edit-password`
+
+//登录退出
 global.USER_LOGIN = `${SERVER_IP}${COMMON}user/login`
+global.USER_LOGOUT = `${SERVER_IP}${COMMON}user/logout`
+
 

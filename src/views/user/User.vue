@@ -1,21 +1,47 @@
 <template>
 	<div class="account-set-page">
 		<div class="top-box">
+			<el-form :inline="true" :model="requestParameters" class="demo-form-inline" size="mini">
+				<el-form-item label="帐号：">
+			    	<el-input v-model="requestParameters.username"></el-input>
+			  	</el-form-item>
+			  	<el-form-item label="部门：">
+				    <el-select v-model="requestParameters.department_id" placeholder="请选择">
+				      <el-option v-for="(item,idx) in allDepartments" :label="allDepartments[idx].val" :value="allDepartments[idx].id" :key="idx"></el-option>
+				    </el-select>
+			  	</el-form-item>
+			  	<el-form-item label="角色：">
+				    <el-select v-model="requestParameters.role_id" placeholder="请选择">
+				        <el-option v-for="(item,idx) in allRoles" :label="allRoles[idx].name" :value="allRoles[idx].id" :key="idx"></el-option>
+				    </el-select>
+				</el-form-item>
+				<el-form-item label="手机号码：">
+				    <el-input v-model="requestParameters.telephone"></el-input>
+				</el-form-item>
+				<el-form-item>
+				    <el-button type="primary" @click="onSubmitSearch">查询</el-button>
+				</el-form-item>
+			</el-form>
+		</div>
+		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
 		</div>
 		<el-table :data="tableData" border height="448" style="width:1404px;text-align:center;">
 			<el-table-column prop="id" label="ID" width="120"></el-table-column>
-			<el-table-column prop="name" label="帐号" width="220"></el-table-column>
-	    	<el-table-column prop="name" label="姓名" width="220"></el-table-column>
-	    	<el-table-column prop="name" label="手机号码" width="220"></el-table-column>
-	    	<el-table-column prop="name" label="状态" width="120"></el-table-column>
+			<el-table-column prop="username" label="帐号" width="220"></el-table-column>
+			<el-table-column prop="department_name" label="部门" width="120"></el-table-column>
+			<el-table-column prop="role_name" label="角色" width="120"></el-table-column>
+	    	<el-table-column prop="name" label="姓名" width="120"></el-table-column>
+	    	<el-table-column prop="telephone" label="手机号码" width="220"></el-table-column>
+	    	<el-table-column prop="status" label="状态" width="120"></el-table-column>
 	    	<el-table-column prop="sort" label="排序" width="120"></el-table-column>
-	    	<el-table-column label="权限" width="160">
+	    	<el-table-column label="权限" width="120">
 	    		<template slot-scope="scope">
 	    			<el-button type="primary" plain icon="el-icon-setting" circle size="small"
 			    		@click="fnSet(scope.row)"></el-button>
 	    		</template>
 	    	</el-table-column>
+	    	<el-table-column prop="created_at" label="创建时间" width="120"></el-table-column>
 		    <el-table-column label="操作" width="220">
 			    <template slot-scope="scope">
 			    	<el-button type="warning" plain icon="el-icon-edit" circle size="small"
@@ -43,7 +69,21 @@
 	    -->
 
 		<!-- 添加、修改 -->
-	    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+	    <el-dialog :title="dialogTitle" :visible.sync="userDialogFormVisible">
+	    	<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+			  <el-form-item label="部门：">
+			    <el-select v-model="ruleForm.department_id" placeholder="请选择">
+				      <el-option v-for="(item,idx) in allDepartments" :label="allRoles[idx].val" :value="allDepartments[idx].id" :key="idx"></el-option>
+			    </el-select>
+			  </el-form-item>
+			</el-form>
+			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+			  <el-form-item label="角色：">
+			  	<el-select v-model="ruleForm.role_id" placeholder="请选择">
+				      <el-option v-for="(item,idx) in allRoles" :label="allRoles[idx].val" :value="allRoles[idx].id" :key="idx"></el-option>
+			    </el-select>
+			  </el-form-item>
+			</el-form>
 	    	<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 			  <el-form-item label="帐号：" prop="account">
 			    <el-input v-model="ruleForm.account"></el-input>
@@ -92,7 +132,7 @@
 		</el-dialog>
 
 		<!-- 权限管理 -->
-	    <el-dialog title="权限管理" :visible.sync="dialogForm2Visible">
+	    <el-dialog title="权限管理" :visible.sync="permissionDialogFormVisible">
 		  <h3 class="account-info">岗位名称：{{currentName}}</h3>
 		  <div style="margin:20px 0;overflow:hidden;">
 		  	<h3 style="float:left;">权限：</h3>
@@ -116,32 +156,40 @@
 </template>
 <script>
 	import userApi from '../../api/user'
+	import departmentApi from '../../api/department'
+	import roleApi from '../../api/role'
+
 	export default{
 		name:'account-set',
 		data(){
 			return {
 				tableData: [],
+				allDepartments:[],
+				allRoles:[],
 				pagination:{
 		        	currentPage:1,
 		        	totalCount:0,
 		        },
+		        requestParameters: {
+	                page: 1,
+	                page_size:10,
+	                username:'',
+	                department_id:'',
+	                role_id:'',
+	                telephone:'',
+	            },
 				dialogTitle:"",
-				dialogFormVisible: false,
+				userDialogFormVisible: false,
 		        ruleForm: {
+		        	department_id:'',
+		          	role_id:'',
 		          	name: '',
 		          	sort: '0',
+		          	status:true
 		        },
 		        currentId:'',
 		        currentName:'',
 		        rules: {
-		          name: [
-		            { required: true, message: '请输入姓名', trigger: 'blur' },
-		            { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
-		          ],
-		          telephone: [
-		            { required: false, message: '请输入手机号码', trigger: 'blur' },
-		            { min: 11, max: 11, message: '长度在11位的有效手机号码', trigger: 'blur' }
-		          ],
 		          account: [
 		            { required: true, message: '请输入帐号', trigger: 'blur' },
 		            { min: 1, max: 2, message: '长度在 6 到 20 个字符', trigger: 'blur' }
@@ -150,23 +198,28 @@
 		            { required: true, message: '请输入密码', trigger: 'blur' },
 		            { min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }
 		          ],
+		          name: [
+		            { required: true, message: '请输入姓名', trigger: 'blur' },
+		            { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
+		          ],
+		          telephone: [
+		            { required: true, message: '请输入手机号码', trigger: 'blur' },
+		            { min: 11, max: 11, message: '长度在11位的有效手机号码', trigger: 'blur' }
+		          ],
 		          sort: [
 		            { required: true, message: '请输入排序', trigger: 'blur' },
 		            { min: 1, max: 2, message: '长度在 1 到 2 个数字', trigger: 'blur' }
 		          ]
 		        },
-		        dialogForm2Visible:false,
+		        permissionDialogFormVisible:false,
 		        dialogForm2: [],
 		        checkedIds:[],
-		        requestParameters: {
-	                page: 1,
-	                page_size:10
-	            }
-
 			}
 		},
 		created:function(){
 			this.lists();
+			this.getDepartments();
+			this.getRoles();
 		},
 		methods: {
 			//列表
@@ -177,39 +230,54 @@
 	    				return ;
 	    			}
 	    			if(res.data.errno === 0){
-						console.log(res);
 						this.$data.tableData = res.data.data.list;
-						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
+						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;   
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
 	    			}else{
 						this.$message.error(res.data.msg);
 	    			}
 	    		})
 	    	},
+	    	getDepartments(){
+	    		departmentApi.lists_results().then((res) => {
+        			if(res.data.errno === 0){
+						console.log(res)
+						this.$data.allDepartments = res.data.data;
+        			}else{
 
+        			}
+        		})
+	    	},
+	    	getRoles(){
+				roleApi.lists_results().then((res) => {
+        			if(res.data.errno === 0){
+						console.log(res)
+						this.$data.allRoles = res.data.data;
+        			}else{
+
+        			}
+        		})
+	    	},
 	    	handleCurrentChange(currentPage) {
-	            console.log(currentPage)
 	            this.$data.requestParameters.page = currentPage;
 	            this.lists();
 	        },
-
 			fnRemove(row){
 				this.$confirm('确认删除该角色：'+row.name+' ？', '删除提示', {
 		          confirmButtonText: '确定',
 		          fnCancelButtonText: '取消',
 		          type: 'warning'
 		        }).then(() => {
-		          let list = {
+		          	let list = {
 						'id': row.id
 					}
 					let qs = require('querystring')
 	        		userApi.dele(qs.stringify(list)).then((res) => {
 	        			if(res.data.errno === 0){
-							console.log(res)
 							this.$message({
 					            type: 'success',
-					            message: '删除成功!'
-					          });
+					            message: '操作成功'
+				          	});
 							this.lists();
 	        			}else{
 							this.$message.error(res.data.msg);
@@ -223,32 +291,46 @@
 		          // });          
 		        });
 			},
-			fnEdit(row){
-				console.log(row);
-				this.$data.dialogTitle = '编辑'; 
-				this.$data.currentId = row.id;
-				this.$data.ruleForm.name = row.name;
-				this.$data.ruleForm.sort = row.sort;
-				this.$data.dialogFormVisible = true;
-				
-			},
 			fnAdds(){
 				this.$data.dialogTitle = '添加';
 				this.$data.currentId = "";
 				this.$data.ruleForm.name = "";
 				this.$data.ruleForm.sort = 0;
-				this.$data.dialogFormVisible = true;
+				this.$data.userDialogFormVisible = true;
+				this.getDepartments();
+				this.getRoles();
+			},
+			fnEdit(row){
+				this.$data.dialogTitle = '编辑'; 
+				this.$data.currentId = row.id;
+				this.$data.ruleForm.name = row.name;
+				this.$data.ruleForm.sort = row.sort;
+				this.$data.userDialogFormVisible = true;
+				this.getDepartments();
+				this.getRoles();
 			},
 			fnCancel(){
-				this.$data.dialogFormVisible = false;
-				this.$data.dialogForm2Visible = false;
+				this.$data.userDialogFormVisible = false;
+				this.$data.permissionDialogFormVisible = false;
 				this.$data.ruleForm.name = '';
 				this.$data.ruleForm.name = 0;
 				this.$data.currentId = '';
 			},
+			fuResetRuleForm(){
+				this.$data.ruleForm.username = '';
+				this.$data.ruleForm.password = '';
+				this.$data.ruleForm.name = '';
+				this.$data.ruleForm.telephone = '';
+				this.$data.ruleForm.status = '';
+				this.$data.ruleForm.sort = '';
+				this.$data.currentId = '';
+				this.$data.userDialogFormVisible = false;
+			},
+			onSubmitSearch(){
+				this.lists();
+			},
 			submitForm(formName){
 				this.$refs[formName].validate((valid) => {
-					console.log(valid)
 			        if (valid) {
 						if(this.$data.currentId !== ''){
 							let list = {
@@ -270,19 +352,10 @@
 				                      duration:1500
 				                    });
 									this.lists();
-									this.$data.ruleForm.username = '';
-									this.$data.ruleForm.password = '';
-									this.$data.ruleForm.name = '';
-									this.$data.ruleForm.telephone = '';
-									this.$data.ruleForm.status = '';
-									this.$data.ruleForm.sort = '';
-									this.$data.currentId = '';
-									this.$data.dialogFormVisible = false;
-
+									this.fuResetRuleForm();
 			        			}else{
 									this.$message.error(res.data.msg);	
 								}		        			
-			        			
 			        		})
 						}else{
 							let list = {
@@ -303,15 +376,7 @@
 				                      duration:1500
 				                    });
 									this.lists();
-									this.$data.ruleForm.username = '';
-									this.$data.ruleForm.password = '';
-									this.$data.ruleForm.name = '';
-									this.$data.ruleForm.telephone = '';
-									this.$data.ruleForm.status = '';
-									this.$data.ruleForm.sort = '';
-									this.$data.currentId = '';
-									this.$data.dialogFormVisible = false;
-
+									this.fuResetRuleForm();
 			        			}else{
 			        				this.$message.error(res.data.msg);
 
@@ -362,7 +427,7 @@
         			}
         			
         		})
-				this.$data.dialogForm2Visible = true;
+				this.$data.permissionDialogFormVisible = true;
 			},
 
 			submitForm2(){
@@ -378,7 +443,7 @@
         			if(res.data.errno === 0){
 						console.log(res)
 						this.$data.currentId = '';
-						this.$data.dialogForm2Visible = false;
+						this.$data.permissionDialogFormVisible = false;
         			}else{
         				this.$message.error(res.data.msg);
 

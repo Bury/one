@@ -32,10 +32,18 @@ export default {
       })
     })
   },
-
   dele (list) {
     return new Promise((resolve, reject) => {
       axios.post(global.ROLE_DELE,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  lists_results (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.ROLE_LISTS_RESULTS,list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
