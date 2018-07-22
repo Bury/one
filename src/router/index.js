@@ -7,10 +7,9 @@ import Main from '../views/menu/Main'
 // 登录页面
 import UserLogin from '../views/user/UserLogin'
 
-//个人中心
-import UserPersonal from '../views/user/UserPersonal'
 
-import User from '../views/user/User'
+
+
 
 //客流统计
 import Statistics from '../views/guest/Statistics'
@@ -33,15 +32,21 @@ import StoreDeviceDetailLists from '../views/device/StoreDeviceDetailLists'
 //门店管理
 import Store from '../views/store/Store'
 import StoreAccount from '../views/store/StoreAccount'
+import StorePost from '../views/store/StorePost'
 import StoreRemind from '../views/store/StoreRemind'
 import StoreTime from '../views/store/StoreTime'
 
 /*****系统设置*****/
-
-//帐号管理
-
-//角色管理
+//部门管理
+import Department from '../views/department/Department'
+//岗位管理
 import Role from '../views/role/Role'
+//帐号管理
+import User from '../views/user/User'
+
+
+//个人中心
+import UserPersonal from '../views/user/UserPersonal'
 
 
 
@@ -71,12 +76,14 @@ const router = new Router({
         {path: 'Store',name:'Store',component:Store},
         
         {path: 'StoreAccount',name:'StoreAccount',component:StoreAccount},
+        {path: 'StorePost',name:'StorePost',component:StorePost},
         {path: 'StoreRemind',name: 'StoreRemind',component: StoreRemind},
         {path: 'StoreTime',name: 'StoreTime',component: StoreTime},
         
-        {path: 'User',name:'User',component:User},
+        {path: 'UserPersonal',name: 'UserPersonal',component: UserPersonal},
+        {path: 'Department',name:'Department',component:Department},
         {path: 'Role',name:'Role',component:Role},
-        {path: 'Personal',name: 'UserPersonal',component: UserPersonal},
+        {path: 'User',name:'User',component:User},
       ]
       
   }]

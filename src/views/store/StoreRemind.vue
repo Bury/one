@@ -1,6 +1,6 @@
 <template>
 	<div class="remind-set-page">
-        <h3 class="top-box">提醒配置</h3>
+        <h3 class="top-box">到店提醒配置</h3>
         <div class="all-box">
             <el-checkbox :indeterminate="isIndeterminate" 
             v-model="checkAll"
@@ -56,8 +56,8 @@
         //设置
         fnRemindSet(){
             let list = {
-                    'remind_ids' :  this.checkedType.toString(),
-                }
+                'remind_ids' :  this.checkedType.toString(),
+            }
             let qs = require('querystring')
             storeRemindApi.remindSet(qs.stringify(list)).then((res) => {
                 if(res.data.errno === 0){

@@ -24,7 +24,7 @@
                       <i class="el-icon-caret-bottom el-icon--right"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown" style="text-align:center;">
-                        <el-dropdown-item divided>个人中心</el-dropdown-item>
+                        <el-dropdown-item divided @click.native="user_personal">个人中心</el-dropdown-item>
                         <el-dropdown-item divided @click.native="logout" command="logout" >退出</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -44,15 +44,19 @@
 </template>
 
 <script>
+
 import MenuLeft from './MenuLeft'
 
 import userApi from '../../api/user.js'
 
 export default {
+
   name: 'main-box',
+
   components: {
     MenuLeft
   },
+
   data () {
     return {
         userName:'xxxxx',
@@ -65,11 +69,15 @@ export default {
             leftMenu4:false
         }
     }
+
   },
+
   created: function(){
     this.$data.userName = localStorage.getItem('username')
   },
+
   methods: {
+
     handleSelect(key, keyPath) {
         var nowKey = "leftMenu"+key;
         for(var i in this.$data.leftMenu){
@@ -81,12 +89,15 @@ export default {
         }
         
     },
+
     handleOpen(key, keyPath) {
         console.log(key, keyPath);
     },
+
     handleClose(key, keyPath) {
         console.log(key, keyPath);
     },
+
     logout(){
         userApi.logout().then((res) => {
             if(res.data.errno === 0){
@@ -98,9 +109,16 @@ export default {
                 //logout failed
             }
         });
+    },
+
+    user_personal(){
+        this.$router.push('/UserPersonal')
     }
+
   }
+  
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -158,7 +176,6 @@ export default {
 
         }
     }
-
     .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 160px;
 
@@ -166,6 +183,4 @@ export default {
     .el-menu{
         border:0;
     }
-    
-
 </style>
