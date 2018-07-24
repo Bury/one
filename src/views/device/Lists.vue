@@ -11,8 +11,9 @@
 				    </el-select>
 			  	</el-form-item>
 			  	<el-form-item label="类型：">
-				    <el-select v-model="requestParameters.belong_sid" placeholder="请选择">
-				        <el-option v-for="(item,idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id" :key="idx"></el-option>
+				    <el-select v-model="requestParameters.belong_sido" placeholder="请选择">
+				        <el-option label="收银" value="cashier"></el-option>
+                        <el-option label="其他" value="other"></el-option>
 				    </el-select>
 				</el-form-item>
 				<el-form-item label="门店：">
@@ -25,7 +26,7 @@
 				</el-form-item>
 			</el-form>
 		</div>
-		<el-menu :default-active="activeIndex" class="el-menu-demo" <el-tabs @tab-click="handleClick">
+	    <el-tabs @tab-click="handleClick">
 		    <el-tab-pane label="已分配" name="first"></el-tab-pane>
 		    <el-tab-pane label="待分配" name="second"></el-tab-pane>
 	  	</el-tabs>
@@ -35,7 +36,11 @@
 			<el-table-column fixed prop="id" label="ID" width="100"></el-table-column>
 	    	<el-table-column prop="device_id" label="编号" width="120"></el-table-column>
 		    <el-table-column prop="version" label="版本" width="100"></el-table-column>
-		    <el-table-column prop="version" label="类型" width="100"></el-table-column>
+		    <el-table-column  label="类型" width="100">
+		    	<template slot-scope="scope">
+		    		{{scope.row.locate === "cashier" ? "收银" : "其他"}}
+		    	</template>
+		    </el-table-column>
 		    <el-table-column label="门店" width="220">
 		    	<template slot-scope="scope">
 		    		<span v-if="scope.row.store.name.length>0">
@@ -46,7 +51,7 @@
 		    </el-table-column>
 		    <el-table-column label="位置" width="160">
 		    	<template slot-scope="scope">
-		    		{{scope.row.locate}} —— {{scope.row.locate_desc}}
+		    		{{scope.row.locate_desc}}
 		    	</template>
 		    </el-table-column>
 		    <el-table-column prop="status" label="运行情况" width="90">
@@ -184,8 +189,7 @@
 			    let qs = require('querystring');
         		deviceApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
         			if(res.data.errno === 0){
-						console.log(res) 
-						
+						 console.log(res.data.data)
 
 						//待分配的设备没有门店信息
 						var i=0;
@@ -208,28 +212,25 @@
 			getStores(){
 				storeApi.listsResults().then((res) => {
         			if(res.data.errno === 0){
-						console.log(res)
 						this.$data.allStores = res.data.data;
         			}else{
-
+                        this.$message(res.data.msg)
         			}
         			
         		})
 			},
 			getDeviceVersionListsResults(){
 				deviceVersionApi.listsResults().then((res) => {
-        			if(res.data.errno === 0){
-						console.log(res) 
+					if(res.data.errno === 0){
 						this.$data.allVersions = res.data.data;
-
-        			}else{
-
+                    }else{
+                        this.$message(res.data.msg)
         			}
         			
         		})
 			},
 			handleCurrentChange(currentPage) {
-	            console.log(currentPage)
+	            
 	            this.$data.requestParameters.page = currentPage;
 	            this.lists();
 	        },
@@ -241,7 +242,6 @@
 				this.$data.distributionForm.device_id = row.device_id;
         		storeApi.listsResults().then((res) => {
         			if(res.data.errno === 0){
-						console.log(res)
 						this.$data.allStores = res.data.data;
 						this.$data.distributionFormVisible = true;
         			}else{
@@ -259,9 +259,10 @@
 			},
 			distributionSubmit(){
 				let qs = require('querystring');
+				console.log(this.$data.distributionForm)
         		deviceApi.distribution(qs.stringify(this.$data.distributionForm)).then((res) => {
         			if(res.data.errno === 0){
-						console.log(res) 
+						
 						this.lists();
 						this.$data.distributionFormVisible = false;
         			}else{
@@ -289,9 +290,9 @@
 				this.$data.editFormVisible = false;
 			},
 			editSubmit(formName){
-				console.log(formName)
+				
 				this.$refs[formName].validate((valid) => {
-					console.log(valid)
+					
 			        if (valid) {
 						let list = {
 							'id':this.$data.editForm.device_id,
@@ -301,7 +302,7 @@
 						let qs = require('querystring');
 		        		deviceApi.edit(qs.stringify(list)).then((res) => {
 		        			if(res.data.errno === 0){
-								console.log(res) 
+								 
 								this.$message({
 						            type: 'success',
 						            message: '操作成功'

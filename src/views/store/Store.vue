@@ -3,11 +3,16 @@
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()" >新增</el-button>
 		</div>
-		<el-table :data="tableData" border height="448" style="width:801px;text-align:center;">
+		<el-table :data="tableData" border height="448" style="width:920px;text-align:center;">
 			<el-table-column fixed prop="id" label="ID" width="100"></el-table-column>
 	    	<el-table-column prop="name" label="门店" width="220"></el-table-column>
 	    	<el-table-column prop="person_in_charge" label="负责人" width="140"></el-table-column>
 	    	<el-table-column prop="phone" label="联系方式" width="120"></el-table-column>
+	    	<el-table-column  label="去除重复" width="120">
+	    		<template slot-scope="scope">
+	    			<el-button type="text" size="small"  >开启</el-button>
+	    		</template>	    		 
+	    	</el-table-column>
 		    <el-table-column label="操作" width="220">
 			    <template slot-scope="scope">
 			    	<el-button type="primary" plain icon="el-icon-more" circle size="small"

@@ -5,7 +5,7 @@
 import apiUrl from './API.js'
 
 const SERVER_IP = apiUrl.apiUrl
-const COMMON = 'v1/'
+const COMMON = 'mv1/'
 
 //客流统计
 // post analysis/customer
@@ -51,6 +51,10 @@ global.DEVICE_LISTS = `${SERVER_IP}${COMMON}device/list`
 global.DEVICE_EDIT = `${SERVER_IP}${COMMON}device/edit`
 global.DEVICE_DISTRIBUTION = `${SERVER_IP}${COMMON}device/camera-depoly`
 global.STORE_DEVICE_SUM_LISTS = `${SERVER_IP}${COMMON}device/device-list`
+
+//设备版本
+global.DEVICE_VERSION_LISTS_RESULTS = `${SERVER_IP}${COMMON}device-version/lists_results`
+
 // post device/operation 按门店分配
 global.SET_OPERATION = `${SERVER_IP}${COMMON}device/operation`
 
