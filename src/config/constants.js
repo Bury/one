@@ -5,7 +5,7 @@
 import apiUrl from './API.js'
 
 const SERVER_IP = apiUrl.apiUrl
-const COMMON = 'v1/'
+const COMMON = 'mv1/'
 
 //客流统计
 // post analysis/customer

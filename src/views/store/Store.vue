@@ -9,7 +9,7 @@
         <el-table-column fixed prop="id" label="ID" width="100"></el-table-column>
           <el-table-column prop="name" label="门店" width="220"></el-table-column>
           <el-table-column prop="person_in_charge" label="负责人" width="140"></el-table-column>
-          <el-table-column prop="phone" label="联系方式" width="120"></el-table-column>
+          <el-table-column prop="phone" label="联系方式" width="130"></el-table-column>
           <el-table-column label="操作" width="220">
             <template slot-scope="scope">
               <el-button type="primary" plain icon="el-icon-more" circle size="small"

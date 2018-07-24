@@ -4,16 +4,14 @@
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()" >新增</el-button>
 		</div>
     <div style="display:flex;">
-    <el-col :span="15"  style="text-align:center;">
+    <el-col :span="10"  style="text-align:center;">
 		<el-table :data="tableData" border height="448" style="text-align:center;">
 			<el-table-column fixed prop="id" label="ID" width="100"></el-table-column>
-	    	<el-table-column prop="name" label="门店" width="220"></el-table-column>
-	    	<el-table-column prop="person_in_charge" label="负责人" width="140"></el-table-column>
-	    	<el-table-column prop="phone" label="联系方式" width="120"></el-table-column>
+	    	<el-table-column prop="name" label='岗位名称' width="220"></el-table-column>
 		    <el-table-column label="操作" width="220">
 			    <template slot-scope="scope">
-			    	<el-button type="primary" plain icon="el-icon-more" circle size="small"
-			    		@click="fnGoPage(scope.row)"></el-button>
+            <el-button type="info" plain icon="el-icon-setting" circle size="small"
+                       @click="fnSetting(scope.row)"></el-button>
 			    	<el-button type="warning" plain icon="el-icon-edit" circle size="small"
 			    		@click="fnEdit(scope.row)"></el-button>
 			    	<el-button type="danger" plain icon="el-icon-delete" circle size="small"
@@ -40,29 +38,8 @@
 	    <!-- 添加、修改 -->
 	    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
 		  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-			  <el-form-item label="门店名称：" prop="name">
+			  <el-form-item label="岗位名称：" prop="name">
 			    <el-input v-model="ruleForm.name"></el-input>
-			  </el-form-item>
-			  <el-form-item label="帐号：" prop="person_in_charge">
-			    <el-input v-model="ruleForm.person_in_charge"></el-input>
-			  </el-form-item>
-			  <el-form-item label="密码：" prop="person_in_charge">
-			    <el-input v-model="ruleForm.person_in_charge"></el-input>
-			  </el-form-item>
-			  <el-form-item label="联系电话：" prop="phone">
-			    <el-input v-model="ruleForm.phone"></el-input>
-			  </el-form-item>
-			  <el-form-item label="省份：" prop="phone">
-
-			  </el-form-item>
-			  <el-form-item label="城市：" prop="phone">
-
-			  </el-form-item>
-			  <el-form-item label="地区：" prop="phone">
-
-			  </el-form-item>
-			  <el-form-item label="详细地址：" prop="phone">
-			    <el-input v-model="ruleForm.phone"></el-input>
 			  </el-form-item>
 		  </el-form>
 		  <div slot="footer" class="dialog-footer">
