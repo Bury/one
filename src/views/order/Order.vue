@@ -32,7 +32,9 @@
 			</el-form>
 		</div>
 		<!-- 列表 -->
-		<el-table :data="tableData" border style="width: 1598px;text-align:center;">
+    <div style="display: flex;text-align:center;">
+      <el-col :span="24">
+		    <el-table :data="tableData" border >
 		    <el-table-column prop="no" label="订单编号" width="160"></el-table-column>
 		    <el-table-column prop="product_name" label="商品名称" width="160"></el-table-column>
 		    <el-table-column prop="price" label="成交金额" width="120"></el-table-column>
@@ -65,16 +67,17 @@
 			    </template>
 		    </el-table-column>
 	    </el-table>
-
+      </el-col>
+    </div>
 	    <!-- 分页 -->
 		<div v-if="tableData.length > 0" style="margin:0 auto;max-width:1551px;">
-			<el-pagination 
+			<el-pagination
 				background
-	            class="pagination" 
-	            layout="prev, pager, next" 
-	            small 
-	            @current-change="handleCurrentChange" 
-	            :current-page="pagination.currentPage" 
+	            class="pagination"
+	            layout="prev, pager, next"
+	            small
+	            @current-change="handleCurrentChange"
+	            :current-page="pagination.currentPage"
 	            :page-size="requestParameters.page_size"
 	            :total="pagination.totalCount">
 	        </el-pagination>
@@ -86,7 +89,7 @@
     export default {
         name:'guest-list',
         components: {
-		   
+
 		},
         data(){
             return{
@@ -123,7 +126,7 @@
         		this.$data.requestParameters.created_at_start = this.$data.createdTimes[0];
         		this.$data.requestParameters.created_at_end = this.$data.createdTimes[1];
 
-        		let qs = require('querystring'); 
+        		let qs = require('querystring');
         		OrderApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
         			if(res.data.errno === 0){
         				console.log(res.data.data.list)
@@ -133,8 +136,8 @@
         			}else{
 
         			}
-			        
-			       
+
+
 			    })
         	},
 
@@ -168,14 +171,14 @@
 	        			}else{
 							this.$message.error(res.data.msg);
 	        			}
-	        			
+
 	        		})
-		            
+
 		        }).catch(() => {
 		          // this.$message({
 		          //   type: 'info',
 		          //   message: '已取消删除'
-		          // });          
+		          // });
 		        });
 			},
 	    },
@@ -183,6 +186,6 @@
 </script>
 <style lang="scss" scoped>
 	.el-table thead{
-		color:#333; 
+		color:#333;
 	}
 </style>

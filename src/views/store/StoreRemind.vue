@@ -1,8 +1,10 @@
 <template>
-	<div class="remind-set-page">
+  <div style="display: flex;text-align: center">
+    <el-col :span="11">
+	    <div class="remind-set-page">
         <h3 class="top-box">到店提醒配置</h3>
         <div class="all-box">
-            <el-checkbox :indeterminate="isIndeterminate" 
+            <el-checkbox :indeterminate="isIndeterminate"
             v-model="checkAll"
             @change="handleCheckAllChange">全选</el-checkbox>
         </div>
@@ -15,10 +17,12 @@
             <el-button type="primary" class="save-btn" @click="fnRemindSet">保存</el-button>
         </div>
 	</div>
+    </el-col>
+  </div>
 </template>
 <script>
   import storeRemindApi from '../../api/store'
-  
+
   const typeOptions = ['新客', '熟客', '未购买', '已购买'];
   const typeId = ["1","2","3","4"]
   export default {
@@ -45,7 +49,7 @@
                         this.checkAll = true;
                         this.isIndeterminate = false;
                     }
-                    
+
                 }else{
                     this.$message.error(res.data.msg);
                 }
@@ -92,7 +96,6 @@
   .remind-set-page{
     margin:80px auto 0;
     padding:40px;
-    width: 500px;
     border:1px solid #d2d2d2;
     .top-box{
         height: 60px;

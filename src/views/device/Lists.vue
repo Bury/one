@@ -32,16 +32,18 @@
 	  	</el-tabs>
 
 		<!-- 列表 -->
-		<el-table :data="tableData" border style="width:1210px;text-align:center;">
-			<el-table-column fixed prop="id" label="ID" width="100"></el-table-column>
-	    	<el-table-column prop="device_id" label="编号" width="120"></el-table-column>
-		    <el-table-column prop="version" label="版本" width="100"></el-table-column>
-		    <el-table-column  label="类型" width="100">
+    <div style="display: flex;">
+      <el-col :span="24" style="text-align:center;">
+		    <el-table :data="tableData" border  style="width:93.5%;text-align:center;margin: 0 auto;">
+			<el-table-column fixed prop="id" label="ID" width="80%"></el-table-column>
+	    	<el-table-column prop="device_id" label="编号" width="140%"></el-table-column>
+		    <el-table-column prop="version" label="版本" width="100%"></el-table-column>
+		    <el-table-column  label="类型" width="100%">
 		    	<template slot-scope="scope">
 		    		{{scope.row.locate === "cashier" ? "收银" : "其他"}}
 		    	</template>
 		    </el-table-column>
-		    <el-table-column label="门店" width="220">
+		    <el-table-column label="门店" width="220%">
 		    	<template slot-scope="scope">
 		    		<span v-if="scope.row.store.name.length>0">
 				          {{scope.row.store.name}}
@@ -49,37 +51,38 @@
 				    <span v-else><el-button @click="fnDistribution(scope.row)" type="text" size="small" >分配</el-button></span>
 		    	</template>
 		    </el-table-column>
-		    <el-table-column label="位置" width="160">
+		    <el-table-column label="位置" width="160%">
 		    	<template slot-scope="scope">
 		    		{{scope.row.locate_desc}}
 		    	</template>
 		    </el-table-column>
-		    <el-table-column prop="status" label="运行情况" width="90">
+		    <el-table-column prop="status" label="运行情况" width="90%">
 		    	<template slot-scope="scope">
 		    		{{scope.row.status == 0 ? '断开' : '正常'}}
 		    	</template>
 		    </el-table-column>
-		    <el-table-column label="是否启用" width="160">
+		    <el-table-column label="是否启用" width="160%">
 		    	<template slot-scope="scope">
 		    		{{scope.row.is_start == 0 ? '是' : '否'}}
 		    	</template>
 		    </el-table-column>
-		    <el-table-column label="添加时间" width="160">
+		    <el-table-column label="添加时间" width="160%">
 		    	<template slot-scope="scope">
 		    		{{scope.row.created_at | date(2)}}
 		    	</template>
 		    </el-table-column>
 	    </el-table>
-
+      </el-col>
+  </div>
 	    <!-- 分页 -->
 		<div v-if="tableData.length > 0" style="margin:0 auto;max-width:1332px;">
-			<el-pagination 
+			<el-pagination
 				background
-	            class="pagination" 
-	            layout="prev, pager, next" 
-	            small 
-	            @current-change="handleCurrentChange" 
-	            :current-page="pagination.currentPage" 
+	            class="pagination"
+	            layout="prev, pager, next"
+	            small
+	            @current-change="handleCurrentChange"
+	            :current-page="pagination.currentPage"
 	            :page-size="requestParameters.page_size"
 	            :total="pagination.totalCount">
 	        </el-pagination>
@@ -189,7 +192,8 @@
 			    let qs = require('querystring');
         		deviceApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
         			if(res.data.errno === 0){
-						 console.log(res.data.data)
+						console.log(res)
+
 
 						//待分配的设备没有门店信息
 						var i=0;
@@ -206,7 +210,7 @@
         			}else{
 
         			}
-        			
+
         		})
 			},
 			getStores(){
@@ -216,17 +220,18 @@
         			}else{
                         this.$message(res.data.msg)
         			}
-        			
+
         		})
 			},
 			getDeviceVersionListsResults(){
 				deviceVersionApi.listsResults().then((res) => {
-					if(res.data.errno === 0){
+        			if(res.data.errno === 0){
+						console.log(res)
 						this.$data.allVersions = res.data.data;
                     }else{
                         this.$message(res.data.msg)
         			}
-        			
+
         		})
 			},
 			handleCurrentChange(currentPage) {
@@ -247,7 +252,7 @@
         			}else{
 
         			}
-        			
+
         		})
 			},
 			distributionCancel(){
@@ -262,13 +267,13 @@
 				console.log(this.$data.distributionForm)
         		deviceApi.distribution(qs.stringify(this.$data.distributionForm)).then((res) => {
         			if(res.data.errno === 0){
-						
+						console.log(res)
 						this.lists();
 						this.$data.distributionFormVisible = false;
         			}else{
 
         			}
-        			
+
         		})
 			},
 			fnEdit(row){
@@ -302,7 +307,7 @@
 						let qs = require('querystring');
 		        		deviceApi.edit(qs.stringify(list)).then((res) => {
 		        			if(res.data.errno === 0){
-								 
+								console.log(res)
 								this.$message({
 						            type: 'success',
 						            message: '操作成功'
@@ -312,13 +317,13 @@
 		        			}else{
 
 		        			}
-		        			
+
 		        		})
-			        } 
+			        }
 		        });
 			},
 			handleClick(){
-			
+
 			}
 		}
 	}

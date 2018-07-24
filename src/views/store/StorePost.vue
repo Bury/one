@@ -3,15 +3,15 @@
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()" >新增</el-button>
 		</div>
-		<el-table :data="tableData" border height="448" style="width:801px;text-align:center;">
-			<el-table-column fixed prop="id" label="ID" width="100"></el-table-column>
-	    	<el-table-column prop="name" label="门店" width="220"></el-table-column>
-	    	<el-table-column prop="person_in_charge" label="负责人" width="140"></el-table-column>
-	    	<el-table-column prop="phone" label="联系方式" width="120"></el-table-column>
-		    <el-table-column label="操作" width="220">
+    <div style="display:flex;">
+    <el-col :span="11"  style="text-align:center;">
+		<el-table :data="tableData" border height="448" style="text-align:center;">
+			<el-table-column fixed prop="id" label="ID" width="120"></el-table-column>
+	    	<el-table-column prop="name" label='岗位名称' width="240"></el-table-column>
+		    <el-table-column label="操作" width="225">
 			    <template slot-scope="scope">
-			    	<el-button type="primary" plain icon="el-icon-more" circle size="small"
-			    		@click="fnGoPage(scope.row)"></el-button>
+            <el-button type="info" plain icon="el-icon-setting" circle size="small"
+                       @click="fnSetting(scope.row)"></el-button>
 			    	<el-button type="warning" plain icon="el-icon-edit" circle size="small"
 			    		@click="fnEdit(scope.row)"></el-button>
 			    	<el-button type="danger" plain icon="el-icon-delete" circle size="small"
@@ -19,46 +19,27 @@
 			    </template>
 		    </el-table-column>
 	    </el-table>
+    </el-col>
+    </div>
 	    <!-- 分页 -->
 	    <div v-if="tableData.length > 0" style="margin:0 auto;width:701px;">
-	    	<el-pagination 
+	    	<el-pagination
 				background
-	            class="pagination" 
-	            layout="prev, pager, next" 
-	            small 
-	            @current-change="handleCurrentChange" 
-	            :current-page="pagination.currentPage" 
+	            class="pagination"
+	            layout="prev, pager, next"
+	            small
+	            @current-change="handleCurrentChange"
+	            :current-page="pagination.currentPage"
 	            :page-size="requestParameters.page_size"
 	            :total="pagination.totalCount">
 	        </el-pagination>
 	    </div>
 
-	    <!-- 添加、修改 -->
-	    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+	    <!-- 添加-->
+	    <el-dialog title="添加岗位" :visible.sync="dialogFormVisible">
 		  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-			  <el-form-item label="门店名称：" prop="name">
+			  <el-form-item label="岗位名称：" prop="name">
 			    <el-input v-model="ruleForm.name"></el-input>
-			  </el-form-item>
-			  <el-form-item label="帐号：" prop="person_in_charge">
-			    <el-input v-model="ruleForm.person_in_charge"></el-input>
-			  </el-form-item>
-			  <el-form-item label="密码：" prop="person_in_charge">
-			    <el-input v-model="ruleForm.person_in_charge"></el-input>
-			  </el-form-item>
-			  <el-form-item label="联系电话：" prop="phone">
-			    <el-input v-model="ruleForm.phone"></el-input>
-			  </el-form-item>
-			  <el-form-item label="省份：" prop="phone">
-			  	
-			  </el-form-item>
-			  <el-form-item label="城市：" prop="phone">
-			   
-			  </el-form-item>
-			  <el-form-item label="地区：" prop="phone">
-			    
-			  </el-form-item>
-			  <el-form-item label="详细地址：" prop="phone">
-			    <el-input v-model="ruleForm.phone"></el-input>
 			  </el-form-item>
 		  </el-form>
 		  <div slot="footer" class="dialog-footer">
@@ -66,6 +47,18 @@
 		    <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
 		  </div>
 		</el-dialog>
+    <!-- 修改 -->
+    <el-dialog title="修改岗位" :visible.sync="editFormVisible">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="岗位名称：" prop="name">
+          <el-input v-model="ruleForm.name"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+      </div>
+    </el-dialog>
 	</div>
 </template>
 <script>
@@ -82,6 +75,7 @@
 		        },
 		        dialogTitle:"",
 				dialogFormVisible: false,
+        editFormVisible: false,
 		        ruleForm: {
 		          	name: '',
 		          	person_in_charge:'',
@@ -165,22 +159,22 @@
 	        			}else{
 							this.$message.error(res.data.msg);
 	        			}
-	        			
+
 	        		})
 		        }).catch(() => {
 		          // this.$message({
 		          //   type: 'info',
 		          //   message: '已取消删除'
-		          // });          
+		          // });
 		        });
 			},
 			fnEdit(row){
 				console.log(row);
-				this.$data.dialogTitle = '门店编辑'; 
+				this.$data.dialogTitle = '门店编辑';
 				this.$data.currentId = row.id;
 				this.$data.ruleForm = row;
 				this.$data.dialogFormVisible = true;
-				
+
 			},
 			fnAdds(){
 				this.$data.dialogTitle = '门店添加';
@@ -231,9 +225,9 @@
 									this.$data.dialogFormVisible = false;
 
 			        			}else{
-									this.$message.error(res.data.msg);	
-								}		        			
-			        			
+									this.$message.error(res.data.msg);
+								}
+
 			        		})
 						}else{
 							let list = {
@@ -263,10 +257,10 @@
 			        				this.$message.error(res.data.msg);
 
 			        			}
-			        			
+
 			        		})
 						}
-			        } 
+			        }
 		        });
 			},
 			fnGoPage(row){

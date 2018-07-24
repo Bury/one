@@ -7,7 +7,9 @@
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
 		</div>
-		<el-table :data="tableData" border height="448" style="width:822px;text-align:center;">
+    <div style="display: flex;text-align: center">
+      <el-col :span="15">
+		    <el-table :data="tableData" border height="448" style="width:822px;text-align:center;">
 			<el-table-column prop="id" label="ID" width="80"></el-table-column>
 	    	<el-table-column prop="username" label="帐号" width="160"></el-table-column>
 	    	<el-table-column prop="role_name" label="角色" width="100"></el-table-column>
@@ -28,15 +30,17 @@
 			    </template>
 		    </el-table-column>
 	    </el-table>
+      </el-col>
+    </div>
 	    <!-- 分页 -->
 	    <div v-if="tableData.length > 0" style="margin:0 auto;width:961px;">
-	    	<el-pagination 
+	    	<el-pagination
 				background
-	            class="pagination" 
-	            layout="prev, pager, next" 
-	            small 
-	            @current-change="handleCurrentChange" 
-	            :current-page="pagination.currentPage" 
+	            class="pagination"
+	            layout="prev, pager, next"
+	            small
+	            @current-change="handleCurrentChange"
+	            :current-page="pagination.currentPage"
 	            :page-size="requestParameters.page_size"
 	            :total="pagination.totalCount">
 	        </el-pagination>
@@ -111,14 +115,14 @@
 		  </div>
 		  <guest-list v-if="avatarFormVisible" :avatarFormVisible="avatarFormVisible" @getChildData="getAvatarData"></guest-list>
 		</el-dialog>
-		
+
 	</div>
 </template>
 <script>
 	//import Guest from '../../guest/Guest'
 	import roleApi from '../../api/role'
 	import storeAccountApi from '../../api/store_account'
-	
+
 	export default{
 		name:'accoun-set',
 		/*
@@ -182,7 +186,7 @@
 			                },
 			                trigger: 'blur'
 			            }
-          
+
 	            	]
 	            },
 	            addsFormVisible:false,
@@ -283,13 +287,13 @@
 	        			}else{
 							this.$message.error(res.data.msg);
 	        			}
-	        			
+
 	        		})
 		        }).catch(() => {
 		          // this.$message({
 		          //   type: 'info',
 		          //   message: '已取消删除'
-		          // });          
+		          // });
 		        });
 			},
 			fnEdit(row){
@@ -308,9 +312,9 @@
 						this.$data.editFormVisible = true;
 
         			}else{
-						this.$message.error(res.data.msg);	
-					}		        			
-        			
+						this.$message.error(res.data.msg);
+					}
+
         		})
 			},
 			getRoleLists(){
@@ -355,12 +359,12 @@
 								this.$data.editFormVisible = false;
 
 		        			}else{
-								this.$message.error(res.data.msg);	
-							}		        			
-		        			
+								this.$message.error(res.data.msg);
+							}
+
 		        		})
-						
-			        } 
+
+			        }
 		        });
 
 			},
@@ -385,7 +389,7 @@
 				this.$refs[formName].validate((valid) => {
 					console.log(valid)
 			        if (valid) {
-			        	
+
 						let qs = require('querystring')
 		        		storeAccountApi.password_edit(qs.stringify(this.$data.changePwdFormData)).then((res) => {
 		        			if(res.data.errno === 0){
@@ -403,12 +407,12 @@
 								this.$data.changePwdFormVisible = false;
 
 		        			}else{
-								this.$message.error(res.data.msg);	
-							}		        			
-		        			
+								this.$message.error(res.data.msg);
+							}
+
 		        		})
-						
-			        } 
+
+			        }
 		        });
 
 			},
@@ -425,7 +429,7 @@
 
 	            };
 			},
-			
+
 			fnAdds(){
 				this.fnClearAddsFormData();
 				this.getRoleLists();
@@ -461,12 +465,12 @@
 								this.fnClearAddsFormData();
 								this.$data.addsFormVisible = false;
 		        			}else{
-								this.$message.error(res.data.msg);	
-							}		        			
-		        			
+								this.$message.error(res.data.msg);
+							}
+
 		        		})
-						
-			        } 
+
+			        }
 		        });
 
 			},
@@ -477,10 +481,10 @@
 	            }else{
 	            	done()
 	            }
-	            
+
 	        },
 
-			
+
 		}
 	}
 </script>

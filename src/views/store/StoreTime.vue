@@ -1,4 +1,6 @@
 <template>
+  <div style="display: flex;text-align: center">
+    <el-col :span="11">
 	<div class="open-time-set-page">
 		<h3 class="top-box">营业时间设置</h3>
 		<div class="time-box">
@@ -9,7 +11,7 @@
 		      end: '23:59',
 		      maxTime: endTime}">
 	  		</el-time-select>
-	  		<span style="padding:0 10px;">至</span> 
+	  		<span style="padding:0 10px;">至</span>
 			<el-time-select placeholder="结束时间" v-model="endTime"
 			    :picker-options="{
 			      start: '00:00',
@@ -22,6 +24,8 @@
 			<el-button type="primary" class="save-btn" @click="fnTimeSet">保存</el-button>
 		</div>
 	</div>
+    </el-col>
+  </div>
 </template>
 
 <script>
@@ -97,7 +101,6 @@
 	.open-time-set-page{
 		margin:80px auto 0;
 		padding:40px;
-		width: 500px;
 		border:1px solid #d2d2d2;
 		.top-box{
 			height: 60px;

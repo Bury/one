@@ -3,7 +3,9 @@
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
 		</div>
-		<el-table :data="tableData" border height="448" style="width:1204px;text-align:center;">
+    <div style="display: flex;text-align: center">
+      <el-col :span="22">
+		<el-table :data="tableData" border height="448" style="text-align:center;">
 			<el-table-column prop="id" label="ID" width="220"></el-table-column>
 	    	<el-table-column prop="name" label="名称" width="320"></el-table-column>
 	    	<el-table-column prop="sort" label="排序" width="220"></el-table-column>
@@ -20,19 +22,21 @@
 			    	<el-button type="danger" plain icon="el-icon-delete" circle size="small"
 			    		@click="fnRemove(scope.row)"></el-button>
 			    </template>
-		    </el-table-column> 
+		    </el-table-column>
 	    </el-table>
+      </el-col>
+    </div>
 
 	    <!-- 分页 -->
 	    <!--
 	    <div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
-	    	<el-pagination 
+	    	<el-pagination
 				background
-	            class="pagination" 
-	            layout="prev, pager, next" 
-	            small 
-	            @current-change="handleCurrentChange" 
-	            :current-page="pagination.currentPage" 
+	            class="pagination"
+	            layout="prev, pager, next"
+	            small
+	            @current-change="handleCurrentChange"
+	            :current-page="pagination.currentPage"
 	            :page-size="requestParameters.page_size"
 	            :total="pagination.totalCount">
 	        </el-pagination>
@@ -165,23 +169,23 @@
 	        			}else{
 							this.$message.error(res.data.msg);
 	        			}
-	        			
+
 	        		})
 		        }).catch(() => {
 		          // this.$message({
 		          //   type: 'info',
 		          //   message: '已取消删除'
-		          // });          
+		          // });
 		        });
 			},
 			fnEdit(row){
 				console.log(row);
-				this.$data.dialogTitle = '编辑'; 
+				this.$data.dialogTitle = '编辑';
 				this.$data.currentId = row.id;
 				this.$data.ruleForm.name = row.name;
 				this.$data.ruleForm.sort = row.sort;
 				this.$data.dialogFormVisible = true;
-				
+
 			},
 			fnAdds(){
 				this.$data.dialogTitle = '添加';
@@ -223,9 +227,9 @@
 									this.$data.dialogFormVisible = false;
 
 			        			}else{
-									this.$message.error(res.data.msg);	
-								}		        			
-			        			
+									this.$message.error(res.data.msg);
+								}
+
 			        		})
 						}else{
 							let list = {
@@ -253,7 +257,7 @@
 			        			}
 			        		})
 						}
-			        } 
+			        }
 		        });
 			},
 
@@ -276,7 +280,7 @@
 							if(this.$data.dialogForm2[rootIdx].is_permission === 1){
 								var len = checkedId.length;
 								checkedId[len] = this.$data.dialogForm2[rootIdx].id;
-								
+
 							}
 							if(this.$data.dialogForm2[rootIdx].children && this.$data.dialogForm2[rootIdx].children.length>0){
 								for(var j=0; j<this.$data.dialogForm2[rootIdx].children.length; j++){
@@ -284,7 +288,7 @@
 									if(this.$data.dialogForm2[rootIdx].children[childIdx].is_permission === 1){
 										var len = checkedId.length;
 										checkedId[len] = this.$data.dialogForm2[rootIdx].children[childIdx].id;
-										
+
 									}
 								}
 							}
@@ -295,7 +299,7 @@
         				this.$message.error(res.data.msg);
 
         			}
-        			
+
         		})
 				this.$data.dialogForm2Visible = true;
 			},
@@ -318,7 +322,7 @@
         				this.$message.error(res.data.msg);
 
         			}
-        			
+
         		})
 			}
 		}
@@ -344,5 +348,5 @@
 		margin:20px 0;
 	  	float: right;
 	}
-	
+
 </style>
