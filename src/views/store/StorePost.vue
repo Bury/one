@@ -4,11 +4,11 @@
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()" >新增</el-button>
 		</div>
     <div style="display:flex;">
-    <el-col :span="10"  style="text-align:center;">
+    <el-col :span="11"  style="text-align:center;">
 		<el-table :data="tableData" border height="448" style="text-align:center;">
-			<el-table-column fixed prop="id" label="ID" width="100"></el-table-column>
-	    	<el-table-column prop="name" label='岗位名称' width="220"></el-table-column>
-		    <el-table-column label="操作" width="220">
+			<el-table-column fixed prop="id" label="ID" width="120"></el-table-column>
+	    	<el-table-column prop="name" label='岗位名称' width="240"></el-table-column>
+		    <el-table-column label="操作" width="225">
 			    <template slot-scope="scope">
             <el-button type="info" plain icon="el-icon-setting" circle size="small"
                        @click="fnSetting(scope.row)"></el-button>
@@ -35,8 +35,8 @@
 	        </el-pagination>
 	    </div>
 
-	    <!-- 添加、修改 -->
-	    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+	    <!-- 添加-->
+	    <el-dialog title="添加岗位" :visible.sync="dialogFormVisible">
 		  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 			  <el-form-item label="岗位名称：" prop="name">
 			    <el-input v-model="ruleForm.name"></el-input>
@@ -47,6 +47,18 @@
 		    <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
 		  </div>
 		</el-dialog>
+    <!-- 修改 -->
+    <el-dialog title="修改岗位" :visible.sync="editFormVisible">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="岗位名称：" prop="name">
+          <el-input v-model="ruleForm.name"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+      </div>
+    </el-dialog>
 	</div>
 </template>
 <script>
@@ -63,6 +75,7 @@
 		        },
 		        dialogTitle:"",
 				dialogFormVisible: false,
+        editFormVisible: false,
 		        ruleForm: {
 		          	name: '',
 		          	person_in_charge:'',
