@@ -1,0 +1,187 @@
+    import deviceApi from '@/api/device'
+	import deviceVersionApi from '@/api/device_version'
+	import remindApi from '@/api/remind'
+	import storeApi from '@/api/store'
+	export default{
+		name:'device',
+		data(){
+			return{
+				tableData: [],
+				allStores:[],
+				pagination:{
+		        	currentPage:1,
+		        	totalCount:0,
+		        },
+		        allVersions:[],
+		        createdTimes:['',''],
+		        startTimes:['',''],
+		        requestParameters: {
+	                page: 1,
+	                page_size:10,
+	                device_id:'',
+	                version:'',
+	                belong_sid:'',
+	                name:'',
+	                created_at_begin:'',
+	                cteated_at_end:'',
+	                start_at_begin:'',
+	                start_at_end:''
+	            },
+	            distributionFormVisible:false,
+	            distributionForm:{
+	            	device_id:'',
+	            	belong_sid:''
+	            },
+	            operationRules:{},
+
+	            editFormVisible:false,
+	            editForm:{
+	            	device_id:'',
+	            	store_name:'',
+	            	locate:'',
+	            	locate_desc:''
+	            },
+	            editRules:{
+	            	locate_desc:[
+	            		{ required: true, message: '请输入安装位置', trigger: 'blur' },
+		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
+	            	]
+	            }
+			}
+		},
+		created:function(){
+			this.lists();
+			this.getDeviceVersionListsResults();
+			this.getStores();
+		},
+		methods:{
+			lists(){
+				this.$data.requestParameters.created_at_begin = this.$data.createdTimes[0];
+	            this.$data.requestParameters.cteated_at_end = this.$data.createdTimes[1];
+	            this.$data.requestParameters.start_at_begin = this.$data.startTimes[0];
+	            this.$data.requestParameters.start_at_end = this.$data.startTimes[1];
+			    let qs = require('querystring')
+			    console.log(this.$data.requestParameters)
+        		deviceApi.lists(this.$data.requestParameters).then((res) => {
+        			if(res.data.errno === 0){			
+                        this.$data.tableData = res.data.data.list;
+						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
+		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
+                    }else{
+                        this.$message(res.data.msg)
+        			}
+
+        		})
+			},
+			getStores(){
+				storeApi.listsResults().then((res) => {
+        			if(res.data.errno === 0){
+						this.$data.allStores = res.data.data;
+        			}else{
+                        this.$message(res.data.msg)
+        			}
+
+        		})
+			},
+			getDeviceVersionListsResults(){
+				deviceVersionApi.listsResults().then((res) => {
+        			if(res.data.errno === 0){
+						this.$data.allVersions = res.data.data;
+                    }else{
+                        this.$message(res.data.msg)
+        			}
+
+        		})
+			},
+			handleCurrentChange(currentPage) {
+	            
+	            this.$data.requestParameters.page = currentPage;
+	            this.lists();
+	        },
+			onSubmit(){
+				this.lists();
+			},
+			fnDistribution(row){
+				this.$data.distributionForm.belong_sid = row.store.id;
+				this.$data.distributionForm.device_id = row.device_id;
+        		storeApi.listsResults().then((res) => {
+        			if(res.data.errno === 0){
+						this.$data.allStores = res.data.data;
+						this.$data.distributionFormVisible = true;
+        			}else{
+
+        			}
+
+        		})
+			},
+			distributionCancel(){
+				this.$data.distributionFormVisible = false;
+	            this.$data.distributionForm = {
+	            	device_id:'',
+	            	belong_sid:''
+	            };
+			},
+			distributionSubmit(){
+				let qs = require('querystring');
+				
+        		deviceApi.distribution(qs.stringify(this.$data.distributionForm)).then((res) => {
+        			if(res.data.errno === 0){
+						this.lists();
+						this.$data.distributionFormVisible = false;
+        			}else{
+
+        			}
+
+        		})
+			},
+			fnEdit(row){
+				this.$data.editForm = {
+	            	device_id: row.device_id,
+	            	store_name: row.store.name,
+	            	locate: row.locate == '' ? 'other' : row.locate,
+	            	locate_desc: row.locate_desc
+	            },
+				this.$data.editFormVisible = true;
+			},
+			editCancel(){
+				this.$data.editForm = {
+	            	device_id: '',
+	            	store_name: '',
+	            	locate: '',
+	            	locate_desc: ''
+	            }
+				this.$data.editFormVisible = false;
+			},
+			editSubmit(formName){
+				
+				this.$refs[formName].validate((valid) => {
+					
+			        if (valid) {
+						let list = {
+							'id':this.$data.editForm.device_id,
+							'locate': this.$data.editForm.locate,
+	            			'locate_desc': this.$data.editForm.locate_desc
+						}
+						let qs = require('querystring');
+		        		deviceApi.edit(qs.stringify(list)).then((res) => {
+		        			if(res.data.errno === 0){
+								
+								this.$message({
+						            type: 'success',
+						            message: '操作成功'
+					          	});
+								this.lists();
+								this.editCancel();
+		        			}else{
+
+		        			}
+
+		        		})
+			        }
+		        });
+			},
+			handleClick(){
+
+			}
+		}
+	}
