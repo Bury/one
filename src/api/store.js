@@ -87,5 +87,14 @@ export default {
       })
     })
   },
+  switchRepet(list){
+  	return new Promise((resolve, reject) => {
+      axios.post(global.DO_DISTINCT, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  }
 
 }

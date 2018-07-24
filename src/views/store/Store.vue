@@ -10,6 +10,12 @@
           <el-table-column prop="name" label="门店" width="220"></el-table-column>
           <el-table-column prop="person_in_charge" label="负责人" width="140"></el-table-column>
           <el-table-column prop="phone" label="联系方式" width="130"></el-table-column>
+          <el-table-column label="去除重复" width="130">
+          	 <template slot-scope="scope">
+               <el-button v-if="scope.row.is_distinct === 1" type="text" @click="switchRepet(scope.row,0)">开启</el-button>
+               <el-button v-if="scope.row.is_distinct === 0" type="text" @click="switchRepet(scope.row,1)">关闭</el-button>
+            </template>
+          </el-table-column>
           <el-table-column label="操作" width="220">
             <template slot-scope="scope">
               <el-button type="primary" plain icon="el-icon-more" circle size="small"
@@ -105,8 +111,7 @@
 		          	{ required: true, message: '请输入手机号码', trigger: 'blur' },
 		          	{
 		                validator: (rule, value, callback) => {
-		                    if (value.match(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/)
-) {
+		                    if (value.match(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/)) {
 		                        callback();
 		                    } else {
 		                        callback("请输入正确的手机号码！");
@@ -119,7 +124,7 @@
 				requestParameters: {
 	                page: 1,
 	                page_size:10
-	            }
+	            },
 			}
 		},
 		created:function(){
@@ -281,7 +286,26 @@
 	                    StoreName:row.name
 	                }
 				});
-			}
+			},
+			
+			switchRepet(row,flag){
+				let alertmsg= ["关闭去除重复?","开启去除重复？"];
+				let qs = require('querystring');
+				this.$confirm(alertmsg[flag], '提示', {
+		          confirmButtonText: '确定',
+		          cancelButtonText: '取消',
+		          type: 'warning'
+		        }).then(()=>{
+		        	 storeApi.switchRepet(qs.stringify({id:row.id,is_distinct:flag})).then((res) => {
+		        	 	if(res.data.errno === 0){
+		        	 		this.storeLists();
+		        	 	}else{
+		        	 		this.$message(res.data.msg)
+		        	 	}
+		        	 })
+		        })
+			},
+			
 		}
 	}
 </script>

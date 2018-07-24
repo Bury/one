@@ -7,7 +7,7 @@
 			  	</el-form-item>
 			  	<el-form-item label="版本：">
 				    <el-select v-model="requestParameters.version" placeholder="请选择">
-				      <el-option v-for="(item,idx) in allVersions" :label="allVersions[idx].val" :value="allVersions[idx].id" :key="idx"></el-option>
+				      <el-option v-for="(item,idx) in allVersions" :label="allVersions[idx].val" :value="allVersions[idx].val" :key="idx"></el-option>
 				    </el-select>
 			  	</el-form-item>
 			  	<el-form-item label="类型：">
@@ -189,26 +189,15 @@
 	            this.$data.requestParameters.cteated_at_end = this.$data.createdTimes[1];
 	            this.$data.requestParameters.start_at_begin = this.$data.startTimes[0];
 	            this.$data.requestParameters.start_at_end = this.$data.startTimes[1];
-			    let qs = require('querystring');
-        		deviceApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-        			if(res.data.errno === 0){
-						console.log(res)
-
-
-						//待分配的设备没有门店信息
-						var i=0;
-						for(i=0;i<res.data.data.list.length;i++){
-							//if(res.data.data.list[i].belong_sid==0){
-								res.data.data.list[i].store.name='';
-							//}
-						}
-
-						this.$data.tableData = res.data.data.list;
+			    let qs = require('querystring')
+			    console.log(this.$data.requestParameters)
+        		deviceApi.lists(this.$data.requestParameters).then((res) => {
+        			if(res.data.errno === 0){			
+                        this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
-
-        			}else{
-
+                    }else{
+                        this.$message(res.data.msg)
         			}
 
         		})
@@ -226,7 +215,6 @@
 			getDeviceVersionListsResults(){
 				deviceVersionApi.listsResults().then((res) => {
         			if(res.data.errno === 0){
-						console.log(res)
 						this.$data.allVersions = res.data.data;
                     }else{
                         this.$message(res.data.msg)
@@ -264,10 +252,9 @@
 			},
 			distributionSubmit(){
 				let qs = require('querystring');
-				console.log(this.$data.distributionForm)
+				
         		deviceApi.distribution(qs.stringify(this.$data.distributionForm)).then((res) => {
         			if(res.data.errno === 0){
-						console.log(res)
 						this.lists();
 						this.$data.distributionFormVisible = false;
         			}else{
@@ -307,7 +294,7 @@
 						let qs = require('querystring');
 		        		deviceApi.edit(qs.stringify(list)).then((res) => {
 		        			if(res.data.errno === 0){
-								console.log(res)
+								
 								this.$message({
 						            type: 'success',
 						            message: '操作成功'

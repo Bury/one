@@ -1,9 +1,9 @@
 <template>
 
 	<div class="store-set-page">
-		<h4>
-			{{this.$route.query.storeName}}
-		</h4>
+		<h3>
+			{{this.$route.query.StoreName}}
+		</h3>
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
 		</div>
@@ -100,7 +100,7 @@
 			  <el-form-item label="头像：" prop="avatar">
 			    <el-input v-model="addsFormData.avatar" style="display:none;"></el-input>
 			    <img v-if="addsFormData.avatar !== '' " :src="addsFormData.avatar" style="display:inline-block;width:60px;height:60px;border:1px solid #ccc;">
-			    <el-button type="primary" size="small" plain @click="avatarFormVisible=true">选择头像</el-button>
+			    <el-button type="primary" size="small" plain @click="">选择头像</el-button>
 			  </el-form-item>
 			  <el-form-item label="初始密码：" prop="password">
 			    <el-input type="password" v-model="addsFormData.password"></el-input>
@@ -248,10 +248,9 @@
 			//列表
 			accountLists(){
 				this.$data.requestParameters.sid = this.$route.query.StoreId;
-				let qs = require('querystring')
-	    		storeAccountApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
+				let qs = require('querystring');
+				storeAccountApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
 	    			if(res.data.errno === 0){
-						console.log(res);
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
@@ -261,9 +260,8 @@
 	    		})
 	    	},
 	    	handleCurrentChange(currentPage) {
-	            console.log(currentPage)
 	            this.$data.requestParameters.page = currentPage;
-	            this.storeList();
+	            this.accountLists();
 	        },
 
 			fnRemove(row){
@@ -278,7 +276,6 @@
 					let qs = require('querystring')
 	        		storeAccountApi.dele(qs.stringify(list)).then((res) => {
 	        			if(res.data.errno === 0){
-							console.log(res)
 							this.$message({
 					            type: 'success',
 					            message: '操作成功'
@@ -297,7 +294,6 @@
 		        });
 			},
 			fnEdit(row){
-				console.log(row);
 				this.getRoleLists();
 				this.viewAccount(row.id);
 			},
@@ -307,7 +303,6 @@
         			id:id
         		})).then((res) => {
         			if(res.data.errno === 0){
-						console.log(res)
 						this.$data.editFormData = res.data.data;
 						this.$data.editFormVisible = true;
 
@@ -320,8 +315,8 @@
 			getRoleLists(){
 				let qs = require('querystring')
 	    		roleApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
+	    			console.log(res)
 	    			if(res.data.errno === 0){
-						console.log(res);
 						this.$data.allRole = res.data.data.list;
 	    			}else{
 						this.$message.error(res.data.msg);
@@ -338,13 +333,12 @@
 				}
 			},
 			editSubmit(formName){
+				console.log(this.$data.editFormData)
 				this.$refs[formName].validate((valid) => {
-					console.log(valid)
 			        if (valid) {
 						let qs = require('querystring')
 		        		storeAccountApi.edit(qs.stringify(this.$data.editFormData)).then((res) => {
 		        			if(res.data.errno === 0){
-								console.log(res)
 								this.$message({
 						            type: 'success',
 						            message: '操作成功'
@@ -369,7 +363,6 @@
 
 			},
 			fnEditPassword(row){
-				console.log(row)
 				this.$data.changePwdFormVisible = true;
 				this.$data.changePwdFormData = {
 					id:row.id,
@@ -387,13 +380,11 @@
 			},
 			editPasswordSubmit(formName){
 				this.$refs[formName].validate((valid) => {
-					console.log(valid)
 			        if (valid) {
 
 						let qs = require('querystring')
 		        		storeAccountApi.password_edit(qs.stringify(this.$data.changePwdFormData)).then((res) => {
 		        			if(res.data.errno === 0){
-								console.log(res)
 								this.$message({
 						            type: 'success',
 						            message: '操作成功'
@@ -450,13 +441,11 @@
 				this.$data.addsFormData.customer_id=1;
 
 				this.$refs[formName].validate((valid) => {
-					console.log(valid)
 			        if (valid) {
 			        	this.$data.addsFormData.store_id = this.$route.query.StoreId;
 						let qs = require('querystring')
 		        		storeAccountApi.adds(qs.stringify(this.$data.addsFormData)).then((res) => {
 		        			if(res.data.errno === 0){
-								console.log(res)
 								this.$message({
 						            type: 'success',
 						            message: '操作成功'
