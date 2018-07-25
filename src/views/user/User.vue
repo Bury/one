@@ -116,9 +116,11 @@
 			          on-color="#00A854"
 			          on-text="启动"
 			          on-value="1"
+			          active-value="1"
 			          off-color="#F04134"
 			          off-text="禁止"
 			          off-value="0"
+			          inactive-value="0"
 			          @change="changeSwitch()">
 			        </el-switch>
 			  	</template>
@@ -189,7 +191,7 @@
 		          	role_id:'',
 		          	name: '',
 		          	sort: '0',
-		          	status:true
+		          	status:0,
 		        },
 		        currentId:'',
 		        currentName:'',

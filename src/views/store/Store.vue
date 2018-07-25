@@ -49,12 +49,6 @@
 			  <el-form-item label="门店名称：" prop="name">
 			    <el-input v-model="ruleForm.name"></el-input>
 			  </el-form-item>
-			  <el-form-item label="帐号：" prop="person_in_charge">
-			    <el-input v-model="ruleForm.person_in_charge"></el-input>
-			  </el-form-item>
-			  <el-form-item label="密码：" prop="person_in_charge">
-			    <el-input v-model="ruleForm.person_in_charge"></el-input>
-			  </el-form-item>
 			  <el-form-item label="联系电话：" prop="phone">
 			    <el-input v-model="ruleForm.phone"></el-input>
 			  </el-form-item>
