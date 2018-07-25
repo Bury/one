@@ -112,4 +112,11 @@ global.USER_PASSWORD_EDIT = `${SERVER_IP}${COMMON}merchant-account/edit-password
 global.USER_LOGIN = `${SERVER_IP}${COMMON}user/login`
 global.USER_LOGOUT = `${SERVER_IP}${COMMON}user/logout`
 
+//门店角色管理
+global.STORE_ROLE_LIST = `${SERVER_IP}${COMMON}store-role/list`
+global.STORE_ROLE_ADDS = `${SERVER_IP}${COMMON}store-role/adds`
+global.STORE_ROLE_EDIT = `${SERVER_IP}${COMMON}store-role/edit`
+global.STORE_ROLE_DELE = `${SERVER_IP}${COMMON}store-role/dele`
+global.STORE_ROLE_VIEW = `${SERVER_IP}${COMMON}store-role/view`
+
 

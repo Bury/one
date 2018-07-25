@@ -6,7 +6,7 @@ import axios from 'axios'
 export default {
 	lists (list) {
 	    return new Promise((resolve, reject) => {
-	      axios.post(global.ORDER_LISTS,list).then((res) => {
+	      axios.post(global.GET_ORDER_LIST,list).then((res) => {
 	        resolve(res)
 	      }).catch((err) => {
 	        reject(err)
@@ -15,7 +15,7 @@ export default {
 	},
 	dele (list) {
 	    return new Promise((resolve, reject) => {
-	      axios.post(global.ORDER_DELE,list).then((res) => {
+	      axios.post(global.DELE_OTDER,list).then((res) => {
 	        resolve(res)
 	      }).catch((err) => {
 	        reject(err)

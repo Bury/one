@@ -25,50 +25,75 @@
 				</el-form-item>
 			</el-form>
 		</div>
-		<el-menu :default-active="activeIndex" class="el-menu-demo" <el-tabs @tab-click="handleClick">
+		<el-menu  class="el-menu-demo" ><!--:default-active="activeIndex"-->
+      <el-tabs @tab-click="handleClick">
 		    <el-tab-pane label="已分配" name="first"></el-tab-pane>
 		    <el-tab-pane label="待分配" name="second"></el-tab-pane>
 	  	</el-tabs>
+    </el-menu>
+
+      <table width="99%" class="table-bordered">
+        <thead style="background-color: #d1d1d1">
+        <tr height="40">
+          <th class="col-md-1 text-center">ID</th>
+          <th class="col-md-2 text-center">编号</th>
+          <th class="col-md-1 text-center">版本</th>
+          <th class="col-md-1 text-center">类型</th>
+          <th class="col-md-1 text-center">门店</th>
+          <th class="col-md-2 text-center">位置</th>
+          <th class="col-md-1 text-center">运行情况</th>
+          <th class="col-md-1 text-center">是否启用</th>
+          <th class="col-md-1 text-center">添加时间</th>
+        </tr>
+        </thead>
+        <tbody style="text-align: center">
+        <tr v-for="(item,index) in tableData" :key="index" height="40">
+          <!--<td>{{item.id}}</td>-->
+          <!--<td>{{item.name}}</td>-->
+          <!--<td>{{item.person_in_charge}}</td>-->
+          <!--<td>{{item.phone}}</td>-->
+          <td>
+
+          </td>
+        </tr>
+        </tbody>
+      </table>
 
 		<!-- 列表 -->
-    <div style="display: flex;">
-      <el-col :span="24" style="text-align:center;">
-		    <el-table :data="tableData" border  style="width:93.5%;text-align:center;margin: 0 auto;">
-			<el-table-column fixed prop="id" label="ID" width="80%"></el-table-column>
-	    	<el-table-column prop="device_id" label="编号" width="140%"></el-table-column>
-		    <el-table-column prop="version" label="版本" width="100%"></el-table-column>
-		    <el-table-column prop="version" label="类型" width="100%"></el-table-column>
-		    <el-table-column label="门店" width="220%">
-		    	<template slot-scope="scope">
-		    		<span v-if="scope.row.store.name.length>0">
-				          {{scope.row.store.name}}
-				    </span>
-				    <span v-else><el-button @click="fnDistribution(scope.row)" type="text" size="small" >分配</el-button></span>
-		    	</template>
-		    </el-table-column>
-		    <el-table-column label="位置" width="160%">
-		    	<template slot-scope="scope">
-		    		{{scope.row.locate}} —— {{scope.row.locate_desc}}
-		    	</template>
-		    </el-table-column>
-		    <el-table-column prop="status" label="运行情况" width="90%">
-		    	<template slot-scope="scope">
-		    		{{scope.row.status == 0 ? '断开' : '正常'}}
-		    	</template>
-		    </el-table-column>
-		    <el-table-column label="是否启用" width="160%">
-		    	<template slot-scope="scope">
-		    		{{scope.row.is_start == 0 ? '是' : '否'}}
-		    	</template>
-		    </el-table-column>
-		    <el-table-column label="添加时间" width="160%">
-		    	<template slot-scope="scope">
-		    		{{scope.row.created_at | date(2)}}
-		    	</template>
-		    </el-table-column>
-	    </el-table>
-      </el-col>
-  </div>
+    <!--<div style="display: flex;">-->
+      <!--<el-col :span="20" style="text-align:center;">-->
+		    <!--<el-table :data="tableData" border  style="width:93.5%;text-align:center;margin: 0 auto;">-->
+		    <!--<el-table-column label="门店" width="220%">-->
+		    	<!--<template slot-scope="scope">-->
+		    		<!--<span v-if="scope.row.store.name.length>0">-->
+				          <!--{{scope.row.store.name}}-->
+				    <!--</span>-->
+				    <!--<span v-else><el-button @click="fnDistribution(scope.row)" type="text" size="small" >分配</el-button></span>-->
+		    	<!--</template>-->
+		    <!--</el-table-column>-->
+		    <!--<el-table-column label="位置" width="160%">-->
+		    	<!--<template slot-scope="scope">-->
+		    		<!--{{scope.row.locate}} —— {{scope.row.locate_desc}}-->
+		    	<!--</template>-->
+		    <!--</el-table-column>-->
+		    <!--<el-table-column prop="status" label="运行情况" width="90%">-->
+		    	<!--<template slot-scope="scope">-->
+		    		<!--{{scope.row.status == 0 ? '断开' : '正常'}}-->
+		    	<!--</template>-->
+		    <!--</el-table-column>-->
+		    <!--<el-table-column label="是否启用" width="160%">-->
+		    	<!--<template slot-scope="scope">-->
+		    		<!--{{scope.row.is_start == 0 ? '是' : '否'}}-->
+		    	<!--</template>-->
+		    <!--</el-table-column>-->
+		    <!--<el-table-column label="添加时间" width="160%">-->
+		    	<!--<template slot-scope="scope">-->
+		    		<!--{{scope.row.created_at | date(2)}}-->
+		    	<!--</template>-->
+		    <!--</el-table-column>-->
+	    <!--</el-table>-->
+      <!--</el-col>-->
+  <!--</div>-->
 	    <!-- 分页 -->
 		<div v-if="tableData.length > 0" style="margin:0 auto;max-width:1332px;">
 			<el-pagination
@@ -179,6 +204,7 @@
 			this.getStores();
 		},
 		methods:{
+      activeIndex(){},
 			lists(){
 				this.$data.requestParameters.created_at_begin = this.$data.createdTimes[0];
 	            this.$data.requestParameters.cteated_at_end = this.$data.createdTimes[1];

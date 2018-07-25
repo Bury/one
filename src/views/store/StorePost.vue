@@ -3,24 +3,29 @@
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()" >新增</el-button>
 		</div>
-    <div style="display:flex;">
-    <el-col :span="11"  style="text-align:center;">
-		<el-table :data="tableData" border height="448" style="text-align:center;">
-			<el-table-column fixed prop="id" label="ID" width="120"></el-table-column>
-	    	<el-table-column prop="name" label='岗位名称' width="240"></el-table-column>
-		    <el-table-column label="操作" width="225">
-			    <template slot-scope="scope">
-            <el-button type="info" plain icon="el-icon-setting" circle size="small"
-                       @click="fnSetting(scope.row)"></el-button>
-			    	<el-button type="warning" plain icon="el-icon-edit" circle size="small"
-			    		@click="fnEdit(scope.row)"></el-button>
-			    	<el-button type="danger" plain icon="el-icon-delete" circle size="small"
-			    		@click="fnRemove(scope.row)"></el-button>
-			    </template>
-		    </el-table-column>
-	    </el-table>
-    </el-col>
-    </div>
+    <table width="60%" class="table-bordered">
+      <thead style="background-color: #d1d1d1">
+      <tr height="40">
+        <th class="col-md-2 text-center">ID</th>
+        <th class="col-md-5 text-center">岗位名称</th>
+        <th class="col-md-5 text-center">操作</th>
+      </tr>
+      </thead>
+      <tbody style="text-align:center;">
+      <tr v-for="(item,index) in tableData" :key="index">
+        <td height="40px">{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>
+          <el-button type="info" plain icon="el-icon-setting" circle size="small"
+            @click="fnSetting(item)"></el-button>
+            <el-button type="warning" plain icon="el-icon-edit" circle size="small"
+            @click="fnEdit(item)"></el-button>
+            <el-button type="danger" plain icon="el-icon-delete" circle size="small"
+            @click="fnRemove(item)"></el-button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
 	    <!-- 分页 -->
 	    <div v-if="tableData.length > 0" style="margin:0 auto;width:701px;">
 	    	<el-pagination
@@ -62,7 +67,7 @@
 	</div>
 </template>
 <script>
-	import storeApi from '../../api/store'
+	import storeRoleApi from '../../api/store_role'
 
 	export default{
 		name:'store-set',
@@ -70,42 +75,23 @@
 			return{
 				tableData: [],
 				pagination:{
-		        	currentPage:1,
-		        	totalCount:0,
-		        },
-		        dialogTitle:"",
+          currentPage:1,
+          totalCount:0,
+        },
 				dialogFormVisible: false,
         editFormVisible: false,
-		        ruleForm: {
-		          	name: '',
-		          	person_in_charge:'',
-		          	phone:''
-		        },
-		        currentId:'',
-		        rules: {
-		          name: [
-		            { required: true, message: '请输入门店名称', trigger: 'blur' },
-		            { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
-		          ],
-		          person_in_charge:[
-		          	{ required: true, message: '请输入负责人姓名', trigger: 'blur' },
-		            { min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
-		          ],
-		          phone:[
-		          	{ required: true, message: '请输入手机号码', trigger: 'blur' },
-		          	{
-		                validator: (rule, value, callback) => {
-		                    if (value.match(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/)
-) {
-		                        callback();
-		                    } else {
-		                        callback("请输入正确的手机号码！");
-		                    }
-		                },
-		                trigger: 'blur'
-		            }
-		          ]
-		        },
+        ruleForm: {
+            name: '',
+            person_in_charge:'',
+            phone:''
+        },
+        currentId:'',
+        rules: {
+          name: [
+            { required: true, message: '请输入门店岗位名称', trigger: 'blur' },
+            { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
+          ]
+        },
 				requestParameters: {
 	                page: 1,
 	                page_size:10
@@ -113,15 +99,14 @@
 			}
 		},
 		created:function(){
-			this.storeLists();
+			this.storeRoleLists();
 		},
 		methods: {
 			//列表
-			storeLists(){
+			storeRoleLists(){
 				let qs = require('querystring')
-	    		storeApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
+        storeRoleApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
 	    			if(res.data.errno === 0){
-						console.log(res);
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
@@ -132,13 +117,12 @@
 	    	},
 
 	    	handleCurrentChange(currentPage) {
-	            console.log(currentPage)
 	            this.$data.requestParameters.page = currentPage;
-	            this.storeLists();
+	            this.storeRoleLists();
 	        },
 
 			fnRemove(row){
-				this.$confirm('确认删除该门店：'+row.name+' ？', '删除提示', {
+				this.$confirm('确认删除该岗位：'+row.name+' ？', '删除提示', {
 		          confirmButtonText: '确定',
 		          cancelButtonText: '取消',
 		          type: 'warning'
@@ -147,15 +131,13 @@
 						'id': row.id
 					}
 					let qs = require('querystring')
-	        		storeApi.dele(qs.stringify(list)).then((res) => {
-	        			console.log(res)
+          storeRoleApi.dele(qs.stringify(list)).then((res) => {
 	        			if(res.data.errno === 0){
-							console.log(res)
 							this.$message({
 					            type: 'success',
 					            message: '删除成功!'
 					          });
-							this.storeLists();
+							this.storeRoleLists();
 	        			}else{
 							this.$message.error(res.data.msg);
 	        			}
@@ -176,6 +158,9 @@
 				this.$data.dialogFormVisible = true;
 
 			},
+      fnSetting(){
+
+      },
 			fnAdds(){
 				this.$data.dialogTitle = '门店添加';
 				this.$data.currentId = "";
@@ -207,15 +192,15 @@
 					          	'phone':this.$data.ruleForm.phone
 							}
 							let qs = require('querystring')
-			        		storeApi.edit(qs.stringify(list)).then((res) => {
+              storeRoleApi.edit(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
 									console.log(res)
 									this.$message({
-				                      message: '营业时间设置成功',
+				                      message: '岗位名称修改成功',
 				                      type: 'success',
 				                      duration:1500
 				                    });
-									this.storeLists();
+									this.storeRoleLists();
 									this.$data.currentId = '';
 									this.$data.ruleForm = {
 							          	name: '',
@@ -236,15 +221,15 @@
 					          	'phone':this.$data.ruleForm.phone
 						    }
 						    let qs = require('querystring')
-			        		storeApi.adds(qs.stringify(list)).then((res) => {
+              storeRoleApi.adds(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
 									console.log(res)
 									this.$message({
-				                      message: '营业时间设置成功',
+				                      message: '岗位设置成功',
 				                      type: 'success',
 				                      duration:1500
 				                    });
-									this.storeLists();
+									this.storeRoleLists();
 									this.$data.currentId = '';
 									this.$data.ruleForm = {
 							          	name: '',
