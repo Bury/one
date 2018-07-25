@@ -19,13 +19,19 @@
 				<el-form-item label="省/市/区：">
 				    <el-cascader
                       :options="cityData"
-                      v-model="selectedOptions"
-                      :props="props">
+                      v-model="cityCode"
+                      :props="props"
+                      @change="searchStore">
                     </el-cascader>
 				</el-form-item>	
 				<el-form-item label="门店：">
-				    <el-select v-model="requestParameters.belong_sid" placeholder="请选择">
-				        <el-option v-for="(item,idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id" :key="idx"></el-option>
+				    <el-select v-model="requestParameters.belong_sid" placeholder="请选择" :no-data-text="nodatatext">
+				        <el-option 
+				        	v-for="(item,idx) in allStores" 
+				        	:label="allStores[idx].name" 
+				        	:value="allStores[idx].id" 
+				        	:key="idx">
+				        </el-option>
 				    </el-select>
 				</el-form-item>
 				<el-form-item>
@@ -33,7 +39,7 @@
 				</el-form-item>
 			</el-form>
 		</div>
-	    <el-tabs @tab-click="handleClick">
+	    <el-tabs value="first" @tab-click="handleClick">
 		    <el-tab-pane label="已分配" name="first"></el-tab-pane>
 		    <el-tab-pane label="待分配" name="second"></el-tab-pane>
 	  	</el-tabs>
@@ -110,13 +116,19 @@
 			    <el-form-item label="省/市/区：">
 				    <el-cascader
                       :options="cityData"
-                      v-model="selectedOptions"
-                      :props="props">
+                      v-model="dialogCityCode"
+                      :props="props"
+                      @change="dialogStore">
                     </el-cascader>
 				</el-form-item>			    
 			    <el-form-item label="所属门店：" prop="belong_sid">
-			    	<el-select v-model="distributionForm.belong_sid" placeholder="请选择">
-				        <el-option v-for="(item,idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id" :key="idx"></el-option>
+			    	<el-select v-model="distributionForm.belong_sid" placeholder="请选择" :no-data-text="nodatatext">
+				        <el-option 
+				        	v-for="(item,idx) in allStores" 
+				        	:label="allStores[idx].name" 
+				        	:value="allStores[idx].id" 
+				        	:key="idx">
+				        </el-option>
 				    </el-select>
 			    </el-form-item>
 		    </el-form>

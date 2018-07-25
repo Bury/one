@@ -49,10 +49,8 @@
 			  <el-form-item label="名称：" prop="name">
 			    <el-input v-model="ruleForm.name"></el-input>
 			  </el-form-item>
-		  </el-form>
-		  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 			  <el-form-item label="排序：" prop="sort">
-			    <el-input v-model="ruleForm.sort" :maxlength="2" style="width:60px"></el-input>
+			    <el-input v-model="ruleForm.sort"  style="width:60px"></el-input>
 			  </el-form-item>
 		  </el-form>
 		  <div slot="footer" class="dialog-footer">
@@ -110,7 +108,14 @@
 		          ],
 		          sort: [
 		            { required: true, message: '请输入排序', trigger: 'blur' },
-		            { min: 1, max: 2, message: '长度在 1 到 2 个数字', trigger: 'blur' }
+		            { validator:(rule,value,callback) =>{
+	        			if(/^[0-9]{1,2}$/.test(value)){
+	        				callback();
+	        			}else{
+	        				callback("长度在 1 到 2 个数字")
+	        			}
+	        		 },
+	        		trigger:'blur'}
 		          ]
 		        },
 		        dialogForm2Visible:false,
@@ -198,7 +203,7 @@
 				this.$data.dialogFormVisible = false;
 				this.$data.dialogForm2Visible = false;
 				this.$data.ruleForm.name = '';
-				this.$data.ruleForm.name = 0;
+				this.$data.ruleForm.sort = 0;
 				this.$data.currentId = '';
 			},
 			submitForm(formName){

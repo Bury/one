@@ -26,7 +26,8 @@
 	                created_at_begin:'',
 	                cteated_at_end:'',
 	                start_at_begin:'',
-	                start_at_end:''
+	                start_at_end:'',
+	                is_allocate:1
 	            },
 	            distributionFormVisible:false,
 	            distributionForm:{
@@ -49,18 +50,19 @@
 	            	]
 	            },
 	            cityData:[],
-	            selectedOptions:[],
+	            cityCode:[],
+	            dialogCityCode:[],
 	            props:{
 	            	value:'code',
 	            	label:'name',
 	            	children:"children"
-	            }
+	            },
+	            nodatatext:"请选择省市区"
 			}
 		},
 		created:function(){
 			this.lists();
 			this.getDeviceVersionListsResults();
-			this.getStores();
 			this.getCityData()
 		},
 		methods:{
@@ -82,14 +84,13 @@
         		})
 			},
 			getStores(){
-				storeApi.listsResults().then((res) => {
-        			if(res.data.errno === 0){
-						this.$data.allStores = res.data.data;
-        			}else{
-                        this.$message(res.data.msg)
-        			}
-
-        		})
+//				storeApi.listsResults().then((res) => {
+//      			if(res.data.errno === 0){
+//						this.$data.allStores = res.data.data;
+//      			}else{
+//                      this.$message(res.data.msg)
+//      			}
+//              })
 			},
 			getDeviceVersionListsResults(){
 				deviceVersionApi.listsResults().then((res) => {
@@ -112,15 +113,9 @@
 			fnDistribution(row){
 				this.$data.distributionForm.belong_sid = row.store.id;
 				this.$data.distributionForm.device_id = row.device_id;
-        		storeApi.listsResults().then((res) => {
-        			if(res.data.errno === 0){
-						this.$data.allStores = res.data.data;
-						this.$data.distributionFormVisible = true;
-        			}else{
-
-        			}
-
-        		})
+				this.$data.nodatatext = "请选择省市区";
+				this.$data.dialogCityCode  = [];
+				this.$data.distributionFormVisible = true;
 			},
 			distributionCancel(){
 				this.$data.distributionFormVisible = false;
@@ -130,8 +125,7 @@
 	            };
 			},
 			distributionSubmit(){
-				let qs = require('querystring');
-				
+				let qs = require('querystring');				
         		deviceApi.distribution(qs.stringify(this.$data.distributionForm)).then((res) => {
         			if(res.data.errno === 0){
 						this.lists();
@@ -188,8 +182,17 @@
 			        }
 		        });
 			},
-			handleClick(){
-
+			handleClick(dom){
+				switch (dom.name){
+					case "first":
+					    this.$data.requestParameters.is_allocate = 1;
+                	    this.lists();
+                	    break;
+                	case "second":
+                	    this.$data.requestParameters.is_allocate = 0;
+                	    this.lists();
+                	    break;
+                }
 			},
 			getCityData(){
 				 getCity.getCityData().then((res) => {
@@ -199,6 +202,27 @@
         				this.$message(res.statusText)
         			}
         		})
+			},			
+			getStore(t){
+				let qs = require('querystring');
+				 storeApi.getStoreResult(qs.stringify({locate:t[t.length - 1]})).then((res) => {
+        			if(res.data.errno === 0){
+      				     if(res.data.data != null && res.data.data.length>0){
+      				     	this.$data.allStores = res.data.data;
+      				     }else{
+      				     	this.$data.nodatatext = "此地区暂无门店";
+      				     	this.$data.distributionForm.belong_sid = "";
+      				     }      				     
+        			}else{
+        				this.$message(res.statusText)
+        			}
+        		})
+			},
+			searchStore(){
+				this.getStore(this.$data.cityCode)
+			},
+			dialogStore(){				
+				this.getStore(this.$data.dialogCityCode)
 			}
 		}
 	}

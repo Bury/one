@@ -66,6 +66,7 @@ global.STORE_ADDS = `${SERVER_IP}${COMMON}store/adds`
 global.STORE_EDIT = `${SERVER_IP}${COMMON}store/edit`
 global.STORE_DELE = `${SERVER_IP}${COMMON}store/dele`
 global.DO_DISTINCT = `${SERVER_IP}${COMMON}store/do-distinct` //门店去重
+global.STORE_LISTS_RESULT = `${SERVER_IP}${COMMON}store/list_result`//根据城市选择门店
 
 //帐号管理
 global.STORE_USER_LISTS = `${SERVER_IP}${COMMON}account/list`
