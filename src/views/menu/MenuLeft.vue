@@ -41,18 +41,21 @@
                     <span slot="title">门店管理</span>
                 </template>
                 <router-link :to="{name: 'Store'}">
-                    <el-menu-item index="/Store">
+                    <el-menu-item index="/Store" style="padding-left:53px;">
                         <span slot="title">门店列表</span>
                     </el-menu-item>
                 </router-link>
                 <router-link :to="{name: 'StorePost'}">
-                    <el-menu-item index="/StorePost">门店岗位</el-menu-item>
-                </router-link>
-                <router-link :to="{name: 'StoreRemind'}">
-                    <el-menu-item index="/StoreRemind">到店提醒</el-menu-item>
+                    <el-menu-item index="/StorePost" style="padding-left:53px;">门店岗位</el-menu-item>
                 </router-link>
                 <router-link :to="{name: 'StoreTime'}">
-                    <el-menu-item index="/StoreTime">营业时间</el-menu-item>
+                    <el-menu-item index="/StoreTime" style="padding-left:53px;">营业时间</el-menu-item>
+                </router-link>
+                <router-link :to="{name: 'StoreRemind'}">
+                    <el-menu-item index="/StoreRemind" style="padding-left:53px;">来客提醒</el-menu-item>
+                </router-link>
+                <router-link :to="{name: 'StoreTime'}">
+                    <el-menu-item index="/StoreTime" style="padding-left:53px;">来客标签</el-menu-item>
                 </router-link>
             </el-submenu>
 
@@ -62,13 +65,13 @@
                     <span slot="title">系统设置</span>
                 </template>
                 <router-link :to="{name: 'Department'}">
-                    <el-menu-item index="/Department">部门管理</el-menu-item>
+                    <el-menu-item index="/Department" style="padding-left:53px;">部门管理</el-menu-item>
                 </router-link>
                 <router-link :to="{name: 'Role'}">
-                    <el-menu-item index="/Role">岗位管理</el-menu-item>
+                    <el-menu-item index="/Role" style="padding-left:53px;">岗位管理</el-menu-item>
                 </router-link>
                 <router-link :to="{name: 'User'}">
-                    <el-menu-item index="/User">帐号管理</el-menu-item>
+                    <el-menu-item index="/User" style="padding-left:53px;">帐号管理</el-menu-item>
                 </router-link>
             </el-submenu>
         </el-menu>

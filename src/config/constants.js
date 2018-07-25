@@ -51,6 +51,10 @@ global.DEVICE_LISTS = `${SERVER_IP}${COMMON}device/list`
 global.DEVICE_EDIT = `${SERVER_IP}${COMMON}device/edit`
 global.DEVICE_DISTRIBUTION = `${SERVER_IP}${COMMON}device/camera-depoly`
 global.STORE_DEVICE_SUM_LISTS = `${SERVER_IP}${COMMON}device/device-list`
+
+//设备版本
+global.DEVICE_VERSION_LISTS_RESULTS = `${SERVER_IP}${COMMON}device-version/lists_results`
+
 // post device/operation 按门店分配
 global.SET_OPERATION = `${SERVER_IP}${COMMON}device/operation`
 
@@ -61,6 +65,8 @@ global.STORE_LISTS_RESULTS = `${SERVER_IP}${COMMON}store/lists_results`//全部�
 global.STORE_ADDS = `${SERVER_IP}${COMMON}store/adds`
 global.STORE_EDIT = `${SERVER_IP}${COMMON}store/edit`
 global.STORE_DELE = `${SERVER_IP}${COMMON}store/dele`
+global.DO_DISTINCT = `${SERVER_IP}${COMMON}store/do-distinct` //门店去重
+global.STORE_LISTS_RESULT = `${SERVER_IP}${COMMON}store/list_result`//根据城市选择门店
 
 //帐号管理
 global.STORE_USER_LISTS = `${SERVER_IP}${COMMON}account/list`
@@ -69,6 +75,15 @@ global.STORE_USER_VIEW = `${SERVER_IP}${COMMON}account/view`
 global.STORE_USER_EDIT = `${SERVER_IP}${COMMON}account/edit`
 global.STORE_USER_DELE = `${SERVER_IP}${COMMON}account/dele`
 global.STORE_USER_PASSWORD_EDIT = `${SERVER_IP}${COMMON}account/edit-password`
+
+//新账号管理
+global.STORE_ACCOUNT_LISTS = `${SERVER_IP}${COMMON}merchant-account/list`
+global.STORE_ACCOUNT_ADDS = `${SERVER_IP}${COMMON}merchant-account/adds`
+global.STORE_ACCOUNT_VIEW = `${SERVER_IP}${COMMON}merchant-account/view`
+global.STORE_ACCOUNT_EDIT = `${SERVER_IP}${COMMON}merchant-account/edit`
+global.STORE_ACCOUNT_DELE = `${SERVER_IP}${COMMON}merchant-account/dele`
+global.STORE_ACCOUNT_PASSWORD_EDIT = `${SERVER_IP}${COMMON}account/edit-password`
+
 
 //提醒设置
 global.STORE_REMIND_VIEW = `${SERVER_IP}${COMMON}store-config/view-remind`
@@ -90,11 +105,11 @@ global.DEPARTMENT_EDIT = `${SERVER_IP}${COMMON}department/edit`
 global.DEPARTMENT_DELE = `${SERVER_IP}${COMMON}department/dele`
 
 //商家角色管理
-global.ROLE_LISTS = `${SERVER_IP}${COMMON}role/list`
-global.ROLE_LISTS_RESULTS = `${SERVER_IP}${COMMON}role/list_results`
-global.ROLE_ADDS = `${SERVER_IP}${COMMON}role/adds`
-global.ROLE_EDIT = `${SERVER_IP}${COMMON}role/edit`
-global.ROLE_DELE = `${SERVER_IP}${COMMON}role/dele`
+global.ROLE_LISTS = `${SERVER_IP}${COMMON}merchant-role/list`
+global.ROLE_LISTS_RESULTS = `${SERVER_IP}${COMMON}merchant-role/list_results`
+global.ROLE_ADDS = `${SERVER_IP}${COMMON}merchant-role/adds`
+global.ROLE_EDIT = `${SERVER_IP}${COMMON}merchant-role/edit`
+global.ROLE_DELE = `${SERVER_IP}${COMMON}merchant-role/dele`
 
 //permisstion
 // global.ROLE_PERMISSION_VIEW = `${SERVER_IP}${COMMON}role/view-permission`

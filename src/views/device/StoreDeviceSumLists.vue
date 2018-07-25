@@ -6,6 +6,7 @@
 	    	<el-table-column prop="count" label="总数" min-width="160"></el-table-column>
 	    	<el-table-column prop="count" label="待分配数" min-width="160"></el-table-column>
 		    <el-table-column label="操作" min-width="160">
+
 			    <template slot-scope="scope">
 			    	<el-button @click="fnGoPage(scope.row)" type="text" size="small">详情</el-button>
 			    </template>
@@ -53,7 +54,6 @@
 				let qs = require('querystring');
 				deviceApi.storeDeviceSumLists(qs.stringify(this.$data.requestParameters)).then((res) => {
         			if(res.data.errno === 0){
-						console.log(res)
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
@@ -64,7 +64,6 @@
         		})
 			},
 			handleCurrentChange(currentPage) {
-	            console.log(currentPage)
 	            this.$data.requestParameters.page = currentPage;
 	            this.storeDeviceSumLists();
 	        },
