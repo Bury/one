@@ -52,17 +52,16 @@
 			  <el-form-item label="联系电话：" prop="phone">
 			    <el-input v-model="ruleForm.phone"></el-input>
 			  </el-form-item>
-			  <el-form-item label="省份：" prop="phone">
-
-			  </el-form-item>
-			  <el-form-item label="城市：" prop="phone">
-
-			  </el-form-item>
-			  <el-form-item label="地区：" prop="phone">
-
-			  </el-form-item>
-			  <el-form-item label="详细地址：" prop="phone">
-			    <el-input v-model="ruleForm.phone"></el-input>
+			  <el-form-item label="省/市/区：">
+				    <el-cascader
+                      :options="cityData"
+                      v-model="cityArr"
+                      :props="props"
+                      @change="getCityCode">
+                    </el-cascader>
+				</el-form-item>	
+			  <el-form-item label="详细地址：" prop="address">
+			    <el-input v-model="ruleForm.address"></el-input>
 			  </el-form-item>
 		  </el-form>
 		  <div slot="footer" class="dialog-footer">

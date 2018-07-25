@@ -76,13 +76,16 @@ global.STORE_USER_EDIT = `${SERVER_IP}${COMMON}account/edit`
 global.STORE_USER_DELE = `${SERVER_IP}${COMMON}account/dele`
 global.STORE_USER_PASSWORD_EDIT = `${SERVER_IP}${COMMON}account/edit-password`
 
-//新账号管理
-global.STORE_ACCOUNT_LISTS = `${SERVER_IP}${COMMON}merchant-account/list`
-global.STORE_ACCOUNT_ADDS = `${SERVER_IP}${COMMON}merchant-account/adds`
-global.STORE_ACCOUNT_VIEW = `${SERVER_IP}${COMMON}merchant-account/view`
-global.STORE_ACCOUNT_EDIT = `${SERVER_IP}${COMMON}merchant-account/edit`
-global.STORE_ACCOUNT_DELE = `${SERVER_IP}${COMMON}merchant-account/dele`
-global.STORE_ACCOUNT_PASSWORD_EDIT = `${SERVER_IP}${COMMON}account/edit-password`
+//新门店账号管理
+global.STORE_ACCOUNT_LISTS = `${SERVER_IP}${COMMON}store-account/list`
+global.STORE_ACCOUNT_ADDS = `${SERVER_IP}${COMMON}store-account/adds`
+global.STORE_ACCOUNT_VIEW = `${SERVER_IP}${COMMON}store-account/view`
+global.STORE_ACCOUNT_EDIT = `${SERVER_IP}${COMMON}store-account/edit`
+global.STORE_ACCOUNT_DELE = `${SERVER_IP}${COMMON}store-account/dele`
+global.STORE_ACCOUNT_PASSWORD_EDIT = `${SERVER_IP}${COMMON}store-account/edit-password`
+
+//门店角色管理
+global.STORE_ROLE_LIST = `${SERVER_IP}${COMMON}store-role/list`
 
 
 //提醒设置
