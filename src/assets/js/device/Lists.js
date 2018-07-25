@@ -2,6 +2,7 @@
 	import deviceVersionApi from '@/api/device_version'
 	import remindApi from '@/api/remind'
 	import storeApi from '@/api/store'
+	import getCity from '@/api/getCity'
 	export default{
 		name:'device',
 		data(){
@@ -46,6 +47,13 @@
 	            		{ required: true, message: '请输入安装位置', trigger: 'blur' },
 		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
 	            	]
+	            },
+	            cityData:[],
+	            selectedOptions:[],
+	            props:{
+	            	value:'code',
+	            	label:'name',
+	            	children:"children"
 	            }
 			}
 		},
@@ -53,6 +61,7 @@
 			this.lists();
 			this.getDeviceVersionListsResults();
 			this.getStores();
+			this.getCityData()
 		},
 		methods:{
 			lists(){
@@ -61,9 +70,8 @@
 	            this.$data.requestParameters.start_at_begin = this.$data.startTimes[0];
 	            this.$data.requestParameters.start_at_end = this.$data.startTimes[1];
 			    let qs = require('querystring')
-			    console.log(this.$data.requestParameters)
         		deviceApi.lists(this.$data.requestParameters).then((res) => {
-        			if(res.data.errno === 0){			
+        			if(res.data.errno === 0){	
                         this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
@@ -182,6 +190,15 @@
 			},
 			handleClick(){
 
+			},
+			getCityData(){
+				 getCity.getCityData().then((res) => {
+        			if(res.status === 200){
+        				 this.$data.cityData = res.data
+        			}else{
+        				this.$message(res.statusText)
+        			}
+        		})
 			}
 		}
 	}

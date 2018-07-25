@@ -16,6 +16,13 @@
                         <el-option label="其他" value="other"></el-option>
 				    </el-select>
 				</el-form-item>
+				<el-form-item label="省/市/区：">
+				    <el-cascader
+                      :options="cityData"
+                      v-model="selectedOptions"
+                      :props="props">
+                    </el-cascader>
+				</el-form-item>	
 				<el-form-item label="门店：">
 				    <el-select v-model="requestParameters.belong_sid" placeholder="请选择">
 				        <el-option v-for="(item,idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id" :key="idx"></el-option>
@@ -48,7 +55,7 @@
 		    		<span v-if="scope.row.store.name.length>0">
 				          {{scope.row.store.name}}
 				    </span>
-				    <span v-else><el-button @click="fnDistribution(scope.row)" type="text" size="small" >分配</el-button></span>
+				    <span v-else>未分配</span>
 		    	</template>
 		    </el-table-column>
 		    <el-table-column label="位置" width="160%">
@@ -71,6 +78,14 @@
 		    		{{scope.row.created_at | date(2)}}
 		    	</template>
 		    </el-table-column>
+		    <el-table-column  label="操作" width="160%">
+		        <template slot-scope="scope">
+		    		<span v-if="scope.row.store.name.length>0">
+				          <el-button @click="fnDistribution(scope.row)" type="text" size="small" >重新分配</el-button>
+				    </span>
+				    <span v-else><el-button @click="fnDistribution(scope.row)" type="text" size="small" >分配</el-button></span>
+		    	</template>
+		    </el-table-column>
 	    </el-table>
       </el-col>
   </div>
@@ -90,8 +105,15 @@
 
 		<!-- 分配 -->
 		<el-dialog title="分配" :visible.sync="distributionFormVisible">
-			<div style="margin-bottom:20px;"><span style="display:inline-block;width:100px;text-align:center;">设备编号：</span>{{distributionForm.device_id}}</div>
+			<div style="margin-bottom:20px;"><span style="display:inline-block;width:106px;text-align:center;">设备编号：</span>{{distributionForm.device_id}}</div>
 		 	<el-form :model="distributionForm" :rules="operationRules" ref="distributionForm" label-width="100px" class="demo-ruleForm" style="margin-bottom:50px;">
+			    <el-form-item label="省/市/区：">
+				    <el-cascader
+                      :options="cityData"
+                      v-model="selectedOptions"
+                      :props="props">
+                    </el-cascader>
+				</el-form-item>			    
 			    <el-form-item label="所属门店：" prop="belong_sid">
 			    	<el-select v-model="distributionForm.belong_sid" placeholder="请选择">
 				        <el-option v-for="(item,idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id" :key="idx"></el-option>
