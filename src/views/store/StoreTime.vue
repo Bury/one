@@ -1,6 +1,6 @@
 <template>
   <div style="display: flex;text-align: center">
-    <el-col :span="11">
+    <el-col :span="12">
 	<div class="open-time-set-page">
 		<h3 class="top-box">营业时间设置</h3>
 		<div class="time-box">

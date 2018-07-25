@@ -67,7 +67,7 @@
                 if(res.data.errno === 0){
                     console.log(res)
                     this.$message({
-                      message: '营业时间设置成功',
+                      message: '到店提醒设置成功',
                       type: 'success',
                       duration:1500
                     });

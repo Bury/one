@@ -4,16 +4,16 @@
 			{{this.$route.query.storeName}}
 		</h4>
 		<!-- 列表 -->
-		<el-table :data="tableData" border style="width:1132px;text-align:center;">
-			<el-table-column fixed prop="id" label="ID" width="100"></el-table-column>
-	    	<el-table-column fixed prop="device_id" label="编号" width="120"></el-table-column>
-	    	<el-table-column prop="version" label="版本" width="100"></el-table-column>
+		<el-table :data="tableData" border style="width:99%;text-align:center;">
+			<el-table-column fixed prop="id" label="ID" min-width="100"></el-table-column>
+	    	<el-table-column fixed prop="device_id" label="编号" min-width="120"></el-table-column>
+	    	<el-table-column prop="version" label="版本" min-width="100"></el-table-column>
 	    	<el-table-column label="类型" width="120">
 	    		<template slot-scope="scope">
 	    			{{scope.row.type == 'face' ? '人脸摄像头' : scope.row.type}}
 	    		</template>
 	    	</el-table-column>
-		    <el-table-column label="安装位置" width="160">
+		    <el-table-column label="安装位置" min-width="160">
 		    	<template slot-scope="scope">
 		    		{{scope.row.locate}} —— {{scope.row.locate_desc}}
 		    	</template>
@@ -28,12 +28,12 @@
 		    		{{scope.row.is_start == 0 ? '是' : '否'}}
 		    	</template>
 		    </el-table-column>
-		    <el-table-column label="添加时间" width="160">
+		    <el-table-column label="添加时间" min-width="160">
 		    	<template slot-scope="scope">
 		    		{{scope.row.created_at | date(4)}}
 		    	</template>
 		    </el-table-column>
-		    <el-table-column fixed="right" label="操作" width="120">
+		    <el-table-column fixed="right" label="操作" min-width="120">
 			    <template slot-scope="scope">
 			        <el-button @click="fnOperation(scope.row)" type="text" size="small">分配</el-button>
 			    </template>
@@ -42,13 +42,13 @@
 
 	    <!-- 分页 -->
 		<div v-if="tableData.length > 0" style="margin:0 auto;max-width:1332px;">
-			<el-pagination 
+			<el-pagination
 				background
-	            class="pagination" 
-	            layout="prev, pager, next" 
-	            small 
-	            @current-change="handleCurrentChange" 
-	            :current-page="pagination.currentPage" 
+	            class="pagination"
+	            layout="prev, pager, next"
+	            small
+	            @current-change="handleCurrentChange"
+	            :current-page="pagination.currentPage"
 	            :page-size="requestParameters.page_size"
 	            :total="pagination.totalCount">
 	        </el-pagination>
@@ -89,7 +89,7 @@
 				    </el-select>
 			    </el-form-item>
 		    </el-form>
-		 	
+
 		  <div slot="footer" class="dialog-footer">
 		    <el-button @click="operationCancel">取 消</el-button>
 		    <el-button type="primary" @click="operationSubmit">确 定</el-button>
@@ -120,7 +120,7 @@
 	            },
 	            operationFormVisible:false,
 	            operationForm:{
-	            	
+
 	            },
 			}
 		},
@@ -134,7 +134,7 @@
 			    let qs = require('querystring');
         		deviceApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
         			if(res.data.errno === 0){
-						console.log(res) 
+						console.log(res)
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
@@ -142,19 +142,19 @@
         			}else{
 
         			}
-        			
+
         		})
 			},
 			allVersion(){
 				deviceApi.allVersion().then((res) => {
         			if(res.data.errno === 0){
-						console.log(res) 
+						console.log(res)
 						this.$data.allVersions = res.data.data;
 
         			}else{
 
         			}
-        			
+
         		})
 			},
 			handleCurrentChange(currentPage) {
@@ -176,11 +176,11 @@
         			if(res.data.errno === 0){
 						console.log(res)
 						this.$data.allStores = res.data.data;
-						
+
         			}else{
 
         			}
-        			
+
         		})
         		this.$data.operationFormVisible = true;
 			},
@@ -195,7 +195,7 @@
 					status:'',
 					store_id:''
 				}
-	            
+
 			},
 			operationSubmit(){
 				let list = {
@@ -206,16 +206,16 @@
 				let qs = require('querystring');
         		deviceApi.setOperation(qs.stringify(list)).then((res) => {
         			if(res.data.errno === 0){
-						console.log(res) 
+						console.log(res)
 						this.deviceList();
 						this.$data.operationFormVisible = false;
         			}else{
 
         			}
-        			
+
         		})
 			},
-			
+
 		}
 	}
 </script>
