@@ -26,15 +26,16 @@
 	            editFormData:{
 	            	id:'',
 	            	username:'',
-	            	desc:'',
-	            	role_name:''
+	            	truename:'',
+	            	phone:'',
+	            	role_id:''
 	            },
 	            editRules:{
 	            	username: [
 		            	{ required: true, message: '请输入帐号', trigger: 'blur' },
 		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
 		          	],
-		          	desc:[
+		          	truename:[
 		          		{ required: true, message: '请输入姓名', trigger: 'blur' },
 		            	{ min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
 		          	],
@@ -206,9 +207,10 @@
 				this.$data.editFormVisible = false;
 				this.$data.editFormData = {
 					id:'',
-					username:'',
-					desc:'',
-					role_id:''
+	            	username:'',
+	            	truename:'',
+	                phone:'',
+	                role_id:''
 				}
 			},
 			editSubmit(formName){
@@ -216,7 +218,7 @@
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
 						let qs = require('querystring')
-						console.log(qs.stringify(this.$data.editFormData))
+						console.log(this.$data.editFormData)
 		        		storeAccountApi.edit(qs.stringify(this.$data.editFormData)).then((res) => {
 		        			if(res.data.errno === 0){
 		        				console.log(res)
@@ -227,9 +229,10 @@
 								this.accountLists();
 								this.$data.editFormData = {
 									id:'',
-									username:'',
-									desc:'',
-									role_id:''
+	            	                username:'',
+	            	                truename:'',
+	                              	phone:'',
+	                             	role_id:''
 								}
 								this.$data.editFormVisible = false;
 

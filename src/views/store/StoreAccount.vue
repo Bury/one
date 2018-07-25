@@ -52,8 +52,8 @@
 			  <el-form-item label="帐号：" prop="username">
 			    <el-input v-model="editFormData.username"></el-input>
 			  </el-form-item>
-			  <el-form-item label="姓名：" prop="desc">
-			    <el-input v-model="editFormData.desc"></el-input>
+			  <el-form-item label="姓名：" prop="truename">
+			    <el-input v-model="editFormData.truename"></el-input>
 			  </el-form-item>
 			  <el-form-item label="角色：" prop="role_id">
 			    <el-select v-model="editFormData.role_id" placeholder="请选择">
