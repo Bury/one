@@ -73,8 +73,9 @@
 	            this.$data.requestParameters.start_at_end = this.$data.startTimes[1];
 			    let qs = require('querystring')
         		deviceApi.lists(this.$data.requestParameters).then((res) => {
-        			if(res.data.errno === 0){	
+        			if(res.data.errno === 0){
                         this.$data.tableData = res.data.data.list;
+                        console.log(this.$data.tableData);
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
                     }else{
@@ -103,7 +104,7 @@
         		})
 			},
 			handleCurrentChange(currentPage) {
-	            
+
 	            this.$data.requestParameters.page = currentPage;
 	            this.lists();
 	        },
@@ -125,7 +126,7 @@
 	            };
 			},
 			distributionSubmit(){
-				let qs = require('querystring');				
+				let qs = require('querystring');
         		deviceApi.distribution(qs.stringify(this.$data.distributionForm)).then((res) => {
         			if(res.data.errno === 0){
 						this.lists();
@@ -155,9 +156,9 @@
 				this.$data.editFormVisible = false;
 			},
 			editSubmit(formName){
-				
+
 				this.$refs[formName].validate((valid) => {
-					
+
 			        if (valid) {
 						let list = {
 							'id':this.$data.editForm.device_id,
@@ -167,7 +168,7 @@
 						let qs = require('querystring');
 		        		deviceApi.edit(qs.stringify(list)).then((res) => {
 		        			if(res.data.errno === 0){
-								
+
 								this.$message({
 						            type: 'success',
 						            message: '操作成功'
@@ -202,7 +203,7 @@
         				this.$message(res.statusText)
         			}
         		})
-			},			
+			},
 			getStore(t){
 				let qs = require('querystring');
 				 storeApi.getStoreResult(qs.stringify({locate:t[t.length - 1]})).then((res) => {
@@ -212,7 +213,7 @@
       				     }else{
       				     	this.$data.nodatatext = "此地区暂无门店";
       				     	this.$data.distributionForm.belong_sid = "";
-      				     }      				     
+      				     }
         			}else{
         				this.$message(res.statusText)
         			}
@@ -221,7 +222,7 @@
 			searchStore(){
 				this.getStore(this.$data.cityCode)
 			},
-			dialogStore(){				
+			dialogStore(){
 				this.getStore(this.$data.dialogCityCode)
 			}
 		}

@@ -1,17 +1,26 @@
 <template>
 	<div class="store-box">
-		<el-table :data="tableData" border style="width:781px;text-align:center;">
-			<el-table-column fixed prop="id" label="ID" width="100"></el-table-column>
-	    	<el-table-column prop="name" label="门店" min-width="200"></el-table-column>
-	    	<el-table-column prop="count" label="总数" min-width="160"></el-table-column>
-	    	<el-table-column prop="count" label="待分配数" min-width="160"></el-table-column>
-		    <el-table-column label="操作" min-width="160">
+    <table width="80%" class="table-bordered">
+      <thead style="background-color: #d1d1d1">
+      <tr height="40">
+        <th class="col-md-2 text-center">ID</th>
+        <th class="col-md-3 text-center">门店</th>
+        <th class="col-md-2 text-center">总数</th>
+        <th class="col-md-2 text-center">待分配数</th>
+        <th class="col-md-3 text-center">操作</th>
+      </tr>
+      </thead>
+      <tbody style="text-align: center">
+      <tr v-for="(item,index) in tableData" :key="index" height="40">
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td></td>
+        <td></td>
+        <td><el-button @click="fnGoPage(scope.row)" type="text" size="small">详情</el-button></td>
 
-			    <template slot-scope="scope">
-			    	<el-button @click="fnGoPage(scope.row)" type="text" size="small">详情</el-button>
-			    </template>
-		    </el-table-column>
-	    </el-table>
+      </tr>
+      </tbody>
+    </table>
 
 	    <!-- 分页 -->
 		<div v-if="tableData.length > 0" style="margin:0 auto;max-width:521px;">
@@ -55,6 +64,7 @@
 				deviceApi.storeDeviceSumLists(qs.stringify(this.$data.requestParameters)).then((res) => {
         			if(res.data.errno === 0){
 						this.$data.tableData = res.data.data.list;
+						console.log(this.$data.tableData)
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
         			}else{

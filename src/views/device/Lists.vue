@@ -23,13 +23,13 @@
                       :props="props"
                       @change="searchStore">
                     </el-cascader>
-				</el-form-item>	
+				</el-form-item>
 				<el-form-item label="门店：">
 				    <el-select v-model="requestParameters.belong_sid" placeholder="请选择" :no-data-text="nodatatext">
-				        <el-option 
-				        	v-for="(item,idx) in allStores" 
-				        	:label="allStores[idx].name" 
-				        	:value="allStores[idx].id" 
+				        <el-option
+				        	v-for="(item,idx) in allStores"
+				        	:label="allStores[idx].name"
+				        	:value="allStores[idx].id"
 				        	:key="idx">
 				        </el-option>
 				    </el-select>
@@ -63,52 +63,28 @@
         </thead>
         <tbody style="text-align: center">
         <tr v-for="(item,index) in tableData" :key="index" height="40">
-          <!--<td>{{item.id}}</td>-->
-          <!--<td>{{item.name}}</td>-->
-          <!--<td>{{item.person_in_charge}}</td>-->
-          <!--<td>{{item.phone}}</td>-->
+          <td>{{item.id}}</td>
+          <td>{{item.device_id}}</td>
+          <td>{{item.version}}</td>
           <td>
-
+            <span v-if="item.locate = 'other'">其他</span>
+            <span v-else>收银</span>
           </td>
+          <td>
+            <span v-if="item.store.name.length>0">
+				          {{item.store.name}}
+				    </span>
+            <span v-else>
+              <el-button @click="fnDistribution(item)" type="text" size="small" >分配</el-button>
+            </span>
+          </td>
+          <td>{{item.locate}} — {{item.locate_desc}}</td>
+          <td>{{item.status == 0 ? '断开' : '正常'}}</td>
+          <td>{{item.is_start == 0 ? '是' : '否'}}</td>
+          <td>{{item.created_at | date(2)}}</td>
         </tr>
         </tbody>
       </table>
-
-		<!-- 列表 -->
-    <!--<div style="display: flex;">-->
-      <!--<el-col :span="20" style="text-align:center;">-->
-		    <!--<el-table :data="tableData" border  style="width:93.5%;text-align:center;margin: 0 auto;">-->
-		    <!--<el-table-column label="门店" width="220%">-->
-		    	<!--<template slot-scope="scope">-->
-		    		<!--<span v-if="scope.row.store.name.length>0">-->
-				          <!--{{scope.row.store.name}}-->
-				    <!--</span>-->
-				    <!--<span v-else><el-button @click="fnDistribution(scope.row)" type="text" size="small" >分配</el-button></span>-->
-		    	<!--</template>-->
-		    <!--</el-table-column>-->
-		    <!--<el-table-column label="位置" width="160%">-->
-		    	<!--<template slot-scope="scope">-->
-		    		<!--{{scope.row.locate}} —— {{scope.row.locate_desc}}-->
-		    	<!--</template>-->
-		    <!--</el-table-column>-->
-		    <!--<el-table-column prop="status" label="运行情况" width="90%">-->
-		    	<!--<template slot-scope="scope">-->
-		    		<!--{{scope.row.status == 0 ? '断开' : '正常'}}-->
-		    	<!--</template>-->
-		    <!--</el-table-column>-->
-		    <!--<el-table-column label="是否启用" width="160%">-->
-		    	<!--<template slot-scope="scope">-->
-		    		<!--{{scope.row.is_start == 0 ? '是' : '否'}}-->
-		    	<!--</template>-->
-		    <!--</el-table-column>-->
-		    <!--<el-table-column label="添加时间" width="160%">-->
-		    	<!--<template slot-scope="scope">-->
-		    		<!--{{scope.row.created_at | date(2)}}-->
-		    	<!--</template>-->
-		    <!--</el-table-column>-->
-	    <!--</el-table>-->
-      <!--</el-col>-->
-  <!--</div>-->
 
 	    <!-- 分页 -->
 		<div v-if="tableData.length > 0" style="margin:0 auto;max-width:1332px;">
@@ -135,13 +111,13 @@
                       :props="props"
                       @change="dialogStore">
                     </el-cascader>
-				</el-form-item>			    
+				</el-form-item>
 			    <el-form-item label="所属门店：" prop="belong_sid">
 			    	<el-select v-model="distributionForm.belong_sid" placeholder="请选择" :no-data-text="nodatatext">
-				        <el-option 
-				        	v-for="(item,idx) in allStores" 
-				        	:label="allStores[idx].name" 
-				        	:value="allStores[idx].id" 
+				        <el-option
+				        	v-for="(item,idx) in allStores"
+				        	:label="allStores[idx].name"
+				        	:value="allStores[idx].id"
 				        	:key="idx">
 				        </el-option>
 				    </el-select>
@@ -178,4 +154,3 @@
 
 <script src="@/assets/js/device/Lists.js"></script>
 <style lang="scss" scoped  src="@/assets/css/device/Lists.scss">
-	
