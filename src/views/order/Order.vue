@@ -49,7 +49,9 @@
       <tbody style="text-align: center">
       <tr v-for="(item,index) in tableData" :key="index" height="40">
         <td>{{item.sn}}</td>
-        <td></td>
+        <td>
+          <span v-for="good in item.orderGoods" class="margin">[{{good.material_name}}/{{good.style_name}}]</span>
+        </td>
         <td>{{parseFloat(item.price,2)}}</td>
         <td>
           <div style="width: 100px;height: 100px;padding: 10px;box-sizing: border-box;">

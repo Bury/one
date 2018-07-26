@@ -3,29 +3,34 @@
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
 		</div>
-    <div style="display: flex;text-align: center">
-      <el-col :span="22">
-		<el-table :data="tableData" border height="448" style="text-align:center;">
-			<el-table-column prop="id" label="ID" width="220"></el-table-column>
-	    	<el-table-column prop="name" label="名称" width="320"></el-table-column>
-	    	<el-table-column prop="sort" label="排序" width="220"></el-table-column>
-	    	<el-table-column label="权限" width="220">
-	    		<template slot-scope="scope">
-	    			<el-button type="primary" plain icon="el-icon-setting" circle size="small"
-			    		@click="fnSet(scope.row)"></el-button>
-	    		</template>
-	    	</el-table-column>
-		    <el-table-column label="操作" width="220">
-			    <template slot-scope="scope">
-			    	<el-button type="warning" plain icon="el-icon-edit" circle size="small"
-			    		@click="fnEdit(scope.row)"></el-button>
-			    	<el-button type="danger" plain icon="el-icon-delete" circle size="small"
-			    		@click="fnRemove(scope.row)"></el-button>
-			    </template>
-		    </el-table-column>
-	    </el-table>
-      </el-col>
-    </div>
+    <table width="80%" class="table-bordered">
+      <thead style="background-color: #d1d1d1">
+      <tr height="40">
+        <th class="col-md-1 text-center">ID</th>
+        <th class="col-md-2 text-center">名称</th>
+        <th class="col-md-1 text-center">排序</th>
+        <th class="col-md-1 text-center">权限</th>
+        <th class="col-md-2 text-center">操作</th>
+      </tr>
+      </thead>
+      <tbody style="text-align: center">
+      <tr v-for="(item,index) in tableData" :key="index" height="40">
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.sort}}</td>
+        <td>
+          <el-button type="primary" plain icon="el-icon-setting" circle size="small"
+                     @click="fnSet(item)"></el-button>
+        </td>
+        <td>
+          <el-button type="warning" plain icon="el-icon-edit" circle size="small"
+                     @click="fnEdit(item)"></el-button>
+          <el-button type="danger" plain icon="el-icon-delete" circle size="small"
+                     @click="fnRemove(item)"></el-button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
 
 	    <!-- 分页 -->
 	    <!--
