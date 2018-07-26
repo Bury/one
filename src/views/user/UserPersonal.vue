@@ -1,7 +1,7 @@
 <template>
 	<div class="personal-page">
 		<div class="top-box">
-			<h3></h3>
+			<h3>个人资料</h3>
 			<div class="editBtn">
 				<el-button type="primary" plain @click="fnChangePWD()">修改密码</el-button>
 			</div>
@@ -100,7 +100,6 @@
       },
       submitForm(formName){
 		this.$refs[formName].validate((valid) => {
-			console.log(valid)
 	        if (valid) {
 	        	let list = {
 					'old_password': this.$data.ruleForm.oldPwd,
@@ -110,7 +109,7 @@
 				let qs = require('querystring')
 				userApi.changePWD(qs.stringify(list)).then((res) => {
 					if(res.data.errno === 0){
-						alert('操作成功')
+						alert('修改成功')
 						userApi.logout().then((res1) => {
 							if(res1.data.errno === 0){
 								localStorage.setItem('knock_knock', '')

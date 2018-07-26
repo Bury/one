@@ -54,8 +54,8 @@
                 <router-link :to="{name: 'StoreRemind'}">
                     <el-menu-item index="/StoreRemind" style="padding-left:53px;">来客提醒</el-menu-item>
                 </router-link>
-                <router-link :to="{name: 'StoreTime'}">
-                    <el-menu-item index="/StoreTime" style="padding-left:53px;">来客标签</el-menu-item>
+                <router-link :to="{name: 'LabelList'}">
+                    <el-menu-item index="/LabelList" style="padding-left:53px;">来客标签</el-menu-item>
                 </router-link>
             </el-submenu>
 

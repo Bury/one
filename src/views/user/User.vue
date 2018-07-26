@@ -10,7 +10,7 @@
 				      <el-option v-for="(item,idx) in allDepartments" :label="allDepartments[idx].val" :value="allDepartments[idx].id" :key="idx"></el-option>
 				    </el-select>
 			  	</el-form-item>
-			  	<el-form-item label="角色：">
+			  	<el-form-item label="岗位：">
 				    <el-select v-model="requestParameters.role_id" placeholder="请选择">
 				        <el-option v-for="(item,idx) in allRoles" :label="allRoles[idx].name" :value="allRoles[idx].id" :key="idx"></el-option>
 				    </el-select>
@@ -32,7 +32,7 @@
 			<el-table-column prop="id" label="ID" width="120"></el-table-column>
 			<el-table-column prop="username" label="帐号" width="220"></el-table-column>
 			<el-table-column prop="department_name" label="部门" width="120"></el-table-column>
-			<el-table-column prop="role_name" label="角色" width="120"></el-table-column>
+			<el-table-column prop="role_name" label="岗位" width="120"></el-table-column>
 	    	<el-table-column prop="name" label="姓名" width="120"></el-table-column>
 	    	<el-table-column prop="telephone" label="手机号码" width="220"></el-table-column>
 	    	<el-table-column prop="status" label="状态" width="120"></el-table-column>
@@ -57,8 +57,7 @@
     </div>
 
 	    <!-- 分页 -->
-	    <!--
-	    <div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
+	   <div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
 	    	<el-pagination
 				background
 	            class="pagination"
@@ -70,7 +69,7 @@
 	            :total="pagination.totalCount">
 	        </el-pagination>
 	    </div>
-	    -->
+	    
 
 		<!-- 添加、修改 -->
 	    <el-dialog :title="dialogTitle" :visible.sync="userDialogFormVisible">
@@ -236,6 +235,7 @@
 	    				return ;
 	    			}
 	    			if(res.data.errno === 0){
+	    				console.log(res.data.data)
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
@@ -333,6 +333,7 @@
 				this.$data.userDialogFormVisible = false;
 			},
 			onSubmitSearch(){
+				console.log(this.$data.requestParameters)
 				this.lists();
 			},
 			submitForm(formName){
