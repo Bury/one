@@ -39,11 +39,11 @@
         <th class="col-md-1 text-center">商品名称</th>
         <th class="col-md-1 text-center">成交金额</th>
         <th class="col-md-1 text-center">客户人脸</th>
-        <th class="col-md-2 text-center">客户姓名</th>
+        <th class="col-md-1 text-center">客户姓名</th>
         <th class="col-md-1 text-center">客户类型</th>
-        <th class="col-md-1 text-center">收银时间</th>
-        <th class="col-md-1 text-center">创建时间</th>
-        <th class="col-md-1 text-center">操作</th>
+        <th class="col-md-2 text-center">收银时间</th>
+        <th class="col-md-2 text-center">创建时间</th>
+        <th class="col-md-2 text-center">操作</th>
       </tr>
       </thead>
       <tbody style="text-align: center">
@@ -57,50 +57,19 @@
           </div>
         </td>
         <td>{{item.customer_name}}</td>
-        <td>{{item.locate}} — {{item.locate_desc}}</td>
-        <td>{{item.status == 0 ? '断开' : '正常'}}</td>
-        <td>{{item.is_start == 0 ? '是' : '否'}}</td>
-        <td>{{item.created_at | date(2)}}</td>
+        <td>
+          <span v-if="item.traffic.is_new == 1 && item.traffic.vip_level == 1">新客</span>
+          <span v-if="item.traffic.is_new == 0 && item.traffic.vip_level == 1">熟客</span>
+        </td>
+        <td>{{item.cash_t | date(4)}}</td>
+        <td>{{item.created_at | date(4)}}</td>
+        <td>
+          <el-button @click="fnEdit(item)" type="text" size="small">编辑</el-button>
+          <el-button @click="fnRemove(item)" type="text" size="small">删除</el-button>
+        </td>
       </tr>
       </tbody>
     </table>
-    <div style="display: flex;text-align:center;">
-      <!--<el-col :span="24">-->
-		    <!--<el-table :data="tableData" border width="99%">-->
-		    <!--<el-table-column prop="no" label="订单编号" min-width="160"></el-table-column>-->
-		    <!--<el-table-column prop="product_name" label="商品名称" width="160"></el-table-column>-->
-		    <!--<el-table-column prop="price" label="成交金额" min-width="120"></el-table-column>-->
-		    <!--<el-table-column label="客户人脸" width="80">-->
-		    	<!--<template slot-scope="scope">-->
-		           <!--<img :src="scope.row.traffic. avatar" style="display:block;margin:0 auto;width:100%;">-->
-		        <!--</template>-->
-		    <!--</el-table-column>-->
-		    <!--<el-table-column prop="customer_name" label="客户姓名" width="160"></el-table-column>-->
-		    <!--<el-table-column label="客户类型" width="160">-->
-		    	<!--<template slot-scope="scope">-->
-			    	<!--<span v-if="scope.row.traffic.is_new == 1 && scope.row.traffic.vip_level == 1">新客</span>-->
-			    	<!--<span v-if="scope.row.traffic.is_new == 0 && scope.row.traffic.vip_level == 1">熟客</span>-->
-		    	<!--</template>-->
-		    <!--</el-table-column>-->
-		    <!--<el-table-column label="收银时间" min-width="160">-->
-		    	<!--<template slot-scope="scope">-->
-		    		<!--{{scope.row.cash_t | date(4)}}-->
-		    	<!--</template>-->
-		    <!--</el-table-column>-->
-		    <!--<el-table-column label="创建时间" min-width="160">-->
-		    	<!--<template slot-scope="scope">-->
-		    		<!--{{scope.row.created_at | date(4)}}-->
-		    	<!--</template>-->
-		    <!--</el-table-column>-->
-		    <!--<el-table-column fixed="right" label="操作" min-width="150">-->
-			    <!--<template slot-scope="scope">-->
-			        <!--<el-button @click="fnEdit(scope.row)" type="text" size="small">编辑</el-button>-->
-			        <!--<el-button @click="fnRemove(scope.row)" type="text" size="small">删除</el-button>-->
-			    <!--</template>-->
-		    <!--</el-table-column>-->
-	    <!--</el-table>-->
-      <!--</el-col>-->
-    </div>
 	    <!-- 分页 -->
 		<div v-if="tableData.length > 0" style="margin:0 auto;max-width:1551px;">
 			<el-pagination
@@ -181,8 +150,11 @@
         	onSubmit() {
 		        this.lists();
 		    },
+          fnEdit(row){
+
+          },
 		    fnRemove(row){
-				this.$confirm('确认删除该订单：'+row.no+' ？', '删除提示', {
+				this.$confirm('确认删除该订单：'+row.sn+' ？', '删除提示', {
 		          confirmButtonText: '确定',
 		          cancelButtonText: '取消',
 		          type: 'warning'
