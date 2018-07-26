@@ -1,18 +1,27 @@
 <template>
 	<div class="personal-page">
 		<div class="top-box">
-			<h3></h3>
+			<h3>个人资料</h3>
 			<div class="editBtn">
 				<el-button type="primary" plain @click="fnChangePWD()">修改密码</el-button>
 			</div>
 		</div>
-		<el-form ref="form" :model="userForm" label-width="75px" disabled>
-		  	<el-form-item label="帐号：">
-		    	<el-input v-model="userForm.username"></el-input>
-		  	</el-form-item>
-		  	<el-form-item label="角色：">
-		    	<el-input v-model="userForm.role_name"></el-input>
-		  	</el-form-item>
+		<el-form ref="userForm" :model="userForm" label-width="75px" enabled>
+      <el-form-item label="帐号：">
+        {{username}}
+      </el-form-item>
+      <el-form-item label="岗位：">
+        {{role_name}}
+      </el-form-item>
+      <el-form-item label="姓名：">
+        <el-input v-model="userForm.truename"></el-input>
+      </el-form-item>
+      <el-form-item label="手机：">
+        <el-input v-model="userForm.phone"></el-input>
+      </el-form-item>
+      <div style="text-align:center;">
+        <el-button type="primary" @click="fnSaveSubmitForm('userForm')">保 存</el-button>
+      </div>
 		</el-form>
 
 		<!-- 修改密码 -->
@@ -36,13 +45,15 @@
 	</div>
 </template>
 <script>
+  import globalFunctions from '@/config/global_functions'
 	import userApi from '../../api/user'
 
   export default {
   	name:'personal',
     data() {
       return {
-        userForm: {},
+        username:'',
+        role_name:'',
         dialogFormVisible: false,
         ruleForm: {
           oldPwd:'',
@@ -71,23 +82,29 @@
                 trigger: 'blur'
             }
           ]
-        }
+        },
+        userForm:{
+          truename:'',
+          phone:'',
+        },
       }
     },
     created:function(){
-    	this.view();
+    	this.getUserInfo();
     },
     methods: {
-      view(){
-		userApi.view().then((res) => {
-			if(res.data.errno === 0){
-				console.log(res);
-				this.$data.userForm = res.data.data.user;
-				
-			}else{
-				this.$message.error(res.data.msg);
-			}
-		})
+      getUserInfo(){
+        userApi.getUserInfo().then((res) => {
+          if(res.data.errno === 0){
+            console.log(res);
+            this.$data.username = res.data.data.user.username;
+            this.$data.role_name = res.data.data.user.role_name;
+            this.$data.userForm.name = res.data.data.user.truename;
+            this.$data.userForm.phone = res.data.data.user.phone;
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        })
       },
       fnChangePWD(){
       	this.$data.dialogFormVisible = true;
@@ -98,6 +115,24 @@
         this.$data.ruleForm.newPwd = '';
         this.$data.ruleForm.reNewPwd = '';
       },
+      fnSaveSubmitForm(formName){
+        this.$refs['userForm'].validate((valid) => {
+          if (valid) {
+            let list = {
+              'truename':this.$data.userForm.truename,
+              'phone':this.$data.userForm.phone
+            }
+            let qs = require('querystring')
+            userApi.edi(qs.stringify(list)).then((res) => {
+              if(res.data.errno === 0){
+                globalFunctions.functions.message(this,'success');
+              }else{
+                this.$message.error(res.data.msg);
+              }
+            })
+          }
+        });
+      },
       submitForm(formName){
 		this.$refs[formName].validate((valid) => {
 			console.log(valid)
@@ -105,7 +140,7 @@
 	        	let list = {
 					'old_password': this.$data.ruleForm.oldPwd,
 					'new_password':this.$data.ruleForm.newPwd,
-					'new_password2':this.$data.ruleForm.reNewPwd 
+					'new_password2':this.$data.ruleForm.reNewPwd
 				}
 				let qs = require('querystring')
 				userApi.changePWD(qs.stringify(list)).then((res) => {
@@ -122,12 +157,12 @@
 								this.$message.error(res1.data.msg);
 							}
 						})
-						
+
 					}else{
 						this.$message.error(res.data.msg);
 					}
 				})
-	        } 
+	        }
         });
       },
 

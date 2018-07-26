@@ -97,8 +97,13 @@ global.STORE_TIME_VIEW = `${SERVER_IP}${COMMON}store-config/view-time`
 global.STORE_TIME_SET = `${SERVER_IP}${COMMON}store-config/business-time`
 
 //个人中心
-global.USER_VIEW = `${SERVER_IP}${COMMON}user/info`
+global.USER_INFO = `${SERVER_IP}${COMMON}user/info`
 global.USER_CHANGE_PASSWORD = `${SERVER_IP}${COMMON}user/change-password`
+global.USER_EDI = `${SERVER_IP}${COMMON}user/edit`
+//登录退出
+global.USER_LOGIN = `${SERVER_IP}${COMMON}user/login`
+global.USER_LOGOUT = `${SERVER_IP}${COMMON}user/logout`
+
 
 //商家部门管理
 global.DEPARTMENT_LISTS = `${SERVER_IP}${COMMON}department/list`
@@ -126,9 +131,7 @@ global.USER_EDIT = `${SERVER_IP}${COMMON}merchant-account/edit`
 global.USER_DELE = `${SERVER_IP}${COMMON}merchant-account/dele`
 global.USER_PASSWORD_EDIT = `${SERVER_IP}${COMMON}merchant-account/edit-password`
 
-//登录退出
-global.USER_LOGIN = `${SERVER_IP}${COMMON}user/login`
-global.USER_LOGOUT = `${SERVER_IP}${COMMON}user/logout`
+
 
 //门店角色管理
 global.STORE_ROLE_LIST = `${SERVER_IP}${COMMON}store-role/list`

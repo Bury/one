@@ -49,6 +49,24 @@ export default {
       })
     })
   },
+  getUserInfo () {
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_INFO).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  edi (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_EDI,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
   changePWD (list) {
     return new Promise((resolve, reject) => {
       axios.post(global.USER_CHANGE_PASSWORD, list).then((res) => {
@@ -76,6 +94,6 @@ export default {
       })
     })
   },
-  
+
 
 }
