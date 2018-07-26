@@ -58,7 +58,7 @@
           <th class="col-md-2 text-center">位置</th>
           <th class="col-md-1 text-center">运行情况</th>
           <th class="col-md-1 text-center">是否启用</th>
-          <th class="col-md-1 text-center">添加时间</th>
+          <th class="col-md-2 text-center">添加时间</th>
         </tr>
         </thead>
         <tbody style="text-align: center">
@@ -78,10 +78,10 @@
               <el-button @click="fnDistribution(item)" type="text" size="small" >分配</el-button>
             </span>
           </td>
-          <td>{{item.locate}} — {{item.locate_desc}}</td>
+          <td>{{item.locate = 'other' ? '其他' : '收银'}} — {{item.locate_desc}}</td>
           <td>{{item.status == 0 ? '断开' : '正常'}}</td>
           <td>{{item.is_start == 0 ? '是' : '否'}}</td>
-          <td>{{item.created_at | date(2)}}</td>
+          <td>{{item.created_at | date(4)}}</td>
         </tr>
         </tbody>
       </table>

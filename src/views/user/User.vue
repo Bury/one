@@ -51,7 +51,7 @@
         <td>{{item.role_name}}</td>
         <td>{{item.name}}</td>
         <td>{{item.telephone}}</td>
-        <td>{{item.status}}</td>
+        <td>{{item.status = '1' ? '启用' : '禁用' }}</td>
         <td>{{item.sort}}</td>
         <td>
           <el-button type="primary" plain icon="el-icon-setting" circle size="small"
@@ -79,7 +79,7 @@
 	            :total="pagination.totalCount">
 	        </el-pagination>
 	    </div>
-	    
+
 
 		<!-- 添加、修改 -->
 	    <el-dialog :title="dialogTitle" :visible.sync="userDialogFormVisible">
