@@ -26,35 +26,45 @@
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
 		</div>
-    <div style="display: flex;text-align: center">
-      <el-col :span="24">
-		<el-table :data="tableData" border height="448" style="width:1404px;text-align:center;">
-			<el-table-column prop="id" label="ID" width="120"></el-table-column>
-			<el-table-column prop="username" label="帐号" width="220"></el-table-column>
-			<el-table-column prop="department_name" label="部门" width="120"></el-table-column>
-			<el-table-column prop="role_name" label="角色" width="120"></el-table-column>
-	    	<el-table-column prop="name" label="姓名" width="120"></el-table-column>
-	    	<el-table-column prop="telephone" label="手机号码" width="220"></el-table-column>
-	    	<el-table-column prop="status" label="状态" width="120"></el-table-column>
-	    	<el-table-column prop="sort" label="排序" width="120"></el-table-column>
-	    	<el-table-column label="权限" width="120">
-	    		<template slot-scope="scope">
-	    			<el-button type="primary" plain icon="el-icon-setting" circle size="small"
-			    		@click="fnSet(scope.row)"></el-button>
-	    		</template>
-	    	</el-table-column>
-	    	<el-table-column prop="created_at" label="创建时间" width="120"></el-table-column>
-		    <el-table-column label="操作" width="220">
-			    <template slot-scope="scope">
-			    	<el-button type="warning" plain icon="el-icon-edit" circle size="small"
-			    		@click="fnEdit(scope.row)"></el-button>
-			    	<el-button type="danger" plain icon="el-icon-delete" circle size="small"
-			    		@click="fnRemove(scope.row)"></el-button>
-			    </template>
-		    </el-table-column>
-	    </el-table>
-      </el-col>
-    </div>
+    <table width="99%" class="table-bordered">
+      <thead style="background-color: #d1d1d1">
+      <tr height="40">
+        <th class="col-md-1 text-center">ID</th>
+        <th class="col-md-1 text-center">账号</th>
+        <th class="col-md-1 text-center">部门</th>
+        <th class="col-md-1 text-center">角色</th>
+        <th class="col-md-1 text-center">姓名</th>
+        <th class="col-md-1 text-center">手机号码</th>
+        <th class="col-md-1 text-center">状态</th>
+        <th class="col-md-1 text-center">排序</th>
+        <th class="col-md-1 text-center">权限</th>
+        <th class="col-md-2 text-center">创建时间</th>
+        <th class="col-md-2 text-center">操作</th>
+
+      </tr>
+      </thead>
+      <tbody style="text-align: center">
+      <tr v-for="(item,index) in tableData" :key="index" height="40">
+        <td>{{item.id}}</td>
+        <td>{{item.username}}</td>
+        <td>{{item.department_name}}</td>
+        <td>{{item.role_name}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.telephone}}</td>
+        <td>{{item.status}}</td>
+        <td>{{item.sort}}</td>
+        <td>
+          <el-button type="primary" plain icon="el-icon-setting" circle size="small"
+                     @click="fnSet(item)"></el-button>
+        </td>
+        <td>{{item.created_at | date(4)}}</td>
+        <td>
+          <el-button @click="fnEdit(item)" type="text" size="small">编辑</el-button>
+          <el-button @click="fnRemove(item)" type="text" size="small">删除</el-button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
 
 	    <!-- 分页 -->
 	    <!--
