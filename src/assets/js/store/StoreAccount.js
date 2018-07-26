@@ -1,5 +1,5 @@
 //import Guest from '../../guest/Guest'
-	import roleApi from '@/api/role'
+	import storeRole from '@/api/store_role'
 	import storeAccountApi from '@/api/store_account'
 
 	export default{
@@ -26,15 +26,16 @@
 	            editFormData:{
 	            	id:'',
 	            	username:'',
-	            	desc:'',
-	            	role_name:''
+	            	truename:'',
+	            	phone:'',
+	            	role_id:''
 	            },
 	            editRules:{
 	            	username: [
 		            	{ required: true, message: '请输入帐号', trigger: 'blur' },
 		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
 		          	],
-		          	desc:[
+		          	truename:[
 		          		{ required: true, message: '请输入姓名', trigger: 'blur' },
 		            	{ min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
 		          	],
@@ -70,14 +71,12 @@
 	            },
 	            addsFormVisible:false,
 	            addsFormData:{
-	            	store_id:'',
+	            	sid:'',
 	            	username:'',
-	            	desc:'',
+	            	truename:'',
 	            	role_id:'',
-	            	avatar:'',
+	            	phone:'',
 	            	password:'',
-	            	repassword:'',
-	            	customer_id:''
 
 	            },
 	            addsRules:{
@@ -129,6 +128,7 @@
 				this.$data.requestParameters.sid = this.$route.query.StoreId;
 				let qs = require('querystring');
 				storeAccountApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
+					console.log(res)
 	    			if(res.data.errno === 0){
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
@@ -182,6 +182,7 @@
         			id:id
         		})).then((res) => {
         			if(res.data.errno === 0){
+        				console.log(res)
 						this.$data.editFormData = res.data.data;
 						this.$data.editFormVisible = true;
 
@@ -193,9 +194,9 @@
 			},
 			getRoleLists(){
 				let qs = require('querystring')
-	    		roleApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-	    			console.log(res)
+	    		storeRole.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
 	    			if(res.data.errno === 0){
+	    				console.log(res)
 						this.$data.allRole = res.data.data.list;
 	    			}else{
 						this.$message.error(res.data.msg);
@@ -206,18 +207,21 @@
 				this.$data.editFormVisible = false;
 				this.$data.editFormData = {
 					id:'',
-					username:'',
-					desc:'',
-					role_id:''
+	            	username:'',
+	            	truename:'',
+	                phone:'',
+	                role_id:''
 				}
 			},
 			editSubmit(formName){
-				console.log(this.$data.editFormData)
+				
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
 						let qs = require('querystring')
+						console.log(this.$data.editFormData)
 		        		storeAccountApi.edit(qs.stringify(this.$data.editFormData)).then((res) => {
 		        			if(res.data.errno === 0){
+		        				console.log(res)
 								this.$message({
 						            type: 'success',
 						            message: '操作成功'
@@ -225,9 +229,10 @@
 								this.accountLists();
 								this.$data.editFormData = {
 									id:'',
-									username:'',
-									desc:'',
-									role_id:''
+	            	                username:'',
+	            	                truename:'',
+	                              	phone:'',
+	                             	role_id:''
 								}
 								this.$data.editFormVisible = false;
 
@@ -260,9 +265,10 @@
 			editPasswordSubmit(formName){
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
-
 						let qs = require('querystring')
+						console.log(this.$data.changePwdFormData)
 		        		storeAccountApi.password_edit(qs.stringify(this.$data.changePwdFormData)).then((res) => {
+		        			console.log(res)
 		        			if(res.data.errno === 0){
 								this.$message({
 						            type: 'success',
@@ -288,15 +294,12 @@
 			},
 			fnClearAddsFormData(){
 				this.$data.addsFormData = {
-	            	store_id:'',
+	            	sid:'',
 	            	username:'',
-	            	desc:'',
+	            	truename:'',
 	            	role_id:'',
-	            	avatar:'',
-	            	password:'',
-	            	repassword:'',
-	            	customer_id:'',
-
+	            	phone:'',
+	            	password:''
 	            };
 			},
 
@@ -316,14 +319,13 @@
 				this.fnClearAddsFormData();
 			},
 			addsSubmit(formName){
-				this.$data.addsFormData.avatar='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1531579299157&di=8c51bd304046d2aa79540b0f764dd2a6&imgtype=0&src=http%3A%2F%2Fimg4.a0bi.com%2Fttq%2F20170105%2F1483589492564.jpeg';
-				this.$data.addsFormData.customer_id=1;
-
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
-			        	this.$data.addsFormData.store_id = this.$route.query.StoreId;
-						let qs = require('querystring')
+			        	this.$data.addsFormData.sid = this.$route.query.StoreId;
+						let qs = require('querystring');
+						console.log(this.$data.addsFormData)
 		        		storeAccountApi.adds(qs.stringify(this.$data.addsFormData)).then((res) => {
+		        			console.log(res)
 		        			if(res.data.errno === 0){
 								this.$message({
 						            type: 'success',

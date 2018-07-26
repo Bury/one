@@ -85,13 +85,7 @@
         		})
 			},
 			getStores(){
-//				storeApi.listsResults().then((res) => {
-//      			if(res.data.errno === 0){
-//						this.$data.allStores = res.data.data;
-//      			}else{
-//                      this.$message(res.data.msg)
-//      			}
-//              })
+                
 			},
 			getDeviceVersionListsResults(){
 				deviceVersionApi.listsResults().then((res) => {

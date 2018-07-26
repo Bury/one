@@ -1,10 +1,18 @@
 import storeApi from '@/api/store'
-
+import getCity from '@/api/getCity'
 	export default{
 		name:'store-set',
 		data(){
 			return{
 				tableData: [],
+				cityData:[],
+				cityArr:[],
+				cityCode:'',
+				props:{
+	            	value:'code',
+	            	label:'name',
+	            	children:"children"
+	            },
 				pagination:{
 		        	currentPage:1,
 		        	totalCount:0,
@@ -14,7 +22,9 @@ import storeApi from '@/api/store'
 		        ruleForm: {
 		          	name: '',
 		          	person_in_charge:'',
-		          	phone:''
+		          	phone:'',
+		          	locate:'',
+		          	address:'',
 		        },
 		        currentId:'',
 		        rules: {
@@ -38,6 +48,10 @@ import storeApi from '@/api/store'
 		                },
 		                trigger: 'blur'
 		            }
+		          ],
+		          address:[
+		             { required: true, message: '请输入详细地址', trigger: 'blur' },
+		             { min: 2, max: 30, message: '长度在 2 到 30 个字符', trigger: 'blur' }
 		          ]
 		        },
 				requestParameters: {
@@ -48,6 +62,7 @@ import storeApi from '@/api/store'
 		},
 		created:function(){
 			this.storeLists();
+			this.getCityData();
 		},
 		methods: {
 			//列表
@@ -103,20 +118,22 @@ import storeApi from '@/api/store'
 		        });
 			},
 			fnEdit(row){
-				console.log(row);
+				console.log(row)
 				this.$data.dialogTitle = '门店编辑';
 				this.$data.currentId = row.id;
 				this.$data.ruleForm = row;
 				this.$data.dialogFormVisible = true;
 
 			},
-			fnAdds(){
+			fnAdds(){				
 				this.$data.dialogTitle = '门店添加';
 				this.$data.currentId = "";
 				this.$data.ruleForm = {
 		          	name: '',
 		          	person_in_charge:'',
-		          	phone:''
+		          	phone:'',
+		          	locate:'',
+		          	address:''
 		        };
 				this.$data.dialogFormVisible = true;
 			},
@@ -126,26 +143,29 @@ import storeApi from '@/api/store'
 				this.$data.ruleForm = {
 		          	name: '',
 		          	person_in_charge:'',
-		          	phone:''
+		          	phone:'',
+		          	locate:'',
+		          	address:''
 		        };
 			},
 			submitForm(formName){
 				this.$refs[formName].validate((valid) => {
-					console.log(valid)
 			        if (valid) {
 						if(this.$data.currentId !== ''){
 							let list = {
 								'id': this.$data.currentId,
 								'name': this.$data.ruleForm.name,
 					          	'person_in_charge':this.$data.ruleForm.person_in_charge,
-					          	'phone':this.$data.ruleForm.phone
+					          	'phone':this.$data.ruleForm.phone,
+					          	'locate':this.$data.cityCode,
+					          	'address':this.$data.ruleForm.address
 							}
 							let qs = require('querystring')
 			        		storeApi.edit(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
 									console.log(res)
 									this.$message({
-				                      message: '营业时间设置成功',
+				                      message: '修改成功',
 				                      type: 'success',
 				                      duration:1500
 				                    });
@@ -167,14 +187,17 @@ import storeApi from '@/api/store'
 							let list = {
 						        'name': this.$data.ruleForm.name,
 					          	'person_in_charge':this.$data.ruleForm.person_in_charge,
-					          	'phone':this.$data.ruleForm.phone
+					          	'phone':this.$data.ruleForm.phone,
+					          	'locate':this.$data.cityCode,
+					          	'address':this.$data.ruleForm.address
 						    }
 						    let qs = require('querystring')
 			        		storeApi.adds(qs.stringify(list)).then((res) => {
+			        			console.log(res)
 			        			if(res.data.errno === 0){
-									console.log(res)
+									
 									this.$message({
-				                      message: '营业时间设置成功',
+				                      message: '修改成功',
 				                      type: 'success',
 				                      duration:1500
 				                    });
@@ -182,8 +205,10 @@ import storeApi from '@/api/store'
 									this.$data.currentId = '';
 									this.$data.ruleForm = {
 							          	name: '',
-							          	person_in_charge:'',
-							          	phone:''
+		                             	person_in_charge:'',
+		          	                    phone:'',
+		                            	locate:'',
+		                            	address:''
 							        };
 									this.$data.dialogFormVisible = false;
 
@@ -224,6 +249,20 @@ import storeApi from '@/api/store'
 		        	 })
 		        })
 			},
+			getCityData(){
+				 getCity.getCityData().then((res) => {
+        			if(res.status === 200){
+        				 this.$data.cityData = res.data
+        			}else{
+        				this.$message(res.statusText)
+        			}
+        		})
+			},
+			getCityCode(){				
+				let cc = this.$data.cityArr;				
+				this.$data.cityCode  = cc[cc.length - 1];
+				console.log(this.$data.cityCode)
+			}
 			
 		}
 	}

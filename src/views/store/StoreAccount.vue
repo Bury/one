@@ -9,12 +9,12 @@
 		</div>
     <div style="display: flex;text-align: center">
       <el-col :span="15">
-		    <el-table :data="tableData" border height="448" style="width:822px;text-align:center;">
+		    <el-table :data="tableData" border height="448" style="width:820px;text-align:center;">
 			<el-table-column prop="id" label="ID" width="80"></el-table-column>
 	    	<el-table-column prop="username" label="帐号" width="160"></el-table-column>
-	    	<el-table-column prop="role_name" label="角色" width="100"></el-table-column>
-	    	<el-table-column prop="role_desc" label="姓名" width="100"></el-table-column>
-	    	<el-table-column label="创建时间" width="160">
+	    	<el-table-column prop="storeRole.name" label="岗位" width="100"></el-table-column>
+	    	<el-table-column prop="truename" label="姓名" width="100"></el-table-column>
+	    	<el-table-column label="创建时间" width="180">
 	    		<template slot-scope="scope">
 	    			{{scope.row.created_at | date(4)}}
 	    		</template>
@@ -52,8 +52,8 @@
 			  <el-form-item label="帐号：" prop="username">
 			    <el-input v-model="editFormData.username"></el-input>
 			  </el-form-item>
-			  <el-form-item label="姓名：" prop="desc">
-			    <el-input v-model="editFormData.desc"></el-input>
+			  <el-form-item label="姓名：" prop="truename">
+			    <el-input v-model="editFormData.truename"></el-input>
 			  </el-form-item>
 			  <el-form-item label="角色：" prop="role_id">
 			    <el-select v-model="editFormData.role_id" placeholder="请选择">
@@ -89,19 +89,19 @@
 			  <el-form-item label="帐号：" prop="username">
 			    <el-input v-model="addsFormData.username"></el-input>
 			  </el-form-item>
-			  <el-form-item label="姓名：" prop="desc">
-			    <el-input v-model="addsFormData.desc"></el-input>
+			  <el-form-item label="姓名：" prop="truename">
+			    <el-input v-model="addsFormData.truename"></el-input>
 			  </el-form-item>
 			  <el-form-item label="角色：" prop="role_id">
 			    <el-select v-model="addsFormData.role_id" placeholder="请选择">
 				    <el-option v-for="(item,idx) in allRole" :label="allRole[idx].name" :value="allRole[idx].id" :key="idx"></el-option>
 				</el-select>
 			  </el-form-item>
-			  <el-form-item label="头像：" prop="avatar">
+			  <!--<el-form-item label="头像：" prop="avatar">
 			    <el-input v-model="addsFormData.avatar" style="display:none;"></el-input>
 			    <img v-if="addsFormData.avatar !== '' " :src="addsFormData.avatar" style="display:inline-block;width:60px;height:60px;border:1px solid #ccc;">
 			    <el-button type="primary" size="small" plain @click="">选择头像</el-button>
-			  </el-form-item>
+			  </el-form-item>-->
 			  <el-form-item label="初始密码：" prop="password">
 			    <el-input type="password" v-model="addsFormData.password"></el-input>
 			  </el-form-item>
@@ -113,7 +113,7 @@
 		    <el-button @click="addCancel">取 消</el-button>
 		    <el-button type="primary" @click="addsSubmit('addsFormData')">确 定</el-button>
 		  </div>
-		  <guest-list v-if="avatarFormVisible" :avatarFormVisible="avatarFormVisible" @getChildData="getAvatarData"></guest-list>
+		  <!--<guest-list v-if="avatarFormVisible" :avatarFormVisible="avatarFormVisible" @getChildData="getAvatarData"></guest-list>-->
 		</el-dialog>
 
 	</div>
