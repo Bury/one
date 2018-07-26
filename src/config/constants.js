@@ -105,6 +105,7 @@ global.USER_LOGIN = `${SERVER_IP}${COMMON}user/login`
 global.USER_LOGOUT = `${SERVER_IP}${COMMON}user/logout`
 
 
+
 //商家部门管理
 global.DEPARTMENT_LISTS = `${SERVER_IP}${COMMON}department/list`
 global.DEPARTMENT_LISTS_RESULTS = `${SERVER_IP}${COMMON}department/list_results`

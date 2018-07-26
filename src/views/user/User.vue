@@ -10,7 +10,7 @@
 				      <el-option v-for="(item,idx) in allDepartments" :label="allDepartments[idx].val" :value="allDepartments[idx].id" :key="idx"></el-option>
 				    </el-select>
 			  	</el-form-item>
-			  	<el-form-item label="角色：">
+			  	<el-form-item label="岗位：">
 				    <el-select v-model="requestParameters.role_id" placeholder="请选择">
 				        <el-option v-for="(item,idx) in allRoles" :label="allRoles[idx].name" :value="allRoles[idx].id" :key="idx"></el-option>
 				    </el-select>
@@ -67,8 +67,7 @@
     </table>
 
 	    <!-- 分页 -->
-	    <!--
-	    <div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
+	   <div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
 	    	<el-pagination
 				background
 	            class="pagination"
@@ -80,7 +79,7 @@
 	            :total="pagination.totalCount">
 	        </el-pagination>
 	    </div>
-	    -->
+	    
 
 		<!-- 添加、修改 -->
 	    <el-dialog :title="dialogTitle" :visible.sync="userDialogFormVisible">
@@ -246,6 +245,7 @@
 	    				return ;
 	    			}
 	    			if(res.data.errno === 0){
+	    				console.log(res.data.data)
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
@@ -343,6 +343,7 @@
 				this.$data.userDialogFormVisible = false;
 			},
 			onSubmitSearch(){
+				console.log(this.$data.requestParameters)
 				this.lists();
 			},
 			submitForm(formName){

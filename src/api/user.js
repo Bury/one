@@ -42,7 +42,7 @@ export default {
   },
   view () {
     return new Promise((resolve, reject) => {
-      axios.post(global.USER_VIEW).then((res) => {
+      axios.post(global.USER_INFO).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
