@@ -77,7 +77,7 @@
 			</span>
             <span v-else>未分配</span>
           </td>
-          <td>{{item.locate = 'other' ? '其他' : '收银'}} — {{item.locate_desc}}</td>
+          <td>{{item.locate_desc}}</td>
           <td>{{item.status == 0 ? '断开' : '正常'}}</td>
           <td>{{item.is_start == 0 ? '是' : '否'}}</td>
           <td>{{item.created_at | date(4)}}</td>

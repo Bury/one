@@ -250,12 +250,13 @@ import getCity from '@/api/getCity'
 		        })
 			},
 			getCityData(){
-				 getCity.getCityData().then((res) => {
-        			if(res.status === 200){
-        				 this.$data.cityData = res.data
-        			}else{
-        				this.$message(res.statusText)
-        			}
+				 getCity.cityData().then((res) => {
+				 	console.log(res)
+//      			if(res.status === 200){
+//      				 this.$data.cityData = res.data
+//      			}else{
+//      				this.$message(res.statusText)
+//      			}
         		})
 			},
 			getCityCode(){				
