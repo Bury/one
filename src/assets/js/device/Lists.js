@@ -74,8 +74,7 @@
 			    let qs = require('querystring')
         		deviceApi.lists(this.$data.requestParameters).then((res) => {
         			if(res.data.errno === 0){
-                        this.$data.tableData = res.data.data.list;
-                        console.log(this.$data.tableData);
+                        this.$data.tableData = res.data.data.list;   
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
                     }else{
