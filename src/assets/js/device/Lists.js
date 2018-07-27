@@ -120,13 +120,17 @@
 	            };
 			},
 			distributionSubmit(){
+				if(this.$data.distributionForm.belong_sid == ""){
+					this.$message("请选择门店")
+				    return false;
+				};
 				let qs = require('querystring');
         		deviceApi.distribution(qs.stringify(this.$data.distributionForm)).then((res) => {
         			if(res.data.errno === 0){
 						this.lists();
 						this.$data.distributionFormVisible = false;
         			}else{
-
+                        this.$message(res.data.msg)
         			}
 
         		})

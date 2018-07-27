@@ -51,7 +51,7 @@
         <thead style="background-color: #d1d1d1">
         <tr height="40">
           <th class="col-md-1 text-center">ID</th>
-          <th class="col-md-2 text-center">编号</th>
+          <th class="col-md-1 text-center">编号</th>
           <th class="col-md-1 text-center">版本</th>
           <th class="col-md-1 text-center">类型</th>
           <th class="col-md-1 text-center">门店</th>
@@ -59,6 +59,7 @@
           <th class="col-md-1 text-center">运行情况</th>
           <th class="col-md-1 text-center">是否启用</th>
           <th class="col-md-2 text-center">添加时间</th>
+          <th class="col-md-1 text-center">操作</th>
         </tr>
         </thead>
         <tbody style="text-align: center">
@@ -72,16 +73,18 @@
           </td>
           <td>
             <span v-if="item.store.name.length>0">
-				          {{item.store.name}}
-				    </span>
-            <span v-else>
-              <el-button @click="fnDistribution(item)" type="text" size="small" >分配</el-button>
-            </span>
+				{{item.store.name}}
+			</span>
+            <span v-else>未分配</span>
           </td>
           <td>{{item.locate = 'other' ? '其他' : '收银'}} — {{item.locate_desc}}</td>
           <td>{{item.status == 0 ? '断开' : '正常'}}</td>
           <td>{{item.is_start == 0 ? '是' : '否'}}</td>
           <td>{{item.created_at | date(4)}}</td>
+          <td> 
+            <el-button  v-if="item.store.name.length>0" @click="fnDistribution(item)" type="text" size="small" >重新分配</el-button>
+			<el-button v-else @click="fnDistribution(item)" type="text" size="small" >分配</el-button>
+	      </td>
         </tr>
         </tbody>
       </table>
