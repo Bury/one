@@ -62,6 +62,7 @@
 			storeDeviceSumLists(){
 				let qs = require('querystring');
 				deviceApi.storeDeviceSumLists(qs.stringify(this.$data.requestParameters)).then((res) => {
+					console.log(res)
         			if(res.data.errno === 0){
 						this.$data.tableData = res.data.data.list;
 						console.log(this.$data.tableData)

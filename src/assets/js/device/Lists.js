@@ -83,9 +83,6 @@
 
         		})
 			},
-			getStores(){
-                
-			},
 			getDeviceVersionListsResults(){
 				deviceVersionApi.listsResults().then((res) => {
         			if(res.data.errno === 0){
@@ -193,12 +190,13 @@
                 }
 			},
 			getCityData(){
-				 getCity.getCityData().then((res) => {
-        			if(res.status === 200){
-        				 this.$data.cityData = res.data
-        			}else{
-        				this.$message(res.statusText)
-        			}
+				getCity.cityData().then((res) => {
+//      			if(res.data.errno === 0){
+//      				console.log(res.data.data)
+//   				 this.$data.cityData = res.data.data
+//      			}else{
+//      				this.$message(res.data.msg)
+//      			}
         		})
 			},
 			getStore(t){

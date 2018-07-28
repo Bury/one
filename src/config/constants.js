@@ -46,6 +46,9 @@ global.ADD_CHILD_LABEL = `${SERVER_IP}${COMMON}tag/childs-adds`
 global.EDIT_CHILD_LABEL = `${SERVER_IP}${COMMON}tag/childs-edit`
 global.DELE_CHILD_LABEL = `${SERVER_IP}${COMMON}tag/childs-dele`
 
+//获取特定的城市地区
+global.STORE_LOCATE = `${SERVER_IP}${COMMON}store/locate`
+
 //设备管理
 global.DEVICE_LISTS = `${SERVER_IP}${COMMON}device/list`
 global.DEVICE_EDIT = `${SERVER_IP}${COMMON}device/edit`
