@@ -66,7 +66,7 @@
         <td>{{item.cash_t | date(4)}}</td>
         <td>{{item.created_at | date(4)}}</td>
         <td>
-          <el-button @click="fnEdit(item)" type="text" size="small">编辑</el-button>
+          <!--<el-button @click="fnEdit(item)" type="text" size="small">编辑</el-button>-->
           <el-button @click="fnRemove(item)" type="text" size="small">删除</el-button>
         </td>
       </tr>

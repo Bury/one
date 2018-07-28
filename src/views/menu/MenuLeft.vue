@@ -1,6 +1,6 @@
 <template>
 	<div class="left-menu1">
-		<el-menu :default-active="currentMenu" 
+		<el-menu :default-active="currentMenu"
                  class="el-menu-vertical-demo"
                  :collapse="isCollapse && isShow"
                  background-color="#545c64"
@@ -13,7 +13,7 @@
                     <span slot="title">系统通知</span>
                 </el-menu-item>
             </router-link>
-            
+
             <router-link :to="{name: 'Statistics'}">
                 <el-menu-item index="/Statistics">
                     <i class="el-icon-view"></i>
@@ -27,7 +27,7 @@
                     <span slot="title">订单管理</span>
                 </el-menu-item>
             </router-link>
-            
+
             <router-link :to="{name: 'Device'}">
                 <el-menu-item index="/Device">
                     <i class="el-icon-view"></i>
@@ -64,9 +64,9 @@
                     <i class="el-icon-setting"></i>
                     <span slot="title">系统设置</span>
                 </template>
-                <router-link :to="{name: 'Department'}">
-                    <el-menu-item index="/Department" style="padding-left:53px;">部门管理</el-menu-item>
-                </router-link>
+                <!--<router-link :to="{name: 'Department'}">-->
+                    <!--<el-menu-item index="/Department" style="padding-left:53px;">部门管理</el-menu-item>-->
+                <!--</router-link>-->
                 <router-link :to="{name: 'Role'}">
                     <el-menu-item index="/Role" style="padding-left:53px;">岗位管理</el-menu-item>
                 </router-link>

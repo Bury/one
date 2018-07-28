@@ -115,7 +115,7 @@ global.DEPARTMENT_DELE = `${SERVER_IP}${COMMON}department/dele`
 
 //商家角色管理
 global.ROLE_LISTS = `${SERVER_IP}${COMMON}merchant-role/list`
-global.ROLE_LISTS_RESULTS = `${SERVER_IP}${COMMON}merchant-role/list_results`
+global.ROLE_LISTS_RESULTS = `${SERVER_IP}${COMMON}merchant-role/list-results`
 global.ROLE_ADDS = `${SERVER_IP}${COMMON}merchant-role/adds`
 global.ROLE_EDIT = `${SERVER_IP}${COMMON}merchant-role/edit`
 global.ROLE_DELE = `${SERVER_IP}${COMMON}merchant-role/dele`
