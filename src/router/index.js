@@ -47,10 +47,12 @@ import User from '../views/user/User'
 
 //个人中心
 import UserPersonal from '../views/user/UserPersonal'
-
-
-
-
+//通知
+import Notice from '../views/notice/Notice'
+import Inbox from '../views/notice/Inbox'
+import Outbox from '../views/notice/Outbox'
+import Drafts from '../views/notice/Drafts'
+import Check from '../views/notice/Check'
 
 Vue.use(Router)
 
@@ -84,6 +86,11 @@ const router = new Router({
         // {path: 'Department',name:'Department',component:Department},
         {path: 'Role',name:'Role',component:Role},
         {path: 'User',name:'User',component:User},
+        {path: 'Notice',name:'Notice',component:Notice},
+        {path: 'Inbox',name:'Inbox',component:Inbox},
+        {path: 'Outbox',name:'Outbox',component:Outbox},
+        {path: 'Drafts',name:'Drafts',component:Drafts},
+        {path: 'Check',name:'Check',component:Check},
       ]
 
   }]

@@ -29,6 +29,22 @@
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
+          <div class="user1">
+            <el-dropdown trigger="hover" >
+                    <span class="el-dropdown-link" style="color:#fff;">
+                      通知
+                      <i class="el-icon-caret-bottom el-icon--right"></i>
+                    </span>
+              <el-dropdown-menu slot="dropdown" style="text-align:center;">
+                <el-dropdown-item divided @click.native="created_notice">创建通知</el-dropdown-item>
+                <el-dropdown-item divided @click.native="inbox">收件箱</el-dropdown-item>
+                <el-dropdown-item divided @click.native="outbox">发件箱</el-dropdown-item>
+                <el-dropdown-item divided @click.native="drafts">草稿箱</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+
+
         </div>
         <div class="left-menu-wrap">
             <el-radio-group v-model="isCollapse">
@@ -87,7 +103,7 @@ export default {
                 this.$data.leftMenu[nowI] = true;
             }
         }
-        
+
     },
 
     handleOpen(key, keyPath) {
@@ -113,10 +129,23 @@ export default {
 
     user_personal(){
         this.$router.push('/UserPersonal')
-    }
+    },
+
+    created_notice(){
+      this.$router.push('/Notice')
+    },
+    inbox(){
+      this.$router.push('/Inbox')
+    },
+    outbox(){
+      this.$router.push('/Outbox')
+    },
+    drafts(){
+      this.$router.push('/Drafts')
+    },
 
   }
-  
+
 }
 
 </script>
@@ -146,9 +175,14 @@ export default {
             }
             .user{
                 position: absolute;
-                right:50px;
+                right:150px;
                 line-height:60px;
             }
+          .user1{
+            position: absolute;
+            right:50px;
+            line-height:60px;
+          }
         }
         .left-menu-wrap{
             position:fixed;
@@ -170,7 +204,7 @@ export default {
         .left-menu-wrap::-moz-scrollbar {
             // display: none;
         }
-        
+
         .content-wrap{
             padding:90px 30px 30px;
 

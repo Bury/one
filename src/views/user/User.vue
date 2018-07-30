@@ -75,57 +75,43 @@
 
 		<!-- 添加、修改 -->
 	    <el-dialog :title="dialogTitle" :visible.sync="userDialogFormVisible">
-	    	<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-			</el-form>
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-			  <el-form-item label="角色：">
-			  	<el-select v-model="ruleForm.role_id" placeholder="请选择">
-				      <el-option v-for="(item,idx) in allRoles" :label="allRoles[idx].val" :value="allRoles[idx].name" :key="idx"></el-option>
-			    </el-select>
-			  </el-form-item>
-			</el-form>
-	    	<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-			  <el-form-item label="帐号：" prop="account">
-			    <el-input v-model="ruleForm.account"></el-input>
-			  </el-form-item>
-		  	</el-form>
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-			  <el-form-item label="密码：" prop="password">
-			    <el-input v-model="ruleForm.password"></el-input>
-			  </el-form-item>
-			</el-form>
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-			  <el-form-item label="姓名：" prop="name">
-			    <el-input v-model="ruleForm.name"></el-input>
-			  </el-form-item>
-			</el-form>
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-			  <el-form-item label="手机号码：" prop="telephone">
-			    <el-input v-model="ruleForm.telephone"></el-input>
-			  </el-form-item>
-			</el-form>
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-			  <el-form-item label="状态：" prop="status">
-			    <template slot-scope="scope">
-			        <el-switch
-			          v-model="ruleForm.status"
-			          on-color="#00A854"
-			          on-text="启动"
-			          on-value="1"
-			          active-value="1"
-			          off-color="#F04134"
-			          off-text="禁止"
-			          off-value="0"
-			          inactive-value="0"
-			          @change="changeSwitch()">
-			        </el-switch>
-			  	</template>
-			  </el-form-item>
-			</el-form>
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-			  <el-form-item label="排序：" prop="sort">
-			    <el-input v-model="ruleForm.sort" :maxlength="2" style="width:60px"></el-input>
-			  </el-form-item>
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+          <el-form-item label="角色：">
+          <el-select v-model="ruleForm.role_id" placeholder="请选择">
+            <el-option v-for="(item,idx) in allRoles" :label="allRoles[idx].val" :value="allRoles[idx].name" :key="idx"></el-option>
+          </el-select>
+        </el-form-item>
+          <el-form-item label="帐号：" prop="account">
+            <el-input v-model="ruleForm.account"></el-input>
+          </el-form-item>
+          <el-form-item label="密码：" prop="password">
+            <el-input v-model="ruleForm.password"></el-input>
+          </el-form-item>
+          <el-form-item label="姓名：" prop="name">
+            <el-input v-model="ruleForm.name"></el-input>
+          </el-form-item>
+          <el-form-item label="手机号码：" prop="telephone">
+            <el-input v-model="ruleForm.telephone"></el-input>
+          </el-form-item>
+          <el-form-item label="状态：" prop="status">
+            <template slot-scope="scope">
+              <el-switch
+                v-model="ruleForm.status"
+                on-color="#00A854"
+                on-text="启动"
+                on-value="1"
+                active-value="1"
+                off-color="#F04134"
+                off-text="禁止"
+                off-value="0"
+                inactive-value="0"
+                @change="changeSwitch()">
+              </el-switch>
+            </template>
+          </el-form-item>
+          <el-form-item label="排序：" prop="sort">
+            <el-input v-model="ruleForm.sort" :maxlength="2" style="width:60px"></el-input>
+          </el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="fnCancel">取 消</el-button>

@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import ElementUI from 'element-ui'
+import {quillEditor} from 'vue-quill-editor'
 import 'element-ui/lib/theme-chalk/index.css'
 import '../static/css/iconfont.css'
 import '../static/css/home.css'

@@ -1,50 +1,44 @@
 <template>
 	<div class="role-set-page">
-    <el-form :model="ruleForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="标题：">
-        <el-input></el-input>
-      </el-form-item>
-      <el-form-item label="内容：" prop="account">
-        <quill-editor ref="myTextEditor"
-                      :content="content"
-                      :options = "editorOption"
-                      @change="onEditorChange($event)">
-        </quill-editor>
-      </el-form-item>
-    </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button @click="fnCancel()">取消</el-button>
-      <el-button type="primary" @click="submitForm('ruleForm')">发送</el-button>
-    </div>
+    <table width="90%" class="table-bordered">
+      <thead style="background-color: #d1d1d1">
+      <tr height="40">
+        <th class="col-md-2 text-center">标题</th>
+        <th class="col-md-3 text-center">内容</th>
+        <th class="col-md-2 text-center">操作人</th>
+        <th class="col-md-2 text-center">时间</th>
+        <th class="col-md-2 text-center">操作</th>
+      </tr>
+      </thead>
+      <tbody style="text-align: center">
+      <tr v-for="(item,index) in tableData" :key="index" height="40">
+        <td>{{item.id}}</td>
+        <td>{{item.username}}</td>
+        <td>{{item.role_name}}</td>
+        <td>{{item.role_name}}</td>
+        <td>
+          <el-button @click="fnCheck(item)" type="text" size="small">查看</el-button>
+          <el-button @click="fnRemove(item)" type="text" size="small">删除</el-button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
 	</div>
 </template>
 <script>
-	import noticeApi from '../../api/notice'
-  import {quillEditor} from 'vue-quill-editor'
+	import roleApi from '../../api/role'
 	export default{
 		name:'role-set',
 		data(){
 			return {
-        content:"",
 				tableData: [],
 				pagination:{
-          currentPage:1,
-          totalCount:0,
-        },
-        ruleForm:{
-          name:'',
-        },
-        editorOption:{},
+		        	currentPage:1,
+		        	totalCount:0,
+		        },
+
 			}
 		},
-    components:{
-      quillEditor
-    },
-    computed:{
-		  editor(){
-        return this.$refs.myTextEditor.quill
-      }
-    },
 		created:function(){
 			this.lists();
 		},
@@ -52,7 +46,7 @@
 			//列表
 			lists(){
 				let qs = require('querystring')
-	    		noticeApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
+	    		roleApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
 	    			if(res.data.errno === 0){
 						console.log(res);
 						this.$data.tableData = res.data.data.list;
@@ -63,7 +57,9 @@
 	    			}
 	    		})
 	    	},
-
+      fnCheck(){
+			  this.$router.push('/Check')
+      },
 			fnRemove(row){
 				this.$confirm('确认删除该角色：'+row.name+' ？', '删除提示', {
 		          confirmButtonText: '确定',
@@ -74,7 +70,7 @@
 						'id': row.id
 					}
 					let qs = require('querystring')
-          noticeApi.dele(qs.stringify(list)).then((res) => {
+	        		roleApi.dele(qs.stringify(list)).then((res) => {
 	        			if(res.data.errno === 0){
 							console.log(res)
 							this.$message({
@@ -94,13 +90,7 @@
 		          // });
 		        });
 			},
-			fnEdit(row){
-				console.log(row);
-				this.$data.dialogTitle = '编辑';
-				this.$data.currentId = row.id;
-				this.$data.ruleForm.name = row.name;
-				this.$data.ruleForm.sort = row.sort;
-				this.$data.dialogFormVisible = true;
+			fnEdit(){
 
 			},
 			fnAdds(){
@@ -128,7 +118,7 @@
 								'sort':this.$data.ruleForm.sort
 							}
 							let qs = require('querystring')
-              noticeApi.edit(qs.stringify(list)).then((res) => {
+			        		roleApi.edit(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
 									console.log(res)
 									this.$message({
@@ -153,7 +143,7 @@
 						        'sort':this.$data.ruleForm.sort
 						    }
 						    let qs = require('querystring')
-              noticeApi.adds(qs.stringify(list)).then((res) => {
+			        		roleApi.adds(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
 									console.log(res)
 									this.$message({
@@ -176,11 +166,72 @@
 			        }
 		        });
 			},
-      onEditorChange({ editor, html, text }) {//富文本编辑器  文本改变时 设置字段值
-        this.content = html
-      }
 
-    }
+			fnSet(row){
+				alert('暂未支持');
+				return ;
+				this.$data.currentName = row.name;
+				this.$data.currentId = row.id;
+				let list = {
+			        'role_id':row.id
+			    }
+			    let qs = require('querystring')
+        		roleApi.allPermission(qs.stringify(list)).then((res) => {
+        			if(res.data.errno === 0){
+						console.log(res)
+						this.$data.dialogForm2 = res.data.data;
+						var checkedId = [];
+						for(var i=0; i< this.$data.dialogForm2.length; i++){
+							var rootIdx = i;
+							if(this.$data.dialogForm2[rootIdx].is_permission === 1){
+								var len = checkedId.length;
+								checkedId[len] = this.$data.dialogForm2[rootIdx].id;
+
+							}
+							if(this.$data.dialogForm2[rootIdx].children && this.$data.dialogForm2[rootIdx].children.length>0){
+								for(var j=0; j<this.$data.dialogForm2[rootIdx].children.length; j++){
+									var childIdx = j;
+									if(this.$data.dialogForm2[rootIdx].children[childIdx].is_permission === 1){
+										var len = checkedId.length;
+										checkedId[len] = this.$data.dialogForm2[rootIdx].children[childIdx].id;
+
+									}
+								}
+							}
+						}
+						this.$data.checkedIds = checkedId;
+						console.log(this.$data.checkedIds)
+        			}else{
+        				this.$message.error(res.data.msg);
+
+        			}
+
+        		})
+				this.$data.dialogForm2Visible = true;
+			},
+
+			submitForm2(){
+				this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
+				console.log(this.$data.currentId)
+				console.log(this.$data.checkedIds)
+				let list = {
+			        'role_id':this.$data.currentId,
+			        'permission_ids':this.$data.checkedIds.toString()
+			    }
+			    let qs = require('querystring')
+        		roleApi.editPermission(qs.stringify(list)).then((res) => {
+        			if(res.data.errno === 0){
+						console.log(res)
+						this.$data.currentId = '';
+						this.$data.dialogForm2Visible = false;
+        			}else{
+        				this.$message.error(res.data.msg);
+
+        			}
+
+        		})
+			}
+		}
 	}
 </script>
 <style lang="scss" scoped>
