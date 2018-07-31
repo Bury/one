@@ -8,7 +8,8 @@
         <quill-editor ref="myTextEditor"
                       :content="content"
                       :options = "editorOption"
-                      @change="onEditorChange($event)">
+                      @change="onEditorChange($event)"
+                      class="quill_editor">
         </quill-editor>
       </el-form-item>
     </el-form>
@@ -87,35 +88,7 @@
 	        			}
 
 	        		})
-		        }).catch(() => {
-		          // this.$message({
-		          //   type: 'info',
-		          //   message: '已取消删除'
-		          // });
-		        });
-			},
-			fnEdit(row){
-				console.log(row);
-				this.$data.dialogTitle = '编辑';
-				this.$data.currentId = row.id;
-				this.$data.ruleForm.name = row.name;
-				this.$data.ruleForm.sort = row.sort;
-				this.$data.dialogFormVisible = true;
-
-			},
-			fnAdds(){
-				this.$data.dialogTitle = '添加';
-				this.$data.currentId = "";
-				this.$data.ruleForm.name = "";
-				this.$data.ruleForm.sort = 0;
-				this.$data.dialogFormVisible = true;
-			},
-			fnCancel(){
-				this.$data.dialogFormVisible = false;
-				this.$data.dialogForm2Visible = false;
-				this.$data.ruleForm.name = '';
-				this.$data.ruleForm.name = 0;
-				this.$data.currentId = '';
+		        }).catch(() => {});
 			},
 			submitForm(formName){
 				this.$refs[formName].validate((valid) => {
@@ -203,5 +176,9 @@
 		margin:20px 0;
 	  	float: right;
 	}
+  .quill_editor{
+    height: 400px;
+    margin-bottom: 110px;
+  }
 
 </style>
