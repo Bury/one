@@ -40,6 +40,11 @@
                     <i class="el-icon-setting"></i>
                     <span slot="title">门店管理</span>
                 </template>
+                <router-link :to="{name: 'StoreOrganize'}">
+                    <el-menu-item index="/StoreOrganize" style="padding-left:53px;">
+                        <span slot="title">门店架构管理</span>
+                    </el-menu-item>
+                </router-link>
                 <router-link :to="{name: 'Store'}">
                     <el-menu-item index="/Store" style="padding-left:53px;">
                         <span slot="title">门店列表</span>

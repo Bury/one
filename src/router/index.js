@@ -30,6 +30,7 @@ import StoreDeviceDetailLists from '../views/device/StoreDeviceDetailLists'
 /*****门店管理*****/
 
 //门店管理
+import StoreOrganize from '../views/store/StoreOrganize'
 import Store from '../views/store/Store'
 import StoreAccount from '../views/store/StoreAccount'
 import StorePost from '../views/store/StorePost'
@@ -76,7 +77,8 @@ const router = new Router({
         {path: 'StoreDeviceDetailLists',name: 'StoreDeviceDetailLists',component: StoreDeviceDetailLists},
 
         {path: 'Store',name:'Store',component:Store},
-
+        
+        {path: 'StoreOrganize',name:'StoreOrganize',component:StoreOrganize},
         {path: 'StoreAccount',name:'StoreAccount',component:StoreAccount},
         {path: 'StorePost',name:'StorePost',component:StorePost},
         {path: 'StoreRemind',name: 'StoreRemind',component: StoreRemind},

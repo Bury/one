@@ -87,6 +87,12 @@ global.STORE_ACCOUNT_EDIT = `${SERVER_IP}${COMMON}store-account/edit`
 global.STORE_ACCOUNT_DELE = `${SERVER_IP}${COMMON}store-account/dele`
 global.STORE_ACCOUNT_PASSWORD_EDIT = `${SERVER_IP}${COMMON}store-account/edit-password`
 
+//门店架构组织
+global.MERCHANT_ORGANIZE_TREE = `${SERVER_IP}${COMMON}merchant-organize/tree`
+global.MERCHANT_ORGANIZE_ADDS = `${SERVER_IP}${COMMON}merchant-organize/adds`
+global.MERCHANT_ORGANIZE_DELE = `${SERVER_IP}${COMMON}merchant-organize/dele`
+global.MERCHANT_ORGANIZE_EDIT = `${SERVER_IP}${COMMON}merchant-organize/edit`
+
 //门店角色管理
 global.STORE_ROLE_LIST = `${SERVER_IP}${COMMON}store-role/list`
 

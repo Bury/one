@@ -106,6 +106,7 @@
 			storeRoleLists(){
 				let qs = require('querystring')
         storeRoleApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
+        	console.log(res)
 	    			if(res.data.errno === 0){
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;

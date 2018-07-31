@@ -50,5 +50,46 @@ export default {
       })
     })
   },
+  
+  organizeTree(list){
+  	return new Promise((resolve, reject) => {
+      axios.post(global.MERCHANT_ORGANIZE_TREE,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  
+  organizeAdds(list){
+  	return new Promise((resolve, reject) => {
+      axios.post(global.MERCHANT_ORGANIZE_ADDS,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  
+  organizeDele(list){
+  	return new Promise((resolve, reject) => {
+      axios.post(global.MERCHANT_ORGANIZE_DELE,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  
+  organizeEdit(list){
+  	return new Promise((resolve, reject) => {
+      axios.post(global.MERCHANT_ORGANIZE_EDIT,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  }
+  
 
 }
