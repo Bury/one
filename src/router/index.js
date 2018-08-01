@@ -77,7 +77,7 @@ const router = new Router({
         {path: 'StoreDeviceDetailLists',name: 'StoreDeviceDetailLists',component: StoreDeviceDetailLists},
 
         {path: 'Store',name:'Store',component:Store},
-        
+
         {path: 'StoreOrganize',name:'StoreOrganize',component:StoreOrganize},
         {path: 'StoreAccount',name:'StoreAccount',component:StoreAccount},
         {path: 'StorePost',name:'StorePost',component:StorePost},
@@ -89,6 +89,7 @@ const router = new Router({
         {path: 'Role',name:'Role',component:Role},
         {path: 'User',name:'User',component:User},
         {path: 'Notice',name:'Notice',component:Notice},
+        {path: 'Notice/:id',name:'Notice',component:Notice},
         {path: 'Inbox',name:'Inbox',component:Inbox},
         {path: 'Outbox',name:'Outbox',component:Outbox},
         {path: 'Drafts',name:'Drafts',component:Drafts},

@@ -150,4 +150,13 @@ global.STORE_ROLE_EDIT = `${SERVER_IP}${COMMON}store-role/edit`
 global.STORE_ROLE_DELE = `${SERVER_IP}${COMMON}store-role/dele`
 global.STORE_ROLE_VIEW = `${SERVER_IP}${COMMON}store-role/view`
 
+//通知
+global.NOTICE_DELE = `${SERVER_IP}${COMMON}message/mybox-delete`
+global.NOTICE_INBOX_DELE = `${SERVER_IP}${COMMON}message/inbox-delete`
+global.NOTICE_MESSAGE_SEND = `${SERVER_IP}${COMMON}message/message-send`
+global.NOTICE_DRAFT = `${SERVER_IP}${COMMON}message/draft-save`
+global.NOTICE_DETAIL = `${SERVER_IP}${COMMON}message/message-detail`
+global.NOTICE_INBOX_LISTS = `${SERVER_IP}${COMMON}message/inbox-list`
+global.NOTICE_MYBOX_LISTS = `${SERVER_IP}${COMMON}message/mybox-list`
+
 

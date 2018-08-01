@@ -25,70 +25,7 @@
     </table>
 	</div>
 </template>
-<script>
-	import roleApi from '../../api/role'
-	export default{
-		name:'role-set',
-		data(){
-			return {
-				tableData: [],
-				pagination:{
-		        	currentPage:1,
-		        	totalCount:0,
-		        },
-			}
-		},
-		created:function(){
-			this.lists();
-		},
-		methods: {
-			//列表
-			lists(){
-				let qs = require('querystring')
-	    		roleApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-	    			if(res.data.errno === 0){
-						console.log(res);
-						this.$data.tableData = res.data.data.list;
-						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
-		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
-	    			}else{
-						this.$message.error(res.data.msg);
-	    			}
-	    		})
-	    	},
-      fnCheck(){
-        this.$router.push('/Check')
-      },
-
-			fnRemove(row){
-				this.$confirm('确认删除该角色：'+row.name+' ？', '删除提示', {
-		          confirmButtonText: '确定',
-		          fnCancelButtonText: '取消',
-		          type: 'warning'
-		        }).then(() => {
-		          let list = {
-						'id': row.id
-					}
-					let qs = require('querystring')
-	        		roleApi.dele(qs.stringify(list)).then((res) => {
-	        			if(res.data.errno === 0){
-							console.log(res)
-							this.$message({
-					            type: 'success',
-					            message: '删除成功!'
-					          });
-							this.lists();
-	        			}else{
-							this.$message.error(res.data.msg);
-	        			}
-
-	        		})
-		        }).catch(() => {
-		        });
-			},
-		}
-	}
-</script>
+<script src="@/assets/js/notice/Outbox.js"></script>
 <style lang="scss" scoped>
 	.role-set-page{
 		.top-box{

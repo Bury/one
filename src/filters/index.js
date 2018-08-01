@@ -15,7 +15,7 @@ export const dateFilter = (time, type) => {
   let result
   switch (type) {
     case 0: // 01-05
-      result = `${format(month)}月${format(day)}日`
+      result = `${(month)}月${format(day)}日`
       break
     case 1: // 11:12
       result = `${format(hours)}:${format(minutes)}:${format(second)}`
