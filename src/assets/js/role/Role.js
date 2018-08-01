@@ -1,0 +1,261 @@
+import roleApi from '@/api/role'
+	export default {
+		name: 'role-set',
+		data() {
+			return {
+				tableData: [],
+				pagination: {
+					currentPage: 1,
+					totalCount: 0,
+				},
+				dialogTitle: "",
+				dialogFormVisible: false,
+				ruleForm: {
+					name: '',
+					sort: '0',
+				},
+				currentId: '',
+				currentName: '',
+				rules: {
+					name: [{
+							required: true,
+							message: '请输入名称'
+						},
+						{
+							min: 2,
+							max: 8,
+							message: '长度在 2 到 8 个字符',
+							trigger: 'blur'
+						}
+					],
+					sort: [{
+							required: true,
+							message: '请输入排序'
+						},
+						{
+							validator: (rule, value, callback) => {
+								if(/^[0-9]{1,2}$/.test(value)) {
+									callback();
+								} else {
+									callback("长度在 1 到 2 个数字")
+								}
+							},
+							trigger: 'blur'
+						}
+					]
+				},
+				dialogForm2Visible: false,
+				dialogForm2: [],
+				checkedIds: [],
+				requestParameters: {
+					page: 1,
+					page_size: 10
+				}
+
+			}
+		},
+		created: function() {
+			this.lists();
+		},
+		methods: {
+			//列表
+			lists() {
+				let qs = require('querystring')
+				roleApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
+					if(res.data.errno === 0) {
+						console.log(res);
+						this.$data.tableData = res.data.data.list;
+						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
+						this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
+					} else {
+						this.$message.error(res.data.msg);
+					}
+				})
+			},
+
+			handleCurrentChange(currentPage) {
+				console.log(currentPage)
+				this.$data.requestParameters.page = currentPage;
+				this.lists();
+			},
+
+			fnRemove(row) {
+				this.$confirm('确认删除该角色：' + row.name + ' ？', '删除提示', {
+					confirmButtonText: '确定',
+					fnCancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					let list = {
+						'id': row.id
+					}
+					let qs = require('querystring')
+					roleApi.dele(qs.stringify(list)).then((res) => {
+						if(res.data.errno === 0) {
+							console.log(res)
+							this.$message({
+								type: 'success',
+								message: '删除成功!'
+							});
+							this.lists();
+						} else {
+							this.$message.error(res.data.msg);
+						}
+
+					})
+				}).catch(() => {
+					// this.$message({
+					//   type: 'info',
+					//   message: '已取消删除'
+					// });
+				});
+			},
+			fnEdit(row) {
+				console.log(row);
+				this.$data.dialogTitle = '编辑';
+				this.$data.currentId = row.id;
+				this.$data.ruleForm.name = row.name;
+				this.$data.ruleForm.sort = row.sort;
+				this.$data.dialogFormVisible = true;
+
+			},
+			fnAdds() {
+				this.$data.dialogTitle = '添加';
+				this.$data.currentId = "";
+				this.$data.ruleForm.name = "";
+				this.$data.ruleForm.sort = 0;
+				this.$data.dialogFormVisible = true;
+			},
+			fnCancel(formName) {
+				this.$data.dialogFormVisible = false;
+				this.$data.dialogForm2Visible = false;
+				this.$data.ruleForm.name = '';
+				this.$data.ruleForm.sort = 0;
+				this.$data.currentId = '';
+
+				this.$refs[formName].resetFields(); //关闭dialog后重置验证结果
+			},
+			submitForm(formName) {
+				this.$refs[formName].validate((valid) => {
+					if(valid) {
+						if(this.$data.currentId !== '') {
+							let list = {
+								'id': this.$data.currentId,
+								'name': this.$data.ruleForm.name,
+								'sort': this.$data.ruleForm.sort
+							}
+							let qs = require('querystring')
+							roleApi.edit(qs.stringify(list)).then((res) => {
+								if(res.data.errno === 0) {
+									console.log(res)
+									this.$message({
+										message: '操作成功',
+										type: 'success',
+										duration: 1500
+									});
+									this.lists();
+									this.$data.ruleForm.name = '';
+									this.$data.ruleForm.sort = 0;
+									this.$data.currentId = '';
+									this.$data.dialogFormVisible = false;
+
+								} else {
+									this.$message.error(res.data.msg);
+								}
+
+							})
+						} else {
+							let list = {
+								'name': this.$data.ruleForm.name,
+								'sort': this.$data.ruleForm.sort
+							}
+							let qs = require('querystring')
+							roleApi.adds(qs.stringify(list)).then((res) => {
+								if(res.data.errno === 0) {
+									this.$message({
+										message: '操作成功',
+										type: 'success',
+										duration: 1500
+									});
+									this.lists();
+									this.$data.ruleForm.name = '';
+									this.$data.ruleForm.sort = '';
+									this.$data.currentId = '';
+									this.$data.dialogFormVisible = false;
+
+								} else {
+									this.$message.error(res.data.msg);
+
+								}
+							})
+						}
+					}
+				});
+			},
+
+			fnSet(row) {
+				//				alert('暂未支持');
+				//				return ;
+				this.$data.currentName = row.name;
+				this.$data.currentId = row.id;
+				let list = {
+					'role_id': row.id
+				}
+				let qs = require('querystring');
+				roleApi.view_permission(qs.stringify(list)).then((res) => {
+					console.log(res)
+					if(res.data.errno === 0) {
+						console.log(res)
+						this.$data.dialogForm2 = res.data.data;
+						var checkedId = [];
+						for(var i = 0; i < this.$data.dialogForm2.length; i++) {
+							var rootIdx = i;
+							if(this.$data.dialogForm2[rootIdx].is_permission === 1) {
+								var len = checkedId.length;
+								checkedId[len] = this.$data.dialogForm2[rootIdx].id;
+
+							}
+							if(this.$data.dialogForm2[rootIdx].children && this.$data.dialogForm2[rootIdx].children.length > 0) {
+								for(var j = 0; j < this.$data.dialogForm2[rootIdx].children.length; j++) {
+									var childIdx = j;
+									if(this.$data.dialogForm2[rootIdx].children[childIdx].is_permission === 1) {
+										var len = checkedId.length;
+										checkedId[len] = this.$data.dialogForm2[rootIdx].children[childIdx].id;
+
+									}
+								}
+							}
+						}
+						this.$data.checkedIds = checkedId;
+						console.log(this.$data.checkedIds)
+					} else {
+						this.$message.error(res.data.msg);
+
+					}
+
+				})
+				this.$data.dialogForm2Visible = true;
+			},
+
+			submitForm2() {
+				this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
+				console.log(this.$data.currentId)
+				console.log(this.$data.checkedIds)
+				let list = {
+					'role_id': this.$data.currentId,
+					'permission_ids': this.$data.checkedIds.toString()
+				}
+				let qs = require('querystring')
+				roleApi.editPermission(qs.stringify(list)).then((res) => {
+					if(res.data.errno === 0) {
+						console.log(res)
+						this.$data.currentId = '';
+						this.$data.dialogForm2Visible = false;
+					} else {
+						this.$message.error(res.data.msg);
+
+					}
+
+				})
+			}
+		}
+	}

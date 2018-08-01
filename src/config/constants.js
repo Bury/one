@@ -98,12 +98,12 @@ global.STORE_ROLE_LIST = `${SERVER_IP}${COMMON}store-role/list`
 
 
 //提醒设置
-global.STORE_REMIND_VIEW = `${SERVER_IP}${COMMON}store-config/view-remind`
-global.STORE_REMIND_SET = `${SERVER_IP}${COMMON}store-config/remind`
+global.MERCHANT_REMIND_VIEW = `${SERVER_IP}${COMMON}merchant-config/view-remind`
+global.MERCHANT_REMIND_SET = `${SERVER_IP}${COMMON}merchant-config/remind`
 
 //营业时间
-global.STORE_TIME_VIEW = `${SERVER_IP}${COMMON}store-config/view-time`
-global.STORE_TIME_SET = `${SERVER_IP}${COMMON}store-config/business-time`
+global.MERCHANT_TIME_VIEW = `${SERVER_IP}${COMMON}merchant-config/view-time`
+global.MERCHANT_TIME_SET = `${SERVER_IP}${COMMON}merchant-config/business-time`
 
 //个人中心
 global.USER_INFO = `${SERVER_IP}${COMMON}user/info`
@@ -129,9 +129,10 @@ global.ROLE_ADDS = `${SERVER_IP}${COMMON}merchant-role/adds`
 global.ROLE_EDIT = `${SERVER_IP}${COMMON}merchant-role/edit`
 global.ROLE_DELE = `${SERVER_IP}${COMMON}merchant-role/dele`
 
-//permisstion
-// global.ROLE_PERMISSION_VIEW = `${SERVER_IP}${COMMON}role/view-permission`
-// global.ROLE_PERMISSION_EDIT = `${SERVER_IP}${COMMON}role/edit-permission`
+//角色权限和分配权限
+global.ROLE_PERMISSION_EDIT = `${SERVER_IP}${COMMON}merchant-role/edit-permission`
+global.ROLE_PERMISSION_VIEW = `${SERVER_IP}${COMMON}merchant-role/view-permission`   
+   
 
 //商家帐号管理
 global.USER_LISTS = `${SERVER_IP}${COMMON}merchant-account/list`

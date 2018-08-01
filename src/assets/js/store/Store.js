@@ -1,13 +1,22 @@
 import storeApi from '@/api/store'
 import getCity from '@/api/getCity'
+import storeRoleApi from '@/api/store_role'
 	export default{
 		name:'store-set',
 		data(){
 			return{
 				tableData: [],
 				cityData:[],
-				cityArr:[],
-				cityCode:'',
+				organizes:[],
+				defaultAttr:{
+					label:'name',
+					value:'id',
+					children:'children',					
+				},	
+				lookData:{
+					organize:[],
+					store_name:''
+				},
 				props:{
 	            	value:'code',
 	            	label:'name',
@@ -21,10 +30,15 @@ import getCity from '@/api/getCity'
 				dialogFormVisible: false,
 		        ruleForm: {
 		          	name: '',
-		          	person_in_charge:'',
-		          	phone:'',
-		          	locate:'',
+		          	phone:'',		          	
+		          	person_in_charge:'',		          	
+		          	locate:[],
 		          	address:'',
+		          	merchant_organize_id:[],
+		        },
+		        initVal:{
+		        	initlocate:'',
+		        	initorganize:'',
 		        },
 		        currentId:'',
 		        rules: {
@@ -52,17 +66,26 @@ import getCity from '@/api/getCity'
 		          address:[
 		             { required: true, message: '请输入详细地址', trigger: 'blur' },
 		             { min: 2, max: 30, message: '长度在 2 到 30 个字符', trigger: 'blur' }
+		          ],
+		          merchant_organize_id:[
+		             { required: true, message: '请选择门店架构'},
+		          ],
+		          locate:[
+		             {required: true, message: '请选择省市'}
 		          ]
 		        },
 				requestParameters: {
 	                page: 1,
-	                page_size:10
+	                page_size:10,
+	                organize:'',
+					store_name:'',
 	            },
 			}
 		},
 		created:function(){
 			this.storeLists();
 			this.getCityData();
+			this.getOrganizes();
 		},
 		methods: {
 			//列表
@@ -81,7 +104,6 @@ import getCity from '@/api/getCity'
 	    	},
 
 	    	handleCurrentChange(currentPage) {
-	            console.log(currentPage)
 	            this.$data.requestParameters.page = currentPage;
 	            this.storeLists();
 	        },
@@ -97,9 +119,7 @@ import getCity from '@/api/getCity'
 					}
 					let qs = require('querystring')
 	        		storeApi.dele(qs.stringify(list)).then((res) => {
-	        			console.log(res)
 	        			if(res.data.errno === 0){
-							console.log(res)
 							this.$message({
 					            type: 'success',
 					            message: '删除成功!'
@@ -121,7 +141,13 @@ import getCity from '@/api/getCity'
 				console.log(row)
 				this.$data.dialogTitle = '门店编辑';
 				this.$data.currentId = row.id;
-				this.$data.ruleForm = row;
+				this.$data.ruleForm = {
+					name: row.name,
+		          	phone:row.phone,				          	
+		          	locate:[row.province.code,row.city.code,row.area.code],
+		          	merchant_organize_id:row.organizes.id.split(','),
+				}
+
 				this.$data.dialogFormVisible = true;
 
 			},
@@ -132,8 +158,9 @@ import getCity from '@/api/getCity'
 		          	name: '',
 		          	person_in_charge:'',
 		          	phone:'',
-		          	locate:'',
-		          	address:''
+		          	locate:[],
+		          	address:'',
+		          	merchant_organize_id:[],
 		        };
 				this.$data.dialogFormVisible = true;
 			},
@@ -144,21 +171,27 @@ import getCity from '@/api/getCity'
 		          	name: '',
 		          	person_in_charge:'',
 		          	phone:'',
-		          	locate:'',
-		          	address:''
+		          	locate:[],
+		          	address:'',
+		          	merchant_organize_id:[],
 		        };
+		        
+		        this.$refs.ruleForm.resetFields()
 			},
 			submitForm(formName){
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
 						if(this.$data.currentId !== ''){
+							let loc = this.$data.ruleForm.phone[this.$data.ruleForm.phone.length - 1]
+							let mer = this.$data.ruleForm.merchant_organize_id[this.$data.ruleForm.merchant_organize_id.length - 1]
 							let list = {
 								'id': this.$data.currentId,
 								'name': this.$data.ruleForm.name,
 					          	'person_in_charge':this.$data.ruleForm.person_in_charge,
 					          	'phone':this.$data.ruleForm.phone,
-					          	'locate':this.$data.cityCode,
-					          	'address':this.$data.ruleForm.address
+					          	'locate':loc,
+					          	'address':this.$data.ruleForm.address,
+					          	'merchant_organize_id':mer,
 							}
 							let qs = require('querystring')
 			        		storeApi.edit(qs.stringify(list)).then((res) => {
@@ -173,8 +206,11 @@ import getCity from '@/api/getCity'
 									this.$data.currentId = '';
 									this.$data.ruleForm = {
 							          	name: '',
-							          	person_in_csharge:'',
-							          	phone:''
+		          	                    person_in_charge:'',
+		          	                    phone:'',
+		          	                    locate:[],
+		          	                    address:'',
+		          	                    merchant_organize_id:[],
 							        };
 									this.$data.dialogFormVisible = false;
 
@@ -184,20 +220,23 @@ import getCity from '@/api/getCity'
 
 			        		})
 						}else{
+							let loc = this.$data.ruleForm.phone[this.$data.ruleForm.phone.length - 1]
+							let mer = this.$data.ruleForm.merchant_organize_id[this.$data.ruleForm.merchant_organize_id.length - 1]
 							let list = {
 						        'name': this.$data.ruleForm.name,
 					          	'person_in_charge':this.$data.ruleForm.person_in_charge,
 					          	'phone':this.$data.ruleForm.phone,
-					          	'locate':this.$data.cityCode,
-					          	'address':this.$data.ruleForm.address
+					          	'locate':loc,
+					          	'address':this.$data.ruleForm.address,
+					          	'merchant_organize_id':mer,
 						    }
 						    let qs = require('querystring')
+						    console.log(list)
 			        		storeApi.adds(qs.stringify(list)).then((res) => {
-			        			console.log(res)
 			        			if(res.data.errno === 0){
 									
 									this.$message({
-				                      message: '修改成功',
+				                      message: '添加成功',
 				                      type: 'success',
 				                      duration:1500
 				                    });
@@ -205,10 +244,11 @@ import getCity from '@/api/getCity'
 									this.$data.currentId = '';
 									this.$data.ruleForm = {
 							          	name: '',
-		                             	person_in_charge:'',
+		          	                    person_in_charge:'',
 		          	                    phone:'',
-		                            	locate:'',
-		                            	address:''
+		          	                    locate:[],
+		          	                    address:'',
+		          	                    merchant_organize_id:[],
 							        };
 									this.$data.dialogFormVisible = false;
 
@@ -249,20 +289,33 @@ import getCity from '@/api/getCity'
 		        	 })
 		        })
 			},
+			getOrganizes(){
+				storeRoleApi.organizeTree().then((res) => {
+					if(res.data.errno == 0) {
+						this.$data.organizes = res.data.data
+					} else {
+						this.$message(res.data.msg)
+					}
+				})
+				
+			},
+			
+			lookSubmit(){
+				console.log(this.$data.requestParameters)
+				this.$data.requestParameters.organize = this.$data.lookData.organize.join();
+				this.$data.requestParameters.store_name = this.$data.lookData.store_name;
+				
+				this.storeLists();
+			},
+			
 			getCityData(){
 				 getCity.cityData().then((res) => {
-				 	console.log(res)
-//      			if(res.status === 200){
-//      				 this.$data.cityData = res.data
-//      			}else{
-//      				this.$message(res.statusText)
-//      			}
+        			if(res.status === 200){
+        				 this.$data.cityData = res.data
+        			}else{
+        				this.$message(res.statusText)
+        			}
         		})
-			},
-			getCityCode(){				
-				let cc = this.$data.cityArr;				
-				this.$data.cityCode  = cc[cc.length - 1];
-				console.log(this.$data.cityCode)
 			}
 			
 		}

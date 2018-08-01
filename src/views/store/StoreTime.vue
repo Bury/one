@@ -47,7 +47,6 @@
     	timeView(){
     		storeTimeApi.timeView().then((res) => {
     			if(res.data.errno === 0){
-					console.log(res.data.data);
 					this.$data.startTime = res.data.data.start_time;
 					this.$data.endTime = res.data.data.end_time;
     			}else{

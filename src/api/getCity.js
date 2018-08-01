@@ -7,7 +7,7 @@ export default {
 	
 	cityData(list){
 		return new Promise((resolve, reject) => {
-	      axios.post(global.STORE_LOCATE,list).then((res) => {
+	      axios.get('static/resource/city.json',list).then((res) => {
 	        resolve(res)
 	      }).catch((err) => {
 	        reject(err)

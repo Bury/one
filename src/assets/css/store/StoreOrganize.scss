@@ -1,0 +1,37 @@
+.store-set-page {
+        .top-box {
+            position: relative;
+            margin-bottom: 20px;
+            height: 36px;
+            border-bottom: 1px solid #d2d2d2;
+            .add-btn {
+                position: absolute;
+                top: 0;
+                right: 20px;
+            }
+        }
+        .edit-input {
+            width: 300px;
+        }
+        .store-tree-box{
+            span{
+                font-size: 15px;
+            }
+            
+        }
+    }
+    
+    .el-tree-node__content {
+        span {
+            margin: 0;
+        }
+    }
+    
+    .custom-tree-node {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 14px;
+        padding-right: 8px;
+    }

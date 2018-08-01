@@ -50,5 +50,27 @@ export default {
       })
     })
   },
+  
+  edit_permission (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.ROLE_PERMISSION_EDIT,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  
+  view_permission (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.ROLE_PERMISSION_VIEW,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  
+  
 
 }
