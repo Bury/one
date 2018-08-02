@@ -50,6 +50,11 @@
                         <span slot="title">门店列表</span>
                     </el-menu-item>
                 </router-link>
+                <router-link :to="{name: 'StoreAccountManage'}">
+                    <el-menu-item index="/StoreAccountManage" style="padding-left:53px;">
+                        <span slot="title">门店账号管理</span>
+                    </el-menu-item>
+                </router-link>
                 <router-link :to="{name: 'StorePost'}">
                     <el-menu-item index="/StorePost" style="padding-left:53px;">门店岗位</el-menu-item>
                 </router-link>

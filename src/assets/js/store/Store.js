@@ -285,7 +285,6 @@ import storeRoleApi from '@/api/store_role'
 			getStore(){
 				this.$data.lookData.store_id = "";
 				let organ = this.$data.lookData.organize[this.$data.lookData.organize.length - 1]
-				let qs = require('querystring')
 				let data = {
 					merchant_organize_id:organ
 				};								
