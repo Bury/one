@@ -8,6 +8,8 @@ import storeRoleApi from '@/api/store_role'
 				tableData: [],
 				cityData:[],
 				organizes:[],
+				selectStore:[],
+				nodatatext:'请选择门店架构',
 				defaultAttr:{
 					label:'name',
 					value:'id',
@@ -15,7 +17,7 @@ import storeRoleApi from '@/api/store_role'
 				},	
 				lookData:{
 					organize:[],
-					store_name:''
+					store_id:'',
 				},
 				props:{
 	            	value:'code',
@@ -78,7 +80,7 @@ import storeRoleApi from '@/api/store_role'
 	                page: 1,
 	                page_size:10,
 	                organize:'',
-					store_name:'',
+					store_id:'',
 	            },
 			}
 		},
@@ -97,8 +99,8 @@ import storeRoleApi from '@/api/store_role'
 			storeLists(){
 				let qs = require('querystring')
 	    		storeApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-	    			if(res.data.errno === 0){
-						console.log(res);
+	    			if(res.data.errno === 0){				
+	    				console.log(res.data)
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
@@ -277,13 +279,38 @@ import storeRoleApi from '@/api/store_role'
 					} else {
 						this.$message(res.data.msg)
 					}
+				})				
+			},
+			
+			getStore(){
+				this.$data.lookData.store_id = "";
+				let organ = this.$data.lookData.organize[this.$data.lookData.organize.length - 1]
+				let qs = require('querystring')
+				let data = {
+					merchant_organize_id:organ
+				};								
+				storeApi.organizeStoreResult(data).then((res) => {
+					if(res.data.errno === 0) {				
+						if(res.data.data == null){
+							this.$data.nodatatext = "暂无门店"
+							this.$data.selectStore = [];
+						}else{
+							this.$data.selectStore = res.data.data
+						}
+					} else {
+						this.$message(res.data.msg)
+					}
 				})
-				
 			},
 			
 			lookSubmit(){
-				this.$data.requestParameters.organize = this.$data.lookData.organize.join();
-				this.$data.requestParameters.store_name = this.$data.lookData.store_name;				
+				if(this.$data.lookData.organize.length === 0){
+					this.$message("请选择门店架构");
+					return false;
+				}else{
+				    this.$data.requestParameters.organize = this.$data.lookData.organize.join();
+				    this.$data.requestParameters.store_id = this.$data.lookData.store_id;				
+				}				
 				this.storeLists();
 			},
 			

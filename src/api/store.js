@@ -97,6 +97,16 @@ export default {
     })
   },
   
+  organizeStoreResult(list){
+  	return new Promise((resolve, reject) => {
+      axios.post(global.SHORE_ORGANIZE_WHERE, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  
   getStoreResult(list){
   	return new Promise((resolve, reject) => {
       axios.post(global.STORE_LISTS_RESULT, list).then((res) => {

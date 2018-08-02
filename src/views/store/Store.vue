@@ -4,13 +4,16 @@
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">创建门店</el-button>
 		</div>
 
-		<el-form :inline="true" :model="ruleForm" size="mini">
+		<el-form :inline="true"  size="mini">
 			<el-form-item label="门店架构：">
-				<el-cascader :options="organizes" :props='defaultAttr' v-model='lookData.organize'>
+				<el-cascader :options="organizes" :props='defaultAttr' v-model='lookData.organize' @change="getStore">
 				</el-cascader>
 			</el-form-item>
 			<el-form-item label="门店：">
-				<el-input v-model.trim='lookData.store_name'></el-input>
+				<el-select v-model="lookData.store_id" placeholder="请选择" :no-data-text="nodatatext">
+					<el-option v-for="(item,index) in selectStore " :key="index" :label="item.name" :value="item.id">
+					</el-option>
+				</el-select>
 			</el-form-item>
 			<el-form-item>
 				<el-button type="primary" @click="lookSubmit">查询</el-button>
@@ -39,11 +42,13 @@
 						<td>
 							<el-button type="primary" icon="el-icon-more" size="mini" @click="fnGoPage(item)" circle></el-button>
 							<el-button type="primary" icon="el-icon-edit" size="mini" @click="fnEdit(item)" circle></el-button>
-							<el-button type="danger" icon="el-icon-delete"  size="mini" @click="fnRemove(item)" circle></el-button>
+							<el-button type="danger" icon="el-icon-delete" size="mini" @click="fnRemove(item)" circle></el-button>
 						</td>
 					</tr>
 				</template>
-				<tr v-else><td colspan="6" height="50">暂无数据</td></tr>
+				<tr v-else>
+					<td colspan="6" height="50">暂无数据</td>
+				</tr>
 			</tbody>
 		</table>
 		<!-- 分页 -->
@@ -61,9 +66,9 @@
 				<el-form-item label="联系电话：" prop="phone">
 					<el-input v-model="ruleForm.phone"></el-input>
 				</el-form-item>
-				<el-form-item label="门店架构："  prop='merchant_organize_id'>
-				<el-cascader :options="organizes" :props='defaultAttr' v-model='ruleForm.merchant_organize_id'></el-cascader>
-			    </el-form-item>
+				<el-form-item label="门店架构：" prop='merchant_organize_id'>
+					<el-cascader :options="organizes" :props='defaultAttr' v-model='ruleForm.merchant_organize_id'></el-cascader>
+				</el-form-item>
 				<el-form-item label="省/市/区：" prop='locate'>
 					<el-cascader :options="cityData" v-model="ruleForm.locate" :props="props">
 					</el-cascader>
