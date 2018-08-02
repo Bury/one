@@ -37,9 +37,9 @@
 						<td>{{item.province.name + item.city.name + item.area.name}}</td>
 						<td>{{item.phone}}</td>
 						<td>
-							<el-button type="primary" size="mini" @click="fnGoPage(item)">管理</el-button>
-							<el-button type="primary" size="mini" @click="fnEdit(item)">编辑</el-button>
-							<el-button type="danger" size="mini" @click="fnRemove(item)">删除</el-button>
+							<el-button type="primary" icon="el-icon-more" size="mini" @click="fnGoPage(item)" circle></el-button>
+							<el-button type="primary" icon="el-icon-edit" size="mini" @click="fnEdit(item)" circle></el-button>
+							<el-button type="danger" icon="el-icon-delete"  size="mini" @click="fnRemove(item)" circle></el-button>
 						</td>
 					</tr>
 				</template>

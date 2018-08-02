@@ -1,6 +1,7 @@
 <template>
 
 	<div class="store-set-page">
+		
 		<h3>
 			{{this.$route.query.StoreName}}
 		</h3>
@@ -19,21 +20,24 @@
       </tr>
       </thead>
       <tbody style="text-align: center">
-      <tr v-for="(item,index) in tableData" :key="index" height="40">
+      <template v-if='tableData.length > 0'>
+       <tr v-for="(item,index) in tableData" :key="index" height="40">
         <td>{{item.id}}</td>
         <td>{{item.username}}</td>
         <td>{{item.storeRole.name}}</td>
         <td>{{item.truename}}</td>
         <td>{{item.created_at | date(4)}}</td>
         <td>
-          <el-button type="primary" plain icon="el-icon-setting" circle size="small"
+          <el-button type="primary" plain icon="el-icon-view" circle size="small"
                      @click="fnEditPassword(item)"></el-button>
           <el-button type="warning" plain icon="el-icon-edit" circle size="small"
                      @click="fnEdit(item)"></el-button>
           <el-button type="danger" plain icon="el-icon-delete" circle size="small"
                      @click="fnRemove(item)"></el-button>
         </td>
-      </tr>
+       </tr>
+      </template>
+      <tr v-else><td colspan="6" style="height: 50px;">暂无数据</td></tr>
       </tbody>
     </table>
 	    <!-- 分页 -->
@@ -59,7 +63,7 @@
 			  <el-form-item label="姓名：" prop="truename">
 			    <el-input v-model="editFormData.truename"></el-input>
 			  </el-form-item>
-			  <el-form-item label="角色：" prop="role_id">
+			  <el-form-item label="岗位：" prop="role_id">
 			    <el-select v-model="editFormData.role_id" placeholder="请选择">
 				    <el-option v-for="(item,idx) in allRole" :label="allRole[idx].name" :value="allRole[idx].id" :key="idx"></el-option>
 				</el-select>
@@ -96,7 +100,7 @@
 			  <el-form-item label="姓名：" prop="truename">
 			    <el-input v-model="addsFormData.truename"></el-input>
 			  </el-form-item>
-			  <el-form-item label="角色：" prop="role_id">
+			  <el-form-item label="岗位：" prop="role_id">
 			    <el-select v-model="addsFormData.role_id" placeholder="请选择">
 				    <el-option v-for="(item,idx) in allRole" :label="allRole[idx].name" :value="allRole[idx].id" :key="idx"></el-option>
 				</el-select>

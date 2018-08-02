@@ -119,6 +119,11 @@
 	            avatarFormVisible:false
 			}
 		},
+		watch: {
+               dialogFormVisible: function() {               	
+               	this.$refs.editFormData.resetFields()
+               }
+        },
 		created:function(){
 			this.accountLists();
 		},
@@ -128,7 +133,6 @@
 				this.$data.requestParameters.sid = this.$route.query.StoreId;
 				let qs = require('querystring');
 				storeAccountApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-					console.log(res)
 	    			if(res.data.errno === 0){
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
@@ -182,7 +186,6 @@
         			id:id
         		})).then((res) => {
         			if(res.data.errno === 0){
-        				console.log(res)
 						this.$data.editFormData = res.data.data;
 						this.$data.editFormVisible = true;
 
@@ -196,7 +199,6 @@
 				let qs = require('querystring')
 	    		storeRole.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
 	    			if(res.data.errno === 0){
-	    				console.log(res)
 						this.$data.allRole = res.data.data.list;
 	    			}else{
 						this.$message.error(res.data.msg);
