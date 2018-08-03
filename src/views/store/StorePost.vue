@@ -1,56 +1,57 @@
 <template>
 	<div class="store-set-page">
 		<div class="top-box">
-			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()" >新增</el-button>
+			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
 		</div>
-    <table width="60%" class="table-bordered">
-      <thead style="background-color: #d1d1d1">
-      <tr height="40">
-        <th class="col-md-2 text-center">ID</th>
-        <th class="col-md-5 text-center">岗位名称</th>
-        <th class="col-md-5 text-center">操作</th>
-      </tr>
-      </thead>
-      <tbody style="text-align:center;">
-      <tr v-for="(item,index) in tableData" :key="index">
-        <td height="40px">{{item.id}}</td>
-        <td>{{item.name}}</td>
-        <td>
-          <el-button type="info" plain icon="el-icon-setting" circle size="small"
-            @click="fnSetting(item)"></el-button>
-            <el-button type="warning" plain icon="el-icon-edit" circle size="small"
-            @click="fnEdit(item)"></el-button>
-            <el-button type="danger" plain icon="el-icon-delete" circle size="small"
-            @click="fnRemove(item)"></el-button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-	    <!-- 分页 -->
-	    <div v-if="tableData.length > 0" style="margin:0 auto;width:701px;">
-	    	<el-pagination
-				background
-	            class="pagination"
-	            layout="prev, pager, next"
-	            small
-	            @current-change="handleCurrentChange"
-	            :current-page="pagination.currentPage"
-	            :page-size="requestParameters.page_size"
-	            :total="pagination.totalCount">
-	        </el-pagination>
-	    </div>
+		<table width="60%" class="table-bordered">
+			<thead style="background-color: #d1d1d1">
+				<tr height="40">
+					<th class="col-md-2 text-center">ID</th>
+					<th class="col-md-5 text-center">岗位名称</th>
+					<th class="col-md-5 text-center">操作</th>
+				</tr>
+			</thead>
+			<tbody style="text-align:center;">
+				<tr v-for="(item,index) in tableData" :key="index">
+					<td height="40px">{{item.id}}</td>
+					<td>{{item.name}}</td>
+					<td>
+						<el-button type="info" plain icon="el-icon-setting" circle size="small" @click="fnSetting(item)"></el-button>
+						<el-button type="warning" plain icon="el-icon-edit" circle size="small" @click="fnEdit(item)"></el-button>
+						<el-button type="danger" plain icon="el-icon-delete" circle size="small" @click="fnRemove(item)"></el-button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<!-- 分页 -->
+		<div v-if="tableData.length > 0" style="margin:0 auto;width:701px;">
+			<el-pagination background class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
+			</el-pagination>
+		</div>
 
-	    <!-- 添加-->
-	    <el-dialog title="添加岗位" :visible.sync="dialogFormVisible">
-		  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-			  <el-form-item label="岗位名称：" prop="name">
-			    <el-input v-model="ruleForm.name"></el-input>
-			  </el-form-item>
-		  </el-form>
-		  <div slot="footer" class="dialog-footer">
-		    <el-button @click="cancel">取 消</el-button>
-		    <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
-		  </div>
+		<!-- 添加-->
+		<el-dialog title="添加岗位" :visible.sync="dialogFormVisible">
+			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+				<el-form-item label="岗位名称：" prop="name">
+					<el-input v-model="ruleForm.name"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="cancel">取 消</el-button>
+				<el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+			</div>
+		</el-dialog>
+		<!-- 修改 -->
+		<el-dialog title="修改岗位" :visible.sync="editFormVisible">
+			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+				<el-form-item label="岗位名称：" prop="name">
+					<el-input v-model="ruleForm.name"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="cancel">取 消</el-button>
+				<el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+			</div>
 		</el-dialog>
     <!-- 修改 -->
     <el-dialog title="修改岗位" :visible.sync="editFormVisible">

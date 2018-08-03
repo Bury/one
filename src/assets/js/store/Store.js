@@ -8,6 +8,8 @@ import storeRoleApi from '@/api/store_role'
 				tableData: [],
 				cityData:[],
 				organizes:[],
+				selectStore:[],
+				nodatatext:'请选择门店架构',
 				defaultAttr:{
 					label:'name',
 					value:'id',
@@ -15,7 +17,7 @@ import storeRoleApi from '@/api/store_role'
 				},
 				lookData:{
 					organize:[],
-					store_name:''
+					store_id:'',
 				},
 				props:{
 	            	value:'code',
@@ -78,21 +80,27 @@ import storeRoleApi from '@/api/store_role'
 	                page: 1,
 	                page_size:10,
 	                organize:'',
-					store_name:'',
+					store_id:'',
 	            },
 			}
 		},
+		watch: {
+               dialogFormVisible: function() {               	
+               	this.$refs.ruleForm.resetFields()
+               }
+        },
 		created:function(){
 			this.storeLists();
-			this.getCityData();
-			this.getOrganizes();
+			this.getCityData();//获得城市数据
+			this.getOrganizes();//获得门店架构
 		},
 		methods: {
 			//列表
 			storeLists(){
 				let qs = require('querystring')
 	    		storeApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-	    			if(res.data.errno === 0){
+
+	    			if(res.data.errno === 0){				
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
@@ -105,6 +113,18 @@ import storeRoleApi from '@/api/store_role'
 	    	handleCurrentChange(currentPage) {
 	            this.$data.requestParameters.page = currentPage;
 	            this.storeLists();
+	        },
+	        
+	        clearRuleForm(){
+	        	this.$data.ruleForm = {
+		          	name: '',
+		          	person_in_charge:'',
+		          	phone:'',
+		          	locate:[],
+		          	address:'',
+		          	merchant_organize_id:[],
+		        }
+	        	
 	        },
 
 			fnRemove(row){
@@ -129,42 +149,43 @@ import storeRoleApi from '@/api/store_role'
 	        			}
 
 	        		})
-		        }).catch(() => {
-		          // this.$message({
-		          //   type: 'info',
-		          //   message: '已取消删除'
-		          // });
-		        });
+		        })
 			},
 			fnEdit(row){
+<<<<<<< HEAD
+=======
+				let moi = [];
+				row.organizes.id.split(',').forEach(function(val){
+					moi.push(parseInt(val))
+				});
+>>>>>>> cc3a97402a60d0e00fa32f6be8c83588fa4a8379
 				this.$data.dialogTitle = '门店编辑';
 				this.$data.currentId = row.id;
 				this.$data.ruleForm = {
 					name: row.name,
+<<<<<<< HEAD
 		          	phone:row.phone,
 		          	locate:[row.province.code,row.city.code,row.area.code],
 		          	merchant_organize_id:row.organizes.id.split(','),
+=======
+		          	phone:row.phone,				          	
+		          	locate:[String(row.province.code),String(row.city.code),String(row.area.code)],
+		          	merchant_organize_id:moi,
+>>>>>>> cc3a97402a60d0e00fa32f6be8c83588fa4a8379
 				}
-
 				this.$data.dialogFormVisible = true;
 
 			},
 			fnAdds(){
 				this.$data.dialogTitle = '门店添加';
 				this.$data.currentId = "";
-				this.$data.ruleForm = {
-		          	name: '',
-		          	person_in_charge:'',
-		          	phone:'',
-		          	locate:[],
-		          	address:'',
-		          	merchant_organize_id:[],
-		        };
+				this.clearRuleForm();
 				this.$data.dialogFormVisible = true;
 			},
 			cancel(){
 				this.$data.dialogFormVisible = false;
 				this.$data.currentId = '';
+<<<<<<< HEAD
 				this.$data.ruleForm = {
 		          	name: '',
 		          	person_in_charge:'',
@@ -175,17 +196,19 @@ import storeRoleApi from '@/api/store_role'
 		        };
 
 		        this.$refs.ruleForm.resetFields()
+=======
+				this.clearRuleForm();
+>>>>>>> cc3a97402a60d0e00fa32f6be8c83588fa4a8379
 			},
 			submitForm(formName){
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
 						if(this.$data.currentId !== ''){
-							let loc = this.$data.ruleForm.phone[this.$data.ruleForm.phone.length - 1]
+							let loc = this.$data.ruleForm.locate[this.$data.ruleForm.locate.length - 1]
 							let mer = this.$data.ruleForm.merchant_organize_id[this.$data.ruleForm.merchant_organize_id.length - 1]
 							let list = {
 								'id': this.$data.currentId,
 								'name': this.$data.ruleForm.name,
-					          	'person_in_charge':this.$data.ruleForm.person_in_charge,
 					          	'phone':this.$data.ruleForm.phone,
 					          	'locate':loc,
 					          	'address':this.$data.ruleForm.address,
@@ -201,14 +224,7 @@ import storeRoleApi from '@/api/store_role'
 				                    });
 									this.storeLists();
 									this.$data.currentId = '';
-									this.$data.ruleForm = {
-							          	name: '',
-		          	                    person_in_charge:'',
-		          	                    phone:'',
-		          	                    locate:[],
-		          	                    address:'',
-		          	                    merchant_organize_id:[],
-							        };
+									this.clearRuleForm();
 									this.$data.dialogFormVisible = false;
 
 			        			}else{
@@ -217,13 +233,12 @@ import storeRoleApi from '@/api/store_role'
 
 			        		})
 						}else{
-							let loc = this.$data.ruleForm.phone[this.$data.ruleForm.phone.length - 1]
+							let loc = this.$data.ruleForm.locate[this.$data.ruleForm.locate.length - 1]
 							let mer = this.$data.ruleForm.merchant_organize_id[this.$data.ruleForm.merchant_organize_id.length - 1]
 							let list = {
 						        'name': this.$data.ruleForm.name,
-					          	'person_in_charge':this.$data.ruleForm.person_in_charge,
 					          	'phone':this.$data.ruleForm.phone,
-					          	'locate':loc,
+					          	'locate':parseInt(loc),
 					          	'address':this.$data.ruleForm.address,
 					          	'merchant_organize_id':mer,
 						    }
@@ -238,14 +253,7 @@ import storeRoleApi from '@/api/store_role'
 				                    });
 									this.storeLists();
 									this.$data.currentId = '';
-									this.$data.ruleForm = {
-							          	name: '',
-		          	                    person_in_charge:'',
-		          	                    phone:'',
-		          	                    locate:[],
-		          	                    address:'',
-		          	                    merchant_organize_id:[],
-							        };
+									this.clearRuleForm();
 									this.$data.dialogFormVisible = false;
 
 			        			}else{
@@ -292,15 +300,37 @@ import storeRoleApi from '@/api/store_role'
 					} else {
 						this.$message(res.data.msg)
 					}
+				})				
+			},
+			
+			getStore(){
+				this.$data.lookData.store_id = "";
+				let organ = this.$data.lookData.organize[this.$data.lookData.organize.length - 1]
+				let data = {
+					merchant_organize_id:organ
+				};								
+				storeApi.organizeStoreResult(data).then((res) => {
+					if(res.data.errno === 0) {				
+						if(res.data.data == null){
+							this.$data.nodatatext = "暂无门店"
+							this.$data.selectStore = [];
+						}else{
+							this.$data.selectStore = res.data.data
+						}
+					} else {
+						this.$message(res.data.msg)
+					}
 				})
-
 			},
 
 			lookSubmit(){
-				console.log(this.$data.requestParameters)
-				this.$data.requestParameters.organize = this.$data.lookData.organize.join();
-				this.$data.requestParameters.store_name = this.$data.lookData.store_name;
-
+				if(this.$data.lookData.organize.length === 0){
+					this.$message("请选择门店架构");
+					return false;
+				}else{
+				    this.$data.requestParameters.organize = this.$data.lookData.organize.join();
+				    this.$data.requestParameters.store_id = this.$data.lookData.store_id;				
+				}
 				this.storeLists();
 			},
 

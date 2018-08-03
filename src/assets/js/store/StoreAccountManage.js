@@ -1,25 +1,35 @@
-//import Guest from '../../guest/Guest'
-	import storeRole from '@/api/store_role'
+    import storeApi from '@/api/store'
+    import storeRole from '@/api/store_role'
 	import storeAccountApi from '@/api/store_account'
 
 	export default{
-		name:'accoun-set',
-		/*
-		components: {
-		   Guest
-		},
-		*/
+		name:'store-account-manage',
 		data(){
 			return{
 				tableData: [],
+				organizes: [],
+				selectStore:[],
+				organizeCode:[],
+				roleLists:[],
+				nodatatext:'请选择门店架构',
+				defaultAttr:{
+					label:'name',
+					value:'id',
+					children:'children',					
+				},
 				pagination:{
 		        	currentPage:1,
 		        	totalCount:0,
 		        },
 				requestParameters: {
+					store_id:'',
+					merchant_organize_id:'',	                
+	                merchant_role_id:'',
+	                username:'',
+	                truename:'',
+	                phone:'',
 	                page: 1,
 	                page_size:10,
-	                sid:''
 	            },
 	            editFormVisible:false,
 	            allRole:[],
@@ -71,7 +81,7 @@
 	            },
 	            addsFormVisible:false,
 	            addsFormData:{
-	            	sid:'',
+	            	store_id:'',
 	            	username:'',
 	            	truename:'',
 	            	role_id:'',
@@ -126,13 +136,16 @@
         },
 		created:function(){
 			this.accountLists();
+			this.getOrganizes();
+			this.getRoleList();
 		},
 		methods: {
 			//列表
 			accountLists(){
-				this.$data.requestParameters.sid = this.$route.query.StoreId;
+				
 				let qs = require('querystring');
 				storeAccountApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
+					console.log(res)
 	    			if(res.data.errno === 0){
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
@@ -296,7 +309,7 @@
 			},
 			fnClearAddsFormData(){
 				this.$data.addsFormData = {
-	            	sid:'',
+	            	store_id:'',
 	            	username:'',
 	            	truename:'',
 	            	role_id:'',
@@ -323,7 +336,7 @@
 			addsSubmit(formName){
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
-			        	this.$data.addsFormData.sid = this.$route.query.StoreId;
+			        	this.$data.addsFormData.store_id = this.$route.query.StoreId;
 						let qs = require('querystring');
 						console.log(this.$data.addsFormData)
 		        		storeAccountApi.adds(qs.stringify(this.$data.addsFormData)).then((res) => {
@@ -355,6 +368,52 @@
 	            }
 
 	        },
+	        
+	        getOrganizes(){
+				storeRole.organizeTree().then((res) => {
+					console.log(res)
+					if(res.data.errno == 0) {
+						this.$data.organizes = res.data.data;
+						console.log(this.$data.organizes)
+					} else {
+						this.$message(res.data.msg)
+					}
+				})				
+			},
+			getStore(){				
+				this.$data.requestParameters.store_id = "";
+				let organ = this.$data.organizeCode[this.$data.organizeCode.length - 1];
+				let data = {
+					merchant_organize_id:organ
+				};		
+				storeApi.organizeStoreResult(data).then((res) => {
+					if(res.data.errno === 0) {				
+						if(res.data.data == null){
+							this.$data.nodatatext = "暂无门店"
+							this.$data.selectStore = [];
+						}else{
+							this.$data.selectStore = res.data.data
+						}
+					} else {
+						this.$message(res.data.msg)
+					}
+				})
+			},
+			
+			getRoleList(){
+            storeRole.lists().then((res) => {
+            	console.log(res)
+	    			if(res.data.errno === 0){
+						this.$data.roleLists = res.data.data.list;						
+	    			}else{
+						this.$message.error(res.data.msg);
+	    			}
+	    		})
+			},
+			
+			clickSearch(){
+				
+			}
 
 
 		}

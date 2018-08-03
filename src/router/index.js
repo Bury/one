@@ -33,6 +33,7 @@ import StoreDeviceDetailLists from '../views/device/StoreDeviceDetailLists'
 import StoreOrganize from '../views/store/StoreOrganize'
 import Store from '../views/store/Store'
 import StoreAccount from '../views/store/StoreAccount'
+import StoreAccountManage from '../views/store/StoreAccountManage'
 import StorePost from '../views/store/StorePost'
 import StoreRemind from '../views/store/StoreRemind'
 import StoreTime from '../views/store/StoreTime'
@@ -77,6 +78,7 @@ const router = new Router({
         {path: 'Store',name:'Store',component:Store},
         {path: 'StoreOrganize',name:'StoreOrganize',component:StoreOrganize},
         {path: 'StoreAccount',name:'StoreAccount',component:StoreAccount},
+        {path: 'StoreAccountManage',name:'StoreAccountManage',component:StoreAccountManage},
         {path: 'StorePost',name:'StorePost',component:StorePost},
         {path: 'StoreRemind',name: 'StoreRemind',component: StoreRemind},
         {path: 'StoreTime',name: 'StoreTime',component: StoreTime},
