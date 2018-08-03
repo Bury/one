@@ -72,18 +72,14 @@ const router = new Router({
         {path: 'Order',name: 'Order',component: Order},
         {path: 'LabelList',name: 'LabelList',component: LabelList},
         {path: 'LabelDetail',name: 'LabelDetail',component: LabelDetail},
-
         {path: 'Device',name: 'Device',component: Device},
         {path: 'StoreDeviceDetailLists',name: 'StoreDeviceDetailLists',component: StoreDeviceDetailLists},
-
         {path: 'Store',name:'Store',component:Store},
-
         {path: 'StoreOrganize',name:'StoreOrganize',component:StoreOrganize},
         {path: 'StoreAccount',name:'StoreAccount',component:StoreAccount},
         {path: 'StorePost',name:'StorePost',component:StorePost},
         {path: 'StoreRemind',name: 'StoreRemind',component: StoreRemind},
         {path: 'StoreTime',name: 'StoreTime',component: StoreTime},
-
         {path: 'UserPersonal',name: 'UserPersonal',component: UserPersonal},
         // {path: 'Department',name:'Department',component:Department},
         {path: 'Role',name:'Role',component:Role},

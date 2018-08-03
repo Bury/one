@@ -24,7 +24,6 @@ export default{
       ruleForm: {
         role_id:'',
         name: '',
-        status:0,
       },
       currentId:'',
       currentName:'',
@@ -55,7 +54,7 @@ export default{
         username:'',
         phone:'',
         truename:'',
-        status:'',
+        status:1,
         password:'',
       },
     }
@@ -134,8 +133,10 @@ export default{
       this.$data.currentId = row.id;
       this.$data.userEditVisible = true;
       if(row.status == '启用'){
+        console.log('123');
         this.$data.editForm.status = 1;
       }else{
+        console.log('147');
         this.$data.editForm.status = 0;
       }
       this.getRoles();
@@ -203,7 +204,7 @@ export default{
         let qs = require('querystring')
         userApi.adds(qs.stringify(list)).then((res) => {
           if(res.data.errno === 0){
-            this.$data.ruleForm = [];
+            this.$data.ruleForm = {};
             this.$message({
               message: '操作成功',
               type: 'success',
@@ -224,7 +225,7 @@ export default{
     },
 
     changeSwitch (data) {
-      console.log(this.$data.ruleForm.status)
+      console.log(this.$data.editForm.status)
     }
   }
 }

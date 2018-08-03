@@ -50,7 +50,33 @@ export default {
       })
     })
   },
-  
+  listResults (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.STORE_LIST_RESULTS,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  editPermission (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.STORE_EDIT_PERMISSION,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  viewPermission (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.STORE_VIEW_PERMISSION,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
   organizeTree(list){
   	return new Promise((resolve, reject) => {
       axios.post(global.MERCHANT_ORGANIZE_TREE,list).then((res) => {
@@ -60,7 +86,7 @@ export default {
       })
     })
   },
-  
+
   organizeAdds(list){
   	return new Promise((resolve, reject) => {
       axios.post(global.MERCHANT_ORGANIZE_ADDS,list).then((res) => {
@@ -70,7 +96,7 @@ export default {
       })
     })
   },
-  
+
   organizeDele(list){
   	return new Promise((resolve, reject) => {
       axios.post(global.MERCHANT_ORGANIZE_DELE,list).then((res) => {
@@ -80,7 +106,7 @@ export default {
       })
     })
   },
-  
+
   organizeEdit(list){
   	return new Promise((resolve, reject) => {
       axios.post(global.MERCHANT_ORGANIZE_EDIT,list).then((res) => {
@@ -90,6 +116,6 @@ export default {
       })
     })
   }
-  
+
 
 }

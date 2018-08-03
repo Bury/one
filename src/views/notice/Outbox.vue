@@ -12,10 +12,10 @@
       </thead>
       <tbody style="text-align: center">
       <tr v-for="(item,index) in tableData" :key="index" height="40">
-        <td>{{item.id}}</td>
-        <td>{{item.username}}</td>
-        <td>{{item.role_name}}</td>
-        <td>{{item.role_name}}</td>
+        <td>{{item.title}}</td>
+        <td>{{item.content}}</td>
+        <td>{{item.author}}</td>
+        <td>{{item.created_at | date(4)}}</td>
         <td>
           <el-button @click="fnCheck(item)" type="text" size="small">查看</el-button>
           <el-button @click="fnRemove(item)" type="text" size="small">删除</el-button>
@@ -23,6 +23,43 @@
       </tr>
       </tbody>
     </table>
+<!--查看-->
+    <el-dialog title="查看" :visible.sync="checkVisible">
+      <el-form v-model="checkForm" label-width="100px" class="demo-ruleForm">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="发件人：">
+              <div class="time">
+                <span>{{checkForm.author}}</span>
+              </div>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="发件时间：">
+              <div class="time" disabled>
+                <span>{{checkForm.created_at | date(4)}}</span>
+              </div>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="标题：">
+              <div class="time">
+                <span>{{checkForm.title}}</span>
+              </div>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="内容：" prop="account">
+          <div class="time">
+            <div>{{checkForm.content}}</div>
+          </div>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
 	</div>
 </template>
 <script src="@/assets/js/notice/Outbox.js"></script>
@@ -46,5 +83,11 @@
 		margin:20px 0;
 	  	float: right;
 	}
+  .time{
+    border: 1px solid #e1e1e1;
+    border-radius:4px;
+    box-sizing: border-box;
+    padding-left: 15px;
+  }
 
 </style>

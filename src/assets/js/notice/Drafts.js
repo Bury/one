@@ -41,7 +41,7 @@ export default{
     },
 
     fnRemove(row){
-      this.$confirm('确认删除该角色：'+row.title+' ？', '删除提示', {
+      this.$confirm('确认删除该邮件：'+row.title+' ？', '删除提示', {
         confirmButtonText: '确定',
         fnCancelButtonText: '取消',
         type: 'warning'
