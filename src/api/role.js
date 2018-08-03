@@ -50,8 +50,8 @@ export default {
       })
     })
   },
-  
-  edit_permission (list) {
+
+  editPermission (list) {
     return new Promise((resolve, reject) => {
       axios.post(global.ROLE_PERMISSION_EDIT,list).then((res) => {
         resolve(res)
@@ -60,8 +60,8 @@ export default {
       })
     })
   },
-  
-  view_permission (list) {
+
+  viewPermission (list) {
     return new Promise((resolve, reject) => {
       axios.post(global.ROLE_PERMISSION_VIEW,list).then((res) => {
         resolve(res)
@@ -70,7 +70,7 @@ export default {
       })
     })
   },
-  
-  
+
+
 
 }

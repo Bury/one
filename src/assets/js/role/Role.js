@@ -63,7 +63,6 @@ import roleApi from '@/api/role'
 				let qs = require('querystring')
 				roleApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
 					if(res.data.errno === 0) {
-						console.log(res);
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 						this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
@@ -74,7 +73,6 @@ import roleApi from '@/api/role'
 			},
 
 			handleCurrentChange(currentPage) {
-				console.log(currentPage)
 				this.$data.requestParameters.page = currentPage;
 				this.lists();
 			},
@@ -91,7 +89,6 @@ import roleApi from '@/api/role'
 					let qs = require('querystring')
 					roleApi.dele(qs.stringify(list)).then((res) => {
 						if(res.data.errno === 0) {
-							console.log(res)
 							this.$message({
 								type: 'success',
 								message: '删除成功!'
@@ -110,7 +107,6 @@ import roleApi from '@/api/role'
 				});
 			},
 			fnEdit(row) {
-				console.log(row);
 				this.$data.dialogTitle = '编辑';
 				this.$data.currentId = row.id;
 				this.$data.ruleForm.name = row.name;
@@ -131,8 +127,8 @@ import roleApi from '@/api/role'
 				this.$data.ruleForm.name = '';
 				this.$data.ruleForm.sort = 0;
 				this.$data.currentId = '';
-
-				this.$refs[formName].resetFields(); //关闭dialog后重置验证结果
+        // this.$data.dialogForm2 = [];
+				// this.$refs[formName].resetFields(); //关闭dialog后重置验证结果
 			},
 			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {
@@ -146,7 +142,6 @@ import roleApi from '@/api/role'
 							let qs = require('querystring')
 							roleApi.edit(qs.stringify(list)).then((res) => {
 								if(res.data.errno === 0) {
-									console.log(res)
 									this.$message({
 										message: '操作成功',
 										type: 'success',
@@ -193,18 +188,17 @@ import roleApi from '@/api/role'
 			},
 
 			fnSet(row) {
-				//				alert('暂未支持');
-				//				return ;
+			  // console.log(row);
 				this.$data.currentName = row.name;
 				this.$data.currentId = row.id;
 				let list = {
 					'role_id': row.id
 				}
 				let qs = require('querystring');
-				roleApi.view_permission(qs.stringify(list)).then((res) => {
-					console.log(res)
+				roleApi.viewPermission(qs.stringify(list)).then((res) => {
+				  console.log(res.data.data);
 					if(res.data.errno === 0) {
-						console.log(res)
+					  console.log(res.data.data);
 						this.$data.dialogForm2 = res.data.data;
 						var checkedId = [];
 						for(var i = 0; i < this.$data.dialogForm2.length; i++) {
@@ -226,10 +220,8 @@ import roleApi from '@/api/role'
 							}
 						}
 						this.$data.checkedIds = checkedId;
-						console.log(this.$data.checkedIds)
 					} else {
 						this.$message.error(res.data.msg);
-
 					}
 
 				})
@@ -238,8 +230,6 @@ import roleApi from '@/api/role'
 
 			submitForm2() {
 				this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
-				console.log(this.$data.currentId)
-				console.log(this.$data.checkedIds)
 				let list = {
 					'role_id': this.$data.currentId,
 					'permission_ids': this.$data.checkedIds.toString()
@@ -247,7 +237,6 @@ import roleApi from '@/api/role'
 				let qs = require('querystring')
 				roleApi.editPermission(qs.stringify(list)).then((res) => {
 					if(res.data.errno === 0) {
-						console.log(res)
 						this.$data.currentId = '';
 						this.$data.dialogForm2Visible = false;
 					} else {

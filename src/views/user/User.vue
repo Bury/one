@@ -25,13 +25,13 @@
       <thead style="background-color: #d1d1d1">
       <tr height="40">
         <th class="col-md-1 text-center">ID</th>
-        <th class="col-md-1 text-center">账号</th>
+        <th class="col-md-2 text-center">账号</th>
         <th class="col-md-1 text-center">角色</th>
         <th class="col-md-1 text-center">姓名</th>
         <th class="col-md-1 text-center">手机号码</th>
         <th class="col-md-1 text-center">状态</th>
         <th class="col-md-2 text-center">创建时间</th>
-        <th class="col-md-2 text-center">操作</th>
+        <th class="col-md-1 text-center">操作</th>
       </tr>
       </thead>
       <tbody style="text-align: center">
@@ -44,8 +44,8 @@
         <td>{{item.status = '1' ? '启用' : '禁用' }}</td>
         <td>{{item.created_at | date(4)}}</td>
         <td>
-          <el-button @click="fnEdit(item)" type="text" size="small">编辑</el-button>
-          <el-button @click="fnRemove(item)" type="text" size="small">删除</el-button>
+          <el-button @click="fnEdit(item)" type="primary" size="small" circle plain icon="el-icon-edit"></el-button>
+          <el-button @click="fnRemove(item)" type="danger" size="small" circle plain icon="el-icon-delete"></el-button>
         </td>
       </tr>
       </tbody>
@@ -85,20 +85,6 @@
           </el-form-item>
           <el-form-item label="手机号码：" prop="phone">
             <el-input v-model="ruleForm.phone"></el-input>
-          </el-form-item>
-          <el-form-item label="状态：" prop="status">
-            <template slot-scope="scope">
-              <el-switch
-                v-model="ruleForm.status"
-                on-color="#00A854"
-                on-text="启动"
-                active-value="1"
-                off-color="#F04134"
-                off-text="禁止"
-                inactive-value="0"
-                @change="changeSwitch()">
-              </el-switch>
-            </template>
           </el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">

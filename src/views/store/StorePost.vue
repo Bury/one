@@ -53,8 +53,34 @@
 				<el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
 			</div>
 		</el-dialog>
+    <!-- 修改 -->
+    <el-dialog title="修改岗位" :visible.sync="editFormVisible">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="岗位名称：" prop="name">
+          <el-input v-model="ruleForm.name"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!--权限-->
+    <el-dialog title="权限管理" :visible.sync="dialogForm2Visible">
+      <h4 class="role-info"><span>岗位名称：</span>{{currentName}}</h4>
+      <div style="margin:20px 0;overflow:hidden;">
+        <h4 class="role-info" style="float:left;"><span>权限：</span></h4>
+        <el-tree :data="dialogForm2" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :default-checked-keys="checkedIds" class="permission-tree">
+        </el-tree>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="fnCancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm2">确 定</el-button>
+      </div>
+    </el-dialog>
 	</div>
 </template>
+<<<<<<< HEAD
 <script>
 	import storeRoleApi from '../../api/store_role'
 
@@ -276,3 +302,7 @@
 		float: right;
 	}
 </style>
+=======
+<script src="@/assets/js/store/StorePost.js"></script>
+<style lang="scss" src="@/assets/css/store/StorePost.scss"></style>
+>>>>>>> 1b20dfaa56027387d4376ca7b98642bdbcd85453

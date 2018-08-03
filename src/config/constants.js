@@ -95,7 +95,6 @@ global.MERCHANT_ORGANIZE_ADDS = `${SERVER_IP}${COMMON}merchant-organize/adds`
 global.MERCHANT_ORGANIZE_DELE = `${SERVER_IP}${COMMON}merchant-organize/dele`
 global.MERCHANT_ORGANIZE_EDIT = `${SERVER_IP}${COMMON}merchant-organize/edit`
 
-
 //提醒设置
 global.MERCHANT_REMIND_VIEW = `${SERVER_IP}${COMMON}merchant-config/view-remind`
 global.MERCHANT_REMIND_SET = `${SERVER_IP}${COMMON}merchant-config/remind`
@@ -128,10 +127,10 @@ global.ROLE_ADDS = `${SERVER_IP}${COMMON}merchant-role/adds`
 global.ROLE_EDIT = `${SERVER_IP}${COMMON}merchant-role/edit`
 global.ROLE_DELE = `${SERVER_IP}${COMMON}merchant-role/dele`
 
-//角色权限和分配权限
+//商家角色权限和分配权限
 global.ROLE_PERMISSION_EDIT = `${SERVER_IP}${COMMON}merchant-role/edit-permission`
-global.ROLE_PERMISSION_VIEW = `${SERVER_IP}${COMMON}merchant-role/view-permission`   
-   
+global.ROLE_PERMISSION_VIEW = `${SERVER_IP}${COMMON}merchant-role/view-permission`
+
 
 //商家帐号管理
 global.USER_LISTS = `${SERVER_IP}${COMMON}merchant-account/list`
@@ -150,6 +149,10 @@ global.STORE_ROLE_ADDS = `${SERVER_IP}${COMMON}store-role/adds`
 global.STORE_ROLE_EDIT = `${SERVER_IP}${COMMON}store-role/edit`
 global.STORE_ROLE_DELE = `${SERVER_IP}${COMMON}store-role/dele`
 global.STORE_ROLE_VIEW = `${SERVER_IP}${COMMON}store-role/view`
+global.STORE_LIST_RESULTS = `${SERVER_IP}${COMMON}store-role/list-results`
+global.STORE_EDIT_PERMISSION = `${SERVER_IP}${COMMON}store-role/edit-permission`
+global.STORE_VIEW_PERMISSION = `${SERVER_IP}${COMMON}store-role/view-permission`
+
 
 
 //通知
@@ -160,5 +163,8 @@ global.NOTICE_DRAFT = `${SERVER_IP}${COMMON}message/draft-save`
 global.NOTICE_DETAIL = `${SERVER_IP}${COMMON}message/message-detail`
 global.NOTICE_INBOX_LISTS = `${SERVER_IP}${COMMON}message/inbox-list`
 global.NOTICE_MYBOX_LISTS = `${SERVER_IP}${COMMON}message/mybox-list`
+
+//左侧菜单权限
+global.USER_MENU = `${SERVER_IP}${COMMON}user/child-menu`
 
 

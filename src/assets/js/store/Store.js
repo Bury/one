@@ -13,8 +13,8 @@ import storeRoleApi from '@/api/store_role'
 				defaultAttr:{
 					label:'name',
 					value:'id',
-					children:'children',					
-				},	
+					children:'children',
+				},
 				lookData:{
 					organize:[],
 					store_id:'',
@@ -32,8 +32,8 @@ import storeRoleApi from '@/api/store_role'
 				dialogFormVisible: false,
 		        ruleForm: {
 		          	name: '',
-		          	phone:'',		          	
-		          	person_in_charge:'',		          	
+		          	phone:'',
+		          	person_in_charge:'',
 		          	locate:[],
 		          	address:'',
 		          	merchant_organize_id:[],
@@ -85,7 +85,7 @@ import storeRoleApi from '@/api/store_role'
 			}
 		},
 		watch: {
-               dialogFormVisible: function() {               	
+               dialogFormVisible: function() {
                	this.$refs.ruleForm.resetFields()
                }
         },
@@ -99,8 +99,8 @@ import storeRoleApi from '@/api/store_role'
 			storeLists(){
 				let qs = require('querystring')
 	    		storeApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-	    			if(res.data.errno === 0){				
-	    				console.log(res.data)
+
+	    			if(res.data.errno === 0){
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
@@ -114,7 +114,7 @@ import storeRoleApi from '@/api/store_role'
 	            this.$data.requestParameters.page = currentPage;
 	            this.storeLists();
 	        },
-	        
+
 	        clearRuleForm(){
 	        	this.$data.ruleForm = {
 		          	name: '',
@@ -124,7 +124,7 @@ import storeRoleApi from '@/api/store_role'
 		          	address:'',
 		          	merchant_organize_id:[],
 		        }
-	        	
+
 	        },
 
 			fnRemove(row){
@@ -160,14 +160,17 @@ import storeRoleApi from '@/api/store_role'
 				this.$data.currentId = row.id;
 				this.$data.ruleForm = {
 					name: row.name,
-		          	phone:row.phone,				          	
+		          	// phone:row.phone,
+		          	// locate:[row.province.code,row.city.code,row.area.code],
+		          	merchant_organize_id:row.organizes.id.split(','),
+		          	phone:row.phone,
 		          	locate:[String(row.province.code),String(row.city.code),String(row.area.code)],
 		          	merchant_organize_id:moi,
 				}
 				this.$data.dialogFormVisible = true;
 
 			},
-			fnAdds(){				
+			fnAdds(){
 				this.$data.dialogTitle = '门店添加';
 				this.$data.currentId = "";
 				this.clearRuleForm();
@@ -176,6 +179,15 @@ import storeRoleApi from '@/api/store_role'
 			cancel(){
 				this.$data.dialogFormVisible = false;
 				this.$data.currentId = '';
+				this.$data.ruleForm = {
+		          	name: '',
+		          	person_in_charge:'',
+		          	phone:'',
+		          	locate:[],
+		          	address:'',
+		          	merchant_organize_id:[],
+		        };
+		        this.$refs.ruleForm.resetFields()
 				this.clearRuleForm();
 			},
 			submitForm(formName){
@@ -195,7 +207,6 @@ import storeRoleApi from '@/api/store_role'
 							let qs = require('querystring')
 			        		storeApi.edit(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
-									console.log(res)
 									this.$message({
 				                      message: '修改成功',
 				                      type: 'success',
@@ -224,7 +235,7 @@ import storeRoleApi from '@/api/store_role'
 						    let qs = require('querystring')
 			        		storeApi.adds(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
-									
+
 									this.$message({
 				                      message: '添加成功',
 				                      type: 'success',
@@ -254,7 +265,7 @@ import storeRoleApi from '@/api/store_role'
 	                }
 				});
 			},
-			
+
 			switchRepet(row,flag){
 				let alertmsg= ["关闭去除重复?","开启去除重复？"];
 				let qs = require('querystring');
@@ -279,17 +290,17 @@ import storeRoleApi from '@/api/store_role'
 					} else {
 						this.$message(res.data.msg)
 					}
-				})				
+				})
 			},
-			
+
 			getStore(){
 				this.$data.lookData.store_id = "";
 				let organ = this.$data.lookData.organize[this.$data.lookData.organize.length - 1]
 				let data = {
 					merchant_organize_id:organ
-				};								
+				};
 				storeApi.organizeStoreResult(data).then((res) => {
-					if(res.data.errno === 0) {				
+					if(res.data.errno === 0) {
 						if(res.data.data == null){
 							this.$data.nodatatext = "暂无门店"
 							this.$data.selectStore = [];
@@ -301,18 +312,18 @@ import storeRoleApi from '@/api/store_role'
 					}
 				})
 			},
-			
+
 			lookSubmit(){
 				if(this.$data.lookData.organize.length === 0){
 					this.$message("请选择门店架构");
 					return false;
 				}else{
 				    this.$data.requestParameters.organize = this.$data.lookData.organize.join();
-				    this.$data.requestParameters.store_id = this.$data.lookData.store_id;				
-				}				
+				    this.$data.requestParameters.store_id = this.$data.lookData.store_id;
+				}
 				this.storeLists();
 			},
-			
+
 			getCityData(){
 				 getCity.cityData().then((res) => {
         			if(res.status === 200){
@@ -322,6 +333,6 @@ import storeRoleApi from '@/api/store_role'
         			}
         		})
 			}
-			
+
 		}
 	}
