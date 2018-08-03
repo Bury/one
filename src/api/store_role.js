@@ -4,6 +4,17 @@
 import axios from 'axios'
 
 export default {
+  
+  allList() {
+  	//没有分页，所有岗位展示
+  	return new Promise((resolve, reject) => {
+      axios.post(global.STORE_ALL_ROLE_LIST).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
 
   lists (list) {
     return new Promise((resolve, reject) => {

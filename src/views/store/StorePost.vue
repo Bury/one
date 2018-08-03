@@ -102,9 +102,7 @@
 			//列表
 			storeRoleLists() {
 				let qs = require('querystring')
-				console.log(qs.stringify(this.$data.requestParameters))
 				storeRoleApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-					console.log(res)
 					if(res.data.errno === 0) {
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
@@ -181,7 +179,6 @@
 			},
 			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {
-					console.log(valid)
 					if(valid) {
 						if(this.$data.currentId !== '') {
 							let list = {

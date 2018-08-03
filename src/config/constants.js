@@ -95,9 +95,6 @@ global.MERCHANT_ORGANIZE_ADDS = `${SERVER_IP}${COMMON}merchant-organize/adds`
 global.MERCHANT_ORGANIZE_DELE = `${SERVER_IP}${COMMON}merchant-organize/dele`
 global.MERCHANT_ORGANIZE_EDIT = `${SERVER_IP}${COMMON}merchant-organize/edit`
 
-//门店角色管理
-global.STORE_ROLE_LIST = `${SERVER_IP}${COMMON}store-role/list`
-
 
 //提醒设置
 global.MERCHANT_REMIND_VIEW = `${SERVER_IP}${COMMON}merchant-config/view-remind`
@@ -147,11 +144,13 @@ global.USER_PASSWORD_EDIT = `${SERVER_IP}${COMMON}merchant-account/edit-password
 
 
 //门店角色管理
-global.STORE_ROLE_LIST = `${SERVER_IP}${COMMON}store-role/list`
+global.STORE_ALL_ROLE_LIST = `${SERVER_IP}${COMMON}store-role/list-results` //获得所有岗位
+global.STORE_ROLE_LIST = `${SERVER_IP}${COMMON}store-role/list`//分页岗位
 global.STORE_ROLE_ADDS = `${SERVER_IP}${COMMON}store-role/adds`
 global.STORE_ROLE_EDIT = `${SERVER_IP}${COMMON}store-role/edit`
 global.STORE_ROLE_DELE = `${SERVER_IP}${COMMON}store-role/dele`
 global.STORE_ROLE_VIEW = `${SERVER_IP}${COMMON}store-role/view`
+
 
 //通知
 global.NOTICE_DELE = `${SERVER_IP}${COMMON}message/mybox-delete`
