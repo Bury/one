@@ -24,11 +24,27 @@
                       <i class="el-icon-caret-bottom el-icon--right"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown" style="text-align:center;">
-                        <el-dropdown-item divided>个人中心</el-dropdown-item>
+                        <el-dropdown-item divided @click.native="user_personal">个人中心</el-dropdown-item>
                         <el-dropdown-item divided @click.native="logout" command="logout" >退出</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
+          <div class="user1">
+            <el-dropdown trigger="hover" >
+                    <span class="el-dropdown-link" style="color:#fff;">
+                      通知
+                      <i class="el-icon-caret-bottom el-icon--right"></i>
+                    </span>
+              <el-dropdown-menu slot="dropdown" style="text-align:center;">
+                <el-dropdown-item divided @click.native="created_notice">创建通知</el-dropdown-item>
+                <el-dropdown-item divided @click.native="inbox">收件箱</el-dropdown-item>
+                <el-dropdown-item divided @click.native="outbox">发件箱</el-dropdown-item>
+                <el-dropdown-item divided @click.native="drafts">草稿箱</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+
+
         </div>
         <div class="left-menu-wrap">
             <el-radio-group v-model="isCollapse">
@@ -44,15 +60,19 @@
 </template>
 
 <script>
+
 import MenuLeft from './MenuLeft'
 
 import userApi from '../../api/user.js'
 
 export default {
+
   name: 'main-box',
+
   components: {
     MenuLeft
   },
+
   data () {
     return {
         userName:'xxxxx',
@@ -65,11 +85,15 @@ export default {
             leftMenu4:false
         }
     }
+
   },
+
   created: function(){
     this.$data.userName = localStorage.getItem('username')
   },
+
   methods: {
+
     handleSelect(key, keyPath) {
         var nowKey = "leftMenu"+key;
         for(var i in this.$data.leftMenu){
@@ -79,14 +103,17 @@ export default {
                 this.$data.leftMenu[nowI] = true;
             }
         }
-        
+
     },
+
     handleOpen(key, keyPath) {
         console.log(key, keyPath);
     },
+
     handleClose(key, keyPath) {
         console.log(key, keyPath);
     },
+
     logout(){
         userApi.logout().then((res) => {
             if(res.data.errno === 0){
@@ -98,9 +125,29 @@ export default {
                 //logout failed
             }
         });
-    }
+    },
+
+    user_personal(){
+        this.$router.push('/UserPersonal')
+    },
+
+    created_notice(){
+      this.$router.push('/Notice')
+    },
+    inbox(){
+      this.$router.push('/Inbox')
+    },
+    outbox(){
+      this.$router.push('/Outbox')
+    },
+    drafts(){
+      this.$router.push('/Drafts')
+    },
+
   }
+
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -128,9 +175,14 @@ export default {
             }
             .user{
                 position: absolute;
-                right:50px;
+                right:150px;
                 line-height:60px;
             }
+          .user1{
+            position: absolute;
+            right:50px;
+            line-height:60px;
+          }
         }
         .left-menu-wrap{
             position:fixed;
@@ -152,13 +204,12 @@ export default {
         .left-menu-wrap::-moz-scrollbar {
             // display: none;
         }
-        
+
         .content-wrap{
             padding:90px 30px 30px;
 
         }
     }
-
     .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 160px;
 
@@ -166,6 +217,4 @@ export default {
     .el-menu{
         border:0;
     }
-    
-
 </style>

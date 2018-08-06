@@ -48,14 +48,12 @@ a:focus {
 }
 ul,li{list-style: none;}
 
-.el-table th{
-  background-color: #C3CBD3;
-}
+
 .el-table th>.cell{
   text-align: center;
   color:#333;
 }
-.el-tree-node__content{
+/*.el-tree-node__content{
     display:inline-block !important;
-  }
+  }*/
 </style>

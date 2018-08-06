@@ -1,0 +1,64 @@
+.statistics-page{
+    padding-top:150px;    
+    .top-box{
+        position: fixed;
+        padding-top:90px;
+        top:0;
+        z-index:9;
+        width:100%;
+        background:#fff;
+    }
+    .charts-type{
+        margin:0 auto;
+        padding:5px;
+        width: 99%;
+        overflow:hidden;
+        .charts-wrap{
+            float:left;
+            margin: 15px 0;
+            width: 48%;
+            height: 520px;
+            position: relative;
+            .el-radio-select{
+                position: absolute;
+                top: 160px;
+                right: -70px;
+                div{
+                    margin-bottom: 15px;
+                }
+            }
+        }
+        .charts-wrap:nth-child(2n){
+            float:right;
+        }
+    }
+    .data-select{
+        text-align: center;
+        button{
+            width: 150px;
+        }
+        button:first-child{
+            margin-right: 150px;
+        }
+    }
+    .sum-cut{
+        text-align: center;
+        margin-top: 23px;
+        margin-left: 230px;
+    }
+    .store-form{
+        text-align: center;
+        margin-top: 30px;
+    }
+    .add-store{
+        cursor: pointer;
+        width: 120px;
+        text-align: center;
+        span{
+            display: inline-block;
+            margin-left: 20px;
+            font-size: 17px;
+        }
+    }
+}
+

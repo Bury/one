@@ -2,29 +2,37 @@
 	<div class="label-detail-page">
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdd()">新增</el-button>
-			
 		</div>
-		<el-table :data="tableData" border height="448" style="width:621px;text-align:center;">
-	    	<el-table-column prop="name" label="标签名" width="220"></el-table-column>
-		    <el-table-column label="操作" width="400">
-			    <template slot-scope="scope">
-			    	<el-button type="warning" plain icon="el-icon-edit" circle size="small"
-			    		@click="fnEdit(scope.row)"></el-button>
-			    	<el-button type="danger" plain icon="el-icon-delete" circle size="small"
-			    		@click="fnRemove(scope.row)"></el-button>
-			    </template>
-		    </el-table-column>
-	    </el-table>
+    <!--列表-->
+    <table width="60%" class="table-bordered">
+      <thead style="background-color: #d1d1d1">
+      <tr height="40">
+        <th class="col-md-1 text-center">标签类名</th>
+        <th class="col-md-1 text-center">操作</th>
+      </tr>
+      </thead>
+      <tbody style="text-align: center">
+      <tr v-for="(item,index) in tableData" :key="index" height="40">
+        <td>{{item.name}}</td>
+        <td>
+          <el-button type="warning" plain icon="el-icon-edit" circle size="small"
+                     @click="fnEdit(item)"></el-button>
+          <el-button type="danger" plain icon="el-icon-delete" circle size="small"
+                     @click="fnRemove(item)"></el-button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
 
 	    <!-- 分页 -->
 	    <div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
-	    	<el-pagination 
+	    	<el-pagination
 				background
-	            class="pagination" 
-	            layout="prev, pager, next" 
-	            small 
-	            @current-change="handleCurrentChange" 
-	            :current-page="pagination.currentPage" 
+	            class="pagination"
+	            layout="prev, pager, next"
+	            small
+	            @current-change="handleCurrentChange"
+	            :current-page="pagination.currentPage"
 	            :page-size="requestParameters.page_size"
 	            :total="pagination.totalCount">
 	        </el-pagination>
@@ -73,7 +81,7 @@
 	                page: 1,
 	                page_size:10
 	            }
-		       
+
 			}
 		},
 		created:function(){
@@ -124,23 +132,23 @@
 	        			}else{
 
 	        			}
-	        			
+
 	        		})
-		          
+
 		        }).catch(() => {
 		          // this.$message({
 		          //   type: 'info',
 		          //   message: '已取消删除'
-		          // });          
+		          // });
 		        });
 			},
 			fnEdit(row){
 				console.log(row);
-				this.$data.dialogTitle = '编辑'; 
+				this.$data.dialogTitle = '编辑';
 				this.$data.currentId = row.id;
 				this.$data.ruleForm.name = row.name;
 				this.$data.dialogFormVisible = true;
-				
+
 			},
 			fnAdd(){
 				this.$data.dialogTitle = '添加';
@@ -172,7 +180,7 @@
 			        			}else{
 
 			        			}
-			        			
+
 			        		})
 						}else{
 							let list = {
@@ -188,16 +196,16 @@
 			        			}else{
 
 			        			}
-			        			
+
 			        		})
 						}
 						this.$data.ruleForm.name = '';
 						this.$data.currentId = '';
 						this.$data.dialogFormVisible = false;
-			        } 
+			        }
 		        });
 			},
-			
+
 		}
 	}
 </script>

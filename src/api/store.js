@@ -53,7 +53,7 @@ export default {
   //提醒配置
   remindView () {
     return new Promise((resolve, reject) => {
-      axios.post(global.STORE_REMIND_VIEW).then((res) => {
+      axios.post(global.MERCHANT_REMIND_VIEW).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
@@ -62,7 +62,7 @@ export default {
   },
   remindSet (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.STORE_REMIND_SET, list).then((res) => {
+      axios.post(global.MERCHANT_REMIND_SET, list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
@@ -71,7 +71,7 @@ export default {
   },
   timeView () {
     return new Promise((resolve, reject) => {
-      axios.post(global.STORE_TIME_VIEW).then((res) => {
+      axios.post(global.MERCHANT_TIME_VIEW).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
@@ -80,12 +80,41 @@ export default {
   },
   timeSet (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.STORE_TIME_SET, list).then((res) => {
+      axios.post(global.MERCHANT_TIME_SET, list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
       })
     })
   },
+  switchRepet(list){
+  	return new Promise((resolve, reject) => {
+      axios.post(global.DO_DISTINCT, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  
+  organizeStoreResult(list){
+  	return new Promise((resolve, reject) => {
+      axios.post(global.SHORE_ORGANIZE_WHERE, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  
+  getStoreResult(list){
+  	return new Promise((resolve, reject) => {
+      axios.post(global.STORE_LISTS_RESULT, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  }
 
 }

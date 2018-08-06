@@ -32,49 +32,55 @@
 			</el-form>
 		</div>
 		<!-- 列表 -->
-		<el-table :data="tableData" border style="width: 1598px;text-align:center;">
-		    <el-table-column prop="no" label="订单编号" width="160"></el-table-column>
-		    <el-table-column prop="product_name" label="商品名称" width="160"></el-table-column>
-		    <el-table-column prop="price" label="成交金额" width="120"></el-table-column>
-		    <el-table-column label="客户人脸" width="80">
-		    	<template slot-scope="scope">
-		           <img :src="scope.row.traffic. avatar" style="display:block;margin:0 auto;width:100%;">
-		        </template>
-		    </el-table-column>
-		    <el-table-column prop="customer_name" label="客户姓名" width="160"></el-table-column>
-		    <el-table-column label="客户类型" width="160">
-		    	<template slot-scope="scope">
-			    	<span v-if="scope.row.traffic.is_new == 1 && scope.row.traffic.vip_level == 1">新客</span>
-			    	<span v-if="scope.row.traffic.is_new == 0 && scope.row.traffic.vip_level == 1">熟客</span>
-		    	</template>
-		    </el-table-column>
-		    <el-table-column label="收银时间" width="160">
-		    	<template slot-scope="scope">
-		    		{{scope.row.cash_t | date(4)}}
-		    	</template>
-		    </el-table-column>
-		    <el-table-column label="创建时间" width="160">
-		    	<template slot-scope="scope">
-		    		{{scope.row.created_at | date(4)}}
-		    	</template>
-		    </el-table-column>
-		    <el-table-column fixed="right" label="操作" width="150">
-			    <template slot-scope="scope">
-			        <el-button @click="fnEdit(scope.row)" type="text" size="small">编辑</el-button>
-			        <el-button @click="fnRemove(scope.row)" type="text" size="small">删除</el-button>
-			    </template>
-		    </el-table-column>
-	    </el-table>
-
+    <table width="99%" class="table-bordered">
+      <thead style="background-color: #d1d1d1">
+      <tr height="40">
+        <th class="col-md-2 text-center">订单编号</th>
+        <th class="col-md-1 text-center">商品名称</th>
+        <th class="col-md-1 text-center">成交金额</th>
+        <th class="col-md-1 text-center">客户人脸</th>
+        <th class="col-md-1 text-center">客户姓名</th>
+        <th class="col-md-1 text-center">客户类型</th>
+        <th class="col-md-2 text-center">收银时间</th>
+        <th class="col-md-2 text-center">创建时间</th>
+        <th class="col-md-2 text-center">操作</th>
+      </tr>
+      </thead>
+      <tbody style="text-align: center">
+      <tr v-for="(item,index) in tableData" :key="index" height="40">
+        <td>{{item.sn}}</td>
+        <td>
+          <span v-for="good in item.orderGoods" class="margin">[{{good.material_name}}/{{good.style_name}}]</span>
+        </td>
+        <td>{{parseFloat(item.price,2)}}</td>
+        <td>
+          <div style="width: 100px;height: 100px;padding: 10px;box-sizing: border-box;">
+            <img :src="item.traffic.avatar" style="width: 100%;"/>
+          </div>
+        </td>
+        <td>{{item.customer_name}}</td>
+        <td>
+          <span v-if="item.traffic.is_new == 1 && item.traffic.vip_level == 1">新客</span>
+          <span v-if="item.traffic.is_new == 0 && item.traffic.vip_level == 1">熟客</span>
+        </td>
+        <td>{{item.cash_t | date(4)}}</td>
+        <td>{{item.created_at | date(4)}}</td>
+        <td>
+          <!--<el-button @click="fnEdit(item)" type="text" size="small">编辑</el-button>-->
+          <el-button @click="fnRemove(item)" type="text" size="small">删除</el-button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
 	    <!-- 分页 -->
 		<div v-if="tableData.length > 0" style="margin:0 auto;max-width:1551px;">
-			<el-pagination 
+			<el-pagination
 				background
-	            class="pagination" 
-	            layout="prev, pager, next" 
-	            small 
-	            @current-change="handleCurrentChange" 
-	            :current-page="pagination.currentPage" 
+	            class="pagination"
+	            layout="prev, pager, next"
+	            small
+	            @current-change="handleCurrentChange"
+	            :current-page="pagination.currentPage"
 	            :page-size="requestParameters.page_size"
 	            :total="pagination.totalCount">
 	        </el-pagination>
@@ -86,7 +92,7 @@
     export default {
         name:'guest-list',
         components: {
-		   
+
 		},
         data(){
             return{
@@ -123,7 +129,7 @@
         		this.$data.requestParameters.created_at_start = this.$data.createdTimes[0];
         		this.$data.requestParameters.created_at_end = this.$data.createdTimes[1];
 
-        		let qs = require('querystring'); 
+        		let qs = require('querystring');
         		OrderApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
         			if(res.data.errno === 0){
         				console.log(res.data.data.list)
@@ -133,8 +139,8 @@
         			}else{
 
         			}
-			        
-			       
+
+
 			    })
         	},
 
@@ -146,8 +152,11 @@
         	onSubmit() {
 		        this.lists();
 		    },
+          fnEdit(row){
+
+          },
 		    fnRemove(row){
-				this.$confirm('确认删除该订单：'+row.no+' ？', '删除提示', {
+				this.$confirm('确认删除该订单：'+row.sn+' ？', '删除提示', {
 		          confirmButtonText: '确定',
 		          cancelButtonText: '取消',
 		          type: 'warning'
@@ -168,14 +177,14 @@
 	        			}else{
 							this.$message.error(res.data.msg);
 	        			}
-	        			
+
 	        		})
-		            
+
 		        }).catch(() => {
 		          // this.$message({
 		          //   type: 'info',
 		          //   message: '已取消删除'
-		          // });          
+		          // });
 		        });
 			},
 	    },
@@ -183,6 +192,6 @@
 </script>
 <style lang="scss" scoped>
 	.el-table thead{
-		color:#333; 
+		color:#333;
 	}
 </style>
