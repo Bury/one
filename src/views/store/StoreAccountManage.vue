@@ -32,7 +32,7 @@
 
 			<el-form-item>
 				<el-button type="primary" @click="clickSearch">查询</el-button>
-				<el-button type="primary">重置</el-button>
+				<el-button type="primary" @click="resetForm">重置</el-button>
 			</el-form-item>
 		</el-form>
 		<table width="100%" class="table-bordered">

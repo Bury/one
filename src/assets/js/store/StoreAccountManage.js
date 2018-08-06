@@ -112,7 +112,7 @@
                editFormVisible:function(val){               	
                	 if(val){
                	   setTimeout(() =>{
-               	 		this.$refs.editFormData.resetFields()
+               	 		this.$refs.editFormData.clearValidate()
                	 	},0)               	    
                	 }else{
                	 	this.$data.editFormData = {
@@ -130,7 +130,7 @@
                addsFormVisible:function(val){
                	  if(val){
                	  	setTimeout(() =>{
-               	  	     this.$refs.addsFormData.resetFields()
+               	  	     this.$refs.addsFormData.clearValidate()
                	  	},0)
                	  }else{
                	  	this.fnClearAddsFormData()
@@ -331,7 +331,6 @@
 				this.fnClearAddsFormData();
 			},
 			addsSubmit(formName){
-				console.log()
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
 						let qs = require('querystring');
@@ -417,9 +416,20 @@
 				if(this.$data.organizeCode.length !== 0){
 					this.$data.requestParameters.merchant_organize_id =  this.$data.organizeCode[this.$data.organizeCode.length - 1]
 				}	
-				console.log(this.$data.requestParameters)
 				this.accountLists()
-				
+			},
+			resetForm(){
+				this.$data.organizeCode = [];
+				this.$data.requestParameters = {
+					store_id:'',
+					merchant_organize_id:'',	                
+	                merchant_role_id:'',
+	                username:'',
+	                truename:'',
+	                phone:'',
+	                page: 1,
+	                page_size:10,					
+				}
 			}
 
 
