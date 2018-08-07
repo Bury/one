@@ -120,7 +120,7 @@
 
 		</ul>
 
-		<el-table :data="tableData" style="width: 100%;" border :default-sort="{prop: 'date', order: 'descending'}">
+		<el-table :data="tableData" stripe style="width: 100%;" border :default-sort="{prop: 'date', order: 'descending'}">
 			<el-table-column type="index" :index="indexRank" label="排名" width="60" align="center">
 			</el-table-column>
 			<el-table-column prop="" label="名称" align="center">
@@ -148,7 +148,6 @@
 			<el-table-column prop="date" label="60岁以上占比" sortable width="135" align="center">
 			</el-table-column>
 		</el-table>
-
 	</div>
 </template>
 

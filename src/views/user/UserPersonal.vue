@@ -8,19 +8,19 @@
 		</div>
 		<el-form ref="userForm" :model="userForm" label-width="75px" enabled>
       <el-form-item label="帐号：">
-        {{username}}
+        {{userForm.username}}
       </el-form-item>
       <el-form-item label="岗位：">
-        {{role_name}}
+        {{userForm.role_name}}
       </el-form-item>
       <el-form-item label="姓名：">
-        <el-input v-model="userForm.truename"></el-input>
+       {{userForm.truename}}
       </el-form-item>
       <el-form-item label="手机：">
-        <el-input v-model="userForm.phone"></el-input>
+        {{userForm.phone || '暂无手机号'}}
       </el-form-item>
       <div style="text-align:center;">
-        <el-button type="primary" @click="fnSaveSubmitForm('userForm')">保 存</el-button>
+        <!--<el-button type="primary" @click="fnSaveSubmitForm('userForm')">保 存</el-button>-->
       </div>
 		</el-form>
 
@@ -52,8 +52,7 @@
   	name:'personal',
     data() {
       return {
-        username:'',
-        role_name:'',
+      	userForm:{},       
         dialogFormVisible: false,
         ruleForm: {
           oldPwd:'',
@@ -82,12 +81,8 @@
                 trigger: 'blur'
             }
           ]
-        },
-        userForm:{
-          truename:'',
-          phone:'',
-        },
-      }
+        }
+     }
     },
     created:function(){
     	this.getUserInfo();
@@ -96,11 +91,7 @@
       getUserInfo(){
         userApi.getUserInfo().then((res) => {
           if(res.data.errno === 0){
-            console.log(res);
-            this.$data.username = res.data.data.user.username;
-            this.$data.role_name = res.data.data.user.role_name;
-            this.$data.userForm.name = res.data.data.user.truename;
-            this.$data.userForm.phone = res.data.data.user.phone;
+            this.$data.userForm = res.data.data.user;
           }else{
             this.$message.error(res.data.msg);
           }

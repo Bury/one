@@ -12,6 +12,7 @@ const COMMON = 'mv1/'
 global.GET_CUSTOMER = `${SERVER_IP}${COMMON}analysis/customer`
 // post analysis/feature
 global.GET_FEATURE = `${SERVER_IP}${COMMON}analysis/feature`
+global.ANALYSIS_LIST = `${SERVER_IP}${COMMON}analysis/list`  //客流列表
 
 /*提醒列表*/
 // post customer//remind-list 获取提醒列表

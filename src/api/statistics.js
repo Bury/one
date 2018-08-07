@@ -23,4 +23,15 @@ export default {
 	    })
 	},
 	
+	//客流列表
+	customerList(list){
+		return new Promise((resolve, reject) => {
+	      axios.post(global.ANALYSIS_LIST,list).then((res) => {
+	        resolve(res)
+	      }).catch((err) => {
+	        reject(err)
+	      })
+	    })
+	}
+	
 }
