@@ -8,10 +8,20 @@ const SERVER_IP = apiUrl.apiUrl
 const COMMON = 'mv1/'
 
 //客流统计
-// post analysis/customer
-global.GET_CUSTOMER = `${SERVER_IP}${COMMON}analysis/customer`
-// post analysis/feature
-global.GET_FEATURE = `${SERVER_IP}${COMMON}analysis/feature`
+global.GRAPH_CUSTOMER_SUM = `${SERVER_IP}${COMMON}analysis/graph-customer-sum` //客流统计折线图求和
+global.GRAPH_CUSTOMER_DIFF = `${SERVER_IP}${COMMON}analysis/graph-customer-diff` //客流统计折线图比对
+global.PIE_FEATURE_SUM = `${SERVER_IP}${COMMON}analysis/pie-feature-sum`  //特征饼图求和
+global.GRAPH_FEATURE_SUM = `${SERVER_IP}${COMMON}analysis/graph-feature-sum`  //特征折线图求和
+
+global.GRAPH_ORDER_SUM = `${SERVER_IP}${COMMON}analysis/graph-order-sum`  //成交率折线图求和
+global.GRAPH_ORDER_DIFF = `${SERVER_IP}${COMMON}analysis/graph-order-diff`  //成交率折线图比对
+
+global.GRAPH_CUSTOMER_LOST_SUM = `${SERVER_IP}${COMMON}analysis/graph-customer-lost-sum`  //潜在客户流失率折线图求和
+global.GRAPH_CUSTOMER_LOST_DIFF = `${SERVER_IP}${COMMON}analysis/graph-customer-lost-diff`  //潜在客户流失率折线图比对
+
+global.GRAPH_ORDER_LOST_SUM = `${SERVER_IP}${COMMON}analysis/graph-order-lost-sum`  //成交客户流失率折线图求和
+global.GRAPH_ORDER_LOST_DIFF = `${SERVER_IP}${COMMON}analysis/graph-order-lost-diff`  //成交客户流失率折线图比对
+
 global.ANALYSIS_LIST = `${SERVER_IP}${COMMON}analysis/list`  //客流列表
 
 /*提醒列表*/

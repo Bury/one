@@ -30,9 +30,8 @@ export default {
 				storeTotal: 1,
 				radioShow: true,
 				allOrSetShow: true,
-			},
-			chartShowType: 0,
-			chartOptionsType: 0,
+			},			
+			chartShowType: 0,			
 			allStores: [],
 			timeType: 'day',
 			day: '',
@@ -42,6 +41,7 @@ export default {
 			userDefined: '',
 			ctrlTimeType: [true, false, false, false, false],
 			guestData: {},
+			isAll:"1",
 			newOldData: [],
 			vipData: [],
 			ageData: [],
@@ -50,37 +50,27 @@ export default {
 			guestParameters: {
 				begin_time: '',
 				end_time: '',
-				store_id: ''
+				store_id: [],
+				merchant_organize_id:[],
 			},
-			tableData: [{
-				date: '80%',
-				name: '王小虎',
-				address: '上海市普陀区金沙江路 1518 弄'
-			}, {
-				date: '60%',
-				name: '王小虎',
-				address: '上海市普陀区金沙江路 1517 弄'
-			}, {
-				date: '10%',
-				name: '王小虎',
-				address: '上海市普陀区金沙江路 1519 弄'
-			}, {
-				date: '50%',
-				name: '王小虎',
-				address: '上海市普陀区金沙江路 1516 弄'
-			}]
+			tableData:[],
+			
 
 		}
 	},
 	created: function() {
-		this.getStores();
 		this.setData();
-        this.customerList();
 	},
 	mounted: function() {
 		//this.gocolumnChart();
 	},
 	methods: {
+		//时间转为秒
+		getS(value) {
+			var formatTimeS = new Date(value).getTime() / 1000;
+			return formatTimeS
+		},
+		
 		gocolumnChart() {
 			/*
 			chart.series[0].update({
@@ -88,19 +78,12 @@ export default {
 			})
 			*/
 			//let guestCharts = this.$refs.guestCharts;
-		},
-		//门店
-		getStores() {
-			storeApi.listsResults().then((res) => {
-				if(res.data.errno === 0) {
-					this.$data.allStores = res.data.data;
-				} else {
-
-				}
-
-			})
-		},
+		},	
 		
+		//客流趋势成交率等切换
+		customerClass(val){
+			console.log(val)
+		},
 		//客流列表
 		customerList(){
 			let listData = {
@@ -111,30 +94,23 @@ export default {
 			}
 			statisticsApi.customerList(listData).then((res) => {
 				if(res.data.errno === 0) {
-					console.log(res)
+					this.$data.tableData = res.data.data.list
 				} else {
 
 				}
 			})
-		},
+		},		
 
-		//时间转为秒
-		getS(value) {
-			var formatTimeS = new Date(value).getTime() / 1000;
-			return formatTimeS
-		},
-
-		//客流量
+		//客流统计折线图求和
 		getCustomer(parameters) {
 			let qs = require('querystring');
-			statisticsApi.getCustomer(qs.stringify(parameters)).then((res) => {
+			statisticsApi.getCustomerSum(qs.stringify(parameters)).then((res) => {
 				if(res.data.errno === 0) {
 					this.$data.guestData = res.data.data;
-				} else {
-
 				}
 			})
-		},
+		},		
+		
 		//特征
 		getFeature(parameters, types) {
 			let list = {
@@ -202,11 +178,7 @@ export default {
 			var nowIdx = tab.index;
 			this.$data.ctrlTimeType = [false, false, false, false, false];
 			this.$data.ctrlTimeType[nowIdx] = true;
-			this.$data.guestParameters = {
-				begin_time: '',
-				end_time: '',
-				store_id: ''
-			}
+			
 			this.setData();
 		},
 
@@ -280,12 +252,12 @@ export default {
 
 		},
 		requestData() {
-			this.getCustomer(this.$data.guestParameters);
-			this.getFeature(this.$data.guestParameters, 'face');
-			this.getFeature(this.$data.guestParameters, 'vip');
-			this.getFeature(this.$data.guestParameters, 'age');
-			this.getFeature(this.$data.guestParameters, 'gender');
-			this.getFeature(this.$data.guestParameters, 'camera');
+			//this.getCustomer(this.$data.guestParameters);
+//			this.getFeature(this.$data.guestParameters, 'face');
+//			this.getFeature(this.$data.guestParameters, 'vip');
+//			this.getFeature(this.$data.guestParameters, 'age');
+//			this.getFeature(this.$data.guestParameters, 'gender');
+//			this.getFeature(this.$data.guestParameters, 'camera');
 		},
 
 		selectData() {

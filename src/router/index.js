@@ -68,7 +68,7 @@ const router = new Router({
       component: Main,
 
       children: [
-        {path: '/',name: 'Statistics',component: Statistics},
+        {path: 'Statistics',name: 'Statistics',component: Statistics},
         {path: 'Guest',name: 'Guest',component: Guest},
         {path: 'Order',name: 'Order',component: Order},
         {path: 'LabelList',name: 'LabelList',component: LabelList},

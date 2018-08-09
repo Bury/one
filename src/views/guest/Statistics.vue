@@ -9,15 +9,15 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="时间选择：">
-					<el-date-picker v-if="ctrlTimeType[0]" v-model="day" type="datetime" placeholder="选择日期时间">
+					<el-date-picker v-show="ctrlTimeType[0]" v-model="day" type="datetime" placeholder="选择日期时间">
 					</el-date-picker>
-					<el-date-picker v-if="ctrlTimeType[1]" v-model="week" type="week" format="yyyy 第 WW 周" placeholder="选择周">
+					<el-date-picker v-show="ctrlTimeType[1]" v-model="week" type="week" format="yyyy 第 WW 周" placeholder="选择周">
 					</el-date-picker>
-					<el-date-picker v-if="ctrlTimeType[2]" v-model="month" type="month" placeholder="选择月">
+					<el-date-picker v-show="ctrlTimeType[2]" v-model="month" type="month" placeholder="选择月">
 					</el-date-picker>
-					<el-date-picker v-if="ctrlTimeType[3]" v-model="year" type="year" placeholder="选择年">
+					<el-date-picker v-show="ctrlTimeType[3]" v-model="year" type="year" placeholder="选择年">
 					</el-date-picker>
-					<el-date-picker v-model="userDefined" v-if="ctrlTimeType[4]" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+					<el-date-picker v-show="ctrlTimeType[4]" v-model="userDefined"  type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
 					</el-date-picker>
 				</el-form-item>
 
@@ -77,28 +77,14 @@
 		<ul class="charts-type">
 			<li class="charts-wrap">
 				<div style="padding:10px 0 20px;text-align:center;">
-					<el-radio-group v-model="chartShowType" size="small">
-						<el-radio-button label="0">客流趋势</el-radio-button>
-						<el-radio-button label="1">成交率</el-radio-button>
-						<el-radio-button label="2">潜在客户流失率</el-radio-button>
-						<el-radio-button label="3">成交客户</el-radio-button>
+					<el-radio-group v-model="isAll" @change="customerClass" size="small">
+						<el-radio-button label="1">客流趋势</el-radio-button>
+						<el-radio-button label="2">成交率</el-radio-button>
+						<el-radio-button label="3">潜在客户流失率</el-radio-button>
+						<el-radio-button label="4">成交客户流失率</el-radio-button>
 					</el-radio-group>
 				</div>
-				<guest-chart :guestData="guestData"></guest-chart>
-				<el-radio-group v-model="chartOptionsType" class="el-radio-select">
-					<div>
-						<el-radio :label="0">默认</el-radio>
-					</div>
-					<div>
-						<el-radio :label="1">新熟客</el-radio>
-					</div>
-					<div>
-						<el-radio :label="2">年龄段</el-radio>
-					</div>
-					<div>
-						<el-radio :label="3">性别</el-radio>
-					</div>
-				</el-radio-group>
+				<guest-chart  :postVal="guestParameters" :isAll="isAll"></guest-chart>				
 			</li>
 			<!--
             <li class="charts-wrap">
@@ -123,29 +109,29 @@
 		<el-table :data="tableData" stripe style="width: 100%;" border :default-sort="{prop: 'date', order: 'descending'}">
 			<el-table-column type="index" :index="indexRank" label="排名" width="60" align="center">
 			</el-table-column>
-			<el-table-column prop="" label="名称" align="center">
+			<el-table-column prop="name" label="名称" align="center">
 			</el-table-column>
-			<el-table-column prop="date" label="客流量" sortable align="center">
+			<el-table-column prop="customer" label="客流量" sortable align="center">
 			</el-table-column>
-			<el-table-column prop="date" label="新客占比" sortable width="110" align="center">
+			<el-table-column prop="new" label="新客占比" sortable width="110" align="center">
 			</el-table-column>
-			<el-table-column prop="date" label="熟客占比" sortable width="110" align="center">
+			<el-table-column prop="old" label="熟客占比" sortable width="110" align="center">
 			</el-table-column>
-			<el-table-column prop="date" label="男性占比" sortable width="110" align="center">
+			<el-table-column prop="men" label="男性占比" sortable width="110" align="center">
 			</el-table-column>
-			<el-table-column prop="date" label="女性占比" sortable width="110" align="center">
+			<el-table-column prop="women" label="女性占比" sortable width="110" align="center">
 			</el-table-column>
-			<el-table-column prop="date" label="20岁以下占比" sortable width="135" align="center">
+			<el-table-column prop="0-20" label="20岁以下占比" sortable width="135" align="center">
 			</el-table-column>
-			<el-table-column prop="date" label="20-29岁占比" sortable width="130" align="center">
+			<el-table-column prop="20-29" label="20-29岁占比" sortable width="130" align="center">
 			</el-table-column>
-			<el-table-column prop="date" label="30-39岁占比" sortable width="130" align="center">
+			<el-table-column prop="30-39" label="30-39岁占比" sortable width="130" align="center">
 			</el-table-column>
-			<el-table-column prop="date" label="40-49岁占比" sortable width="130" align="center">
+			<el-table-column prop="40-49" label="40-49岁占比" sortable width="130" align="center">
 			</el-table-column>
-			<el-table-column prop="date" label="50-59岁占比" sortable width="130" align="center">
+			<el-table-column prop="50-59" label="50-59岁占比" sortable width="130" align="center">
 			</el-table-column>
-			<el-table-column prop="date" label="60岁以上占比" sortable width="135" align="center">
+			<el-table-column prop="60-" label="60岁以上占比" sortable width="135" align="center">
 			</el-table-column>
 		</el-table>
 	</div>
