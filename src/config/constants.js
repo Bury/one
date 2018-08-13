@@ -106,7 +106,7 @@ global.MERCHANT_TIME_SET = `${SERVER_IP}${COMMON}merchant-config/business-time`
 //个人中心
 global.USER_INFO = `${SERVER_IP}${COMMON}user/info`
 global.USER_CHANGE_PASSWORD = `${SERVER_IP}${COMMON}user/change-password`
-global.USER_EDI = `${SERVER_IP}${COMMON}user/edit`
+global.USER_EDIT_INFO = `${SERVER_IP}${COMMON}user/edit`
 //登录退出
 global.USER_LOGIN = `${SERVER_IP}${COMMON}user/login`
 global.USER_LOGOUT = `${SERVER_IP}${COMMON}user/logout`
@@ -163,6 +163,8 @@ global.NOTICE_INBOX_LISTS = `${SERVER_IP}${COMMON}message/inbox-list`
 global.NOTICE_MYBOX_LISTS = `${SERVER_IP}${COMMON}message/mybox-list`
 
 //左侧菜单权限
-global.USER_MENU = `${SERVER_IP}${COMMON}user/child-menu`
+global.USER_CHILD_MENU = `${SERVER_IP}${COMMON}user/child-menu`
+global.USER_MENU = `${SERVER_IP}${COMMON}user/left-menu`
+
 
 

@@ -99,7 +99,7 @@
             console.log(res);
             this.$data.username = res.data.data.user.username;
             this.$data.role_name = res.data.data.user.role_name;
-            this.$data.userForm.name = res.data.data.user.truename;
+            this.$data.userForm.truename = res.data.data.user.truename;
             this.$data.userForm.phone = res.data.data.user.phone;
           }else{
             this.$message.error(res.data.msg);

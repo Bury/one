@@ -117,7 +117,6 @@ export default {
     logout(){
         userApi.logout().then((res) => {
             if(res.data.errno === 0){
-                alert('退出成功')
                 localStorage.setItem('knock_knock', null)
                 localStorage.setItem('username', '')
                 this.$router.replace({name: 'UserLogin'})

@@ -196,9 +196,9 @@ import roleApi from '@/api/role'
 				}
 				let qs = require('querystring');
 				roleApi.viewPermission(qs.stringify(list)).then((res) => {
-				  console.log(res.data.data);
+				  // console.log(res.data.data);
 					if(res.data.errno === 0) {
-					  console.log(res.data.data);
+					  // console.log(res.data.data);
 						this.$data.dialogForm2 = res.data.data;
 						var checkedId = [];
 						for(var i = 0; i < this.$data.dialogForm2.length; i++) {

@@ -58,9 +58,9 @@ export default {
       })
     })
   },
-  edi (list) {
+  editUser (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.USER_EDI,list).then((res) => {
+      axios.post(global.USER_EDIT_INFO,list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
@@ -94,6 +94,23 @@ export default {
       })
     })
   },
-
+  menu (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_MENU, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  childMenu (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_CHILD_MENU, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
 
 }
