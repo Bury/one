@@ -94,7 +94,7 @@
             </div>
           </div>
         </td>
-        <td>{{item.store_id}}</td>
+        <td>{{item.store_name}}</td>
         <td>
           <span v-if="item.traffic.is_new == 1 && item.traffic.vip_level == 1">熟客已购买</span>
           <span v-if="item.traffic.is_new == 0 && item.traffic.vip_level == 1">新客已购买</span>

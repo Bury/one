@@ -111,3 +111,9 @@ export const numThousand = (value) =>{
   })
   return res
 }
+//文本过滤长度以及标签
+export const fontFilter = (value,num) =>{
+  value = value.replace(/<[^>]+>/gim, '');
+  value = value.substr(0, num)
+  return value + ('...');
+}

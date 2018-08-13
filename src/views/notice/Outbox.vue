@@ -13,7 +13,7 @@
       <tbody style="text-align: center">
       <tr v-for="(item,index) in tableData" :key="index" height="40">
         <td>{{item.title}}</td>
-        <td>{{item.content}}</td>
+        <td>{{item.content | fonts(10)}}</td>
         <td>{{item.author}}</td>
         <td>{{item.created_at | date(4)}}</td>
         <td>

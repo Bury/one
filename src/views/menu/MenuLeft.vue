@@ -1,7 +1,8 @@
 <template>
   <div class="left-menu1">
-    <el-menu :default-active="currentMenu" :data="tableData"
+    <el-menu :default-active="$route.path" :data="tableData"
              v-for="(item,index) in tableData"
+             :key="index"
              class="el-menu-vertical-demo"
              :collapse="isCollapse && isShow"
              background-color="#545c64"
@@ -44,7 +45,11 @@
       }
     },
     created() {
-      this.getUrl();
+      // this.$nextTick(() =>{
+      //   console.log(151515);
+      //   this.getUrl()
+      // })
+      // this.getUrl();
       this.menu();
     },
     methods: {
