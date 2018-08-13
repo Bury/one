@@ -3,12 +3,22 @@
 	import remindApi from '@/api/remind'
 	import storeApi from '@/api/store'
 	import getCity from '@/api/getCity'
+	import storeRole from '@/api/store_role'
 	export default{
 		name:'device',
 		data(){
 			return{
 				tableData: [],
+				organizes:[],
+				organizeCode:[],
+				dorganizeCode:[],
 				allStores:[],
+				dallStores:[],
+				defaultAttr:{
+					label:'name',
+					value:'id',
+					children:'children',
+				},
 				pagination:{
 		        	currentPage:1,
 		        	totalCount:0,
@@ -49,21 +59,14 @@
 		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
 	            	]
 	            },
-	            cityData:[],
-	            cityCode:[],
-	            dialogCityCode:[],
-	            props:{
-	            	value:'code',
-	            	label:'name',
-	            	children:"children"
-	            },
-	            nodatatext:"请选择省市区"
+	            nodatatext:"请选择门店架构",
+	            dnodatatext:'请选择门店架构',
 			}
 		},
 		created:function(){
 			this.lists();
 			this.getDeviceVersionListsResults();
-			this.getCityData()
+			this.getOrganizes()
 		},
 		methods:{
 			lists(){
@@ -72,6 +75,7 @@
 	            this.$data.requestParameters.start_at_begin = this.$data.startTimes[0];
 	            this.$data.requestParameters.start_at_end = this.$data.startTimes[1];
 			    let qs = require('querystring')
+			    console.log(this.$data.requestParameters)
         		deviceApi.lists(this.$data.requestParameters).then((res) => {
         			if(res.data.errno === 0){
                         this.$data.tableData = res.data.data.list;   
@@ -94,26 +98,47 @@
         		})
 			},
 			handleCurrentChange(currentPage) {
-
 	            this.$data.requestParameters.page = currentPage;
 	            this.lists();
 	        },
 			onSubmit(){
 				this.lists();
 			},
+			resetSearch(){
+				let isAllocate;
+				if(this.$data.requestParameters.is_allocate === 1){
+					isAllocate = 1;
+				}else{
+					isAllocate = 0;
+				}
+				this.$data.requestParameters = {
+					page: 1,
+	                page_size:10,
+	                device_id:'',
+	                version:'',
+	                belong_sid:'',
+	                name:'',
+	                created_at_begin:'',
+	                cteated_at_end:'',
+	                start_at_begin:'',
+	                start_at_end:'',
+	                is_allocate:isAllocate					
+				}
+				this.$data.organizeCode = [];
+				this.lists();
+			},
 			fnDistribution(row){
-				this.$data.distributionForm.belong_sid = row.store.id;
 				this.$data.distributionForm.device_id = row.device_id;
-				this.$data.nodatatext = "请选择省市区";
-				this.$data.dialogCityCode  = [];
+				this.$data.distributionForm.belong_sid = '';
 				this.$data.distributionFormVisible = true;
 			},
-			distributionCancel(){
-				this.$data.distributionFormVisible = false;
+			distributionCancel(){				
+				this.$data.dorganizeCode = [];
 	            this.$data.distributionForm = {
 	            	device_id:'',
 	            	belong_sid:''
 	            };
+	            this.$data.distributionFormVisible = false;
 			},
 			distributionSubmit(){
 				if(this.$data.distributionForm.belong_sid == ""){
@@ -123,6 +148,8 @@
 				let qs = require('querystring');
         		deviceApi.distribution(qs.stringify(this.$data.distributionForm)).then((res) => {
         			if(res.data.errno === 0){
+        				this.$message('分配成功');
+        				this.$data.dorganizeCode = [];
 						this.lists();
 						this.$data.distributionFormVisible = false;
         			}else{
@@ -189,19 +216,22 @@
                 	    break;
                 }
 			},
-			getCityData(){
-				getCity.cityData().then((res) => {
-//      			if(res.data.errno === 0){
-//      				console.log(res.data.data)
-//   				 this.$data.cityData = res.data.data
-//      			}else{
-//      				this.$message(res.data.msg)
-//      			}
-        		})
+			getOrganizes(){
+				storeRole.organizeTree().then((res) => {
+					if(res.data.errno == 0) {
+						this.$data.organizes = res.data.data
+					} else {
+						this.$message(res.data.msg)
+					}
+				})
 			},
-			getStore(t){
-				let qs = require('querystring');
-				 storeApi.getStoreResult(qs.stringify({locate:t[t.length - 1]})).then((res) => {
+			getStore(){
+				this.$data.requestParameters.belong_sid = "";
+				let organ = this.$data.organizeCode[this.$data.organizeCode.length - 1]
+				let data = {
+					merchant_organize_id:organ
+				};
+				 storeApi.organizeStoreResult(data).then((res) => {
         			if(res.data.errno === 0){
       				     if(res.data.data != null && res.data.data.length>0){
       				     	this.$data.allStores = res.data.data;
@@ -214,11 +244,24 @@
         			}
         		})
 			},
-			searchStore(){
-				this.getStore(this.$data.cityCode)
-			},
 			dialogStore(){
-				this.getStore(this.$data.dialogCityCode)
+				let organ = this.$data.dorganizeCode[this.$data.dorganizeCode.length - 1]
+				let data = {
+					merchant_organize_id:organ
+				};
+				 storeApi.organizeStoreResult(data).then((res) => {
+        			if(res.data.errno === 0){
+      				     if(res.data.data != null && res.data.data.length>0){
+      				     	this.$data.dallStores = res.data.data;
+      				     }else{
+      				     	this.$data.dnodatatext = "此地区暂无门店";
+      				     	this.$data.distributionForm.belong_sid = "";
+      				     }
+        			}else{
+        				this.$message(res.statusText)
+        			}
+        		})
+				
 			}
 		}
 	}

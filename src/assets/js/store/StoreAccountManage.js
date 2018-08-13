@@ -1,6 +1,7 @@
     import storeApi from '@/api/store'
     import storeRole from '@/api/store_role'
 	import storeAccountApi from '@/api/store_account'
+	import globalRules from '@/config/global_rules'
 
 	export default{
 		name:'store-account-manage',
@@ -10,8 +11,9 @@
 				organizes: [],
 				selectStore:[],
 				organizeCode:[],
-				roleLists:[],
+				allRole:[],
 				nodatatext:'请选择门店架构',
+				noeditStore:'请选择门店架构',
 				defaultAttr:{
 					label:'name',
 					value:'id',
@@ -31,27 +33,23 @@
 	                page: 1,
 	                page_size:10,
 	            },
-	            editFormVisible:false,
-	            allRole:[],
+	            editFormVisible:false,	 
+	            editFormOrganize:[],
+	            editStore:[],
 	            editFormData:{
 	            	id:'',
+	            	store_id:'',
 	            	username:'',
 	            	truename:'',
 	            	phone:'',
 	            	role_id:''
 	            },
 	            editRules:{
-	            	username: [
-		            	{ required: true, message: '请输入帐号', trigger: 'blur' },
-		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
-		          	],
-		          	truename:[
-		          		{ required: true, message: '请输入姓名', trigger: 'blur' },
-		            	{ min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
-		          	],
-		          	role_id:[
-		          		{ required: true, message: '请选择角色', trigger: 'blur' }
-		          	]
+	            	username: globalRules.rules.username('请输入账号'),
+		          	truename: globalRules.rules.truename(),
+		          	phone: globalRules.rules.phone(),	
+		          	store_id: globalRules.rules.selectRule("请选择门店"),
+		          	role_id: globalRules.rules.selectRule("请选择岗位")
 	            },
 	            changePwdFormVisible:false,
 	            changePwdFormData:{
@@ -60,10 +58,7 @@
 	            	repassword:'',
 	            },
 	            changePwdRules:{
-	            	new_password:[
-	            		{ required: true, message: '请输入新密码：', trigger: 'blur' },
-            			{ min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }
-	            	],
+	            	password:globalRules.rules.password(),
 	            	repassword:[
 	            		{ required: true, message: '请再次输入密码', trigger: 'blur' },
 			            {
@@ -90,28 +85,12 @@
 
 	            },
 	            addsRules:{
-	            	store_id:[
-	            		{ required: true, message: '请输入店铺名称', trigger: 'blur' },
-		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
-	            	],
-	            	username:[
-	            		{ required: true, message: '请输入帐号称', trigger: 'blur' },
-		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
-	            	],
-	            	desc:[
-	            		{ required: true, message: '请输入姓名姓名', trigger: 'blur' },
-		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
-	            	],
-	            	role_id:[
-	            		{ required: true, message: '请选择角色', trigger: 'blur' },
-	            	],
-	            	avatar:[
-	            		{ required: true, message: '请选择头像', trigger: 'blur' }
-	            	],
-	            	password:[
-	            		{ required: true, message: '请输入新密码：', trigger: 'blur' },
-            			{ min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }
-	            	],
+	            	store_id:globalRules.rules.selectRule("请选择门店"),
+	            	username:globalRules.rules.username('请输入账号'),
+	            	truename:globalRules.rules.truename(),
+	            	phone:globalRules.rules.phone(),
+	            	role_id:globalRules.rules.selectRule("请选择岗位"),
+	            	password:globalRules.rules.password(),
 	            	repassword:[
 	            		{ required: true, message: '请再次输入密码', trigger: 'blur' },
 			            {
@@ -130,22 +109,44 @@
 			}
 		},
 		watch: {
-               dialogFormVisible: function() {               	
-               	this.$refs.editFormData.resetFields()
-               }
+               editFormVisible:function(val){               	
+               	 if(val){
+               	   setTimeout(() =>{
+               	 		this.$refs.editFormData.clearValidate()
+               	 	},0)               	    
+               	 }else{
+               	 	this.$data.editFormData = {
+					id:'',
+	            	store_id:'',
+	            	username:'',
+	            	truename:'',
+	            	phone:'',
+	            	role_id:''
+				   }
+               	   this.$data.editFormOrganize = [];
+               	   this.$data.editStore = [];               	   
+               	 } 
+               },
+               addsFormVisible:function(val){
+               	  if(val){
+               	  	setTimeout(() =>{
+               	  	     this.$refs.addsFormData.clearValidate()
+               	  	},0)
+               	  }else{
+               	  	this.fnClearAddsFormData()
+               	 }              	
+                }
         },
 		created:function(){
 			this.accountLists();
 			this.getOrganizes();
-			this.getRoleList();
+			this.getRoleLists();
 		},
 		methods: {
 			//列表
-			accountLists(){
-				
+			accountLists(){				
 				let qs = require('querystring');
 				storeAccountApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-					console.log(res)
 	    			if(res.data.errno === 0){
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
@@ -182,61 +183,59 @@
 	        			}
 
 	        		})
-		        }).catch(() => {
-		          // this.$message({
-		          //   type: 'info',
-		          //   message: '已取消删除'
-		          // });
 		        });
 			},
 			fnEdit(row){
-				this.getRoleLists();
-				this.viewAccount(row.id);
-			},
-			viewAccount(id){
-				let qs = require('querystring')
-        		storeAccountApi.view(qs.stringify({
-        			id:id
-        		})).then((res) => {
-        			if(res.data.errno === 0){
-						this.$data.editFormData = res.data.data;
-						this.$data.editFormVisible = true;
-
-        			}else{
-						this.$message.error(res.data.msg);
+				this.$data.editFormVisible = true;				
+				let org = [];
+				this.$data.editFormData = {
+					id:row.id,
+	            	username:row.username,
+	            	truename:row.truename,
+	            	phone:row.phone,
+	            	role_id:row.storeRole.id,
+	            	store_id:row.store.id,	            	
+				}
+				
+				if(row.organizes.length == 0) {return false}
+				row.organizes.id.split(',').forEach(function(val){
+					org.push(parseInt(val))
+				});
+				this.$data.editFormOrganize = org;	
+				let merid = org[org.length - 1];
+				storeApi.organizeStoreResult({'merchant_organize_id':merid}).then((res) => {
+					if(res.data.errno === 0) {				
+						if(res.data.data == null){
+							this.$data.nodatatext = "暂无门店"
+							this.$data.editStore = [];
+						}else{
+							this.$data.editStore = res.data.data;
+						}
+					} else {
+						this.$message(res.data.msg)
 					}
-
-        		})
+				})	
 			},
+			
 			getRoleLists(){
-				let qs = require('querystring')
-	    		storeRole.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
+	    		storeRole.allList().then((res) => {
 	    			if(res.data.errno === 0){
-						this.$data.allRole = res.data.data.list;
+						this.$data.allRole = res.data.data;
 	    			}else{
 						this.$message.error(res.data.msg);
 	    			}
 	    		})
 	    	},
 			editCancel(){
-				this.$data.editFormVisible = false;
-				this.$data.editFormData = {
-					id:'',
-	            	username:'',
-	            	truename:'',
-	                phone:'',
-	                role_id:''
-				}
+				this.$data.editFormVisible = false;				
 			},
 			editSubmit(formName){
 				
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
 						let qs = require('querystring')
-						console.log(this.$data.editFormData)
 		        		storeAccountApi.edit(qs.stringify(this.$data.editFormData)).then((res) => {
 		        			if(res.data.errno === 0){
-		        				console.log(res)
 								this.$message({
 						            type: 'success',
 						            message: '操作成功'
@@ -244,10 +243,11 @@
 								this.accountLists();
 								this.$data.editFormData = {
 									id:'',
+									store_id:'',
 	            	                username:'',
 	            	                truename:'',
 	                              	phone:'',
-	                             	role_id:''
+	                             	role_id:'',
 								}
 								this.$data.editFormVisible = false;
 
@@ -281,13 +281,11 @@
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
 						let qs = require('querystring')
-						console.log(this.$data.changePwdFormData)
 		        		storeAccountApi.password_edit(qs.stringify(this.$data.changePwdFormData)).then((res) => {
-		        			console.log(res)
 		        			if(res.data.errno === 0){
 								this.$message({
 						            type: 'success',
-						            message: '操作成功'
+						            message: '修改成功'
 					          	});
 								this.accountLists();
 								this.$data.changePwdFormData = {
@@ -296,7 +294,6 @@
 					            	repassword:'',
 								}
 								this.$data.changePwdFormVisible = false;
-
 		        			}else{
 								this.$message.error(res.data.msg);
 							}
@@ -336,11 +333,8 @@
 			addsSubmit(formName){
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
-			        	this.$data.addsFormData.store_id = this.$route.query.StoreId;
 						let qs = require('querystring');
-						console.log(this.$data.addsFormData)
 		        		storeAccountApi.adds(qs.stringify(this.$data.addsFormData)).then((res) => {
-		        			console.log(res)
 		        			if(res.data.errno === 0){
 								this.$message({
 						            type: 'success',
@@ -371,10 +365,8 @@
 	        
 	        getOrganizes(){
 				storeRole.organizeTree().then((res) => {
-					console.log(res)
 					if(res.data.errno == 0) {
 						this.$data.organizes = res.data.data;
-						console.log(this.$data.organizes)
 					} else {
 						this.$message(res.data.msg)
 					}
@@ -399,20 +391,45 @@
 					}
 				})
 			},
-			
-			getRoleList(){
-            storeRole.lists().then((res) => {
-            	console.log(res)
-	    			if(res.data.errno === 0){
-						this.$data.roleLists = res.data.data.list;						
-	    			}else{
-						this.$message.error(res.data.msg);
-	    			}
-	    		})
+			editGetSotre(){
+				this.$data.editFormData.store_id = "";
+				let d = this.$data.editFormOrganize[this.$data.editFormOrganize.length - 1];
+				let dt = {
+					merchant_organize_id:d
+				};		
+				storeApi.organizeStoreResult(dt).then((res) => {
+					if(res.data.errno === 0) {				
+						if(res.data.data == null){
+							this.$data.noeditStore = "暂无门店"
+							this.$data.editStore = [];
+						}else{
+							this.$data.editStore = res.data.data
+						}
+					} else {
+						this.$message(res.data.msg)
+					}
+				})
+				
 			},
 			
 			clickSearch(){
-				
+				if(this.$data.organizeCode.length !== 0){
+					this.$data.requestParameters.merchant_organize_id =  this.$data.organizeCode[this.$data.organizeCode.length - 1]
+				}	
+				this.accountLists()
+			},
+			resetForm(){
+				this.$data.organizeCode = [];
+				this.$data.requestParameters = {
+					store_id:'',
+					merchant_organize_id:'',	                
+	                merchant_role_id:'',
+	                username:'',
+	                truename:'',
+	                phone:'',
+	                page: 1,
+	                page_size:10,					
+				}
 			}
 
 

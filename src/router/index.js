@@ -68,7 +68,7 @@ const router = new Router({
       component: Main,
 
       children: [
-        {path: '/',name: 'Statistics',component: Statistics},
+        {path: 'Statistics',name: 'Statistics',component: Statistics},
         {path: 'Guest',name: 'Guest',component: Guest},
         {path: 'Order',name: 'Order',component: Order},
         {path: 'LabelList',name: 'LabelList',component: LabelList},
@@ -98,7 +98,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  let knock_knock = window.localStorage.getItem('knock_knock')
+  let knock_knock = window.sessionStorage.getItem('knock_knock')
   if (to.matched.some(
         record => record.meta.requiresAuth)&& (!knock_knock || knock_knock === null)) {
     next({

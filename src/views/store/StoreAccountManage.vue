@@ -2,16 +2,16 @@
 
 	<div class="store-set-page">
 		<div class="top-box">
-			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
+			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">创建账号</el-button>
 		</div>
-		<el-form :inline="true"  ref="searchForm" size="mini">
+		<el-form :inline="true" ref="searchForm" size="mini">
 			<el-form-item label="门店架构：">
-				<el-cascader  v-model="organizeCode" :options="organizes"  :props='defaultAttr' @change="getStore">
+				<el-cascader v-model="organizeCode" :options="organizes" :props='defaultAttr' @change="getStore">
 				</el-cascader>
 			</el-form-item>
 			<el-form-item label="门店：">
 				<el-select v-model="requestParameters.store_id" placeholder="请选择" :no-data-text="nodatatext">
-					<el-option  v-for="(item,index) in selectStore" :key="index" :label="item.name" :value="item.id">
+					<el-option v-for="(item,index) in selectStore" :key="index" :label="item.name" :value="item.id">
 					</el-option>
 				</el-select>
 			</el-form-item>
@@ -26,13 +26,13 @@
 			</el-form-item>
 			<el-form-item label="岗位：">
 				<el-select v-model="requestParameters.merchant_role_id" placeholder="请选择">
-					<el-option v-for="(item,index) in roleLists" :key="index" :label="item.name" :value="item.id"></el-option>
+					<el-option v-for="(item,index) in allRole" :key="index" :label="item.name" :value="item.id"></el-option>
 				</el-select>
 			</el-form-item>
-			
+
 			<el-form-item>
 				<el-button type="primary" @click="clickSearch">查询</el-button>
-				<el-button type="primary">重置</el-button>
+				<el-button type="primary" @click="resetForm">重置</el-button>
 			</el-form-item>
 		</el-form>
 		<table width="100%" class="table-bordered">
@@ -53,7 +53,7 @@
 					<tr v-for="(item,index) in tableData" :key="index" height="40">
 						<td>{{item.id}}</td>
 						<td>{{item.organizes.name}}</td>
-						<td>{{item.storeRole.name}}</td>
+						<td>{{item.store != null ? item.store.name : ""}}</td>
 						<td>{{item.username}}</td>
 						<td>{{item.truename}}</td>
 						<td>{{item.phone}}</td>
@@ -80,13 +80,27 @@
 		<el-dialog title="编辑" :visible.sync="editFormVisible">
 			<el-form :model="editFormData" :rules="editRules" ref="editFormData" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="帐号：" prop="username">
-					<el-input v-model="editFormData.username"></el-input>
+					<el-input :disabled="true" v-model="editFormData.username"></el-input>
 				</el-form-item>
 				<el-form-item label="姓名：" prop="truename">
 					<el-input v-model="editFormData.truename"></el-input>
 				</el-form-item>
+				<el-form-item label="手机：" prop="phone">
+					<el-input v-model="editFormData.phone"></el-input>
+				</el-form-item>
+				<el-form-item style="display: inline-block;" label="门店架构：">
+					<el-cascader v-model="editFormOrganize" :options="organizes" :props='defaultAttr' @change="editGetSotre">
+					</el-cascader>
+				</el-form-item>
+				<el-form-item style="display: inline-block;"  label="门店：" prop="store_id">
+					<el-select v-model="editFormData.store_id" placeholder="请选择" :no-data-text="noeditStore">
+						<el-option v-for="(item,index) in editStore" :key="index" :label="item.name" :value="item.id">
+						</el-option>
+					</el-select>
+				</el-form-item>
+
 				<el-form-item label="岗位：" prop="role_id">
-					<el-select v-model="editFormData.role_id" placeholder="请选择">
+					<el-select v-model="editFormData.role_id" style="width: 100%;" placeholder="请选择">
 						<el-option v-for="(item,idx) in allRole" :label="allRole[idx].name" :value="allRole[idx].id" :key="idx"></el-option>
 					</el-select>
 				</el-form-item>
@@ -115,12 +129,25 @@
 
 		<!-- 添加 -->
 		<el-dialog :title="!avatarFormVisible? '添加' : '关联头像'" :visible.sync="addsFormVisible" :fullscreen="avatarFormVisible" :before-close="closeChange">
-			<el-form :model="addsFormData" :rules="addsRules" ref="addsFormData" label-width="100px" class="demo-ruleForm" v-if="!avatarFormVisible">
+			<el-form :model="addsFormData" :rules="addsRules" ref="addsFormData" label-width="100px" class="demo-ruleForm" v-if="!avatarFormVisible" >
 				<el-form-item label="帐号：" prop="username">
-					<el-input v-model="addsFormData.username"></el-input>
+					<el-input  v-model="addsFormData.username"></el-input>
 				</el-form-item>
 				<el-form-item label="姓名：" prop="truename">
 					<el-input v-model="addsFormData.truename"></el-input>
+				</el-form-item>
+				<el-form-item label="手机：" prop="phone">
+					<el-input v-model="addsFormData.phone"></el-input>
+				</el-form-item>
+				<el-form-item style="display: inline-block;" label="门店架构：">
+					<el-cascader v-model="editFormOrganize" :options="organizes" :props='defaultAttr' @change="editGetSotre">
+					</el-cascader>
+				</el-form-item>
+				<el-form-item style="display: inline-block;"  label="门店：" prop="store_id">
+					<el-select v-model="addsFormData.store_id" placeholder="请选择" :no-data-text="noeditStore">
+						<el-option v-for="(item,index) in editStore" :key="index" :label="item.name" :value="item.id">
+						</el-option>
+					</el-select>
 				</el-form-item>
 				<el-form-item label="岗位：" prop="role_id">
 					<el-select v-model="addsFormData.role_id" placeholder="请选择">

@@ -16,6 +16,8 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "element-ui": "^2.4.0",
+    "highcharts": "^6.1.1",
+    "highcharts-no-data-to-display": "^0.1.7",
     "qs": "^6.5.2",
     "vue": "^2.5.2",
     "vue-quill-editor": "^3.0.6",

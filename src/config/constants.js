@@ -8,10 +8,21 @@ const SERVER_IP = apiUrl.apiUrl
 const COMMON = 'mv1/'
 
 //客流统计
-// post analysis/customer
-global.GET_CUSTOMER = `${SERVER_IP}${COMMON}analysis/customer`
-// post analysis/feature
-global.GET_FEATURE = `${SERVER_IP}${COMMON}analysis/feature`
+global.GRAPH_CUSTOMER_SUM = `${SERVER_IP}${COMMON}analysis/graph-customer-sum` //客流统计折线图求和
+global.GRAPH_CUSTOMER_DIFF = `${SERVER_IP}${COMMON}analysis/graph-customer-diff` //客流统计折线图比对
+global.PIE_FEATURE_SUM = `${SERVER_IP}${COMMON}analysis/pie-feature-sum`  //特征饼图求和
+global.GRAPH_FEATURE_SUM = `${SERVER_IP}${COMMON}analysis/graph-feature-sum`  //特征折线图求和
+
+global.GRAPH_ORDER_SUM = `${SERVER_IP}${COMMON}analysis/graph-order-sum`  //成交率折线图求和
+global.GRAPH_ORDER_DIFF = `${SERVER_IP}${COMMON}analysis/graph-order-diff`  //成交率折线图比对
+
+global.GRAPH_CUSTOMER_LOST_SUM = `${SERVER_IP}${COMMON}analysis/graph-customer-lost-sum`  //潜在客户流失率折线图求和
+global.GRAPH_CUSTOMER_LOST_DIFF = `${SERVER_IP}${COMMON}analysis/graph-customer-lost-diff`  //潜在客户流失率折线图比对
+
+global.GRAPH_ORDER_LOST_SUM = `${SERVER_IP}${COMMON}analysis/graph-order-lost-sum`  //成交客户流失率折线图求和
+global.GRAPH_ORDER_LOST_DIFF = `${SERVER_IP}${COMMON}analysis/graph-order-lost-diff`  //成交客户流失率折线图比对
+
+global.ANALYSIS_LIST = `${SERVER_IP}${COMMON}analysis/list`  //客流列表
 
 /*提醒列表*/
 // post customer//remind-list 获取提醒列表
@@ -143,7 +154,8 @@ global.USER_PASSWORD_EDIT = `${SERVER_IP}${COMMON}merchant-account/edit-password
 
 
 //门店角色管理
-global.STORE_ROLE_LIST = `${SERVER_IP}${COMMON}store-role/list`
+global.STORE_ALL_ROLE_LIST = `${SERVER_IP}${COMMON}store-role/list-results` //获得所有岗位
+global.STORE_ROLE_LIST = `${SERVER_IP}${COMMON}store-role/list`//分页岗位
 global.STORE_ROLE_ADDS = `${SERVER_IP}${COMMON}store-role/adds`
 global.STORE_ROLE_EDIT = `${SERVER_IP}${COMMON}store-role/edit`
 global.STORE_ROLE_DELE = `${SERVER_IP}${COMMON}store-role/dele`
@@ -151,6 +163,7 @@ global.STORE_ROLE_VIEW = `${SERVER_IP}${COMMON}store-role/view`
 global.STORE_LIST_RESULTS = `${SERVER_IP}${COMMON}store-role/list-results`
 global.STORE_EDIT_PERMISSION = `${SERVER_IP}${COMMON}store-role/edit-permission`
 global.STORE_VIEW_PERMISSION = `${SERVER_IP}${COMMON}store-role/view-permission`
+
 
 
 //通知

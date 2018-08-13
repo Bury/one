@@ -3,10 +3,9 @@
     <table width="80%" class="table-bordered">
       <thead style="background-color: #d1d1d1">
       <tr height="40">
-        <th class="col-md-2 text-center">ID</th>
+        <th class="col-md-3 text-center">ID</th>
         <th class="col-md-3 text-center">门店</th>
-        <th class="col-md-2 text-center">总数</th>
-        <th class="col-md-2 text-center">待分配数</th>
+        <th class="col-md-3 text-center">设备数</th>
         <th class="col-md-3 text-center">操作</th>
       </tr>
       </thead>
@@ -14,9 +13,8 @@
       <tr v-for="(item,index) in tableData" :key="index" height="40">
         <td>{{item.id}}</td>
         <td>{{item.name}}</td>
-        <td></td>
-        <td></td>
-        <td><el-button @click="fnGoPage(scope.row)" type="text" size="small">详情</el-button></td>
+        <td>{{item.deviceFaceCount}}</td>
+        <td><el-button @click="fnGoPage(item)" type="text" size="small">详情</el-button></td>
 
       </tr>
       </tbody>

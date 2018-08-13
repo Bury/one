@@ -25,10 +25,10 @@ const functions={
 		logout(object,router,message){
 			object.logout().then((res) => {
 				if(res.data.errno === 0){
-					localStorage.setItem('knock_knock', '');
-			        localStorage.setItem('username', '');
-			        localStorage.setItem('store_id', '');
-			        localStorage.setItem('store_name', '');
+					sessionStorage.setItem('knock_knock', '');
+			        sessionStorage.setItem('username', '');
+			        sessionStorage.setItem('store_id', '');
+			        sessionStorage.setItem('store_name', '');
 					// this.$router.replace({
 					// 	name: 'UserLogin'
 					// });
