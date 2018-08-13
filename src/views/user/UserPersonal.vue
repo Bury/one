@@ -138,8 +138,8 @@
 						alert('修改成功')
 						userApi.logout().then((res1) => {
 							if(res1.data.errno === 0){
-								localStorage.setItem('knock_knock', '')
-            					localStorage.setItem('username', '')
+								sessionStorage.setItem('knock_knock', '')
+            					sessionStorage.setItem('username', '')
 								this.$router.replace({
 									name: 'UserLogin'
 								});

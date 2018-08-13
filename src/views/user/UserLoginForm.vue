@@ -60,8 +60,8 @@ export default {
           userApi.login(qs.stringify(this.$data.loginInfo)).then((res) => {
             if(res.data.errno === 0){
               console.log(res);
-              localStorage.setItem('knock_knock', res.data.data.access_token)
-              localStorage.setItem('username', res.data.data.user.username)
+              sessionStorage.setItem('knock_knock', res.data.data.access_token)
+              sessionStorage.setItem('username', res.data.data.user.username)
               this.$router.replace({name: 'Statistics'})
             }else{
               this.$message.error(res.data.msg);
