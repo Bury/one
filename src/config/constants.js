@@ -7,6 +7,9 @@ import apiUrl from './API.js'
 const SERVER_IP = apiUrl.apiUrl
 const COMMON = 'mv1/'
 
+//标签数据
+global.TAG_LISTS_RESULTS = `${SERVER_IP}${COMMON}tag/tree-form`
+
 //客流统计
 global.GRAPH_CUSTOMER_SUM = `${SERVER_IP}${COMMON}analysis/graph-customer-sum` //客流统计折线图求和
 global.GRAPH_CUSTOMER_DIFF = `${SERVER_IP}${COMMON}analysis/graph-customer-diff` //客流统计折线图比对

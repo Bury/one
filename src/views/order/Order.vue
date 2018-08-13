@@ -2,14 +2,43 @@
 	<div class="guest-list-page">
 		<div class="top-box">
 			<el-form :inline="true" :model="requestParameters" class="demo-form-inline" size="mini">
-			  <el-form-item label="订单编号：">
-			    <el-input v-model="requestParameters.no"></el-input>
+			  <el-form-item label="门店架构：">
+          <el-cascader v-model="organizeCode" :options="organizes" :props='defaultAttr' @change="getStore">
+          </el-cascader>
 			  </el-form-item>
-			  <el-form-item label="商品名称：">
-			    <el-input v-model="requestParameters.product_name"></el-input>
-			  </el-form-item>
+        <el-form-item label="门店：">
+          <el-select v-model="requestParameters.store_id" placeholder="请选择" :no-data-text="nodatatext">
+            <el-option v-for="(item,index) in selectStore" :key="index" :label="item.name" :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="订单编号：">
+        <el-input v-model="requestParameters.sn"></el-input>
+      </el-form-item>
+        <el-form-item label="材质：">
+          <el-select v-model="requestParameters.material" placeholder="请选择材质">
+            <el-option label="全部" value="">全部</el-option>
+            <el-option v-for="material in materials" :key="material.id" :label="material.name"
+                       :value="material.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="款式：">
+          <el-select v-model="requestParameters.style" placeholder="请选择款式">
+            <el-option label="全部" value="">全部</el-option>
+            <el-option v-for="style in styles" :key="style.id" :label="style.name" :value="style.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="金额：">
+          <el-col :span="11">
+            <el-input v-model="requestParameters.price_start"></el-input>
+          </el-col>
+          <el-col class="line" :span="2">-</el-col>
+          <el-col :span="11">
+            <el-input v-model="requestParameters.price_end"></el-input>
+          </el-col>
+        </el-form-item>
 			  <el-form-item label="收银时间：">
-				<el-date-picker
+				<el-date-picker :picker-options="pickerOptionsSet"
 			      v-model="cashTimes"
 			      type="datetimerange"
 			      range-separator="至"
@@ -18,7 +47,7 @@
 			    </el-date-picker>
 			  </el-form-item>
 			  <el-form-item label="创建时间：">
-				<el-date-picker
+				<el-date-picker :picker-options="pickerOptionsSet"
 			      v-model="createdTimes"
 			      type="datetimerange"
 			      range-separator="至"
@@ -28,6 +57,7 @@
 			  </el-form-item>
 			  <el-form-item>
 			    <el-button type="primary" @click="onSubmit">查询</el-button>
+          <el-button type="primary" @click="resetForm">重置</el-button>
 			  </el-form-item>
 			</el-form>
 		</div>
@@ -38,12 +68,12 @@
         <th class="col-md-2 text-center">订单编号</th>
         <th class="col-md-1 text-center">商品名称</th>
         <th class="col-md-1 text-center">成交金额</th>
-        <th class="col-md-1 text-center">客户人脸</th>
-        <th class="col-md-1 text-center">客户姓名</th>
+        <th class="col-md-2 text-center">客户</th>
+        <th class="col-md-1 text-center">门店</th>
         <th class="col-md-1 text-center">客户类型</th>
         <th class="col-md-2 text-center">收银时间</th>
         <th class="col-md-2 text-center">创建时间</th>
-        <th class="col-md-2 text-center">操作</th>
+        <th class="col-md-1 text-center">操作</th>
       </tr>
       </thead>
       <tbody style="text-align: center">
@@ -52,16 +82,24 @@
         <td>
           <span v-for="good in item.orderGoods" class="margin">[{{good.material_name}}/{{good.style_name}}]</span>
         </td>
-        <td>{{parseFloat(item.price,2)}}</td>
+        <td>{{item.price | numberFilter}}</td>
         <td>
-          <div style="width: 100px;height: 100px;padding: 10px;box-sizing: border-box;">
-            <img :src="item.traffic.avatar" style="width: 100%;"/>
+          <div style="width: 100%;display: flex;padding: 5%;">
+            <div style="width:45%;">
+              <img :src="item.traffic.avatar" style="width:100%;">
+            </div>
+            <div style="width:55%;padding:5% 0 0 8%;text-align:left">
+              ID:{{item.traffic.customer_id}}<br/>
+              姓名:{{item.customer_name}}<br/>
+            </div>
           </div>
         </td>
-        <td>{{item.customer_name}}</td>
+        <td>{{item.store_id}}</td>
         <td>
-          <span v-if="item.traffic.is_new == 1 && item.traffic.vip_level == 1">新客</span>
-          <span v-if="item.traffic.is_new == 0 && item.traffic.vip_level == 1">熟客</span>
+          <span v-if="item.traffic.is_new == 1 && item.traffic.vip_level == 1">熟客已购买</span>
+          <span v-if="item.traffic.is_new == 0 && item.traffic.vip_level == 1">新客已购买</span>
+          <span v-if="item.traffic.is_new == 0 && item.traffic.vip_level == 0">新客未购买</span>
+          <span v-if="item.traffic.is_new == 1 && item.traffic.vip_level == 0">熟客未购买</span>
         </td>
         <td>{{item.cash_t | date(4)}}</td>
         <td>{{item.created_at | date(4)}}</td>
@@ -72,7 +110,9 @@
       </tr>
       </tbody>
     </table>
-	    <!-- 分页 -->
+
+    <div class="noData" v-if="noData" style="text-align: center;margin-top:2rem;font-size: 1.4rem;">暂无数据~</div>
+    <!-- 分页 -->
 		<div v-if="tableData.length > 0" style="margin:0 auto;max-width:1551px;">
 			<el-pagination
 				background
@@ -87,111 +127,14 @@
 		</div>
 	</div>
 </template>
-<script>
-	import OrderApi from '../../api/order'
-    export default {
-        name:'guest-list',
-        components: {
-
-		},
-        data(){
-            return{
-		        tableData: [],
-		        pagination:{
-		        	currentPage:1,
-		        	totalCount:0,
-		        },
-		        cashTimes:['',''],
-		        createdTimes:['',''],
-		        requestParameters: {
-	                page: 1,
-	                page_size:10,
-	                no:'',
-	                id:'',
-	                product_name:'',
-	                price_start:'',
-	                price_end:'',
-	                cash_t_start:'',
-	                cash_t_end:'',
-	                created_at_start:'',
-	                created_at_end:''
-	            },
-            }
-        },
-        created: function () {
-		    this.lists();
-		},
-        methods: {
-        	//列表
-        	lists(){
-        		this.$data.requestParameters.cash_t_start = this.$data.cashTimes[0];
-        		this.$data.requestParameters.cash_t_end = this.$data.cashTimes[1];
-        		this.$data.requestParameters.created_at_start = this.$data.createdTimes[0];
-        		this.$data.requestParameters.created_at_end = this.$data.createdTimes[1];
-
-        		let qs = require('querystring');
-        		OrderApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-        			if(res.data.errno === 0){
-        				console.log(res.data.data.list)
-        				this.$data.tableData = res.data.data.list;
-        				this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
-		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
-        			}else{
-
-        			}
-
-
-			    })
-        	},
-
-        	handleCurrentChange(currentPage) {
-	            console.log(currentPage)
-	            this.$data.requestParameters.page = currentPage;
-	            this.lists();
-	        },
-        	onSubmit() {
-		        this.lists();
-		    },
-          fnEdit(row){
-
-          },
-		    fnRemove(row){
-				this.$confirm('确认删除该订单：'+row.sn+' ？', '删除提示', {
-		          confirmButtonText: '确定',
-		          cancelButtonText: '取消',
-		          type: 'warning'
-		        }).then(() => {
-		        	let list = {
-						'id': row.id
-					}
-					let qs = require('querystring')
-	        		orderApi.deleOrder(qs.stringify(list)).then((res) => {
-	        			console.log(res)
-	        			if(res.data.errno === 0){
-							console.log(res)
-							this.$message({
-					            type: 'success',
-					            message: '删除成功!'
-					          });
-							this.storeList();
-	        			}else{
-							this.$message.error(res.data.msg);
-	        			}
-
-	        		})
-
-		        }).catch(() => {
-		          // this.$message({
-		          //   type: 'info',
-		          //   message: '已取消删除'
-		          // });
-		        });
-			},
-	    },
-    }
-</script>
+<script src="@/assets/js/order/order.js"></script>
 <style lang="scss" scoped>
 	.el-table thead{
 		color:#333;
 	}
+  .el-pagination{
+    margin:10px;
+    float: right;
+
+  }
 </style>

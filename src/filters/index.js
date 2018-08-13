@@ -88,3 +88,26 @@ Date.prototype.format = function (mask) {
     }
   })
 }
+//保留两位小数,四舍五入
+export const numberFilter = (value) => {
+  let realNum = Number(value).toFixed(2);
+  return realNum;
+}
+
+//保留两位小数，不进行四舍五入
+export const numbersFilter = (value) =>{
+  let transtnum = Number(value).toFixed(3);
+  let realVal = transtnum.substring(0, transtnum.length - 1);
+  // return Number(realVal);
+  return realVal;
+}
+
+//数字千分位用逗号隔开展示
+export const numThousand = (value) =>{
+  let res = value.toString().replace(/\d+/, function(n) { // 先提取整数部分
+    return n.replace(/(\d)(?=(\d{3})+$)/g, function($1) {
+      return $1 + ","
+    });
+  })
+  return res
+}

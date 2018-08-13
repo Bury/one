@@ -17,7 +17,7 @@
 				defaultAttr:{
 					label:'name',
 					value:'id',
-					children:'children',					
+					children:'children',
 				},
 				pagination:{
 		        	currentPage:1,
@@ -25,7 +25,7 @@
 		        },
 				requestParameters: {
 					store_id:'',
-					merchant_organize_id:'',	                
+					merchant_organize_id:'',
 	                merchant_role_id:'',
 	                username:'',
 	                truename:'',
@@ -33,7 +33,7 @@
 	                page: 1,
 	                page_size:10,
 	            },
-	            editFormVisible:false,	 
+	            editFormVisible:false,
 	            editFormOrganize:[],
 	            editStore:[],
 	            editFormData:{
@@ -47,7 +47,7 @@
 	            editRules:{
 	            	username: globalRules.rules.username('请输入账号'),
 		          	truename: globalRules.rules.truename(),
-		          	phone: globalRules.rules.phone(),	
+		          	phone: globalRules.rules.phone(),
 		          	store_id: globalRules.rules.selectRule("请选择门店"),
 		          	role_id: globalRules.rules.selectRule("请选择岗位")
 	            },
@@ -109,11 +109,11 @@
 			}
 		},
 		watch: {
-               editFormVisible:function(val){               	
+               editFormVisible:function(val){
                	 if(val){
                	   setTimeout(() =>{
                	 		this.$refs.editFormData.clearValidate()
-               	 	},0)               	    
+               	 	},0)
                	 }else{
                	 	this.$data.editFormData = {
 					id:'',
@@ -124,8 +124,8 @@
 	            	role_id:''
 				   }
                	   this.$data.editFormOrganize = [];
-               	   this.$data.editStore = [];               	   
-               	 } 
+               	   this.$data.editStore = [];
+               	 }
                },
                addsFormVisible:function(val){
                	  if(val){
@@ -134,7 +134,7 @@
                	  	},0)
                	  }else{
                	  	this.fnClearAddsFormData()
-               	 }              	
+               	 }
                 }
         },
 		created:function(){
@@ -144,7 +144,7 @@
 		},
 		methods: {
 			//列表
-			accountLists(){				
+			accountLists(){
 				let qs = require('querystring');
 				storeAccountApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
 	    			if(res.data.errno === 0){
@@ -186,7 +186,7 @@
 		        });
 			},
 			fnEdit(row){
-				this.$data.editFormVisible = true;				
+				this.$data.editFormVisible = true;
 				let org = [];
 				this.$data.editFormData = {
 					id:row.id,
@@ -194,17 +194,17 @@
 	            	truename:row.truename,
 	            	phone:row.phone,
 	            	role_id:row.storeRole.id,
-	            	store_id:row.store.id,	            	
+	            	store_id:row.store.id,
 				}
-				
+
 				if(row.organizes.length == 0) {return false}
 				row.organizes.id.split(',').forEach(function(val){
 					org.push(parseInt(val))
 				});
-				this.$data.editFormOrganize = org;	
+				this.$data.editFormOrganize = org;
 				let merid = org[org.length - 1];
 				storeApi.organizeStoreResult({'merchant_organize_id':merid}).then((res) => {
-					if(res.data.errno === 0) {				
+					if(res.data.errno === 0) {
 						if(res.data.data == null){
 							this.$data.nodatatext = "暂无门店"
 							this.$data.editStore = [];
@@ -214,9 +214,9 @@
 					} else {
 						this.$message(res.data.msg)
 					}
-				})	
+				})
 			},
-			
+
 			getRoleLists(){
 	    		storeRole.allList().then((res) => {
 	    			if(res.data.errno === 0){
@@ -227,10 +227,10 @@
 	    		})
 	    	},
 			editCancel(){
-				this.$data.editFormVisible = false;				
+				this.$data.editFormVisible = false;
 			},
 			editSubmit(formName){
-				
+
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
 						let qs = require('querystring')
@@ -362,7 +362,7 @@
 	            }
 
 	        },
-	        
+
 	        getOrganizes(){
 				storeRole.organizeTree().then((res) => {
 					if(res.data.errno == 0) {
@@ -370,16 +370,16 @@
 					} else {
 						this.$message(res.data.msg)
 					}
-				})				
+				})
 			},
-			getStore(){				
+			getStore(){
 				this.$data.requestParameters.store_id = "";
 				let organ = this.$data.organizeCode[this.$data.organizeCode.length - 1];
 				let data = {
 					merchant_organize_id:organ
-				};		
+				};
 				storeApi.organizeStoreResult(data).then((res) => {
-					if(res.data.errno === 0) {				
+					if(res.data.errno === 0) {
 						if(res.data.data == null){
 							this.$data.nodatatext = "暂无门店"
 							this.$data.selectStore = [];
@@ -396,9 +396,9 @@
 				let d = this.$data.editFormOrganize[this.$data.editFormOrganize.length - 1];
 				let dt = {
 					merchant_organize_id:d
-				};		
+				};
 				storeApi.organizeStoreResult(dt).then((res) => {
-					if(res.data.errno === 0) {				
+					if(res.data.errno === 0) {
 						if(res.data.data == null){
 							this.$data.noeditStore = "暂无门店"
 							this.$data.editStore = [];
@@ -409,26 +409,27 @@
 						this.$message(res.data.msg)
 					}
 				})
-				
+
 			},
-			
+
 			clickSearch(){
 				if(this.$data.organizeCode.length !== 0){
 					this.$data.requestParameters.merchant_organize_id =  this.$data.organizeCode[this.$data.organizeCode.length - 1]
-				}	
+				}
 				this.accountLists()
 			},
 			resetForm(){
 				this.$data.organizeCode = [];
+        this.$data.selectStore = [];
 				this.$data.requestParameters = {
 					store_id:'',
-					merchant_organize_id:'',	                
-	                merchant_role_id:'',
-	                username:'',
-	                truename:'',
-	                phone:'',
-	                page: 1,
-	                page_size:10,					
+					merchant_organize_id:'',
+          merchant_role_id:'',
+          username:'',
+          truename:'',
+          phone:'',
+          page: 1,
+          page_size:10,
 				}
 			}
 

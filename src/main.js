@@ -25,6 +25,8 @@ Vue.use(ElementUI)
 Vue.use(VueQuillEditor)
 
 Vue.filter('date', filters.dateFilter)
+Vue.filter('numberFilter', filters.numberFilter)
+Vue.filter('numbersFilter', filters.numbersFilter)
 
 Vue.config.productionTip = false
 
