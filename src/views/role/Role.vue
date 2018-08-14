@@ -36,7 +36,7 @@
 		</div>
 
 		<!-- 添加、修改 -->
-		<el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+		<el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" :before-close="dialogClose">
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="名称：" prop="name">
 					<el-input v-model="ruleForm.name"></el-input>

@@ -127,6 +127,9 @@ import roleApi from '@/api/role'
 				this.$data.ruleForm.name = '';
 				this.$data.ruleForm.sort = 0;
 				this.$data.currentId = '';
+        setTimeout(()=>{
+          this.$refs.ruleForm.resetFields();
+        })
         // this.$data.dialogForm2 = [];
 				// this.$refs[formName].resetFields(); //关闭dialog后重置验证结果
 			},
@@ -245,6 +248,13 @@ import roleApi from '@/api/role'
 					}
 
 				})
-			}
+			},
+      dialogClose(){
+        this.$data.dialogFormVisible = false;
+        this.$data.ruleForm = {};
+        setTimeout(()=>{
+          this.$refs.ruleForm.resetFields();
+        })
+      },
 		}
 	}

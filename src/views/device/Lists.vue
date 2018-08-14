@@ -50,7 +50,7 @@
 					<th class="col-md-1 text-center">类型</th>
 					<th class="col-md-1 text-center">门店</th>
 					<th class="col-md-2 text-center">位置</th>
-					<th class="col-md-1 text-center">运行情况</th>
+					<th class="col-md-1 text-center">状态</th>
 					<th class="col-md-1 text-center">是否启用</th>
 					<!--<th class="col-md-2 text-center">添加时间</th>-->
 					<th class="col-md-1 text-center">操作</th>

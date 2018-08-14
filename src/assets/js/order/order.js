@@ -51,6 +51,17 @@ export default {
         }
       },
       noData:false,
+      editForm:{
+        cash:'',
+        traffic:{
+          avatar:'',
+          customer_id:'',
+          orderGoods:[],
+        }
+      },
+      viewVisible:false,
+      editAllNum:'',
+      rules:[],
     }
   },
   created: function () {
@@ -95,11 +106,7 @@ export default {
           this.$data.tableData = res.data.data.list;
           this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
           this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
-        }else{
-
         }
-
-
       })
     },
 
@@ -138,8 +145,16 @@ export default {
       })
       // this.lists();
     },
-    fnEdit(row){
-
+    fnView(row){
+      this.$data.editForm = row;
+      let time = row.cash_t * 1000;
+      this.$data.editForm.cash = time;
+      this.$data.editAllNum = row.orderGoods.length;
+      this.$data.viewVisible = true;
+    },
+    viewClose(){
+      this.$data.viewVisible = false;
+      // this.$data.editForm = {};
     },
     fnRemove(row){
       this.$confirm('确认删除该订单：'+row.sn+' ？', '删除提示', {
@@ -151,7 +166,7 @@ export default {
           'id': row.id
         }
         let qs = require('querystring')
-        orderApi.deleOrder(qs.stringify(list)).then((res) => {
+        OrderApi.dele(qs.stringify(list)).then((res) => {
           console.log(res)
           if(res.data.errno === 0){
             console.log(res)
@@ -159,7 +174,7 @@ export default {
               type: 'success',
               message: '删除成功!'
             });
-            this.storeList();
+            this.lists();
           }else{
             this.$message.error(res.data.msg);
           }

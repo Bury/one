@@ -66,12 +66,11 @@
       <thead style="background-color: #d1d1d1">
       <tr height="40">
         <th class="col-md-1 text-center">序号</th>
-        <th class="col-md-2 text-center">订单编号</th>
+        <th class="col-md-1 text-center">订单编号</th>
         <th class="col-md-1 text-center">商品名称</th>
         <th class="col-md-1 text-center">成交金额</th>
         <th class="col-md-2 text-center">客户</th>
         <th class="col-md-1 text-center">门店</th>
-        <th class="col-md-1 text-center">客户类型</th>
         <th class="col-md-2 text-center">收银时间</th>
         <th class="col-md-2 text-center">创建时间</th>
         <th class="col-md-1 text-center">操作</th>
@@ -93,20 +92,15 @@
             <div style="width:55%;padding:5% 0 0 8%;text-align:left">
               ID:{{item.traffic.customer_id}}<br/>
               姓名:{{item.customer_name}}<br/>
+              类型:{{item.traffic.is_new == 0 ? "新客" : "熟客"}}
             </div>
           </div>
         </td>
         <td>{{item.store_name}}</td>
-        <td>
-          <span v-if="item.traffic.is_new == 1 && item.traffic.vip_level == 1">熟客已购买</span>
-          <span v-if="item.traffic.is_new == 0 && item.traffic.vip_level == 1">新客已购买</span>
-          <span v-if="item.traffic.is_new == 0 && item.traffic.vip_level == 0">新客未购买</span>
-          <span v-if="item.traffic.is_new == 1 && item.traffic.vip_level == 0">熟客未购买</span>
-        </td>
         <td>{{item.cash_t | date(4)}}</td>
         <td>{{item.created_at | date(4)}}</td>
         <td>
-          <!--<el-button @click="fnEdit(item)" type="text" size="small">编辑</el-button>-->
+          <el-button @click="fnView(item)" type="text" size="small">查看</el-button>
           <el-button @click="fnRemove(item)" type="text" size="small">删除</el-button>
         </td>
       </tr>
@@ -127,6 +121,66 @@
 	            :total="pagination.totalCount">
 	        </el-pagination>
 		</div>
+    <!--查看-->
+    <el-dialog title="查看" :visible.sync="viewVisible">
+      <el-form :model='editForm' ref="editForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="收银时间：">
+          <el-date-picker disabled
+                          v-model="editForm.cash"
+                          type="datetime"
+                          placeholder="选择日期时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="人脸编号：">
+          <el-row>
+            <el-col :span='10'>
+              <el-input v-model="editForm.traffic.customer_id" disabled></el-input>
+            </el-col>
+          </el-row>
+          <el-form-item>
+            <div style="width:200px;height:200px;border:1px solid #eee;margin:40px 0;">
+              <template>
+                <img :src="editForm.traffic.avatar" style="display:block;margin:0 auto;width:100%;" @click="imgView($event)">
+              </template>
+            </div>
+          </el-form-item>
+        </el-form-item>
+        <div v-for="(item,index) in editForm.orderGoods" :key="index" v-if="editForm.orderGoods">
+          <el-row>
+            <el-col :span='7'>
+              <el-form-item label="材质：" prop="material" label-width="60px">
+                <el-select v-model='item.material' disabled>
+                  <el-option v-for="material in materials" :key="material.id" :label="material.name"
+                             :value="material.id"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span='7'>
+              <el-form-item label="款式：" prop="style" label-width="60px">
+                <el-select v-model="item.style" disabled>
+                  <el-option v-for="style in styles" :key="style.id" :label="style.name" :value="style.id"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span='7'>
+              <el-form-item label='成交金额：'>
+                <p class="numberPrice">{{item.price | numberFilter}}</p>
+                <!--<el-input v-model='' v-on:input='editInputFun()' disabled></el-input>-->
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </div>
+        <div class="totalAll">
+          <p>共计
+            <input v-model='editAllNum' class='totalNumber' :disabled='true' prop="editAllNum"/>件,总价
+            <strong class='totalPrice'>{{editForm.price | numberFilter}}</strong>元
+          </p>
+        </div>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="viewClose()">取 消</el-button>
+      </div>
+    </el-dialog>
 	</div>
 </template>
 <script src="@/assets/js/order/order.js"></script>
@@ -138,5 +192,35 @@
     margin:10px;
     float: right;
 
+  }
+  .numberPrice{
+    border: 1px solid #e4e7ed;
+    height: 3.5rem;
+    width: 8rem;
+    background-color: #f5f7fa;
+    border-radius:3px;
+    text-align: center;
+    color:#606266;
+    line-height:3rem;
+  }
+  .totalAll{
+    overflow:hidden;
+    P{
+      float:right;
+      font-weight:700;
+      .totalNumber, .totalPrice{
+        display: inline-block;
+        padding:0;
+        margin:0 3px;
+        width:100px;
+        height:40px;
+        line-height: 40px;
+        border-radius: 3px;
+        border:0;
+        background: #eee;
+        border: 1px solid #999;
+        text-align:center;
+      }
+    }
   }
 </style>
