@@ -15,6 +15,7 @@ global.GRAPH_CUSTOMER_SUM = `${SERVER_IP}${COMMON}analysis/graph-customer-sum` /
 global.GRAPH_CUSTOMER_DIFF = `${SERVER_IP}${COMMON}analysis/graph-customer-diff` //客流统计折线图比对
 global.PIE_FEATURE_SUM = `${SERVER_IP}${COMMON}analysis/pie-feature-sum`  //特征饼图求和
 global.GRAPH_FEATURE_SUM = `${SERVER_IP}${COMMON}analysis/graph-feature-sum`  //特征折线图求和
+global.GRAPH_FEATURE_DIFF = `${SERVER_IP}${COMMON}analysis/graph-feature-diff`  //特征柱状图比对
 
 global.GRAPH_ORDER_SUM = `${SERVER_IP}${COMMON}analysis/graph-order-sum`  //成交率折线图求和
 global.GRAPH_ORDER_DIFF = `${SERVER_IP}${COMMON}analysis/graph-order-diff`  //成交率折线图比对

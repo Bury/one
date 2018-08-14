@@ -54,11 +54,11 @@
 					<el-cascader size="small" :options="organizes" v-model="val.organizeId" :props="defaultAttr" @change="getStoreId(index)">
 					</el-cascader>
 					<span class="store">门店：</span>
-					<el-select size="small" placeholder="请选择" v-model="val.storeId"   :no-data-text="val.showText">
+					<el-select size="small" placeholder="请选择" v-model="val.storeId" :no-data-text="val.showText">
 						<el-option v-for="(val,idx) in storeGroup[index].storeGroup" :label="val.name" :value="val.id" :key="idx">
 						</el-option>
 					</el-select>
-				    <el-button :disabled="datadialog.canDel" @click="delStore(index)" style="margin-left: 10px;" size="small" plain>删除</el-button>
+					<el-button :disabled="datadialog.canDel" @click="delStore(index)" style="margin-left: 10px;" size="small" plain>删除</el-button>
 				</li>
 				<li class="add-store" v-show="storeGroup.length < 3 || datadialog.dataTypeShow === true" @click="addStoreData">
 					<el-button icon="el-icon-plus" size="mini" circle></el-button><span>添加数据</span>
@@ -69,42 +69,34 @@
                    <el-button @click="cancelDialog">取 消</el-button>
                    <el-button type="primary" @click="setSubmit">确 定</el-button>
             </span>
-
 		</el-dialog>
 
 		<ul class="charts-type">
 			<li class="charts-wrap">
 				<div style="padding:10px 0 20px;text-align:center;">
-					<el-radio-group v-model="isAll" @change="customerClass" size="small">
+					<el-radio-group v-model="statisticsType" @change="customerClass" size="small">
 						<el-radio-button label="1">客流趋势</el-radio-button>
 						<el-radio-button label="2">成交率</el-radio-button>
 						<el-radio-button label="3">潜在客户流失率</el-radio-button>
 						<el-radio-button label="4">成交客户流失率</el-radio-button>
 					</el-radio-group>
 				</div>
-				<guest-chart :postVal="guestParameters" :isAll="isAll"></guest-chart>
+				<guest-chart :sumOrDiff="sumOrDiff" :changeFlag="changeFlag" :postVal="guestParameters" :statisticsType="statisticsType"></guest-chart>
 			</li>
-			<!--
-            <li class="charts-wrap">
-                <new-old-chart :newOldData="newOldData"></new-old-chart>
-            </li>
-            <li class="charts-wrap">
-                <vip-chart :vipData="vipData"></vip-chart>
-            </li>
-            <li class="charts-wrap">
-                <age-chart :ageData="ageData"></age-chart>
-            </li>
-            <li class="charts-wrap">
-                <sex-chart :sexData="sexData"></sex-chart>
-            </li>
-            <li class="charts-wrap">
-                <device-chart :deviceData="deviceData"></device-chart>
-            </li>
-            -->
+
+			<li class="charts-wrap">
+				<new-old-chart :sumOrDiff="sumOrDiff" :newOldData="guestParameters" :changeFlag="changeFlag"></new-old-chart>
+			</li>
+			<li class="charts-wrap">
+				<age-chart :sumOrDiff="sumOrDiff" :ageData="guestParameters" :changeFlag="changeFlag"></age-chart>
+			</li>
+			<li class="charts-wrap">
+				<sex-chart :sumOrDiff="sumOrDiff" :sexData="guestParameters" :changeFlag="changeFlag"></sex-chart>
+			</li>
 
 		</ul>
 
-		<el-table :data="tableData" stripe style="width: 100%;" border :default-sort="{prop: 'date', order: 'descending'}">
+		<el-table :data="tableData" stripe v-loading="loading" style="width: 100%;" border :default-sort="{prop: 'date', order: 'descending'}">
 			<el-table-column type="index" :index="indexRank" label="排名" width="60" align="center">
 			</el-table-column>
 			<el-table-column prop="name" label="名称" align="center">
@@ -132,6 +124,18 @@
 			<el-table-column prop="60-" label="60岁以上占比" sortable width="135" align="center">
 			</el-table-column>
 		</el-table>
+		<div v-if="tableData.length > 0" style="margin:0 auto;max-width:1551px; text-align: right;">
+			<el-pagination 
+				background 
+				class="pagination" 
+				layout="prev, pager, next" 
+				small 
+				@current-change="currentPage" 
+				:current-page="pagination.currentPage" 
+				:page-size="listParameters.page_size" 
+				:page-count="pagination.totalCount">
+			</el-pagination>
+		</div>
 	</div>
 </template>
 
