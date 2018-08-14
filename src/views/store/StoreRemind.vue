@@ -10,7 +10,7 @@
         </div>
 		<div class="type-list">
             <el-checkbox-group v-model="checkedType" @change="fnChangeType">
-                <el-checkbox v-for="(tpye,key) in types" :label="tpye" :key="key">{{typeVal[key]}}</el-checkbox>
+                <el-checkbox v-for="(type,key) in types" :label="type" :key="key">{{typeVal[key]}}</el-checkbox>
             </el-checkbox-group>
         </div>
 		<div class="saveBtn">
