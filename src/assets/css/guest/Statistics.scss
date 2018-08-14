@@ -42,6 +42,13 @@
     .store-form{
         text-align: center;
         margin-top: 30px;
+        li{
+            margin-bottom: 22px;
+        }
+        .store{
+            display: inline-block;
+            margin-left:20px;
+        }
     }
     .add-store{
         cursor: pointer;

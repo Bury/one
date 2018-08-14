@@ -47,12 +47,12 @@
 				Highcharts: Highcharts,
 				chartOptionsType: 0,
 				isShow: false,
-				chartData:"",
-				postParameters:{
+				chartData: "",
+				postParameters: {
 					begin_time: '',
-				  end_time: '',
-			  	store_id: [],
-				  merchant_organize_id:[],
+					end_time: '',
+					store_id: [],
+					merchant_organize_id: [],
 				},
 				options: {
 					chart: {
@@ -83,55 +83,55 @@
 						}
 					},
 					series: [{
-						 name:"客流统计",
-						 data:[]
+						name: "客流统计",
+						data: []
 					}]
 				}
 			}
 		},
 		watch: {
 			isAll: function() {
-				this.setData()
+				this.setData();
 			}
 		},
 		created: function() {
 			this.$data.postParameters = this.$props.postVal;
-			this.setData();					
+			this.setData();
 			Highcharts.setOptions({
 				lang: {
 					thousandsSep: ',',
 					noData: '暂无数据'
 				}
-			 });
+			});
 		},
-		mounted:function () {
-			 			
+		mounted: function() {
+
 		},
 		methods: {
 			setData() {
-				let val = this.$props.isAll;        
-        switch (val){
-        	case "1":
-        	  this.isShow = true;
-        	  this.getCustomer()
-        		break;
-        	case "2":
-        	  this.isShow = false;
-        	  this.orderSum();
-        		break;
-        	case "3":
-        	  this.isShow = false;
-        	  this.customerLostSum()
-        		break;
-        	case "4":
-        	  this.isShow =false;
-        	  this.orderLostSum();
-        		break;	
-        	default:
-        		break;
-        }
+				let val = this.$props.isAll;
+				switch(val) {
+					case "1":
+						this.isShow = true;
+						this.getCustomer()
+						break;
+					case "2":
+						this.isShow = false;
+						this.orderSum();
+						break;
+					case "3":
+						this.isShow = false;
+						this.customerLostSum()
+						break;
+					case "4":
+						this.isShow = false;
+						this.orderLostSum();
+						break;
+					default:
+						break;
+				}
 			},
-			
+
 			//绘制图形
 			drawChart(value) {
 				console.log(value)
@@ -139,18 +139,18 @@
 				guestCharts.delegateMethod('showLoading', 'Loading...');
 				guestCharts.removeSeries();
 				setTimeout(() => {
-					guestCharts.hideLoading();	
-					if(value.length !== 0){
+					guestCharts.hideLoading();
+					if(value.length !== 0) {
 						for(var i = 0; i < value.length; i++) {
-						 guestCharts.addSeries(value[i])
-				    }
-					  guestCharts.getChart().xAxis[0].setCategories(value[0].time);
+							guestCharts.addSeries(value[i])
+						}
+						guestCharts.getChart().xAxis[0].setCategories(value[0].time);
 					}
-					
-        }, 100)
+
+				}, 100)
 
 			},
-			
+
 			//客流统计分类数据
 			postFeatureSum(flag) {
 				let postData = {
@@ -163,74 +163,85 @@
 				let qs = require('querystring');
 				statisticsApi.getFeatureGraph(qs.stringify(postData)).then((res) => {
 					if(res.data.errno === 0) {
-						  let d = res.data.data;
-						  let arr = [];
-						  d.forEach(function(val,index){
-						  	 arr.push({name:val.value,data:val.sum,time:val.time})
-						  })
-						  this.drawChart(arr)
+						let d = res.data.data;
+						let arr = [];
+						d.forEach(function(val, index) {
+							arr.push({
+								name: val.value,
+								data: val.sum,
+								time: val.time
+							})
+						})
+						this.drawChart(arr)
 					}
 				})
 			},
-			
-			
+
 			//客流统计默认数据
-			getCustomer(){
-			  let qs = require('querystring');
-		   	statisticsApi.getCustomerSum(qs.stringify(this.$data.postParameters)).then((res) => {
-				 if(res.data.errno === 0) {
-					  let arr = [{
-					  	  name:"总客流",
-					  	  data:res.data.data.sum,
-					  	  time:res.data.data.time
-					  }]
-					   this.drawChart(arr)
-				  }
-			  })
-		 },	
-		     //成交率
-			orderSum(){
-			  let qs = require('querystring');
-		   	statisticsApi.getOrderSum(qs.stringify(this.$data.postParameters)).then((res) => {
-				 if(res.data.errno === 0) {
-					  let arr = [{
-					  	  name:"成交率",
-					  	  data:res.data.data.success,
-					  	  time:res.data.data.time
-					  }]
-					   this.drawChart(arr)
-				  }
-			  })
-		 },	
-		     //潜在客户流失率
-			customerLostSum(){
-			  let qs = require('querystring');
-		   	statisticsApi.customerlostSum(qs.stringify(this.$data.postParameters)).then((res) => {
-				 if(res.data.errno === 0) {
-					  let arr = [{
-					  	  name:"潜在客户流失率",
-					  	  data:res.data.data.diff,
-					  	  time:res.data.data.time
-					  }]
-					   this.drawChart(arr)
-				  }
-			  })
-		 },	
-		    //成交客户流失率
-			orderLostSum(){
-			  let qs = require('querystring');
-		   	statisticsApi.orderlostSum(qs.stringify(this.$data.postParameters)).then((res) => {
-				 if(res.data.errno === 0) {
-				 		console.log(res)
-					  let arr = [{
-					  	  name:"成交客户流失率",
-					  	  data:res.data.data.diff,
-					  	  time:res.data.data.time
-					  }]
-					   this.drawChart(arr)
-				  }
-			  })
-		 },	
+			getCustomer() {
+				let qs = require('querystring');
+				statisticsApi.getCustomerSum(qs.stringify(this.$data.postParameters)).then((res) => {
+					if(res.data.errno === 0) {
+						let arr = [{
+							name: "总客流",
+							data: res.data.data.sum,
+							time: res.data.data.time
+						}]
+						this.drawChart(arr)
+					}
+				})
+			},
+			//成交率
+			orderSum() {
+				let qs = require('querystring');
+				statisticsApi.getOrderSum(qs.stringify(this.$data.postParameters)).then((res) => {
+					if(res.data.errno === 0) {
+						console.log(res)
+						let arr = [{
+							name: "成交率",
+							data: res.data.data.success,
+							time: res.data.data.time
+						}]
+						this.drawChart(arr)
+					}
+				})
+			},
+			//潜在客户流失率
+			customerLostSum() {
+				let qs = require('querystring');
+				statisticsApi.customerlostSum(qs.stringify(this.$data.postParameters)).then((res) => {
+					if(res.data.errno === 0) {
+						let dat = [];
+						res.data.data.diff.forEach(function(val){
+							dat.push(parseFloat(val))
+						})
+						let arr = [{
+							name: "潜在客户流失率",
+							data: dat,
+							time: res.data.data.time
+						}]
+						this.drawChart(arr)
+					}
+				})
+			},
+			//成交客户流失率
+			orderLostSum() {
+				let qs = require('querystring');
+				statisticsApi.orderlostSum(qs.stringify(this.$data.postParameters)).then((res) => {
+					if(res.data.errno === 0) {
+						let dat = [];
+						res.data.data.diff.forEach(function(val){
+							dat.push(parseFloat(val))
+						})
+						let arr = [{
+							name: "成交客户流失率",
+							data: dat,
+							time: res.data.data.time
+						}]
+						this.drawChart(arr)
+					}
+				})
+			},
 
 			//客流统计求和类型切换
 			customerType(val) {

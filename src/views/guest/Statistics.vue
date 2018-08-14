@@ -3,21 +3,16 @@
 	<div class="statistics-page">
 		<div class="top-box">
 			<el-form :inline="true" class="demo-form-inline" size="mini">
-				<el-form-item label="门店选择：" v-if="allStores && allStores.length>0">
-					<el-select v-model="guestParameters.store_id" placeholder="门店选择">
-						<el-option v-for="(item, idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id" :key="idx"></el-option>
-					</el-select>
-				</el-form-item>
 				<el-form-item label="时间选择：">
-					<el-date-picker v-show="ctrlTimeType[0]" v-model="day" type="datetime" placeholder="选择日期时间">
+					<el-date-picker v-show="ctrlTimeType[0]" v-model="day" type="date" placeholder="选择日期时间" :picker-options="pickerOptionsSet">
 					</el-date-picker>
-					<el-date-picker v-show="ctrlTimeType[1]" v-model="week" type="week" format="yyyy 第 WW 周" placeholder="选择周">
+					<el-date-picker v-show="ctrlTimeType[1]" v-model="week" type="week" format="yyyy 第 WW 周" placeholder="选择周" :picker-options="pickerOptionsSet">
 					</el-date-picker>
-					<el-date-picker v-show="ctrlTimeType[2]" v-model="month" type="month" placeholder="选择月">
+					<el-date-picker v-show="ctrlTimeType[2]" v-model="month" type="month" placeholder="选择月" :picker-options="pickerOptionsSet">
 					</el-date-picker>
-					<el-date-picker v-show="ctrlTimeType[3]" v-model="year" type="year" placeholder="选择年">
+					<el-date-picker v-show="ctrlTimeType[3]" v-model="year" type="year" placeholder="选择年" :picker-options="pickerOptionsSet">
 					</el-date-picker>
-					<el-date-picker v-show="ctrlTimeType[4]" v-model="userDefined"  type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+					<el-date-picker v-show="ctrlTimeType[4]" v-model="userDefined" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptionsSet">
 					</el-date-picker>
 				</el-form-item>
 
@@ -30,7 +25,8 @@
 					<el-input readonly="readonly" placeholder="请选择数据" style="width: 220px;height: 28px;"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" icon="el-icon-edit" @click="selectData"></el-button>
+					<el-button type="primary" icon="el-icon-edit" @click="editSumDiff"></el-button>
+					<el-button v-show="sumFlag.length > 0">{{sumFlag}}</el-button>
 				</el-form-item>
 			</el-form>
 			<el-tabs v-model="timeType" type="card" @tab-click="changeTimeType">
@@ -43,7 +39,7 @@
 		</div>
 
 		<!--数据选择弹框-->
-		<el-dialog title="数据选择" :visible.sync="datadialog.dataDialogVisible">
+		<el-dialog title="数据选择" :visible.sync="datadialog.dataDialogVisible" :before-close="closeDialog">
 			<el-row class="data-select">
 				<el-button :type="datadialog.dataTypeShow === true ? 'primary' : ''" @click="dataSelect(1)">求和</el-button>
 				<el-button :type="datadialog.dataTypeShow === false ? 'primary' : ''" @click="dataSelect(2)">对比</el-button>
@@ -52,24 +48,26 @@
 				<el-radio label="1">全部</el-radio>
 				<el-radio label="2">自定义</el-radio>
 			</el-radio-group>
-
-			<el-form :inline="true" v-show="datadialog.allOrSetShow" class="store-form">
-				<template v-for="(val,index) in  datadialog.storeTotal">
-					<el-form-item label="门店架构：" :label-width="datadialog.formLabelWidth">
-						<el-input auto-complete="off" size="small"></el-input>
-					</el-form-item>
-					<el-form-item label="门店：" :label-width="datadialog.formLabelWidth">
-						<el-input auto-complete="off" size="small"></el-input>
-					</el-form-item>
-				</template>
-			</el-form>
-			<div v-show="datadialog.allOrSetShow" class="add-store" @click="addStoreData">
-				<el-button icon="el-icon-plus" size="small" circle></el-button><span>添加数据</span>
-			</div>
+			<ul v-show="datadialog.allOrSetShow" class="store-form">
+				<li v-for="(val,index) in  storeGroup">
+					<span>门店组织：</span>
+					<el-cascader size="small" :options="organizes" v-model="val.organizeId" :props="defaultAttr" @change="getStoreId(index)">
+					</el-cascader>
+					<span class="store">门店：</span>
+					<el-select size="small" placeholder="请选择" v-model="val.storeId"   :no-data-text="val.showText">
+						<el-option v-for="(val,idx) in storeGroup[index].storeGroup" :label="val.name" :value="val.id" :key="idx">
+						</el-option>
+					</el-select>
+				    <el-button :disabled="datadialog.canDel" @click="delStore(index)" style="margin-left: 10px;" size="small" plain>删除</el-button>
+				</li>
+				<li class="add-store" v-show="storeGroup.length < 3 || datadialog.dataTypeShow === true" @click="addStoreData">
+					<el-button icon="el-icon-plus" size="mini" circle></el-button><span>添加数据</span>
+				</li>
+			</ul>
 
 			<span slot="footer" class="dialog-footer">
                    <el-button @click="cancelDialog">取 消</el-button>
-                   <el-button type="primary" @click="datadialog.dataDialogVisible = false">确 定</el-button>
+                   <el-button type="primary" @click="setSubmit">确 定</el-button>
             </span>
 
 		</el-dialog>
@@ -84,7 +82,7 @@
 						<el-radio-button label="4">成交客户流失率</el-radio-button>
 					</el-radio-group>
 				</div>
-				<guest-chart  :postVal="guestParameters" :isAll="isAll"></guest-chart>				
+				<guest-chart :postVal="guestParameters" :isAll="isAll"></guest-chart>
 			</li>
 			<!--
             <li class="charts-wrap">
