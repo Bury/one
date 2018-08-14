@@ -1,6 +1,6 @@
 <template>
   <div class="left-menu1">
-    <el-menu :default-active="$route.path" :data="tableData"
+    <el-menu :default-active="currentMenu" :data="tableData" @select="getUrl1"
              v-for="(item,index) in tableData"
              :key="index"
              class="el-menu-vertical-demo"
@@ -41,29 +41,26 @@
     data() {
       return {
         currentMenu: '/',
+        current:'',
         tableData: [],
       }
     },
     created() {
-      // this.$nextTick(() =>{
-      //   console.log(151515);
-      //   this.getUrl()
-      // })
-      // this.getUrl();
+      this.getUrl();
       this.menu();
     },
     methods: {
+      getUrl1(key){
+        this.$data.currentMenu = key;
+      },
       getUrl() {
         let self = this;
         let currentUrl = window.location.href;
-        console.log(currentUrl)
-        console.log(currentUrl.split('#')[1],121212)
         self.currentMenu = currentUrl.split('#')[1];
       },
       menu() {
         userApi.menu().then((res) => {
           this.$data.tableData = res.data.data;
-          console.log(this.$data.tableData);
         })
       },
     }
