@@ -54,7 +54,6 @@ import Notice from '../views/notice/Notice'
 import Inbox from '../views/notice/Inbox'
 import Outbox from '../views/notice/Outbox'
 import Drafts from '../views/notice/Drafts'
-import Check from '../views/notice/Check'
 
 Vue.use(Router)
 
@@ -91,7 +90,6 @@ const router = new Router({
         {path: 'Inbox',name:'Inbox',component:Inbox},
         {path: 'Outbox',name:'Outbox',component:Outbox},
         {path: 'Drafts',name:'Drafts',component:Drafts},
-        {path: 'Check',name:'Check',component:Check},
       ]
 
   }]

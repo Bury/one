@@ -56,7 +56,7 @@
         </el-row>
         <el-form-item label="内容：" prop="account">
           <div class="time">
-            <div>{{checkForm.content}}</div>
+            <div v-html="checkForm.content">{{checkForm.content}}</div>
           </div>
         </el-form-item>
       </el-form>
