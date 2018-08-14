@@ -31,11 +31,11 @@
 		<table width="100%" class="table-bordered">
 			<thead style="background-color: #d1d1d1">
 				<tr height="40">
-					<th class="col-md-1 text-center">ID</th>
+					<th class="col-md-1 text-center">序号</th>
 					<th class="col-md-2 text-center">账号</th>
 					<th class="col-md-2 text-center">姓名</th>
 					<th class="col-md-2 text-center">手机号</th>
-					<th class="col-md-1 text-center">岗位</th>					
+					<th class="col-md-1 text-center">岗位</th>
 					<th class="col-md-2 text-center">创建时间</th>
 					<th class="col-md-2 text-center">操作</th>
 				</tr>
@@ -47,7 +47,7 @@
 						<td>{{item.username}}</td>
 						<td>{{item.truename}}</td>
 						<td>{{item.phone}}</td>
-						<td>{{item.storeRole.name}}</td>						
+						<td>{{item.storeRole.name}}</td>
 						<td>{{item.created_at | date(4)}}</td>
 						<td>
 							<el-button type="primary" plain icon="el-icon-view" circle size="small" @click="fnEditPassword(item)"></el-button>

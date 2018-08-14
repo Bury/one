@@ -56,6 +56,7 @@ export default{
         truename:'',
         status:1,
         password:'',
+        roleName:'',
       },
     }
   },
@@ -120,15 +121,24 @@ export default{
         // });
       });
     },
+    //关闭弹框事件
+    dialogClose(){
+      this.$data.ruleForm={};
+      this.$data.userDialogFormVisible = false;
+    },
     fnAdds(){
       this.$data.currentId = "";
       this.$data.ruleForm.name = "";
       this.$data.userDialogFormVisible = true;
       this.getRoles();
+      setTimeout(() =>{
+        this.$refs.ruleForm.resetFields();
+      })
     },
     fnEdit(row){
 
       this.$data.editForm = row;
+      this.$data.editForm.roleName = row.storeRole.name;
       this.$data.editForm.role_id = row.storeRole.id;
       this.$data.currentId = row.id;
       this.$data.userEditVisible = true;
@@ -150,6 +160,9 @@ export default{
       this.$data.ruleForm.name = 0;
       this.$data.currentId = '';
       this.$data.ruleForm = {};
+      setTimeout(() =>{
+        this.$refs.ruleForm.resetFields();
+      })
     },
     fuResetRuleForm(){
       this.$data.ruleForm.username = '';
@@ -178,6 +191,7 @@ export default{
           'phone':this.$data.editForm.phone,
           'role_id':this.$data.editForm.role_id,
           'status':this.$data.editForm.status,
+
         }
         let qs = require('querystring')
         userApi.edit(qs.stringify(list)).then((res) => {
@@ -192,6 +206,9 @@ export default{
           }else{
             this.$message.error(res.data.msg);
           }
+          setTimeout(() =>{
+            this.$refs.ruleForm.resetFields();
+          })
         })
       }else{
         let list = {
@@ -222,6 +239,16 @@ export default{
     fnEditCancel(){
       this.$data.userEditVisible = false;
       this.$data.editForm = {};
+      setTimeout(()=>{
+        this.$refs.editForm.resetFields();
+      })
+    },
+    editDialogClose(){
+      this.$data.userEditVisible = false;
+      this.$data.editForm = {};
+      setTimeout(()=>{
+        this.$refs.editForm.resetFields();
+      })
     },
 
     changeSwitch (data) {

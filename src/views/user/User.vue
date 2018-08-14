@@ -24,7 +24,7 @@
     <table width="99%" class="table-bordered">
       <thead style="background-color: #d1d1d1">
       <tr height="40">
-        <th class="col-md-1 text-center">ID</th>
+        <th class="col-md-1 text-center">序号</th>
         <th class="col-md-2 text-center">账号</th>
         <th class="col-md-1 text-center">角色</th>
         <th class="col-md-1 text-center">姓名</th>
@@ -67,7 +67,7 @@
 
 
 		<!-- 添加 -->
-	    <el-dialog title="添加" :visible.sync="userDialogFormVisible">
+	    <el-dialog title="添加" :visible.sync="userDialogFormVisible" :before-close="dialogClose">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <el-form-item label="角色：">
           <el-select v-model="ruleForm.role_id" placeholder="请选择">
@@ -93,10 +93,10 @@
 			</div>
 		</el-dialog>
     <!--编辑-->
-    <el-dialog title="编辑" :visible.sync="userEditVisible">
+    <el-dialog title="编辑" :visible.sync="userEditVisible" :before-close="editDialogClose">
     <el-form :model="editForm" :rules="rules" ref="editForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="角色：">
-        <el-select v-model="editForm.role_id" placeholder="请选择">
+        <el-select v-model="editForm.roleName" placeholder="请选择">
           <el-option v-for="(item,idx) in allRoles" :label="item.name" :value="item.id" :key="item.id"></el-option>
         </el-select>
       </el-form-item>

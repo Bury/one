@@ -65,6 +65,7 @@
     <table width="99%" class="table-bordered">
       <thead style="background-color: #d1d1d1">
       <tr height="40">
+        <th class="col-md-1 text-center">序号</th>
         <th class="col-md-2 text-center">订单编号</th>
         <th class="col-md-1 text-center">商品名称</th>
         <th class="col-md-1 text-center">成交金额</th>
@@ -78,6 +79,7 @@
       </thead>
       <tbody style="text-align: center">
       <tr v-for="(item,index) in tableData" :key="index" height="40">
+        <td>{{item.id}}</td>
         <td>{{item.sn}}</td>
         <td>
           <span v-for="good in item.orderGoods" class="margin">[{{good.material_name}}/{{good.style_name}}]</span>

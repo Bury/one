@@ -38,7 +38,7 @@
 		<table width="100%" class="table-bordered">
 			<thead style="background-color: #d1d1d1">
 				<tr height="40">
-					<th class="col-md-1 text-center">ID</th>
+					<th class="col-md-1 text-center">序号</th>
 					<th class="col-md-2 text-center">门店架构</th>
 					<th class="col-md-2 text-center">门店</th>
 					<th class="col-md-2 text-center">账号名</th>

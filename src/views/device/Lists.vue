@@ -44,7 +44,7 @@
 		<table width="99%" class="table-bordered">
 			<thead style="background-color: #d1d1d1">
 				<tr height="40">
-					<th class="col-md-1 text-center">ID</th>
+					<th class="col-md-1 text-center">序号</th>
 					<th class="col-md-1 text-center">编号</th>
 					<th class="col-md-1 text-center">版本</th>
 					<th class="col-md-1 text-center">类型</th>
@@ -52,7 +52,7 @@
 					<th class="col-md-2 text-center">位置</th>
 					<th class="col-md-1 text-center">运行情况</th>
 					<th class="col-md-1 text-center">是否启用</th>
-					<th class="col-md-2 text-center">添加时间</th>
+					<!--<th class="col-md-2 text-center">添加时间</th>-->
 					<th class="col-md-1 text-center">操作</th>
 				</tr>
 			</thead>
@@ -74,7 +74,7 @@
 					<td>{{item.locate_desc}}</td>
 					<td>{{item.status == 0 ? '断开' : '正常'}}</td>
 					<td>{{item.is_start == 0 ? '是' : '否'}}</td>
-					<td>{{item.created_at | date(4)}}</td>
+					<!--<td>{{item.created_at | date(4)}}</td>-->
 					<td>
 						<el-button v-if="item.store.name.length>0" @click="fnDistribution(item)" type="text" size="small">重新分配</el-button>
 						<el-button v-else @click="fnDistribution(item)" type="text" size="small">分配</el-button>
@@ -96,7 +96,7 @@
 
 		<!-- 分配 -->
 		<el-dialog title="分配" :visible.sync="distributionFormVisible">
-			<div style="margin-bottom:20px;"><span style="display:inline-block;width:106px;text-align:center;">设备编号：</span>{{distributionForm.device_id}}</div>
+			<div style="margin-bottom:20px;"><span style="display:inline-block;width:106px;text-align:center;">编号：</span>{{distributionForm.device_id}}</div>
 			<el-form :model="distributionForm" :rules="operationRules" ref="distributionForm" label-width="100px" class="demo-ruleForm" style="margin-bottom:50px;">
 				<el-form-item label="门店架构：">
 					<el-cascader :options="organizes" v-model='dorganizeCode' :props='defaultAttr' @change="dialogStore">
@@ -117,7 +117,7 @@
 
 		<!-- 编辑 -->
 		<el-dialog title="编辑" :visible.sync="editFormVisible">
-			<div style="margin-bottom:20px;"><span style="display:inline-block;width:100px;text-align:center;">设备编号：</span>{{editForm.device_id}}</div>
+			<div style="margin-bottom:20px;"><span style="display:inline-block;width:100px;text-align:center;">编号：</span>{{editForm.device_id}}</div>
 			<div style="margin-bottom:20px;"><span style="display:inline-block;width:100px;text-align:center;">所属门店：</span>{{editForm.store_name}}</div>
 			<el-form :model="editForm" :rules="editRules" ref="editForm" label-width="100px" class="demo-ruleForm" style="margin-bottom:50px;">
 				<el-form-item label="类型：">

@@ -40,8 +40,7 @@
     },
     data() {
       return {
-        currentMenu: '/',
-        current:'',
+        currentMenu: '/Statistics',
         tableData: [],
       }
     },
