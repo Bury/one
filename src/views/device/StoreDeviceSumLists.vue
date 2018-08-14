@@ -3,7 +3,7 @@
     <table width="80%" class="table-bordered">
       <thead style="background-color: #d1d1d1">
       <tr height="40">
-        <th class="col-md-3 text-center">ID</th>
+        <th class="col-md-3 text-center">序号</th>
         <th class="col-md-3 text-center">门店</th>
         <th class="col-md-3 text-center">设备数</th>
         <th class="col-md-3 text-center">操作</th>
