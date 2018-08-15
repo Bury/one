@@ -123,6 +123,10 @@ global.MERCHANT_TIME_SET = `${SERVER_IP}${COMMON}merchant-config/business-time`
 global.USER_INFO = `${SERVER_IP}${COMMON}user/info`
 global.USER_CHANGE_PASSWORD = `${SERVER_IP}${COMMON}user/change-password`
 global.USER_EDIT_INFO = `${SERVER_IP}${COMMON}user/edit`
+global.USER_SEND_PHONE = `${SERVER_IP}${COMMON}user/change-phone-sms`
+global.USER_CKECK_PHONE = `${SERVER_IP}${COMMON}user/change-phone-check`
+global.USER_SAVE_CHANGE_PHONE = `${SERVER_IP}${COMMON}user/change-phone-save`
+
 //登录退出
 global.USER_LOGIN = `${SERVER_IP}${COMMON}user/login`
 global.USER_LOGOUT = `${SERVER_IP}${COMMON}user/logout`

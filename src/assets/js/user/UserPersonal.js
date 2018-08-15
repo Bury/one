@@ -125,7 +125,58 @@ export default {
       this.$data.dialogFormVisibleTel = true;
     },
     code(){
-      console.log(151515);
+      if(this.$data.telForm.phone == ''){
+        this.$message({
+          type:'warning',
+          message:'请先输入手机号'
+        })
+      }
+      let list = {
+        'new_phone': this.$data.telForm.phone,
+      };
+      let qs = require('querystring');
+      userApi.phoneSms(qs.stringify(list)).then((res) => {
+        console.log(res.data.msg)
+        if(res.data.errno == -1){
+          this.$message({
+            type: 'warning',
+            message: res.data.msg
+          });
+          this.$data.dialogFormVisibleTel = true;
+          this.$data.telForm.phone = '';
+        }
+      })
+    },
+    submitFromTel(){
+      let list = {
+        'new_phone': this.$data.telForm.phone,
+        'sms_code': this.$data.telForm.code,
+      };
+      let qs = require('querystring');
+      userApi.phoneCheck(qs.stringify(list)).then((res) => {
+        if(res.data.errno == 1000002 || res.data.errno == -1){
+          this.$message({
+            type:'warning',
+            message:'请先获取验证码'
+          })
+        }
+        this.$data.telForm.code = res.data.data.sign_code;
+        console.log(res.data.data);
+        console.log(this.$data.telForm);
+        userApi.savePhone(qs.stringify(this.$data.telForm)).then((res) => {
+          this.$message({
+            type:'success',
+            message:'修改成功'
+          });
+          this.$data.dialogFormVisibleTel = false;
+          this.$data.userForm.phone = this.$data.telForm.phone;
+          this.$data.telForm.phone = '';
+          this.$data.telForm.code = '';
+          setTimeout(() => {
+            this.$refs.telForm.resetFields();
+          })
+        })
+      })
     },
     cancelTel(){
       setTimeout(() => {
