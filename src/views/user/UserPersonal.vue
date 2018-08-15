@@ -26,7 +26,7 @@
 		</el-form>
 
 		<!-- 修改密码 -->
-		<el-dialog title="修改密码" :visible.sync="dialogFormVisible" style="min-width:800px;">
+		<el-dialog title="修改密码" :visible.sync="dialogFormVisible" :before-close="dialogClose" style="min-width:800px;">
 		  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 		    <el-form-item label="当前密码：" prop="oldPwd">
 		      <el-input type="password" v-model="ruleForm.oldPwd" ></el-input>
@@ -45,7 +45,7 @@
 		</el-dialog>
 
     <!--修改手机号-->
-    <el-dialog title="修改手机号" :visible.sync="dialogFormVisibleTel" :before-close="dialogClose" style="min-width:800px;">
+    <el-dialog title="修改手机号" :visible.sync="dialogFormVisibleTel" :before-close="dialogCloseTel" style="min-width:800px;">
       <el-form :model="telForm" :rules="rules" ref="telForm" label-width="100px" class="demo-ruleForm">
         <el-row>
         <el-form-item label="新手机号：" prop="phone">

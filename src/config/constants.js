@@ -125,6 +125,10 @@ global.USER_EDIT_INFO = `${SERVER_IP}${COMMON}user/edit`
 //登录退出
 global.USER_LOGIN = `${SERVER_IP}${COMMON}user/login`
 global.USER_LOGOUT = `${SERVER_IP}${COMMON}user/logout`
+//登录--忘记密码
+global.USER_SEND_MSG = `${SERVER_IP}${COMMON}user/send-sms`
+global.USER_CHECK_MSG = `${SERVER_IP}${COMMON}user/check-sms`
+global.USER_CHANGE_PWD = `${SERVER_IP}${COMMON}user/change-password-forgot`
 
 
 

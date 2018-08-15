@@ -112,5 +112,33 @@ export default {
       })
     })
   },
+  //忘记密码
+  sendSms (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_SEND_MSG, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  checkSms (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_CHECK_MSG, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  passwordForget (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_CHANGE_PWD, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
 
 }

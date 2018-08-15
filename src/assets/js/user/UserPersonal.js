@@ -67,6 +67,18 @@ export default {
       this.$data.ruleForm.oldPwd = '';
       this.$data.ruleForm.newPwd = '';
       this.$data.ruleForm.reNewPwd = '';
+      setTimeout(() => {
+        this.$refs.ruleForm.resetFields();
+      })
+    },
+    dialogClose(){
+      this.$data.dialogFormVisible = false;
+      this.$data.ruleForm.oldPwd = '';
+      this.$data.ruleForm.newPwd = '';
+      this.$data.ruleForm.reNewPwd = '';
+      setTimeout(() => {
+        this.$refs.ruleForm.resetFields();
+      })
     },
     fnSaveSubmitForm(formName){
       this.$refs['userForm'].validate((valid) => {
@@ -97,17 +109,12 @@ export default {
           let qs = require('querystring')
           userApi.changePWD(qs.stringify(list)).then((res) => {
             if(res.data.errno === 0){
-              alert('修改成功')
-              userApi.logout().then((res1) => {
-                if(res1.data.errno === 0){
-                  sessionStorage.setItem('knock_knock', '')
-                  sessionStorage.setItem('username', '')
-                  this.$router.replace({
-                    name: 'UserLogin'
-                  });
-                }else{
-                  this.$message.error(res1.data.msg);
-                }
+              // alert('修改成功')
+              this.$message.success('修改成功');
+              this.$data.ruleForm = {};
+              this.$data.dialogFormVisible = false;
+              setTimeout(() =>{
+                this.$refs.ruleForm.resetFields();
               })
 
             }else{
@@ -132,7 +139,7 @@ export default {
         this.$data.dialogFormVisibleTel = false;
       })
     },
-    dialogClose(){
+    dialogCloseTel(){
       setTimeout(() => {
         this.$refs.telForm.resetFields();
         this.$data.dialogFormVisibleTel = false;

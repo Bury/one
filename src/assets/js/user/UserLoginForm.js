@@ -2,10 +2,15 @@ import userApi from '@/api/user.js'
 import globalRules from '@/config/global_rules'
 import globalFunctions from '@/config/global_functions'
 
+let clock;
 export default {
   name: 'login-form',
   data () {
     return {
+      getClickName:'获取验证码',
+      waitTime:60,
+      canClick: true,
+      status:1,
       loginInfo: {
         username: '',
         password: ''
@@ -41,6 +46,21 @@ export default {
           }
         ]
       },
+      passwordVisible:false,
+      passwordForm:{
+        username:'',
+        new_password:'',
+        new_password2:'',
+        code:'',
+        phone:'',
+      },
+      rulesPwd:{
+        username:globalRules.rules.username('请输入帐号'),
+        phone:globalRules.rules.phone(),
+      },
+      passwordVisibleSecond:false,
+      passwordVisibleThird:false,
+      getMsgAfter:false,
     }
   },
   created: function () {
@@ -49,11 +69,6 @@ export default {
   mounted: function () {
   },
   methods: {
-    /*
-    reset() {
-      this.$refs.loginForm.resetFields();
-    },
-    */
     login() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
@@ -143,6 +158,159 @@ export default {
         this.$data.passwordEditForm.passwordRepeat = '';
       },0)
     },
+
+    //忘记密码
+    forget(){
+      this.$data.passwordVisible = true;
+    },
+    getMsg(){
+      if (!this.canClick) return  ;
+      this.canClick = false
+      this.$data.getClickName = this.$data.waitTime + 's后发送';
+      clock = window.setInterval(() => {
+        this.$data.waitTime--;
+        this.$data.getClickName = this.$data.waitTime + 's后发送';
+        if (this.$data.waitTime < 0) {
+          window.clearInterval(clock)
+          this.$data.getClickName = '发送验证码';
+          this.$data.waitTime = 60;
+          this.canClick = true  //这里重新开启
+
+        }
+      },1000);
+    },
+    code(){
+      let list = {
+        'phone': this.$data.passwordForm.phone,
+        'username': this.$data.passwordForm.username,
+      };
+      let qs = require('querystring');
+      userApi.sendSms(qs.stringify(list)).then((res) => {
+        console.log(res.data.msg)
+        if(res.data.errno == -1){
+          this.$message({
+            type: 'warning',
+            message: res.data.msg
+          });
+          this.$data.passwordVisible = true;
+          this.$data.passwordVisibleSecod = false;
+          this.$data.passwordForm.phone = '';
+          this.$data.passwordForm.username = '';
+        }else{
+          this.getMsg();
+          this.$data.getMsgAfter = true;
+        }
+      })
+    },
+    needsC(){
+      window.clearInterval(clock)
+      this.$data.getClickName = '发送验证码';
+      this.$data.waitTime = 60;
+      this.canClick = true  //这里重新开启
+      this.$data.passwordForm.phone = '';
+    },
+    passwordSubmitLast(){
+      if(this.$data.passwordForm.phone == ''){
+        this.$message({
+          type: 'warning',
+          message: '请输入手机号!'
+        });
+      }else{
+        if(this.$data.passwordForm.username == ''){
+          this.$message({
+            type: 'warning',
+            message: '请输入用户名!'
+          });
+        }else{
+          this.$data.passwordVisible = false;
+          this.$data.passwordVisibleSecond = true;
+          window.clearInterval(clock)
+          this.$data.getClickName = '发送验证码';
+          this.$data.waitTime = 60;
+          this.canClick = true  //这里重新开启
+          this.$data.getMsgAfter = false;
+        }
+      }
+
+    },
+    //回到第一步
+    toFirst(){
+      this.$data.passwordVisible = true;
+      this.$data.passwordVisibleSecod = false;
+    },
+    //第二步
+    passwordSubmitSecond(){
+      let list = {
+        'phone': this.$data.passwordForm.phone,
+        'code': this.$data.passwordForm.code,
+      };
+      let qs = require('querystring');
+      userApi.checkSms(qs.stringify(list)).then((res) => {
+        if(res.data.errno == 1000002 || res.data.errno == -1){
+          this.$message({
+            type:'warning',
+            message:'请先发送验证码'
+          })
+        }
+        this.$data.sendCode = res.data.data.code;
+        if(res.data.errno == 0){
+          this.$data.passwordVisibleThird = true;
+        }
+      })
+    },
+    blur(){},
+    //第三步回到第er步
+    toSecond(){
+      this.$data.passwordVisibleSecod = true;
+      this.$data.passwordVisibleThird = false;
+    },
+    passwordSubmit(){
+      let list = {
+        'username': this.$data.passwordForm.username,
+        'new_password':this.$data.passwordForm.new_password,
+        'new_password2':this.$data.passwordForm.new_password2,
+        'code':this.$data.sendCode,
+      };
+      let qs = require('querystring');
+      userApi.passwordForget(qs.stringify(list)).then((res) => {
+        if (res.data.errno === 0) {
+          // this.passwordClear();
+          this.$message({
+            type: 'success',
+            message: '修改成功!'
+          });
+          // this.$data.passwordVisible = false;
+          this.$data.passwordVisible = false;
+          this.$data.passwordVisibleSecod = false;
+          this.$data.passwordVisibleThird = false;
+          this.dialogClose();
+        } else {
+          this.$message.error(res.data.msg);
+        }
+
+      });
+    },
+    dialogClose(){
+      setTimeout(() =>{
+        this.needsC();
+        // this.$refs.passwordForm.resetFields();
+        this.passwordClear();
+        this.$data.passwordVisible = false;
+        this.$data.passwordVisibleSecond = false;
+      },0)
+    },
+
+    //数据清空
+    passwordClear(){
+      this.$data.passwordForm={
+        username:'',
+        new_password:'',
+        new_password2:'',
+        code:'',
+        phone:'',
+      }
+    }
+
 
 
   },
