@@ -188,7 +188,7 @@ export default {
             left:0;
             top:60px;
             z-index:999;
-            height: 100%;
+            height: calc(100% - 60px);
             background: #545c64;
             overflow-x:hidden;
             overflow-y:auto;

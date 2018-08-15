@@ -32,11 +32,11 @@
 			VueHighcharts
 		},
 		props: {
-			sumOrDiff:{
-				type:String
+			sumOrDiff: {
+				type: String
 			},
-			changeFlag:{
-				type:Boolean,
+			changeFlag: {
+				type: Boolean,
 			},
 			statisticsType: {
 				type: String,
@@ -44,7 +44,7 @@
 			postVal: {
 				type: Object,
 			}
-			
+
 		},
 		data() {
 			return {
@@ -94,9 +94,8 @@
 			}
 		},
 		watch: {
-			changeFlag:function(){
-				console.log(this.$props.sumOrDiff)
-				this.$data.postParameters = this.$props.postVal;				
+			changeFlag: function() {
+				this.$data.postParameters = this.$props.postVal;
 				this.setData();
 			}
 		},
@@ -118,38 +117,45 @@
 				let val = this.$props.statisticsType;
 				switch(val) {
 					case "1":
-					    if(this.$props.sumOrDiff === "0"){
-					    	this.isShow = true;
-					    	this.getCustomer();
-					    }else{
-					    	this.isShow = false;
-					    	this.getCustomerDiff();
-					    }
+						if(this.$props.sumOrDiff === "0") {
+							this.isShow = true;
+							if(this.$data.chartOptionsType === 0) {
+								this.getCustomer()
+							} else if(this.$data.chartOptionsType === 1) {
+								this.postFeatureSum("face")
+							} else if(this.$data.chartOptionsType === 2) {
+								this.postFeatureSum("age")
+							} else if(this.$data.chartOptionsType === 3) {
+								this.postFeatureSum("gender")
+							}
+						} else {
+							this.isShow = false;
+							this.getCustomerDiff();
+						}
 						break;
 					case "2":
-					    this.isShow = false;
-					    console.log(this.$props.sumOrDiff)
-					    if(this.$props.sumOrDiff === "0"){
-					    	this.orderSum();
-					    }else{
-					    	this.orderDiff();
-					    }						
+						this.isShow = false;
+						if(this.$props.sumOrDiff === "0") {
+							this.orderSum();
+						} else {
+							this.orderDiff();
+						}
 						break;
 					case "3":
 						this.isShow = false;
-						if(this.$props.sumOrDiff === "0"){
+						if(this.$props.sumOrDiff === "0") {
 							this.customerLostSum()
-						}else{
+						} else {
 							this.customerLostDiff()
-						}						
+						}
 						break;
 					case "4":
 						this.isShow = false;
-						if(this.$props.sumOrDiff === "0"){
+						if(this.$props.sumOrDiff === "0") {
 							this.orderLostSum();
-						}else{
+						} else {
 							this.orderLostDiff();
-						}						
+						}
 						break;
 					default:
 						break;
@@ -168,10 +174,10 @@
 							guestCharts.addSeries(value[i])
 						}
 						guestCharts.getChart().xAxis[0].setCategories(value[0].time);
-					}else{
+					} else {
 						guestCharts.addSeries(value)
 					}
-                }, 0)
+				}, 0)
 
 			},
 
@@ -187,7 +193,7 @@
 				statisticsApi.getFeatureGraph(postData).then((res) => {
 					let arr = [];
 					if(res.data.errno === 0) {
-						let d = res.data.data;						
+						let d = res.data.data;
 						d.forEach(function(val, index) {
 							arr.push({
 								name: val.value,
@@ -195,9 +201,9 @@
 								time: val.time
 							})
 						})
-						
+
 						this.drawChart(arr)
-					}else{
+					} else {
 						this.drawChart(arr)
 					}
 				})
@@ -216,23 +222,23 @@
 					}
 				})
 			},
-			
+
 			//客流统计折线图比对			
-			getCustomerDiff(){
+			getCustomerDiff() {
 				statisticsApi.getCustomerDiff(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
-						if(res.data.data !== null){
+						if(res.data.data !== null) {
 							let arr = [];
-							for(let i=0;i<res.data.data.length;i++){
+							for(let i = 0; i < res.data.data.length; i++) {
 								arr.push({
 									name: res.data.data[i].diff_name,
-							        data: res.data.data[i].sum,
-							        time: res.data.data[i].time
+									data: res.data.data[i].sum,
+									time: res.data.data[i].time
 								})
 							}
 							this.drawChart(arr)
-						}						
-					}else{
+						}
+					} else {
 						this.$message(res.data.msg)
 					}
 				})
@@ -250,34 +256,34 @@
 					}
 				})
 			},
-			
+
 			//成交率折线图比对
 			orderDiff() {
 				statisticsApi.getOrderDiff(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
-						if(res.data.data !== null){
+						if(res.data.data !== null) {
 							let arr = [];
-							for(let i=0;i<res.data.data.length;i++){
+							for(let i = 0; i < res.data.data.length; i++) {
 								arr.push({
 									name: res.data.data[i].diff_name,
-							        data: res.data.data[i].success,
-							        time: res.data.data[i].time
+									data: res.data.data[i].success,
+									time: res.data.data[i].time
 								})
 							}
 							this.drawChart(arr)
-						}						
-					}else{
+						}
+					} else {
 						this.$message(res.data.msg)
 					}
 				})
 			},
-			
+
 			//潜在客户流失率
 			customerLostSum() {
 				statisticsApi.customerlostSum(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
 						let dat = [];
-						res.data.data.diff.forEach(function(val){
+						res.data.data.diff.forEach(function(val) {
 							dat.push(parseFloat(val))
 						});
 						let arr = [{
@@ -289,34 +295,34 @@
 					}
 				})
 			},
-			
+
 			//潜在客户流失率比对
 			customerLostDiff() {
 				statisticsApi.customerlostDiff(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
-						if(res.data.data !== null){
+						if(res.data.data !== null) {
 							let arr = [];
-							for(let i=0;i<res.data.data.length;i++){
+							for(let i = 0; i < res.data.data.length; i++) {
 								arr.push({
 									name: res.data.data[i].diff_name,
-							        data: res.data.data[i].diff,
-							        time: res.data.data[i].time
+									data: res.data.data[i].diff,
+									time: res.data.data[i].time
 								})
 							}
 							this.drawChart(arr)
-						}						
-					}else{
+						}
+					} else {
 						this.$message(res.data.msg)
 					}
 				})
 			},
-			
+
 			//成交客户流失率
 			orderLostSum() {
 				statisticsApi.orderlostSum(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
 						let dat = [];
-						res.data.data.diff.forEach(function(val){
+						res.data.data.diff.forEach(function(val) {
 							dat.push(parseFloat(val))
 						})
 						let arr = [{
@@ -328,23 +334,23 @@
 					}
 				})
 			},
-			
+
 			//成交客户流失率比对
 			orderLostDiff() {
 				statisticsApi.orderlostDiff(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
-						if(res.data.data !== null){
+						if(res.data.data !== null) {
 							let arr = [];
-							for(let i=0;i<res.data.data.length;i++){
+							for(let i = 0; i < res.data.data.length; i++) {
 								arr.push({
 									name: res.data.data[i].diff_name,
-							        data: res.data.data[i].diff,
-							        time: res.data.data[i].time
+									data: res.data.data[i].diff,
+									time: res.data.data[i].time
 								})
 							}
 							this.drawChart(arr)
-						}						
-					}else{
+						}
+					} else {
 						this.$message(res.data.msg)
 					}
 				})
