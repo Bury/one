@@ -1,27 +1,27 @@
 const rules={
-		
+
         //用户名验证
 		username(text){
 			return [
 	    		{ required: true, message: text, trigger: 'blur' },
 	        	{
 	        		validator:(rule,value,callback) =>{
-	        			if(value.match(/^[a-zA-Z0-9]{5,16}$/)){
-	        				callback();
-	        			}else{
-	        				callback("只能是字母和数字5-16位")
-	        			}
+                if(value.match(/^[a-zA-Z0-9\u4E00-\u9FA5_]{5,16}$/)){
+                  callback();
+                }else{
+                  callback("账号名由5-16位的数字、中文、英文、下划线组成")
+                }
 	        		},
 	        		trigger:'blur'
 	        	}
 	    	]
 		},
-		
+
 		//姓名验证
 		truename(){
 			return [
 	    		{ required: true, message: '请输入姓名', trigger: 'blur' },
-	    		
+
 	        	{
 	                validator: (rule, value, callback) => {
 		                    if (value.match(/^[a-zA-Z\u4e00-\u9fa5]{2,8}$/)){
@@ -34,7 +34,7 @@ const rules={
 	            	}
 	    	]
 		},
-        
+
         //密码验证
 		password() {
 			 return [
@@ -46,11 +46,11 @@ const rules={
 	        				callback("数字和字母6-16位")
 	        			}
 	        		},
-	        		trigger:'blur' 
+	        		trigger:'blur'
 		        }
 			]
 		},
-		
+
 		repassword(pwd) {
 			 return [
 		        { required: true, message: '请输入密码', trigger: 'blur' },
@@ -67,7 +67,7 @@ const rules={
 			    }
 			]
 		},
-        
+
         //手机号验证
 		phone(){
 			return [
@@ -84,17 +84,24 @@ const rules={
 	            	}
 	        	]
 		},
-		
+  //验证码验证
+  code(){
+		  return[
+        { required: true, message: '请输入验证码', trigger: 'blur' },
+      ]
+  },
+
 		//select选择器验证
 		selectRule(text){
 			return [
 			    { required: true, message: text, trigger: 'change' }
 			]
-			
-		}
-     
-	
-	
+
+		},
+
+
+
+
 }
 
 export default {
