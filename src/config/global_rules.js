@@ -3,7 +3,7 @@ const rules={
         //用户名验证
 		username(text){
 			return [
-	    		{ required: true, message: text, trigger: 'blur' },
+	    		{ required: true, message: '请输入账号名', trigger: 'blur' },
 	        	{
 	        		validator:(rule,value,callback) =>{
                 if(value.match(/^[a-zA-Z0-9\u4E00-\u9FA5_]{5,16}$/)){
@@ -24,7 +24,7 @@ const rules={
 
 	        	{
 	                validator: (rule, value, callback) => {
-                    if (value.match(/^[a-zA-Z0-9^·%&'.!@#*()_+\[\]~`\\{}\-:'"<>/,;=?$\x22]{1,15}$/)){
+                    if (value.match(/^[a-zA-Z\u4E00-\u9FA5]{1,15}$/)){
                       callback();
                     } else {
                       callback("请输入1-15位汉字或英文");

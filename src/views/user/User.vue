@@ -97,7 +97,7 @@
     <el-dialog title="编辑" :visible.sync="userEditVisible" :before-close="editDialogClose">
     <el-form :model="editForm" :rules="rules" ref="editForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="角色：">
-        <el-select v-model="editForm.roleName" placeholder="请选择">
+        <el-select v-model="editForm.role_id" placeholder="请选择">
           <el-option v-for="(item,idx) in allRoles" :label="item.name" :value="item.id" :key="item.id"></el-option>
         </el-select>
       </el-form-item>

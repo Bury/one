@@ -7,7 +7,7 @@
 			<thead style="background-color: #d1d1d1">
 				<tr height="40">
 					<th class="col-md-1 text-center">序号</th>
-					<th class="col-md-2 text-center">名称</th>
+					<th class="col-md-2 text-center">岗位名称</th>
 					<th class="col-md-1 text-center">排序</th>
 					<th class="col-md-1 text-center">权限</th>
 					<th class="col-md-2 text-center">操作</th>
