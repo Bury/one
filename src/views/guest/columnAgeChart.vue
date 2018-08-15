@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<vue-highcharts :options="options" ref="newOldCharts"></vue-highcharts>
+		<vue-highcharts :options="options" ref="columnAgeChart"></vue-highcharts>
 	</div>
 </template>
 
@@ -12,7 +12,7 @@
 	HighchartsNoData(Highcharts)
 
 	export default {
-		name: 'new-old-chart',
+		name: 'column-age-chart',
 		components: {
 			VueHighcharts
 		},
@@ -20,7 +20,7 @@
 			sumOrDiff: {
 				type: String
 			},
-			newOldData: {
+			columnAge: {
 				type: Object,
 			},
 			changeFlag: {
@@ -31,10 +31,10 @@
 			return {
 				options: {
 					chart: {
-						type: 'pie'
+						type: ''
 					},
 					title: {
-						text: '新客熟客占比'
+						text: '年龄段'
 					},
 					credits: {
 						text: '',
@@ -50,12 +50,11 @@
 		},
 		watch: {
 			changeFlag: function() {
-				this.getFeature(this.$props.newOldData);
-
+				this.getFeatureDiff(this.$props.columnAge);
 			}
 		},
 		created: function() {
-			this.getFeature(this.$props.newOldData);
+			this.getFeatureDiff(this.$props.columnAge);
 			Highcharts.setOptions({
 				lang: {
 					thousandsSep: ',',
@@ -64,44 +63,50 @@
 			});
 		},
 		methods: {
-			getFeature(val) {
-				let list = {
-					feature: 'face',
+
+			//比对柱状图
+			getFeatureDiff(val) {
+				let data = {
+					feature: 'age',
 					begin_time: val.begin_time,
 					end_time: val.end_time,
 					store_id: val.store_id,
 					merchant_organize_id: val.merchant_organize_id
-				}
-				statisticsApi.getFeaturePie(list).then((res) => {
+				};
+				statisticsApi.getFeatureDiff(data).then((res) => {
 					if(res.data.errno === 0) {
 						let thisData = res.data.data;
 						if(thisData == null || thisData == '') {
 							return false;
 						} else {
 							let faceData = [];
-							for(var i = 0; i < thisData.face.length; i++) {
+							for(var i = 0; i < thisData.length; i++) {
 								faceData.push({
-									name: thisData.face[i],
-									y: thisData.sum[i]
+									type: "column",
+									name: thisData[i].diff_name,
+									data: thisData[i].sum
 								})
 							}
 							this.getData(faceData)
 						}
 					}
 				});
-
 			},
 
 			getData(value) {
-				let newOldCharts = this.$refs.newOldCharts;
-				newOldCharts.delegateMethod('showLoading', 'Loading...');
-				newOldCharts.removeSeries();
+				let columnAgeChart = this.$refs.columnAgeChart;
+				columnAgeChart.delegateMethod('showLoading', 'Loading...');
+				columnAgeChart.removeSeries();
 				setTimeout(() => {
-					newOldCharts.hideLoading();
-                    newOldCharts.addSeries({
-						name: ' 人数',
-						data: value
-					});
+					columnAgeChart.hideLoading();
+					while(columnAgeChart.getChart().series.length > 0) {
+						columnAgeChart.getChart().remove(true);
+					}
+
+					for(let i = 0; i < value.length; i++) {
+						columnAgeChart.getChart().addSeries(value[i])
+					}
+					columnAgeChart.getChart().xAxis[0].setCategories(["20岁以下", "20-29岁","30-39岁","40-49岁","50-59岁","60岁以上"]);
 
 				}, 0)
 			},

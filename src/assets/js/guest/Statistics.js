@@ -6,7 +6,9 @@ import GuestChart from '@/views/guest/GuestChart'
 import NewOldChart from '@/views/guest/NewOldChart'
 import AgeChart from '@/views/guest/AgeChart'
 import SexChart from '@/views/guest/SexChart'
-
+import columnNewChart from '@/views/guest/columnNewChart'
+import columnAgeChart from '@/views/guest/columnAgeChart'
+import columnSexChart from '@/views/guest/columnSexChart'
 export default {
 	name: 'dashboard',
 	components: {
@@ -14,6 +16,9 @@ export default {
 		NewOldChart: NewOldChart,
 		AgeChart: AgeChart,
 		SexChart: SexChart,
+		columnNewChart:columnNewChart,
+		columnAgeChart:columnAgeChart,
+		columnSexChart:columnSexChart,
 	},
 	data() {
 		return {

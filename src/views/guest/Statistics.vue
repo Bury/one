@@ -84,18 +84,28 @@
 				<guest-chart :sumOrDiff="sumOrDiff" :changeFlag="changeFlag" :postVal="guestParameters" :statisticsType="statisticsType"></guest-chart>
 			</li>
 
-			<li class="charts-wrap">
+			<li v-if="sumOrDiff === '0'" class="charts-wrap">
 				<new-old-chart :sumOrDiff="sumOrDiff" :newOldData="guestParameters" :changeFlag="changeFlag"></new-old-chart>
 			</li>
-			<li class="charts-wrap">
+			<li v-if="sumOrDiff === '0'"  class="charts-wrap">
 				<age-chart :sumOrDiff="sumOrDiff" :ageData="guestParameters" :changeFlag="changeFlag"></age-chart>
 			</li>
-			<li class="charts-wrap">
+			<li v-if="sumOrDiff === '0'" class="charts-wrap">
 				<sex-chart :sumOrDiff="sumOrDiff" :sexData="guestParameters" :changeFlag="changeFlag"></sex-chart>
+			</li>
+			<li v-if="sumOrDiff === '1'" class="charts-wrap">
+				<column-new-chart :sumOrDiff="sumOrDiff" :columnNew="guestParameters" :changeFlag="changeFlag"></column-new-chart>
+			</li>
+			<li v-if="sumOrDiff === '1'" class="charts-wrap">
+				<column-age-chart :sumOrDiff="sumOrDiff" :columnAge="guestParameters" :changeFlag="changeFlag"></column-age-chart>
+			</li>
+			<li v-if="sumOrDiff === '1'" class="charts-wrap">
+				<column-sex-chart :sumOrDiff="sumOrDiff" :columnSex="guestParameters" :changeFlag="changeFlag"></column-sex-chart>
 			</li>
 
 		</ul>
-
+        
+        <template v-if="statisticsType === '1'">
 		<el-table :data="tableData" stripe v-loading="loading" style="width: 100%;" border :default-sort="{prop: 'date', order: 'descending'}">
 			<el-table-column type="index" :index="indexRank" label="排名" width="60" align="center">
 			</el-table-column>
@@ -124,7 +134,7 @@
 			<el-table-column prop="60-" label="60岁以上占比" sortable width="135" align="center">
 			</el-table-column>
 		</el-table>
-		<div v-if="tableData.length > 0" style="margin:0 auto;max-width:1551px; text-align: right;">
+		<div  style="margin:0 auto;max-width:1551px; text-align: right;">
 			<el-pagination 
 				background 
 				class="pagination" 
@@ -136,6 +146,7 @@
 				:page-count="pagination.totalCount">
 			</el-pagination>
 		</div>
+		</template>
 	</div>
 </template>
 
