@@ -15,6 +15,7 @@
 				</el-form-item>
 				<el-form-item>
 				    <el-button type="primary" @click="onSubmitSearch">查询</el-button>
+				    <el-button type="primary" @click="resetSearch">重置</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -26,7 +27,7 @@
       <tr height="40">
         <th class="col-md-1 text-center">序号</th>
         <th class="col-md-2 text-center">账号</th>
-        <th class="col-md-1 text-center">角色</th>
+        <th class="col-md-1 text-center">岗位</th>
         <th class="col-md-1 text-center">姓名</th>
         <th class="col-md-1 text-center">手机号码</th>
         <th class="col-md-1 text-center">状态</th>
@@ -50,7 +51,7 @@
       </tr>
       </tbody>
     </table>
-
+    <div class="noData" v-if="noData" style="text-align: center;margin-top:2rem;font-size: 1.4rem;">暂无数据~</div>
 	    <!-- 分页 -->
 	   <div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
 	    	<el-pagination

@@ -17,14 +17,8 @@ export default {
       rules: {
         phone:globalRules.rules.phone(),
         code:globalRules.rules.code(),
-        oldPwd: [
-          { required: true, message: '请输入当前密码：', trigger: 'blur' },
-          { min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }
-        ],
-        newPwd: [
-          { required: true, message: '请输入新的密码：', trigger: 'blur' },
-          { min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }
-        ],
+        oldPwd:globalRules.rules.password() ,
+        newPwd:globalRules.rules.password() ,
         reNewPwd: [
           { required: true, message: '请再次输入密码', trigger: 'blur' },
           {

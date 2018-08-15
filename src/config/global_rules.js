@@ -24,11 +24,11 @@ const rules={
 
 	        	{
 	                validator: (rule, value, callback) => {
-		                    if (value.match(/^[a-zA-Z\u4e00-\u9fa5]{2,8}$/)){
-		                        callback();
-		                    } else {
-		                        callback("请输入2-8位汉字或英文");
-		                    }
+                    if (value.match(/^[a-zA-Z0-9^·%&'.!@#*()_+\[\]~`\\{}\-:'"<>/,;=?$\x22]{1,15}$/)){
+                      callback();
+                    } else {
+                      callback("请输入1-15位汉字或英文");
+                    }
 	                	},
 	                	trigger: 'blur'
 	            	}
@@ -40,11 +40,11 @@ const rules={
 			 return [
 		        { required: true, message: '请输入密码', trigger: 'blur' },
 		        { validator:(rule,value,callback) =>{
-	        			if(value.match(/^[a-zA-Z0-9]{5,16}$/)){
-	        				callback();
-	        			}else{
-	        				callback("数字和字母6-16位")
-	        			}
+                if(value.match(/^[a-zA-Z0-9^·%&'.!@#*()_+\[\]~`\\{}\-:'"<>/,;=?$\x22]{6,16}$/)){
+                  callback();
+                }else if(value.match(/^\s*|\s*$/)){
+                  callback("除空格外数字,字母和任意字符6-16位")
+                }
 	        		},
 	        		trigger:'blur'
 		        }

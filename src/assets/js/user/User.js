@@ -1,6 +1,8 @@
 
 import userApi from '@/api/user'
 import roleApi from '@/api/role'
+import globalFunctions from '@/config/global_functions'
+import globalRules from '@/config/global_rules'
 
 export default{
   name:'account-set',
@@ -28,22 +30,10 @@ export default{
       currentId:'',
       currentName:'',
       rules: {
-        username: [
-          { required: true, message: '请输入帐号', trigger: 'blur' },
-          { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }
-        ],
-        truename: [
-          { required: true, message: '请输入姓名', trigger: 'blur' },
-          { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
-        ],
-        phone: [
-          { required: true, message: '请输入手机号码', trigger: 'blur' },
-          { min: 11, max: 11, message: '长度在11位的有效手机号码', trigger: 'blur' }
-        ],
+        username:globalRules.rules.username() ,
+        password: globalRules.rules.password(),
+        truename:globalRules.rules.truename(),
+        phone: globalRules.rules.phone(),
       },
       permissionDialogFormVisible:false,
       dialogForm2: [],
@@ -58,6 +48,7 @@ export default{
         password:'',
         roleName:'',
       },
+      noData:false,
     }
   },
   created:function(){
@@ -71,6 +62,12 @@ export default{
       userApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
         if(res==undefined || res=='' || res.data==undefined || res.data==''){
           return ;
+        }
+        if(res.data.data.list.length === 0){
+          console.log(res.data.data.list.length);
+          this.$data.noData = true;
+        }else{
+          this.$data.noData = false;
         }
         if(res.data.errno === 0){
           this.$data.tableData = res.data.data.list;
@@ -115,10 +112,6 @@ export default{
 
         })
       }).catch(() => {
-        // this.$message({
-        //   type: 'info',
-        //   message: '已取消删除'
-        // });
       });
     },
     //关闭弹框事件
@@ -236,23 +229,35 @@ export default{
         })
       }
     },
-    fnEditCancel(){
+    //编辑清除数据
+    editClear(){
       this.$data.userEditVisible = false;
-      this.$data.editForm = {};
+      this.$data.editForm.role_id='';
+      this.$data.editForm.username='';
+      this.$data.editForm.phone='';
+      this.$data.editForm.truename='';
+      this.$data.editForm.status=1;
+      this.$data.editForm.password='';
+      this.$data.editForm.roleName='';
       setTimeout(()=>{
         this.$refs.editForm.resetFields();
       })
     },
+    fnEditCancel(){
+      this.editClear();
+    },
     editDialogClose(){
-      this.$data.userEditVisible = false;
-      this.$data.editForm = {};
-      setTimeout(()=>{
-        this.$refs.editForm.resetFields();
-      })
+      this.editClear();
     },
 
     changeSwitch (data) {
       console.log(this.$data.editForm.status)
-    }
+    },
+    resetSearch(){
+      this.$data.requestParameters.username='';
+      this.$data.requestParameters.role_id='';
+      this.$data.requestParameters.telephone='';
+      this.lists();
+    },
   }
 }
