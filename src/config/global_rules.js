@@ -1,5 +1,5 @@
 const rules={
-		
+
         //用户名验证
 		username(text){
 			return [
@@ -16,12 +16,12 @@ const rules={
 	        	}
 	    	]
 		},
-		
+
 		//姓名验证
 		truename(){
 			return [
 	    		{ required: true, message: '请输入姓名', trigger: 'blur' },
-	    		
+
 	        	{
 	                validator: (rule, value, callback) => {
 		                    if (value.match(/^[a-zA-Z\u4e00-\u9fa5]{2,8}$/)){
@@ -34,7 +34,7 @@ const rules={
 	            	}
 	    	]
 		},
-        
+
         //密码验证
 		password() {
 			 return [
@@ -46,11 +46,11 @@ const rules={
 	        				callback("数字和字母6-16位")
 	        			}
 	        		},
-	        		trigger:'blur' 
+	        		trigger:'blur'
 		        }
 			]
 		},
-		
+
 		repassword(pwd) {
 			 return [
 		        { required: true, message: '请输入密码', trigger: 'blur' },
@@ -67,7 +67,7 @@ const rules={
 			    }
 			]
 		},
-        
+
         //手机号验证
 		phone(){
 			return [
@@ -84,17 +84,24 @@ const rules={
 	            	}
 	        	]
 		},
-		
+  //验证码验证
+  code(){
+		  return[
+        { required: true, message: '请输入验证码', trigger: 'blur' },
+      ]
+  },
+
 		//select选择器验证
 		selectRule(text){
 			return [
 			    { required: true, message: text, trigger: 'change' }
 			]
-			
-		}
-     
-	
-	
+
+		},
+
+
+
+
 }
 
 export default {
