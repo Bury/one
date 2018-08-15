@@ -50,7 +50,7 @@
         <el-row>
         <el-form-item label="新手机号：" prop="phone">
          <el-col :span="16"> <el-input type="tel" v-model="telForm.phone"></el-input></el-col>
-          <el-button type="primary" plain @click="code">获取验证码</el-button>
+          <el-button type="primary" plain @click="code"  :class="{disabled: !this.canClick}">{{getClickName}}</el-button>
         </el-form-item>
         </el-row>
         <el-form-item label="验证码：" prop="code">
@@ -80,6 +80,12 @@
 				right:0;
 			}
 		}
+    .disabled{
+      background-color: #ddd;
+      border-color: #ddd;
+      color:#57a3f3;
+      cursor: not-allowed; // 鼠标变化
+    }
 	}
 
 </style>

@@ -3,6 +3,8 @@ import globalRules from '@/config/global_rules'
 
 import userApi from '@/api/user'
 
+let clock;
+
 export default {
   name:'personal',
   data() {
@@ -37,7 +39,10 @@ export default {
       telForm:{
         phone:'',
         code:''
-      }
+      },
+      getClickName:'获取验证码',
+      waitTime:60,
+      canClick: true,
     }
   },
   created:function(){
@@ -74,24 +79,7 @@ export default {
         this.$refs.ruleForm.resetFields();
       })
     },
-    fnSaveSubmitForm(formName){
-      this.$refs['userForm'].validate((valid) => {
-        if (valid) {
-          let list = {
-            'truename':this.$data.userForm.truename,
-            'phone':this.$data.userForm.phone
-          }
-          let qs = require('querystring')
-          userApi.edi(qs.stringify(list)).then((res) => {
-            if(res.data.errno === 0){
-              globalFunctions.functions.message(this,'success');
-            }else{
-              this.$message.error(res.data.msg);
-            }
-          })
-        }
-      });
-    },
+
     submitForm(formName){
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -130,22 +118,26 @@ export default {
           type:'warning',
           message:'请先输入手机号'
         })
+      }else{
+        let list = {
+          'new_phone': this.$data.telForm.phone,
+        };
+        let qs = require('querystring');
+        userApi.phoneSms(qs.stringify(list)).then((res) => {
+          console.log(res.data.msg)
+          if(res.data.errno == -1){
+            this.$message({
+              type: 'warning',
+              message: res.data.msg
+            });
+            this.$data.dialogFormVisibleTel = true;
+            this.$data.telForm.phone = '';
+          }else{
+            this.getMsg();
+          }
+        })
       }
-      let list = {
-        'new_phone': this.$data.telForm.phone,
-      };
-      let qs = require('querystring');
-      userApi.phoneSms(qs.stringify(list)).then((res) => {
-        console.log(res.data.msg)
-        if(res.data.errno == -1){
-          this.$message({
-            type: 'warning',
-            message: res.data.msg
-          });
-          this.$data.dialogFormVisibleTel = true;
-          this.$data.telForm.phone = '';
-        }
-      })
+
     },
     submitFromTel(){
       let list = {
@@ -190,9 +182,21 @@ export default {
         this.$data.dialogFormVisibleTel = false;
       })
     },
-    submitFormTel(){
+    getMsg(){
+      if (!this.canClick) return  ;
+      this.canClick = false
+      this.$data.getClickName = this.$data.waitTime + 's后发送';
+      clock = window.setInterval(() => {
+        this.$data.waitTime--;
+        this.$data.getClickName = this.$data.waitTime + 's后发送';
+        if (this.$data.waitTime < 0) {
+          window.clearInterval(clock)
+          this.$data.getClickName = '发送验证码';
+          this.$data.waitTime = 60;
+          this.canClick = true  //这里重新开启
 
+        }
+      },1000);
     },
-
   }
 }

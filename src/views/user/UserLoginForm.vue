@@ -106,5 +106,11 @@
       font-weight:bold;
       color:#409EFF;
     }
+    .disabled{
+      background-color: #ddd;
+      border-color: #ddd;
+      color:#57a3f3;
+      cursor: not-allowed; // 鼠标变化
+    }
   }
 </style>
