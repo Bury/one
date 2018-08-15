@@ -31,7 +31,7 @@
 					<el-col :span="11">
 						<el-input v-model="requestParameters.price_start"></el-input>
 					</el-col>
-					<el-col class="line" :span="2">-</el-col>
+					<el-col class="line" :span="2" align="center">-</el-col>
 					<el-col :span="11">
 						<el-input v-model="requestParameters.price_end"></el-input>
 					</el-col>
