@@ -44,7 +44,7 @@ export default {
 			allStores: [],
 			storeGroup: [{
 				organizeId: [],
-				storeGroup: [],
+				stores: [],
 				showText: '请选择门店组织',
 				storeId: '',
 			}],
@@ -57,7 +57,6 @@ export default {
 			userDefined: '',
 			ctrlTimeType: [true, false, false, false, false],
 			statisticsType: "1",
-			guestData: {},
 			newOldData: [],
 			vipData: [],
 			ageData: [],
@@ -124,7 +123,7 @@ export default {
 			storeApi.organizeStoreResult(data).then((res) => {
 				if(res.data.errno === 0) {
 					if(res.data.data != null && res.data.data.length > 0) {
-						this.$data.storeGroup[x].storeGroup = res.data.data;
+						this.$data.storeGroup[x].stores = res.data.data;
 					} else {
 						this.$data.storeGroup[x].showText = "此地区暂无门店";
 					}
@@ -138,7 +137,7 @@ export default {
 		clearGroup() {
 			this.$data.storeGroup = [{
 				organizeId: [],
-				storeGroup: [],
+				stores: [],
 				showText: '请选择门店组织',
 				storeId: '',
 			}];
@@ -159,12 +158,12 @@ export default {
 				this.$data.datadialog.canDel = true;
 				this.$data.storeGroup = [{
 					organizeId: [],
-					storeGroup: [],
+					stores: [],
 					showText: '请选择门店组织',
 					storeId: '',
 				}, {
 					organizeId: [],
-					storeGroup: [],
+					stores: [],
 					showText: '请选择门店组织',
 					storeId: '',
 				}];
@@ -247,13 +246,14 @@ export default {
 			}
 			this.$data.datadialog.dataDialogVisible = false;
 			this.$data.changeFlag = !this.$data.changeFlag;
+			this.customerList();
 		},
 
 		//增加门店操作
 		addStoreData() {
 			let child = {
 				organizeId: [],
-				storeGroup: [],
+				stores: [],
 				showText: '请选择门店组织',
 				storeId: '',
 			};
@@ -278,6 +278,12 @@ export default {
 			}
 			this.$data.statisticsType = val;
 			this.$data.changeFlag = !this.$data.changeFlag;
+		},
+		
+		changeSort(val){
+			let flag =  val.order === "ascending" ? "+" : "-" ;
+			this.$data.listParameters.sort = flag + val.prop;
+			this.customerList();
 		},
 
 		//客流列表表格展示
@@ -311,63 +317,6 @@ export default {
 					this.$data.guestData = res.data.data;
 				}
 			});
-		},
-
-		//特征
-		getFeature(parameters, types) {
-			let list = {
-				begin_time: parameters.begin_time,
-				end_time: parameters.end_time,
-				store_id: parameters.store_id,
-				feature: types
-			}
-			statisticsApi.getFeature(list).then((res) => {
-				if(res.data.errno === 0) {
-					let thisData = res.data.data;
-					if(thisData == null || thisData == '') {
-						return false;
-					}
-					if(types == 'face') {
-						let newData = [];
-						for(var i = 0; i < thisData.face.length; i++) {
-							newData.push([thisData.face[i], thisData.sum[i]])
-						}
-						this.$data.newOldData = newData;
-					}
-					if(types == 'vip') {
-						let newData = [];
-						for(var i = 0; i < thisData.vip.length; i++) {
-							newData.push([thisData.vip[i], thisData.sum[i]])
-						}
-						this.$data.vipData = newData;
-					}
-					if(types == 'age') {
-						let newData = [];
-						for(var i = 0; i < thisData.age.length; i++) {
-							newData.push([thisData.age[i], thisData.sum[i]])
-						}
-						this.$data.ageData = newData;
-					}
-					if(types == 'gender') {
-						let newData = [];
-						for(var i = 0; i < thisData.gender.length; i++) {
-							newData.push([thisData.gender[i], thisData.sum[i]])
-						}
-						this.$data.sexData = newData;
-					}
-					if(types == 'camera') {
-						let newData = [];
-						for(var i = 0; i < thisData.camera.length; i++) {
-							newData.push([thisData.camera[i], thisData.sum[i]])
-						}
-						this.$data.deviceData = newData;
-					}
-
-				} else {
-
-				}
-			});
-
 		},
 
 		//搜索
@@ -495,14 +444,6 @@ export default {
 				return false;
 			}
 
-		},
-		requestData() {
-			//this.getCustomer(this.$data.guestParameters);
-			//			this.getFeature(this.$data.guestParameters, 'face');
-			//			this.getFeature(this.$data.guestParameters, 'vip');
-			//			this.getFeature(this.$data.guestParameters, 'age');
-			//			this.getFeature(this.$data.guestParameters, 'gender');
-			//			this.getFeature(this.$data.guestParameters, 'camera');
 		},
 
 		//表格的操作

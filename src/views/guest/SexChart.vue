@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-highcharts :options="options" ref="sexCharts"></vue-highcharts>
+    <vue-highcharts :highcharts="Highcharts" :options="options" ref="sexCharts"></vue-highcharts>
   </div>
 </template>
  
@@ -28,6 +28,7 @@ export default{
     },
     data(){
       return{
+      	Highcharts:Highcharts,
         options: {
             chart: {
                 type: 'pie'
