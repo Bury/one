@@ -1,8 +1,8 @@
 <template>
 	<div class="store-set-page">
-		<div class="top-box">
+		<!--<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="addSuper">创建顶级</el-button>
-		</div>
+		</div>-->
 
 		<div class="store-tree-box">
 			<el-tree :data="treeData" node-key="id" default-expand-all :expand-on-click-node="false" :props="defaultProps">
