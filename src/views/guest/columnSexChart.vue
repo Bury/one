@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<vue-highcharts :options="options" ref="columnSexChart"></vue-highcharts>
+		<vue-highcharts :highcharts="Highcharts" :options="options" ref="columnSexChart"></vue-highcharts>
 	</div>
 </template>
 
@@ -29,6 +29,8 @@
 		},
 		data() {
 			return {
+				Highcharts:Highcharts,
+				xName:[],
 				options: {
 					chart: {
 						type: ''
@@ -79,15 +81,24 @@
 						if(thisData == null || thisData == '') {
 							return false;
 						} else {
-							let faceData = [];
-							for(var i = 0; i < thisData.length; i++) {
-								faceData.push({
+							this.$data.xName = thisData.feature;
+							let sexData = [];	
+							let l = thisData.sum[0].value.length;													
+							for(let k=0;k<l;k++){
+								sexData.push({
 									type: "column",
-									name: thisData[i].diff_name,
-									data: thisData[i].sum
+									name: thisData.sum[0].value[k].diff_name,
+									data: []
 								})
+								
+							}								
+							for(let i = 0; i < thisData.sum.length; i++) {
+								
+								for(let j=0;j<thisData.sum[i].value.length;j++){
+									sexData[j].data.push(thisData.sum[i].value[j].total)    
+								}
 							}
-							this.getData(faceData)
+							this.getData(sexData)
 						}
 					}
 				});

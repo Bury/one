@@ -54,8 +54,8 @@
 					<el-cascader size="small" :options="organizes" v-model="val.organizeId" :props="defaultAttr" @change="getStoreId(index)">
 					</el-cascader>
 					<span class="store">门店：</span>
-					<el-select size="small" placeholder="请选择" v-model="val.storeId" :no-data-text="val.showText">
-						<el-option v-for="(val,idx) in storeGroup[index].storeGroup" :label="val.name" :value="val.id" :key="idx">
+					<el-select style="width: 180px;" size="small" placeholder="请选择" v-model="val.storeId" :no-data-text="val.showText">
+						<el-option v-for="(val,idx) in storeGroup[index].stores" :label="val.name" :value="val.id" :key="idx">
 						</el-option>
 					</el-select>
 					<el-button :disabled="datadialog.canDel" @click="delStore(index)" style="margin-left: 10px;" size="small" plain>删除</el-button>
@@ -106,32 +106,32 @@
 		</ul>
         
         <template v-if="statisticsType === '1'">
-		<el-table :data="tableData" stripe v-loading="loading" style="width: 100%;" border :default-sort="{prop: 'date', order: 'descending'}">
+		<el-table :data="tableData" stripe v-loading="loading" style="width: 100%;" border @sort-change="changeSort">
 			<el-table-column type="index" :index="indexRank" label="排名" width="60" align="center">
 			</el-table-column>
 			<el-table-column prop="name" label="名称" align="center">
 			</el-table-column>
-			<el-table-column prop="customer" label="客流量" sortable align="center">
+			<el-table-column prop="customer" label="客流量"  sortable="custom"  align="center">
 			</el-table-column>
-			<el-table-column prop="new" label="新客占比" sortable width="110" align="center">
+			<el-table-column prop="new" label="新客占比" sortable="custom" width="110" align="center">
 			</el-table-column>
-			<el-table-column prop="old" label="熟客占比" sortable width="110" align="center">
+			<el-table-column prop="old" label="熟客占比" sortable="custom"="custom" width="110" align="center">
 			</el-table-column>
-			<el-table-column prop="men" label="男性占比" sortable width="110" align="center">
+			<el-table-column prop="men" label="男性占比" sortable="custom" width="110" align="center">
 			</el-table-column>
-			<el-table-column prop="women" label="女性占比" sortable width="110" align="center">
+			<el-table-column prop="women" label="女性占比" sortable="custom" width="110" align="center">
 			</el-table-column>
-			<el-table-column prop="0-20" label="20岁以下占比" sortable width="135" align="center">
+			<el-table-column prop="0-20" label="20岁以下占比" sortable="custom" width="135" align="center">
 			</el-table-column>
-			<el-table-column prop="20-29" label="20-29岁占比" sortable width="130" align="center">
+			<el-table-column prop="20-29" label="20-29岁占比" sortable="custom" width="130" align="center">
 			</el-table-column>
-			<el-table-column prop="30-39" label="30-39岁占比" sortable width="130" align="center">
+			<el-table-column prop="30-39" label="30-39岁占比" sortable="custom" width="130" align="center">
 			</el-table-column>
-			<el-table-column prop="40-49" label="40-49岁占比" sortable width="130" align="center">
+			<el-table-column prop="40-49" label="40-49岁占比" sortable="custom" width="130" align="center">
 			</el-table-column>
-			<el-table-column prop="50-59" label="50-59岁占比" sortable width="130" align="center">
+			<el-table-column prop="50-59" label="50-59岁占比" sortable="custom" width="130" align="center">
 			</el-table-column>
-			<el-table-column prop="60-" label="60岁以上占比" sortable width="135" align="center">
+			<el-table-column prop="60-" label="60岁以上占比" sortable="custom" width="135" align="center">
 			</el-table-column>
 		</el-table>
 		<div  style="margin:0 auto;max-width:1551px; text-align: right;">

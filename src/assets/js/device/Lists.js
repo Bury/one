@@ -77,6 +77,7 @@
 			    let qs = require('querystring')
 			    console.log(this.$data.requestParameters)
         		deviceApi.lists(this.$data.requestParameters).then((res) => {
+        			console.log(res)
         			if(res.data.errno === 0){
                         this.$data.tableData = res.data.data.list;   
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
@@ -131,6 +132,26 @@
 				this.$data.distributionForm.device_id = row.device_id;
 				this.$data.distributionForm.belong_sid = '';
 				this.$data.distributionFormVisible = true;
+			},
+			
+			//取消分配
+			cancelDeploy(val){
+				console.log(val)
+				let data = {
+					device_id:val.device_id,
+	            	belong_sid:val.store_id
+				}
+				let qs = require('querystring');
+				deviceApi.cancelDeploy(qs.stringify(data)).then((res) => {
+        			if(res.data.errno === 0){
+        				this.$message('取消成功');
+						this.lists();
+        			}else{
+                        this.$message(res.data.msg)
+        			}
+
+        		})
+				
 			},
 			distributionCancel(){				
 				this.$data.dorganizeCode = [];

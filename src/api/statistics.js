@@ -41,7 +41,7 @@ export default {
 	//特征柱状图比对
 	getFeatureDiff (list) {
 	    return new Promise((resolve, reject) => {
-	      axios.post(global.GRAPH_FEATURE_DIFF,list).then((res) => {
+	      axios.post(global.BAR_FEATURE_DIFF,list).then((res) => {
 	        resolve(res)
 	      }).catch((err) => {
 	        reject(err)

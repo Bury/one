@@ -15,7 +15,7 @@ global.GRAPH_CUSTOMER_SUM = `${SERVER_IP}${COMMON}analysis/graph-customer-sum` /
 global.GRAPH_CUSTOMER_DIFF = `${SERVER_IP}${COMMON}analysis/graph-customer-diff` //客流统计折线图比对
 global.PIE_FEATURE_SUM = `${SERVER_IP}${COMMON}analysis/pie-feature-sum`  //特征饼图求和
 global.GRAPH_FEATURE_SUM = `${SERVER_IP}${COMMON}analysis/graph-feature-sum`  //特征折线图求和
-global.GRAPH_FEATURE_DIFF = `${SERVER_IP}${COMMON}analysis/graph-feature-diff`  //特征柱状图比对
+global.BAR_FEATURE_DIFF = `${SERVER_IP}${COMMON}analysis/bar-feature-diff`  //特征柱状图比对
 
 global.GRAPH_ORDER_SUM = `${SERVER_IP}${COMMON}analysis/graph-order-sum`  //成交率折线图求和
 global.GRAPH_ORDER_DIFF = `${SERVER_IP}${COMMON}analysis/graph-order-diff`  //成交率折线图比对
@@ -67,7 +67,8 @@ global.STORE_LOCATE = `${SERVER_IP}${COMMON}store/locate`
 //设备管理
 global.DEVICE_LISTS = `${SERVER_IP}${COMMON}device/list`
 global.DEVICE_EDIT = `${SERVER_IP}${COMMON}device/edit`
-global.DEVICE_DISTRIBUTION = `${SERVER_IP}${COMMON}device/camera-depoly`
+global.DEVICE_DISTRIBUTION = `${SERVER_IP}${COMMON}device/camera-deploy`
+global.DEVICE_UN_DEPLOY = `${SERVER_IP}${COMMON}device/camera-un-deploy`
 global.STORE_DEVICE_SUM_LISTS = `${SERVER_IP}${COMMON}device/device-list`
 
 //设备版本

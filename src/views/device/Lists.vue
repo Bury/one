@@ -49,11 +49,11 @@
 					<th class="col-md-1 text-center">版本</th>
 					<th class="col-md-1 text-center">类型</th>
 					<th class="col-md-1 text-center">门店</th>
-					<th class="col-md-2 text-center">位置</th>
+					<th class="col-md-1 text-center">位置</th>
 					<th class="col-md-1 text-center">状态</th>
 					<th class="col-md-1 text-center">是否启用</th>
 					<!--<th class="col-md-2 text-center">添加时间</th>-->
-					<th class="col-md-1 text-center">操作</th>
+					<th class="col-md-2 text-center">操作</th>
 				</tr>
 			</thead>
 			<tbody v-if="tableData.length > 0" style="text-align: center">
@@ -78,6 +78,7 @@
 					<td>
 						<el-button v-if="item.store.name.length>0" @click="fnDistribution(item)" type="text" size="small">重新分配</el-button>
 						<el-button v-else @click="fnDistribution(item)" type="text" size="small">分配</el-button>
+						<el-button v-if="item.store.name.length>0" @click="cancelDeploy(item)" type="text" size="small" style="color: #66B1FF;">取消分配</el-button>
 					</td>
 				</tr>
 			</tbody>

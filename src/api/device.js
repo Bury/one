@@ -31,6 +31,17 @@ export default {
 	      })
 	    })
 	},
+	
+	//取消分配
+	cancelDeploy(list){
+		return new Promise((resolve, reject) => {
+	      axios.post(global.DEVICE_UN_DEPLOY,list).then((res) => {
+	        resolve(res)
+	      }).catch((err) => {
+	        reject(err)
+	      })
+	    })
+	},
 	storeDeviceSumLists (list) {
 	    return new Promise((resolve, reject) => {
 	      axios.post(global.STORE_DEVICE_SUM_LISTS,list).then((res) => {
