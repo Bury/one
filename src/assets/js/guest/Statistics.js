@@ -452,7 +452,8 @@ export default {
 
 		//表格的操作
 		indexRank(index) {
-			return index + 1;
+			
+			return  (this.$data.pagination.currentPage - 1) * 10 + index + 1;
 		},
 
 	}
