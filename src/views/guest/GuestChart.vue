@@ -69,6 +69,7 @@
 						categories: []
 					},
 					yAxis: {
+						allowDecimals:false,
 						title: {
 							text: ''
 						}
@@ -166,7 +167,7 @@
 			drawChart(value) {
 				let guestCharts = this.$refs.guestCharts;
 				guestCharts.delegateMethod('showLoading', 'Loading...');
-				guestCharts.removeSeries();
+				guestCharts.removeSeries();	
 				setTimeout(() => {
 					guestCharts.hideLoading();
 					if(value.length !== 0) {
@@ -174,6 +175,13 @@
 							guestCharts.addSeries(value[i])
 						}
 						guestCharts.getChart().xAxis[0].setCategories(value[0].time);
+//						guestCharts.getChart().yAxis[0].update({
+//			               labels:{
+//			               	 formatter:function(){
+//			               	 	return this.value * 100 + "%"
+//			               	 }
+//			               }
+//		                });
 					} else {
 						guestCharts.addSeries(value)
 					}

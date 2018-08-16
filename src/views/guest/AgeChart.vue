@@ -86,7 +86,9 @@
 								})
 							}
 							this.getData(ageData)
-						} 
+						}else{
+							this.getData([])
+						}
 					}else {
 							this.$message(res.data.msg)
 					}
