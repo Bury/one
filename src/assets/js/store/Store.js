@@ -67,7 +67,7 @@ import globalRules from '@/config/global_rules'
 		        },
 				requestParameters: {
 	                page: 1,
-	                page_size:10,
+	                page_size:20,
 	                organize:'',
 					store_id:'',
 	            },

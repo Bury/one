@@ -82,6 +82,8 @@ export default{
 								})
 							}
 							this.getData(sexData)
+						}else{
+							this.getData([])
 						}
 					}else {
 							this.$message(res.data.msg)

@@ -22,7 +22,7 @@ export default {
 	},
 	data() {
 		return {
-			sumFlag: '',
+			selectType:'全部-求和',
 			changeFlag: true,
 			sumOrDiff: '0',
 			isAll: true,
@@ -181,7 +181,9 @@ export default {
 
 		//求和的全部或者自定义的操作
 		allOrSet() {
-			this.$data.datadialog.summationType == "1" ? this.$data.datadialog.allOrSetShow = false : this.$data.datadialog.allOrSetShow = true;
+			this.$data.datadialog.summationType == "1" ? 
+			this.$data.datadialog.allOrSetShow = false : 
+			this.$data.datadialog.allOrSetShow = true;
 		},
 
 		//提交前的一些验证操作
@@ -229,7 +231,8 @@ export default {
 			if(this.beforeSubmit() === true) {
 				return false;
 			}
-			this.$data.sumFlag = this.$data.datadialog.dataTypeShow === true ? '求和' : '对比';
+			this.$data.selectType = this.$data.datadialog.dataTypeShow === false ?  
+			'自定义-对比'  :  this.$data.datadialog.summationType === '1' ? '全部-求和' :  '自定义-求和';
 			//每次验证前都要清空
 			this.$data.guestParameters.store_id.length = [];
 			this.$data.guestParameters.merchant_organize_id = [];

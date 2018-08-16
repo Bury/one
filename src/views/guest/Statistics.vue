@@ -22,11 +22,10 @@
 			</el-form>
 			<el-form :inline="true" class="demo-form-inline" size="mini">
 				<el-form-item label="数据选择：">
-					<el-input readonly="readonly" placeholder="请选择数据" style="width: 220px;height: 28px;"></el-input>
+					<el-input readonly="readonly" v-model="selectType" placeholder="请选择数据" style="width: 220px;height: 28px;"></el-input>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" icon="el-icon-edit" @click="editSumDiff"></el-button>
-					<el-button v-show="sumFlag.length > 0">{{sumFlag}}</el-button>
 				</el-form-item>
 			</el-form>
 			<el-tabs v-model="timeType" type="card" @tab-click="changeTimeType">
@@ -84,24 +83,24 @@
 				<guest-chart :sumOrDiff="sumOrDiff" :changeFlag="changeFlag" :postVal="guestParameters" :statisticsType="statisticsType"></guest-chart>
 			</li>
 			<template v-if="sumOrDiff === '0'">
-				<li class="charts-wrap">
+				<li v-show="statisticsType === '1'" class="charts-wrap">
 					<new-old-chart :sumOrDiff="sumOrDiff" :newOldData="guestParameters" :changeFlag="changeFlag"></new-old-chart>
 				</li>
-				<li class="charts-wrap">
+				<li v-show="statisticsType === '1'" class="charts-wrap">
 					<age-chart :sumOrDiff="sumOrDiff" :ageData="guestParameters" :changeFlag="changeFlag"></age-chart>
 				</li>
-				<li class="charts-wrap">
+				<li v-show="statisticsType === '1'" class="charts-wrap">
 					<sex-chart :sumOrDiff="sumOrDiff" :sexData="guestParameters" :changeFlag="changeFlag"></sex-chart>
 				</li>
 			</template>
 			<template v-else>				
-				<li class="charts-wrap">
+				<li v-show="statisticsType === '1'" class="charts-wrap">
 					<column-new-chart :sumOrDiff="sumOrDiff" :columnNew="guestParameters" :changeFlag="changeFlag"></column-new-chart>
 				</li>
-				<li class="charts-wrap">
+				<li v-show="statisticsType === '1'" class="charts-wrap">
 					<column-age-chart :sumOrDiff="sumOrDiff" :columnAge="guestParameters" :changeFlag="changeFlag"></column-age-chart>
 				</li>
-				<li class="charts-wrap">
+				<li v-show="statisticsType === '1'" class="charts-wrap">
 					<column-sex-chart :sumOrDiff="sumOrDiff" :columnSex="guestParameters" :changeFlag="changeFlag"></column-sex-chart>
 				</li>
 			</template>

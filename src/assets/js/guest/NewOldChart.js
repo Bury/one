@@ -72,7 +72,8 @@
 				statisticsApi.getFeaturePie(list).then((res) => {
 					if(res.data.errno === 0) {
 						let thisData = res.data.data;
-						if(thisData == null || thisData == '') {							
+						if(thisData == null || thisData == '') {	
+							this.getData([])
 							return false;
 						} else {
 							let faceData = [];
