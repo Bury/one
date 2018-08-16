@@ -9,7 +9,7 @@ const rules={
                 if(value.match(/^[a-zA-Z0-9\u4E00-\u9FA5_]{5,16}$/)){
                   callback();
                 }else{
-                  callback("账号名由5-16位的数字、中文、英文、下划线组成")
+                  callback("账号由5-16位的数字、中文、英文、下划线组成")
                 }
 	        		},
 	        		trigger:'blur'
