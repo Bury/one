@@ -1,4 +1,5 @@
-import roleApi from '@/api/role'
+    import roleApi from '@/api/role'
+    import globalRules from '@/config/global_rules'
 	export default {
 		name: 'role-set',
 		data() {
@@ -17,32 +18,8 @@ import roleApi from '@/api/role'
 				currentId: '',
 				currentName: '',
 				rules: {
-					name: [{
-							required: true,
-							message: '请输入名称'
-						},
-						{
-							min: 2,
-							max: 8,
-							message: '长度在 2 到 8 个字符',
-							trigger: 'blur'
-						}
-					],
-					sort: [{
-							required: true,
-							message: '请输入排序'
-						},
-						{
-							validator: (rule, value, callback) => {
-								if(/^[0-9]{1,2}$/.test(value)) {
-									callback();
-								} else {
-									callback("长度在 1 到 2 个数字")
-								}
-							},
-							trigger: 'blur'
-						}
-					]
+					name: globalRules.rules.roleNameRule(),
+					sort: globalRules.rules.roleOrderRule()
 				},
 				dialogForm2Visible: false,
 				dialogForm2: [],
@@ -54,14 +31,23 @@ import roleApi from '@/api/role'
 
 			}
 		},
+		watch:{
+			dialogFormVisible:function(){
+				setTimeout(()=>{
+					this.$refs.ruleForm.clearValidate();
+				},0)
+			}
+		},
 		created: function() {
 			this.lists();
+			
 		},
 		methods: {
 			//列表
 			lists() {
 				let qs = require('querystring')
 				roleApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
+					console.log(res)
 					if(res.data.errno === 0) {
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;

@@ -41,7 +41,6 @@ export default {
 				children: 'children',
 			},
 			organizes: [],
-			allStores: [],
 			storeGroup: [{
 				organizeId: [],
 				stores: [],
@@ -106,6 +105,7 @@ export default {
 		getOrganizes() {
 			storeRole.organizeTree().then((res) => {
 				if(res.data.errno == 0) {
+					console.log(res.data.data)
 					this.$data.organizes = res.data.data
 				} else {
 					this.$message(res.data.msg)
@@ -240,6 +240,7 @@ export default {
 						_this.$data.guestParameters.store_id.push(val.storeId);
 					} else {
 						_this.$data.guestParameters.merchant_organize_id.push(val.organizeId[val.organizeId.length - 1]);
+						
 					}
 
 				});
