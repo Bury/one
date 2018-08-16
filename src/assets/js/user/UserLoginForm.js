@@ -210,18 +210,20 @@ export default {
       this.$data.passwordForm.phone = '';
     },
     passwordSubmitLast(){
-      if(this.$data.passwordForm.phone == ''){
+      let phone = this.$data.passwordForm.phone;
+      let name = this.$data.passwordForm.username;
+      if(phone == ''){
         this.$message({
           type: 'warning',
           message: '请输入手机号!'
         });
       }else{
-        if(this.$data.passwordForm.username == ''){
+        if(name == ''){
           this.$message({
             type: 'warning',
             message: '请输入用户名!'
           });
-        }else{
+        }else if(phone.match(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/)){
           this.$data.passwordVisible = false;
           this.$data.passwordVisibleSecond = true;
           window.clearInterval(clock)
@@ -229,6 +231,11 @@ export default {
           this.$data.waitTime = 60;
           this.canClick = true  //这里重新开启
           this.$data.getMsgAfter = false;
+        }else{
+          this.$message({
+            type:'warning',
+            message:'请输入正确的手机号'
+          })
         }
       }
 
@@ -293,7 +300,7 @@ export default {
     dialogClose(){
       setTimeout(() =>{
         this.needsC();
-        // this.$refs.passwordForm.resetFields();
+        this.$refs.passwordForm.resetFields();
         this.passwordClear();
         this.$data.passwordVisible = false;
         this.$data.passwordVisibleSecond = false;
