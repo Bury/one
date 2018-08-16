@@ -7,16 +7,17 @@
 			<thead style="background-color: #d1d1d1">
 				<tr height="40">
 					<th class="col-md-2 text-center">序号</th>
-					<th class="col-md-5 text-center">岗位名称</th>
-					<th class="col-md-5 text-center">操作</th>
+					<th class="col-md-4 text-center">岗位名称</th>
+					<th class="col-md-2 text-center">权限</th>
+					<th class="col-md-4 text-center">操作</th>
 				</tr>
 			</thead>
 			<tbody style="text-align:center;">
 				<tr v-for="(item,index) in tableData" :key="index">
 					<td height="40px">{{item.id}}</td>
 					<td>{{item.name}}</td>
+					<td><el-button type="primary" plain icon="el-icon-setting" circle size="small" @click="fnSetting(item)"></el-button></td>
 					<td>
-						<el-button type="info" plain icon="el-icon-setting" circle size="small" @click="fnSetting(item)"></el-button>
 						<el-button type="warning" plain icon="el-icon-edit" circle size="small" @click="fnEdit(item)"></el-button>
 						<el-button type="danger" plain icon="el-icon-delete" circle size="small" @click="fnRemove(item)"></el-button>
 					</td>

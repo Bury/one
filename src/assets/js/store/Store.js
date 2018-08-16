@@ -1,6 +1,7 @@
 import storeApi from '@/api/store'
 import getCity from '@/api/getCity'
 import storeRoleApi from '@/api/store_role'
+import globalRules from '@/config/global_rules'
 	export default{
 		name:'store-set',
 		data(){
@@ -52,19 +53,7 @@ import storeRoleApi from '@/api/store_role'
 		          	{ required: true, message: '请输入负责人姓名', trigger: 'blur' },
 		            { min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
 		          ],
-		          phone:[
-		          	{ required: true, message: '请输入手机号码', trigger: 'blur' },
-		          	{
-		                validator: (rule, value, callback) => {
-		                    if (value.match(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/)) {
-		                        callback();
-		                    } else {
-		                        callback("请输入正确的手机号码！");
-		                    }
-		                },
-		                trigger: 'blur'
-		            }
-		          ],
+		          phone:globalRules.rules.phone(),
 		          address:[
 		             { required: true, message: '请输入详细地址', trigger: 'blur' },
 		             { min: 2, max: 30, message: '长度在 2 到 30 个字符', trigger: 'blur' }
@@ -99,7 +88,6 @@ import storeRoleApi from '@/api/store_role'
 			storeLists(){
 				let qs = require('querystring')
 	    		storeApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-
 	    			if(res.data.errno === 0){
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;

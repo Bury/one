@@ -63,7 +63,7 @@
 						type: 'line'
 					},
 					title: {
-						text: '客流量占比'
+						text: ''
 					},
 					xAxis: {
 						categories: []
@@ -211,7 +211,9 @@
 
 			//客流统计默认数据
 			getCustomer() {
-				statisticsApi.getCustomerSum(this.$data.postParameters).then((res) => {
+				console.log(this.$data.postParameters)
+				statisticsApi.getCustomerSum(this.$data.postParameters).then((res) => {		
+					console.log(res)
 					if(res.data.errno === 0) {
 						let arr = [{
 							name: "总客流",
