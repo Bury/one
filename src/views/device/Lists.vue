@@ -47,6 +47,7 @@
 					<th class="col-md-1 text-center">序号</th>
 					<th class="col-md-1 text-center">编号</th>
 					<th class="col-md-1 text-center">版本</th>
+					<th class="col-md-2 text-center">首次启用时间</th>
 					<th class="col-md-1 text-center">类型</th>
 					<th class="col-md-1 text-center">门店</th>
 					<th class="col-md-1 text-center">位置</th>
@@ -61,15 +62,12 @@
 					<td>{{item.id}}</td>
 					<td>{{item.device_id}}</td>
 					<td>{{item.version}}</td>
+					<td>{{item.start_at | date(4)}}</td>
 					<td>
-						<span v-if="item.locate = 'other'">其他</span>
-						<span v-else>收银</span>
+            {{item.locate == 'other' ? '其他' : '收银'}}
 					</td>
 					<td>
-						<span v-if="item.store !== null">
-				         {{item.store.name}}
-			             </span>
-						<span v-else>未分配</span>
+            {{item.store != null ? item.store.name : '未分配'}}
 					</td>
 					<td>{{item.locate_desc}}</td>
 					<td>{{item.status == 0 ? '断开' : '正常'}}</td>
