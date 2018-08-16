@@ -138,6 +138,31 @@ export default{
       this.$data.distributionForm.belong_sid = '';
       this.$data.operationFormVisible = true;
     },
+    //取消分配
+    cancelDeploy(val) {
+      this.$confirm(`是否取消分配?`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let data = {
+          device_id: val.device_id,
+          belong_sid: val.store_id
+        }
+        let qs = require('querystring');
+        deviceApi.cancelDeploy(qs.stringify(data)).then((res) => {
+          if(res.data.errno === 0) {
+            this.$message('取消成功');
+            this.lists();
+          } else {
+            this.$message(res.data.msg)
+          }
+
+        })
+
+      })
+
+    },
 
   }
 }

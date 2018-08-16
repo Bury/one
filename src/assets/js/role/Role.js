@@ -27,7 +27,9 @@
 				requestParameters: {
 					page: 1,
 					page_size: 10
-				}
+				},
+        dialogForm : [],
+
 
 			}
 		},
@@ -40,7 +42,7 @@
 		},
 		created: function() {
 			this.lists();
-			
+
 		},
 		methods: {
 			//列表
@@ -106,6 +108,10 @@
 				this.$data.ruleForm.name = "";
 				this.$data.ruleForm.sort = 0;
 				this.$data.dialogFormVisible = true;
+				roleApi.merchantRoleLists().then((res) => {
+				  console.log(res);
+				  this.$data.dialogForm = res.data.data;
+        })
 			},
 			fnCancel(formName) {
 				this.$data.dialogFormVisible = false;
@@ -123,10 +129,12 @@
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
 						if(this.$data.currentId !== '') {
+              this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
 							let list = {
 								'id': this.$data.currentId,
 								'name': this.$data.ruleForm.name,
-								'sort': this.$data.ruleForm.sort
+                'sort': this.$data.ruleForm.sort,
+								'permission_ids': this.$data.checkedIds.toString(),
 							}
 							let qs = require('querystring')
 							roleApi.edit(qs.stringify(list)).then((res) => {
@@ -143,14 +151,16 @@
 									this.$data.dialogFormVisible = false;
 
 								} else {
-									this.$message.error(res.data.msg);
+									this.$message.error('请至少选择一个权限');
 								}
 
 							})
 						} else {
+              this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
 							let list = {
 								'name': this.$data.ruleForm.name,
-								'sort': this.$data.ruleForm.sort
+								'sort': this.$data.ruleForm.sort,
+                'permission_ids': this.$data.checkedIds.toString(),
 							}
 							let qs = require('querystring')
 							roleApi.adds(qs.stringify(list)).then((res) => {
@@ -185,9 +195,7 @@
 				}
 				let qs = require('querystring');
 				roleApi.viewPermission(qs.stringify(list)).then((res) => {
-				  // console.log(res.data.data);
 					if(res.data.errno === 0) {
-					  // console.log(res.data.data);
 						this.$data.dialogForm2 = res.data.data;
 						var checkedId = [];
 						for(var i = 0; i < this.$data.dialogForm2.length; i++) {
@@ -229,7 +237,7 @@
 						this.$data.currentId = '';
 						this.$data.dialogForm2Visible = false;
 					} else {
-						this.$message.error(res.data.msg);
+						this.$message.error('请至少选择一个权限');
 
 					}
 

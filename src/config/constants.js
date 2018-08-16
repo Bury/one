@@ -192,5 +192,9 @@ global.NOTICE_MYBOX_LISTS = `${SERVER_IP}${COMMON}message/mybox-list`
 global.USER_CHILD_MENU = `${SERVER_IP}${COMMON}user/child-menu`
 global.USER_MENU = `${SERVER_IP}${COMMON}user/left-menu`
 
+//岗位权限设置
+global.MERCHANT_POWER_LIST = `${SERVER_IP}${COMMON}merchant-role/list-permission`
+global.STORE_POWER_LIST = `${SERVER_IP}${COMMON}store-role/list-permission`
+
 
 
