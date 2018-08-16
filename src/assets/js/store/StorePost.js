@@ -1,4 +1,5 @@
 import storeRoleApi from '@/api/store_role'
+import roleApi from '@/api/role'
 
 export default{
   name:'store-set',
@@ -31,6 +32,7 @@ export default{
       currentName: '',
       dialogForm2: [],
       checkedIds: [],
+      dialogForm:[],
     }
   },
   created:function(){
@@ -99,6 +101,9 @@ export default{
         phone:''
       };
       this.$data.dialogFormVisible = true;
+      roleApi.storeRoleLists().then((res) => {
+        this.$data.dialogForm = res.data.data;
+      })
     },
     cancel(){
       this.$data.dialogFormVisible = false;
@@ -108,16 +113,19 @@ export default{
         person_in_charge:'',
         phone:''
       };
+      this.clearFormData();
     },
     submitForm(formName){
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if(this.$data.currentId !== ''){
+            this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
             let list = {
               'id': this.$data.currentId,
               'name': this.$data.ruleForm.name,
               'person_in_charge':this.$data.ruleForm.person_in_charge,
-              'phone':this.$data.ruleForm.phone
+              'phone':this.$data.ruleForm.phone,
+              'permission_ids': this.$data.checkedIds.toString(),
             }
             let qs = require('querystring')
             storeRoleApi.edit(qs.stringify(list)).then((res) => {
@@ -142,10 +150,12 @@ export default{
 
             })
           }else{
+            this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
             let list = {
               'name': this.$data.ruleForm.name,
               'person_in_charge':this.$data.ruleForm.person_in_charge,
-              'phone':this.$data.ruleForm.phone
+              'phone':this.$data.ruleForm.phone,
+              'permission_ids': this.$data.checkedIds.toString(),
             }
             let qs = require('querystring')
             storeRoleApi.adds(qs.stringify(list)).then((res) => {
@@ -245,6 +255,19 @@ export default{
         }
 
       })
-    }
+    },
+    closeDialog(){
+      this.clearFormData();
+    },
+    //清除数据
+    clearFormData(){
+      this.$data.ruleForm.name = '';
+      // this.$data.dialogForm2 = [];
+      setTimeout(() => {
+        this.$refs.ruleForm.resetFields();
+        this.$data.dialogFormVisible = false;
+        this.$data.dialogForm = [];
+      })
+    },
   }
 }

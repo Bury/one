@@ -8,7 +8,7 @@
 				<tr height="40">
 					<th class="col-md-1 text-center">序号</th>
 					<th class="col-md-2 text-center">岗位名称</th>
-					<th class="col-md-1 text-center">排序</th>
+					<!--<th class="col-md-1 text-center">排序</th>-->
 					<th class="col-md-1 text-center">权限</th>
 					<th class="col-md-2 text-center">操作</th>
 				</tr>
@@ -17,7 +17,7 @@
 				<tr v-for="(item,index) in tableData" :key="index" height="40">
 					<td>{{item.id}}</td>
 					<td>{{item.name}}</td>
-					<td>{{item.sort}}</td>
+					<!--<td>{{item.sort}}</td>-->
 					<td>
 						<el-button type="primary" plain icon="el-icon-setting" circle size="small" @click="fnSet(item)"></el-button>
 					</td>
@@ -41,9 +41,12 @@
 				<el-form-item label="名称：" prop="name">
 					<el-input v-model="ruleForm.name"></el-input>
 				</el-form-item>
-				<el-form-item label="排序：" prop="sort">
-					<el-input v-model="ruleForm.sort" style="width:60px"></el-input>
-				</el-form-item>
+        <el-form-item label="权限：">
+        <div style="margin:20px 0;overflow:hidden;">
+          <el-tree :data="dialogForm" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :default-checked-keys="checkedIds" class="permission-tree">
+          </el-tree>
+        </div>
+        </el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="fnCancel('ruleForm')">取 消</el-button>

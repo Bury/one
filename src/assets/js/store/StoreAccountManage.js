@@ -313,6 +313,9 @@
 	            	phone:'',
 	            	password:''
 	            };
+        this.$data.editFormOrganize = [];
+        this.$data.addsFormData.store_id = '';
+
 			},
 
 			fnAdds(){
@@ -353,14 +356,9 @@
 		        });
 
 			},
-			closeChange(done){
-	            // done();
-	            if(this.$data.avatarFormVisible){
-	            	this.$data.avatarFormVisible = false;
-	            }else{
-	            	done()
-	            }
-
+			closeChange(){
+          this.$data.addsFormVisible = false;
+          this.fnClearAddsFormData();
 	        },
 
 	        getOrganizes(){
