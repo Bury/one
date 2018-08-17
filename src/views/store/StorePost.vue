@@ -38,7 +38,8 @@
 				</el-form-item>
         <el-form-item label="权限：">
           <div style="margin:20px 0;overflow:hidden;">
-            <el-tree :data="dialogForm" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :default-checked-keys="checkedIds" class="permission-tree">
+            <el-tree :data="dialogForm" show-checkbox default-expand-all node-key="id" ref="tree"
+                     highlight-current :default-checked-keys="checkedIds" class="permission-tree">
             </el-tree>
           </div>
         </el-form-item>
@@ -65,7 +66,8 @@
       <h4 class="role-info"><span>岗位名称：</span>{{currentName}}</h4>
       <div style="margin:20px 0;overflow:hidden;">
         <h4 class="role-info" style="float:left;"><span>权限：</span></h4>
-        <el-tree :data="dialogForm2" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :default-checked-keys="checkedIds" class="permission-tree">
+        <el-tree :data="dialogForm2" show-checkbox default-expand-all node-key="id" ref="tree"
+                 highlight-current :default-checked-keys="checkedIds" class="permission-tree">
         </el-tree>
       </div>
       <div slot="footer" class="dialog-footer">

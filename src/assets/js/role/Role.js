@@ -9,7 +9,6 @@
 					currentPage: 1,
 					totalCount: 0,
 				},
-				dialogTitle: "",
 				dialogFormVisible: false,
 				ruleForm: {
 					name: '',
@@ -19,8 +18,12 @@
 				currentName: '',
 				rules: {
 					name: globalRules.rules.roleNameRule(),
-					sort: globalRules.rules.roleOrderRule()
+					sort: globalRules.rules.roleOrderRule(),
+          name:globalRules.rules.name(),
 				},
+        rulesEdit:{
+          name:globalRules.rules.name(),
+        },
 				dialogForm2Visible: false,
 				dialogForm2: [],
 				checkedIds: [],
@@ -29,7 +32,7 @@
 					page_size: 10
 				},
         dialogForm : [],
-
+        editFormVisible: false,
 
 			}
 		},
@@ -94,20 +97,22 @@
 				});
 			},
 			fnEdit(row) {
-				this.$data.dialogTitle = '编辑';
+			  console.log(row);
 				this.$data.currentId = row.id;
 				this.$data.ruleForm.name = row.name;
 				this.$data.ruleForm.sort = row.sort;
-				this.$data.dialogFormVisible = true;
+				this.$data.editFormVisible = true;
 
 			},
 			fnAdds() {
-				this.$data.dialogTitle = '添加';
 				this.$data.currentId = "";
 				this.$data.ruleForm.name = "";
 				this.$data.ruleForm.sort = 0;
 				this.$data.dialogFormVisible = true;
-				roleApi.merchantRoleLists().then((res) => {
+        this.$data.dialogForm = [];
+        this.$data.dialogForm2 = [];
+        this.$data.checkedIds = [];
+        roleApi.merchantRoleLists().then((res) => {
 				  console.log(res);
 				  this.$data.dialogForm = res.data.data;
         })
@@ -128,12 +133,12 @@
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
 						if(this.$data.currentId !== '') {
-              this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
+              // this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
 							let list = {
 								'id': this.$data.currentId,
 								'name': this.$data.ruleForm.name,
                 'sort': this.$data.ruleForm.sort,
-								'permission_ids': this.$data.checkedIds.toString(),
+								// 'permission_ids': this.$data.checkedIds.toString(),
 							}
 							let qs = require('querystring')
 							roleApi.edit(qs.stringify(list)).then((res) => {
@@ -147,14 +152,12 @@
 									this.$data.ruleForm.name = '';
 									this.$data.ruleForm.sort = 0;
 									this.$data.currentId = '';
-									this.$data.dialogFormVisible = false;
-
-								} else {
-									this.$message.error('请至少选择一个权限');
+									this.$data.editFormVisible = false;
 								}
 
 							})
 						} else {
+              this.getTree();
               this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
 							let list = {
 								'name': this.$data.ruleForm.name,
@@ -176,7 +179,7 @@
 									this.$data.dialogFormVisible = false;
 
 								} else {
-									this.$message.error(res.data.msg);
+									this.$message.error('请至少选择一个权限');
 
 								}
 							})
@@ -196,33 +199,35 @@
 				roleApi.viewPermission(qs.stringify(list)).then((res) => {
 					if(res.data.errno === 0) {
 						this.$data.dialogForm2 = res.data.data;
-						var checkedId = [];
-						for(var i = 0; i < this.$data.dialogForm2.length; i++) {
-							var rootIdx = i;
-							if(this.$data.dialogForm2[rootIdx].is_permission === 1) {
-								var len = checkedId.length;
-								checkedId[len] = this.$data.dialogForm2[rootIdx].id;
-
-							}
-							if(this.$data.dialogForm2[rootIdx].children && this.$data.dialogForm2[rootIdx].children.length > 0) {
-								for(var j = 0; j < this.$data.dialogForm2[rootIdx].children.length; j++) {
-									var childIdx = j;
-									if(this.$data.dialogForm2[rootIdx].children[childIdx].is_permission === 1) {
-										var len = checkedId.length;
-										checkedId[len] = this.$data.dialogForm2[rootIdx].children[childIdx].id;
-
-									}
-								}
-							}
-						}
-						this.$data.checkedIds = checkedId;
+						this.getTree();
 					} else {
-						this.$message.error(res.data.msg);
+						this.$message.error('请至少选择一个权限');
 					}
-
 				})
 				this.$data.dialogForm2Visible = true;
 			},
+      getTree(){
+        let checkedId = [];
+        for(let i = 0; i < this.$data.dialogForm2.length; i++) {
+          let rootIdx = i;
+          if(this.$data.dialogForm2[rootIdx].is_permission === 1) {
+            let len = checkedId.length;
+            checkedId[len] = this.$data.dialogForm2[rootIdx].id;
+
+          }
+          if(this.$data.dialogForm2[rootIdx].children && this.$data.dialogForm2[rootIdx].children.length > 0) {
+            for(let j = 0; j < this.$data.dialogForm2[rootIdx].children.length; j++) {
+              let childIdx = j;
+              if(this.$data.dialogForm2[rootIdx].children[childIdx].is_permission === 1) {
+                let len = checkedId.length;
+                checkedId[len] = this.$data.dialogForm2[rootIdx].children[childIdx].id;
+
+              }
+            }
+          }
+        }
+        this.$data.checkedIds = checkedId;
+      },
 
 			submitForm2() {
 				this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
@@ -247,6 +252,26 @@
         this.$data.ruleForm = {};
         setTimeout(()=>{
           this.$refs.ruleForm.resetFields();
+        })
+      },
+      cancel(){
+        this.$data.editFormVisible = false;
+        this.$data.currentId = '';
+        this.$data.ruleForm = {
+          name: '',
+          person_in_charge:'',
+          phone:''
+        };
+        this.clearFormData();
+      },
+      //清除数据
+      clearFormData(){
+        this.$data.ruleForm.name = '';
+        this.$data.dialogForm2 = [];
+        setTimeout(() => {
+          this.$refs.ruleForm.resetFields();
+          this.$data.dialogFormVisible = false;
+          this.$data.dialogForm = [];
         })
       },
 		}

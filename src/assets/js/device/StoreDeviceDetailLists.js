@@ -35,11 +35,15 @@ export default{
     //this.allVersion();
     this.storeAll();
   },
+  // computed:{
+  //   id:this.$props.store,
+  // },
   methods:{
     deviceList(){
+      console.log(this.$route.query.storeId);
       //this.$data.requestParameters.belong_sid = this.$route.query.storeId;
       let qs = require('querystring');
-      deviceApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
+      deviceApi.deviceView(qs.stringify({'belong_sid':this.$route.query.storeId})).then((res) => {
         if(res.data.errno === 0){
           this.$data.tableData = res.data.data.list;
           this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
@@ -153,7 +157,7 @@ export default{
         deviceApi.cancelDeploy(qs.stringify(data)).then((res) => {
           if(res.data.errno === 0) {
             this.$message('取消成功');
-            this.lists();
+            this.deviceList();
           } else {
             this.$message(res.data.msg)
           }

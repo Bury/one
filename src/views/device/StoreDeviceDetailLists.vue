@@ -13,14 +13,13 @@
         <th class="col-md-1 text-center">序号</th>
         <th class="col-md-1 text-center">编号</th>
         <th class="col-md-1 text-center">版本</th>
-        <th class="col-md-1 text-center">首次启用时间</th>
+        <th class="col-md-2 text-center">首次启用时间</th>
         <th class="col-md-1 text-center">类型</th>
         <th class="col-md-1 text-center">门店</th>
-        <th class="col-md-2 text-center">位置</th>
+        <th class="col-md-1 text-center">位置</th>
         <th class="col-md-1 text-center">状态</th>
         <th class="col-md-1 text-center">是否启用</th>
-        <!--<th class="col-md-2 text-center">添加时间</th>-->
-        <th class="col-md-1 text-center">操作</th>
+        <th class="col-md-2 text-center">操作</th>
       </tr>
       </thead>
       <tbody v-if="tableData.length > 0" style="text-align: center">
@@ -38,10 +37,9 @@
         <td>{{item.locate_desc}}</td>
         <td>{{item.status == 0 ? '断开' : '正常'}}</td>
         <td>{{item.is_start == 0 ? '是' : '否'}}</td>
-        <!--<td>{{item.created_at | date(4)}}</td>-->
         <td>
           <el-button @click="fnDistribution(item)" type="text" size="small">
-            {{item.store.name != null ? "重新分配" : '分配'}}
+            {{item.store.name != '' ? "重新分配" : '分配'}}
           </el-button>
           <el-button @click="cancelDeploy(item)" type="text" size="small" style="color: #66B1FF;">
             取消分配

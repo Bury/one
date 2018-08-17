@@ -35,15 +35,16 @@
 			</el-pagination>
 		</div>
 
-		<!-- 添加、修改 -->
-		<el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" :before-close="dialogClose">
+		<!-- 添加 -->
+		<el-dialog title="添加岗位" :visible.sync="dialogFormVisible" :before-close="dialogClose">
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="名称：" prop="name">
 					<el-input v-model="ruleForm.name"></el-input>
 				</el-form-item>
         <el-form-item label="权限：">
         <div style="margin:20px 0;overflow:hidden;">
-          <el-tree :data="dialogForm" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :default-checked-keys="checkedIds" class="permission-tree">
+          <el-tree :data="dialogForm" show-checkbox default-expand-all node-key="id" ref="tree"
+                   highlight-current :default-checked-keys="checkedIds" class="permission-tree">
           </el-tree>
         </div>
         </el-form-item>
@@ -53,6 +54,19 @@
 				<el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
 			</div>
 		</el-dialog>
+
+    <!-- 修改 -->
+    <el-dialog title="修改岗位" :visible.sync="editFormVisible">
+      <el-form :model="ruleForm" :rules="rulesEdit" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="岗位名称：" prop="name">
+          <el-input v-model="ruleForm.name"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+      </div>
+    </el-dialog>
 
 		<!-- 权限管理 -->
 		<el-dialog title="权限管理" :visible.sync="dialogForm2Visible">

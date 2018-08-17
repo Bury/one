@@ -71,6 +71,9 @@ global.DEVICE_DISTRIBUTION = `${SERVER_IP}${COMMON}device/camera-deploy`
 global.DEVICE_UN_DEPLOY = `${SERVER_IP}${COMMON}device/camera-un-deploy`
 global.STORE_DEVICE_SUM_LISTS = `${SERVER_IP}${COMMON}device/device-list`
 
+//设备详情
+global.DEVICE_VIEW = `${SERVER_IP}${COMMON}device/view`
+
 //设备版本
 global.DEVICE_VERSION_LISTS_RESULTS = `${SERVER_IP}${COMMON}device-version/lists_results`
 

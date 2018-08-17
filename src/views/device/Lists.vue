@@ -35,7 +35,6 @@
 		<el-menu class="el-menu-demo">
 			<!--:default-active="activeIndex"-->
 			<el-tabs value="first" @tab-click="handleClick">
-
 				<el-tab-pane label="已分配" name="first"></el-tab-pane>
 				<el-tab-pane label="待分配" name="second"></el-tab-pane>
 			</el-tabs>
@@ -53,7 +52,6 @@
 					<th class="col-md-1 text-center">位置</th>
 					<th class="col-md-1 text-center">状态</th>
 					<th class="col-md-1 text-center">是否启用</th>
-					<!--<th class="col-md-2 text-center">添加时间</th>-->
 					<th class="col-md-2 text-center">操作</th>
 				</tr>
 			</thead>
@@ -67,16 +65,18 @@
             {{item.locate == 'other' ? '其他' : '收银'}}
 					</td>
 					<td>
-            {{item.store != null ? item.store.name : '未分配'}}
+            {{item.store.name != '' ? item.store.name : '未分配'}}
 					</td>
 					<td>{{item.locate_desc}}</td>
 					<td>{{item.status == 0 ? '断开' : '正常'}}</td>
 					<td>{{item.is_start == 0 ? '是' : '否'}}</td>
-					<!--<td>{{item.created_at | date(4)}}</td>-->
 					<td>
-						<el-button v-if="item.store !== null" @click="fnDistribution(item)" type="text" size="small">重新分配</el-button>
+						<!--<el-button v-if="item.store.name == ''" @click="fnDistribution(item)" type="text" size="small">-->
+              <!--{{item.store.name == '' ? '重新分配' : '分配'}}-->
+            <!--</el-button>-->
+						<el-button v-if="item.store.name != ''" @click="fnDistribution(item)" type="text" size="small">重新分配</el-button>
 						<el-button v-else @click="fnDistribution(item)" type="text" size="small">分配</el-button>
-						<el-button v-if="item.store !== null" @click="cancelDeploy(item)" type="text" size="small" style="color: #66B1FF;">取消分配</el-button>
+						<el-button v-if="item.store.name != ''" @click="cancelDeploy(item)" type="text" size="small" style="color: #66B1FF;">取消分配</el-button>
 					</td>
 				</tr>
 			</tbody>

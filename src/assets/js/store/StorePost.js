@@ -1,5 +1,6 @@
 import storeRoleApi from '@/api/store_role'
 import roleApi from '@/api/role'
+import globalRules from '@/config/global_rules'
 
 export default{
   name:'store-set',
@@ -19,10 +20,7 @@ export default{
       },
       currentId:'',
       rules: {
-        name: [
-          { required: true, message: '请输入门店岗位名称', trigger: 'blur' },
-          { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
-        ]
+        name:globalRules.rules.name(),
       },
       requestParameters: {
         page: 1,
@@ -89,7 +87,7 @@ export default{
       this.$data.dialogTitle = '门店编辑';
       this.$data.currentId = row.id;
       this.$data.ruleForm = row;
-      this.$data.dialogFormVisible = true;
+      this.$data.editFormVisible = true;
 
     },
     fnAdds(){
@@ -119,13 +117,14 @@ export default{
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if(this.$data.currentId !== ''){
-            this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
+            // this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
             let list = {
               'id': this.$data.currentId,
               'name': this.$data.ruleForm.name,
-              'person_in_charge':this.$data.ruleForm.person_in_charge,
-              'phone':this.$data.ruleForm.phone,
-              'permission_ids': this.$data.checkedIds.toString(),
+              'sort':this.$data.ruleForm.sort,
+              // 'person_in_charge':this.$data.ruleForm.person_in_charge,
+              // 'phone':this.$data.ruleForm.phone,
+              // 'permission_ids': this.$data.checkedIds.toString(),
             }
             let qs = require('querystring')
             storeRoleApi.edit(qs.stringify(list)).then((res) => {
@@ -142,7 +141,7 @@ export default{
                   person_in_csharge:'',
                   phone:''
                 };
-                this.$data.dialogFormVisible = false;
+                this.$data.editFormVisible = false;
 
               }else{
                 this.$message.error(res.data.msg);
@@ -175,7 +174,7 @@ export default{
                 this.$data.dialogFormVisible = false;
 
               }else{
-                this.$message.error(res.data.msg);
+                this.$message.error('请至少选择一个权限');
 
               }
 
@@ -250,7 +249,7 @@ export default{
           this.$data.currentId = '';
           this.$data.dialogForm2Visible = false;
         } else {
-          this.$message.error(res.data.msg);
+          this.$message.error('请至少选择一个权限');
 
         }
 
