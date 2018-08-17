@@ -16,7 +16,7 @@ export default{
       },
       requestParameters: {
         page: 1,
-        page_size:10,
+        page_size:20,
         username:'',
         role_id:'',
         telephone:'',
@@ -64,7 +64,6 @@ export default{
           return ;
         }
         if(res.data.data.list.length === 0){
-          console.log(res.data.data.list.length);
           this.$data.noData = true;
         }else{
           this.$data.noData = false;
@@ -136,15 +135,11 @@ export default{
       this.$data.currentId = row.id;
       this.$data.userEditVisible = true;
       if(row.status == '启用'){
-        console.log('123');
         this.$data.editForm.status = 1;
       }else{
-        console.log('147');
         this.$data.editForm.status = 0;
       }
       this.getRoles();
-      console.log(row)
-      console.log(this.$data.editForm);
     },
     fnCancel(){
       this.$data.userDialogFormVisible = false;

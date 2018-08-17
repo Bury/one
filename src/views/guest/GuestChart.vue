@@ -69,7 +69,7 @@
 						categories: []
 					},
 					yAxis: {
-						allowDecimals:false,
+						allowDecimals: false,
 						title: {
 							text: ''
 						}
@@ -165,9 +165,72 @@
 
 			//绘制图形
 			drawChart(value) {
+
+				let dataDiff = {
+					tooltip: {
+						formatter: function() {
+							let s = this.point.series.name + ':' + (this.point.y * 100) + '%';
+							return s;
+						}
+					},
+					yAxis: {
+						labels: {
+							formatter: function() {
+								return this.value * 100 + "%"
+							}
+						},
+						max: 1,
+						tickPositioner: function() {
+							var positions = [0, 0.2, 0.4, 0.6, 0.8, 1];
+							return positions;
+						}
+
+					},
+					series: {
+						dataLabels: {
+							enabled: true,
+							formatter: function() {
+								return this.y * 100 + "%"
+							}
+						}
+					}
+				};
+				let dataSum = {
+					tooltip: {
+						formatter: function() {
+							let s = this.point.series.name + ':' + this.point.y;
+							return s;
+						}
+					},
+					yAxis: {
+						labels: {
+							formatter: function() {
+								return this.value
+							}
+						},
+						max: null,
+						tickPositioner: function() {
+							let positions = [],
+								increment;
+							increment = this.dataMax > 10 ? Math.ceil(this.dataMax / 4) : 2;
+							for(let i = 0; i < 6; i++) {
+								positions.push(increment * i)
+							}
+							return positions;
+						}
+					},
+					series: {
+						dataLabels: {
+							enabled: true,
+							formatter: function() {
+								return this.y
+							}
+						}
+					}
+				}
 				let guestCharts = this.$refs.guestCharts;
 				guestCharts.delegateMethod('showLoading', 'Loading...');
-				guestCharts.removeSeries();	
+				guestCharts.removeSeries();
 				setTimeout(() => {
 					guestCharts.hideLoading();
 					if(value.length !== 0) {
@@ -175,6 +238,14 @@
 							guestCharts.addSeries(value[i])
 						}
 						guestCharts.getChart().xAxis[0].setCategories(value[0].time);
+
+						if(this.$props.statisticsType !== '1') {
+							guestCharts.getChart().update(dataDiff);
+
+						} else {
+							guestCharts.getChart().update(dataSum);
+						}
+
 					} else {
 						guestCharts.addSeries(value)
 					}
@@ -213,7 +284,7 @@
 			//客流统计默认数据
 			getCustomer() {
 				console.log(this.$data.postParameters)
-				statisticsApi.getCustomerSum(this.$data.postParameters).then((res) => {		
+				statisticsApi.getCustomerSum(this.$data.postParameters).then((res) => {
 					console.log(res)
 					if(res.data.errno === 0) {
 						let arr = [{

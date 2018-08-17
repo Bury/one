@@ -140,12 +140,12 @@
 					<el-input v-model="addsFormData.phone"></el-input>
 				</el-form-item>
 				<el-form-item style="display: inline-block;" label="门店架构：">
-					<el-cascader v-model="editFormOrganize" :options="organizes" :props='defaultAttr' @change="editGetSotre">
+					<el-cascader v-model="addFormOrganize" :options="organizes" :props='defaultAttr' @change="addGetSotre">
 					</el-cascader>
 				</el-form-item>
 				<el-form-item style="display: inline-block;"  label="门店：" prop="store_id">
 					<el-select v-model="addsFormData.store_id" placeholder="请选择" :no-data-text="noeditStore">
-						<el-option v-for="(item,index) in editStore" :key="index" :label="item.name" :value="item.id">
+						<el-option v-for="(item,index) in addStore" :key="index" :label="item.name" :value="item.id">
 						</el-option>
 					</el-select>
 				</el-form-item>

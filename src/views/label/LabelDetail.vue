@@ -11,7 +11,7 @@
         <th class="col-md-1 text-center">操作</th>
       </tr>
       </thead>
-      <tbody style="text-align: center">
+      <tbody v-if="tableData.length > 0" style="text-align: center">
       <tr v-for="(item,index) in tableData" :key="index" height="40">
         <td>{{item.name}}</td>
         <td>
@@ -21,6 +21,11 @@
                      @click="fnRemove(item)"></el-button>
         </td>
       </tr>
+      </tbody>
+      <tbody v-else>
+      	<tr>
+      		<td colspan="2" align="center" height="50px">暂无数据</td>
+      	</tr>
       </tbody>
     </table>
 
@@ -79,7 +84,7 @@
 		        requestParameters: {
 		        	parent_id:'',
 	                page: 1,
-	                page_size:10
+	                page_size:20
 	            }
 
 			}
@@ -93,6 +98,7 @@
 				this.$data.requestParameters.parent_id = this.$route.query.LabelId;
 			    let qs = require('querystring')
 				labelApi.labeChildlList(qs.stringify(this.$data.requestParameters)).then((res) => {
+					console.log(res)
         			if(res.data.errno === 0){
 						console.log(res.data.data.list)
 						this.$data.tableData = res.data.data.list;

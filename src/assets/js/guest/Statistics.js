@@ -190,8 +190,8 @@ export default {
 		beforeSubmit() {
 			let flag = false;
 			if(this.$data.datadialog.dataTypeShow === false) {
-				this.$data.isAll = false;
-				this.$data.sumOrDiff = "1";
+				//对比时一些操作
+				this.$data.isAll = false;				
 				for(let i = 0; i < this.$data.storeGroup.length; i++) {
 					if(this.$data.storeGroup[i].organizeId.length === 0) {
 						flag = true;
@@ -201,7 +201,8 @@ export default {
 				}
 
 			} else {
-				this.$data.sumOrDiff = "0"
+				//求和时一些操作
+				
 				if(this.$data.datadialog.summationType == "1") {
 					this.$data.isAll = true;
 					flag = false;
@@ -231,8 +232,13 @@ export default {
 			if(this.beforeSubmit() === true) {
 				return false;
 			}
-			this.$data.selectType = this.$data.datadialog.dataTypeShow === false ?  
-			'自定义-对比'  :  this.$data.datadialog.summationType === '1' ? '全部-求和' :  '自定义-求和';
+			if(this.$data.datadialog.dataTypeShow === false){
+				this.$data.sumOrDiff = "1";
+				this.$data.selectType = '自定义-对比';
+			}else{
+				this.$data.sumOrDiff = "0";
+				this.$data.selectType = this.$data.datadialog.summationType === '1' ? '全部-求和' :  '自定义-求和'
+			}
 			//每次验证前都要清空
 			this.$data.guestParameters.store_id.length = [];
 			this.$data.guestParameters.merchant_organize_id = [];

@@ -79,7 +79,7 @@
 		        },
 		        requestParameters: {
 	                page: 1,
-	                page_size:10
+	                page_size:20
 	            }
 
 			}
@@ -103,7 +103,6 @@
         		})
 			},
 			handleCurrentChange(currentPage) {
-	            console.log(currentPage)
 	            this.$data.requestParameters.page = currentPage;
 	            this.labelList();
 	        },
