@@ -1,6 +1,7 @@
 
 import deviceApi from '@/api/device'
 import storeApi from '@/api/store'
+import storeRole from '@/api/store_role'
 
 export default{
   name:'device',
@@ -18,8 +19,8 @@ export default{
       requestParameters: {
         page: 1,
         page_size:10,
+        belong_sid:'',
       },
-      operationFormVisible:false,
       operationForm:{
 
       },
@@ -28,23 +29,34 @@ export default{
         belong_sid:''
       },
       distributionFormVisible:false,
+      organizes: [],
+      dorganizeCode: [],
+      dallStores: [],
+      operationRules:{},
+      defaultAttr: {
+        label: 'name',
+        value: 'id',
+        children: 'children',
+      },
+      nodatatext: "请选择门店架构",
+      dnodatatext: '请选择门店架构',
     }
   },
   created:function(){
     this.deviceList();
     //this.allVersion();
     this.storeAll();
+    this.getOrganizes();
   },
   methods:{
     deviceList(){
-      //this.$data.requestParameters.belong_sid = this.$route.query.storeId;
+      this.$data.requestParameters.belong_sid = this.$route.query.storeId;
       let qs = require('querystring');
       deviceApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
         if(res.data.errno === 0){
           this.$data.tableData = res.data.data.list;
           this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
           this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
-
         }else{
 
         }
@@ -64,7 +76,6 @@ export default{
       })
     },
     handleCurrentChange(currentPage) {
-      console.log(currentPage)
       this.$data.requestParameters.page = currentPage;
       this.deviceList();
     },
@@ -93,13 +104,8 @@ export default{
     storeAll(){
       storeApi.listsResults().then((res) => {
         if(res.data.errno === 0){
-          console.log(res)
           this.$data.allStores = res.data.data;
-
-        }else{
-
         }
-
       })
     },
     operationCancel(){
@@ -133,10 +139,9 @@ export default{
       window.history.back(-1);
     },
     fnDistribution(row){
-      console.log(row);
       this.$data.distributionForm.device_id = row.device_id;
       this.$data.distributionForm.belong_sid = '';
-      this.$data.operationFormVisible = true;
+      this.$data.distributionFormVisible = true;
     },
     //取消分配
     cancelDeploy(val) {
@@ -153,13 +158,69 @@ export default{
         deviceApi.cancelDeploy(qs.stringify(data)).then((res) => {
           if(res.data.errno === 0) {
             this.$message('取消成功');
-            this.lists();
+            this.deviceList();
           } else {
             this.$message(res.data.msg)
           }
 
         })
 
+      })
+
+    },
+
+    //分配
+    distributionCancel() {
+      this.$data.dorganizeCode = [];
+      this.$data.distributionForm = {
+        device_id: '',
+        belong_sid: ''
+      };
+      this.$data.distributionFormVisible = false;
+    },
+    getOrganizes() {
+      storeRole.organizeTree().then((res) => {
+        if(res.data.errno == 0) {
+          this.$data.organizes = res.data.data
+        } else {
+          this.$message(res.data.msg)
+        }
+      })
+    },
+    distributionSubmit() {
+      if(this.$data.distributionForm.belong_sid == "") {
+        this.$message("请选择门店")
+        return false;
+      };
+      let qs = require('querystring');
+      deviceApi.distribution(qs.stringify(this.$data.distributionForm)).then((res) => {
+        if(res.data.errno === 0) {
+          this.$message('分配成功');
+          this.$data.dorganizeCode = [];
+          this.deviceList();
+          this.$data.distributionFormVisible = false;
+        } else {
+          this.$message(res.data.msg)
+        }
+
+      })
+    },
+    dialogStore() {
+      let organ = this.$data.dorganizeCode[this.$data.dorganizeCode.length - 1]
+      let data = {
+        merchant_organize_id: organ
+      };
+      storeApi.organizeStoreResult(data).then((res) => {
+        if(res.data.errno === 0) {
+          if(res.data.data != null && res.data.data.length > 0) {
+            this.$data.dallStores = res.data.data;
+          } else {
+            this.$data.dnodatatext = "此地区暂无门店";
+            this.$data.distributionForm.belong_sid = "";
+          }
+        } else {
+          this.$message(res.statusText)
+        }
       })
 
     },

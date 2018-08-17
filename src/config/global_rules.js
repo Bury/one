@@ -34,7 +34,23 @@ const rules={
 	            	}
 	    	]
 		},
+  //岗位名称验证
+  name(){
+    return [
+      { required: true, message: '请输入岗位名称', trigger: 'blur' },
 
+      {
+        validator: (rule, value, callback) => {
+          if (value.match(/^[0-9\u4E00-\u9FA5]{1,15}$/)){
+            callback();
+          } else {
+            callback("岗位名称由1-15位数字或汉字组成");
+          }
+        },
+        trigger: 'blur'
+      }
+    ]
+  },
         //密码验证
 		password() {
 			 return [
@@ -98,12 +114,22 @@ const rules={
 			]
 
 		},
-		
+
 		//岗位名字验证
 		roleNameRule(){
 			return [
 			    { required: true, message:"请输入名称", trigger: 'change' },
-			    { min: 2,max: 8,message: '长度在 2 到 8 个字符',trigger: 'blur'},
+			    // { min: 2,max: 8,message: '长度在 2 到 8 个字符',trigger: 'blur'},
+        {
+          validator: (rule, value, callback) => {
+            if (value.match(/^[0-9\u4E00-\u9FA5]{1,15}$/)){
+              callback();
+            } else {
+              callback("岗位名称由1-15位数字或汉字组成");
+            }
+          },
+          trigger: 'blur'
+        }
 			]
 
 		},

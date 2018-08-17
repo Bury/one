@@ -31,7 +31,7 @@ export default {
 	      })
 	    })
 	},
-	
+
 	//取消分配
 	cancelDeploy(list){
 		return new Promise((resolve, reject) => {
@@ -59,5 +59,14 @@ export default {
 	        reject(err)
 	      })
 	    })
-	}
+	},
+  deviceView(list){
+    return new Promise((resolve, reject) => {
+      axios.post(global.DEVICE_VIEW,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
 }

@@ -1,5 +1,6 @@
 import storeRoleApi from '@/api/store_role'
 import roleApi from '@/api/role'
+import globalRules from '@/config/global_rules'
 
 export default{
   name:'store-set',
@@ -19,10 +20,7 @@ export default{
       },
       currentId:'',
       rules: {
-        name: [
-          { required: true, message: '请输入门店岗位名称', trigger: 'blur' },
-          { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
-        ]
+        name:globalRules.rules.name(),
       },
       requestParameters: {
         page: 1,
@@ -89,7 +87,7 @@ export default{
       this.$data.dialogTitle = '门店编辑';
       this.$data.currentId = row.id;
       this.$data.ruleForm = row;
-      this.$data.dialogFormVisible = true;
+      this.$data.editFormVisible = true;
 
     },
     fnAdds(){
@@ -101,6 +99,7 @@ export default{
         phone:''
       };
       this.$data.dialogFormVisible = true;
+      this.$data.checkedIds = [];
       roleApi.storeRoleLists().then((res) => {
         this.$data.dialogForm = res.data.data;
       })
@@ -119,13 +118,14 @@ export default{
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if(this.$data.currentId !== ''){
-            this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
+            // this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
             let list = {
               'id': this.$data.currentId,
               'name': this.$data.ruleForm.name,
-              'person_in_charge':this.$data.ruleForm.person_in_charge,
-              'phone':this.$data.ruleForm.phone,
-              'permission_ids': this.$data.checkedIds.toString(),
+              'sort':this.$data.ruleForm.sort,
+              // 'person_in_charge':this.$data.ruleForm.person_in_charge,
+              // 'phone':this.$data.ruleForm.phone,
+              // 'permission_ids': this.$data.checkedIds.toString(),
             }
             let qs = require('querystring')
             storeRoleApi.edit(qs.stringify(list)).then((res) => {
@@ -142,7 +142,7 @@ export default{
                   person_in_csharge:'',
                   phone:''
                 };
-                this.$data.dialogFormVisible = false;
+                this.$data.editFormVisible = false;
 
               }else{
                 this.$message.error(res.data.msg);
@@ -150,6 +150,7 @@ export default{
 
             })
           }else{
+            this.getTree();
             this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
             let list = {
               'name': this.$data.ruleForm.name,
@@ -157,7 +158,7 @@ export default{
               'phone':this.$data.ruleForm.phone,
               'permission_ids': this.$data.checkedIds.toString(),
             }
-            let qs = require('querystring')
+            let qs = require('querystring');
             storeRoleApi.adds(qs.stringify(list)).then((res) => {
               if(res.data.errno === 0){
                 this.$message({
@@ -174,9 +175,11 @@ export default{
                 };
                 this.$data.dialogFormVisible = false;
 
-              }else{
+              }else if(res.data.errno == -1){
                 this.$message.error(res.data.msg);
 
+              }else{
+                this.$message.error('请至少选择一个权限');
               }
 
             })
@@ -203,26 +206,7 @@ export default{
       storeRoleApi.viewPermission(qs.stringify(list)).then((res) => {
         if(res.data.errno === 0) {
           this.$data.dialogForm2 = res.data.data;
-          var checkedId = [];
-          for(var i = 0; i < this.$data.dialogForm2.length; i++) {
-            var rootIdx = i;
-            if(this.$data.dialogForm2[rootIdx].is_permission === 1) {
-              var len = checkedId.length;
-              checkedId[len] = this.$data.dialogForm2[rootIdx].id;
-
-            }
-            if(this.$data.dialogForm2[rootIdx].children && this.$data.dialogForm2[rootIdx].children.length > 0) {
-              for(var j = 0; j < this.$data.dialogForm2[rootIdx].children.length; j++) {
-                var childIdx = j;
-                if(this.$data.dialogForm2[rootIdx].children[childIdx].is_permission === 1) {
-                  var len = checkedId.length;
-                  checkedId[len] = this.$data.dialogForm2[rootIdx].children[childIdx].id;
-
-                }
-              }
-            }
-          }
-          this.$data.checkedIds = checkedId;
+          this.getTree();
         } else {
           this.$message.error(res.data.msg);
 
@@ -230,6 +214,28 @@ export default{
 
       })
       this.$data.dialogForm2Visible = true;
+    },
+    getTree(){
+      var checkedId = [];
+      for(var i = 0; i < this.$data.dialogForm2.length; i++) {
+        var rootIdx = i;
+        if(this.$data.dialogForm2[rootIdx].is_permission === 1) {
+          var len = checkedId.length;
+          checkedId[len] = this.$data.dialogForm2[rootIdx].id;
+
+        }
+        if(this.$data.dialogForm2[rootIdx].children && this.$data.dialogForm2[rootIdx].children.length > 0) {
+          for(var j = 0; j < this.$data.dialogForm2[rootIdx].children.length; j++) {
+            var childIdx = j;
+            if(this.$data.dialogForm2[rootIdx].children[childIdx].is_permission === 1) {
+              var len = checkedId.length;
+              checkedId[len] = this.$data.dialogForm2[rootIdx].children[childIdx].id;
+
+            }
+          }
+        }
+      }
+      this.$data.checkedIds = checkedId;
     },
     fnCancel(formName){
       this.$data.dialogFormVisible = false;
@@ -250,7 +256,7 @@ export default{
           this.$data.currentId = '';
           this.$data.dialogForm2Visible = false;
         } else {
-          this.$message.error(res.data.msg);
+          this.$message.error('请至少选择一个权限');
 
         }
 
