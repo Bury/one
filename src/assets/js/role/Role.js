@@ -208,23 +208,29 @@
 				this.$data.dialogForm2Visible = true;
 			},
       getTree(){
-        let checkedId = [];
-        for(let i = 0; i < this.$data.dialogForm2.length; i++) {
-          let rootIdx = i;
+        var checkedId = [];
+        for(var i = 0; i < this.$data.dialogForm2.length; i++) {
+          var rootIdx = i;
           if(this.$data.dialogForm2[rootIdx].is_permission === 1) {
-            let len = checkedId.length;
+            var len = checkedId.length;
             checkedId[len] = this.$data.dialogForm2[rootIdx].id;
-
+            console.log(checkedId[len],11111);
           }
           if(this.$data.dialogForm2[rootIdx].children && this.$data.dialogForm2[rootIdx].children.length > 0) {
-            for(let j = 0; j < this.$data.dialogForm2[rootIdx].children.length; j++) {
-              let childIdx = j;
+            for(var j = 0; j < this.$data.dialogForm2[rootIdx].children.length; j++) {
+              var childIdx = j;
               if(this.$data.dialogForm2[rootIdx].children[childIdx].is_permission === 1) {
-                let len = checkedId.length;
+                // console.log(this.$data.dialogForm2[rootIdx]);
+                var len = checkedId.length;
                 checkedId[len] = this.$data.dialogForm2[rootIdx].children[childIdx].id;
-
+                console.log(checkedId[len],222222)
+                // this.$refs.tree.getNode(id);
+                console.log(this.$refs.tree.getNode(checkedId[len]))
+                console.log(this.$refs.tree.getNode(checkedId[len]).parent.data.id)
+                console.log(this.$refs.tree.getNode(checkedId[len]).parent.id)
               }
             }
+            // console.log(this.$data.dialogForm2[rootIdx],333333);
           }
         }
         this.$data.checkedIds = checkedId;

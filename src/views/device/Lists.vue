@@ -71,9 +71,6 @@
 					<td>{{item.status == 0 ? '断开' : '正常'}}</td>
 					<td>{{item.is_start == 0 ? '是' : '否'}}</td>
 					<td>
-						<!--<el-button v-if="item.store.name == ''" @click="fnDistribution(item)" type="text" size="small">-->
-              <!--{{item.store.name == '' ? '重新分配' : '分配'}}-->
-            <!--</el-button>-->
 						<el-button v-if="item.store.name != ''" @click="fnDistribution(item)" type="text" size="small">重新分配</el-button>
 						<el-button v-else @click="fnDistribution(item)" type="text" size="small">分配</el-button>
 						<el-button v-if="item.store.name != ''" @click="cancelDeploy(item)" type="text" size="small" style="color: #66B1FF;">取消分配</el-button>
