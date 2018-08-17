@@ -99,6 +99,7 @@ export default{
         phone:''
       };
       this.$data.dialogFormVisible = true;
+      this.$data.checkedIds = [];
       roleApi.storeRoleLists().then((res) => {
         this.$data.dialogForm = res.data.data;
       })
@@ -149,6 +150,7 @@ export default{
 
             })
           }else{
+            this.getTree();
             this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
             let list = {
               'name': this.$data.ruleForm.name,
@@ -156,7 +158,7 @@ export default{
               'phone':this.$data.ruleForm.phone,
               'permission_ids': this.$data.checkedIds.toString(),
             }
-            let qs = require('querystring')
+            let qs = require('querystring');
             storeRoleApi.adds(qs.stringify(list)).then((res) => {
               if(res.data.errno === 0){
                 this.$message({
@@ -173,9 +175,11 @@ export default{
                 };
                 this.$data.dialogFormVisible = false;
 
+              }else if(res.data.errno == -1){
+                this.$message.error(res.data.msg);
+
               }else{
                 this.$message.error('请至少选择一个权限');
-
               }
 
             })
@@ -202,26 +206,7 @@ export default{
       storeRoleApi.viewPermission(qs.stringify(list)).then((res) => {
         if(res.data.errno === 0) {
           this.$data.dialogForm2 = res.data.data;
-          var checkedId = [];
-          for(var i = 0; i < this.$data.dialogForm2.length; i++) {
-            var rootIdx = i;
-            if(this.$data.dialogForm2[rootIdx].is_permission === 1) {
-              var len = checkedId.length;
-              checkedId[len] = this.$data.dialogForm2[rootIdx].id;
-
-            }
-            if(this.$data.dialogForm2[rootIdx].children && this.$data.dialogForm2[rootIdx].children.length > 0) {
-              for(var j = 0; j < this.$data.dialogForm2[rootIdx].children.length; j++) {
-                var childIdx = j;
-                if(this.$data.dialogForm2[rootIdx].children[childIdx].is_permission === 1) {
-                  var len = checkedId.length;
-                  checkedId[len] = this.$data.dialogForm2[rootIdx].children[childIdx].id;
-
-                }
-              }
-            }
-          }
-          this.$data.checkedIds = checkedId;
+          this.getTree();
         } else {
           this.$message.error(res.data.msg);
 
@@ -229,6 +214,28 @@ export default{
 
       })
       this.$data.dialogForm2Visible = true;
+    },
+    getTree(){
+      var checkedId = [];
+      for(var i = 0; i < this.$data.dialogForm2.length; i++) {
+        var rootIdx = i;
+        if(this.$data.dialogForm2[rootIdx].is_permission === 1) {
+          var len = checkedId.length;
+          checkedId[len] = this.$data.dialogForm2[rootIdx].id;
+
+        }
+        if(this.$data.dialogForm2[rootIdx].children && this.$data.dialogForm2[rootIdx].children.length > 0) {
+          for(var j = 0; j < this.$data.dialogForm2[rootIdx].children.length; j++) {
+            var childIdx = j;
+            if(this.$data.dialogForm2[rootIdx].children[childIdx].is_permission === 1) {
+              var len = checkedId.length;
+              checkedId[len] = this.$data.dialogForm2[rootIdx].children[childIdx].id;
+
+            }
+          }
+        }
+      }
+      this.$data.checkedIds = checkedId;
     },
     fnCancel(formName){
       this.$data.dialogFormVisible = false;
