@@ -6,7 +6,7 @@
 
 		<el-form :inline="true"  size="mini">
 			<el-form-item label="门店架构：">
-				<el-cascader :options="organizes" :props='defaultAttr' v-model='lookData.organize' @change="getStore">
+				<el-cascader :options="organizes"  :props='defaultAttr' v-model='lookData.organize' @change="getStore">
 				</el-cascader>
 			</el-form-item>
 			<el-form-item label="门店：">

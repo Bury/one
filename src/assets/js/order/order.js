@@ -28,7 +28,6 @@ export default {
         page_size:10,
         store_id:'',
         sn:'',
-        // id:'',
         material:'',
         style:'',
         price_start:'',
@@ -50,7 +49,6 @@ export default {
           return time.getTime() > Date.now() - 8.64e6
         }
       },
-      noData:false,
       editForm:{
         cash:'',
         traffic:{
@@ -94,15 +92,9 @@ export default {
     },
     //列表
     lists(){
-      this.$data.requestParameters.cash_t_start = this.$data.cashTimes[0];
-      this.$data.requestParameters.cash_t_end = this.$data.cashTimes[1];
-      this.$data.requestParameters.created_at_start = this.$data.createdTimes[0];
-      this.$data.requestParameters.created_at_end = this.$data.createdTimes[1];
-
       let qs = require('querystring');
       OrderApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
         if(res.data.errno === 0){
-          console.log(res.data.data.list)
           this.$data.tableData = res.data.data.list;
           this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
           this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
@@ -111,39 +103,31 @@ export default {
     },
 
     handleCurrentChange(currentPage) {
-      console.log(currentPage)
       this.$data.requestParameters.page = currentPage;
       this.lists();
     },
     onSubmit() {
-      if((this.$data.cashTimes != null) && (this.$data.createdTimes != null)) {
-        this.$data.requestParameters.cash_t_start = utils.getDateTime(this.$data.cashTimes[0]);
+    	let cashFlag = (this.$data.cashTimes != null) && (this.$data.cashTimes[1] != '') ;
+    	let createdFlag = (this.$data.createdTimes != null) && (this.$data.createdTimes[1] != '');
+    	if(cashFlag){
+    		this.$data.requestParameters.cash_t_start = utils.getDateTime(this.$data.cashTimes[0]);
         this.$data.requestParameters.cash_t_end = utils.getDateTime(this.$data.cashTimes[1]);
-        this.$data.requestParameters.created_at_start = utils.getDateTime(this.$data.createdTimes[0]);
-        this.$data.requestParameters.created_at_end = utils.getDateTime(this.$data.createdTimes[1]);
-      } else {
-        this.$data.cashTimes = ['', ''];
-        this.$data.createdTimes = ['', ''];
-        this.lists();
-      }
-      let qs = require('querystring');
-      OrderApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-        if (res.data.errno === 0) {
-          console.log(res.data.data.list);
-          console.log(res.data.data.list.length);
-          if(res.data.data.list.length === 0){
-            console.log(res.data.data.list.length);
-            this.$data.noData = true;
-          }else{
-            this.$data.noData = false;
-
-          }
-          this.$data.tableData = res.data.data.list;
-          this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
-          this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
-        }
-      })
-      // this.lists();
+    	}else{
+    		this.$data.requestParameters.cash_t_start = "";
+        this.$data.requestParameters.cash_t_end = "";
+        
+    	};
+    	
+    	if(createdFlag){
+    		console.log("99")
+    		 this.$data.requestParameters.created_at_start = utils.getDateTime(this.$data.createdTimes[0]);
+         this.$data.requestParameters.created_at_end = utils.getDateTime(this.$data.createdTimes[1]);
+    	}else{
+    		this.$data.requestParameters.created_at_start = "";
+        this.$data.requestParameters.created_at_end = "";
+    	}
+    	
+      this.lists();
     },
     fnView(row){
       this.$data.editForm = row;
@@ -229,18 +213,23 @@ export default {
     resetForm(){
       this.$data.organizeCode = [];
       this.$data.selectStore = [];
+      this.$data.cashTimes = ['',''];
+      this.$data.createdTimes = ['',''];
       this.$data.requestParameters = {
-        store_id:'',
-        merchant_organize_id:'',
-        merchant_role_id:'',
-        username:'',
-        truename:'',
-        phone:'',
         page: 1,
         page_size:10,
+        store_id:'',
+        sn:'',
+        material:'',
+        style:'',
+        price_start:'',
+        price_end:'',
+        cash_t_start:'',
+        cash_t_end:'',
+        created_at_start:'',
+        created_at_end:''
       };
-      this.$data.cashTimes = [];
-      this.$data.createdTimes = [];
+      
     }
   },
 }
