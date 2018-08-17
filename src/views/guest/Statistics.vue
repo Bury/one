@@ -50,7 +50,7 @@
 			<ul v-show="datadialog.allOrSetShow" class="store-form">
 				<li v-for="(val,index) in  storeGroup">
 					<span>门店组织：</span>
-					<el-cascader size="small" :options="organizes" v-model="val.organizeId" :props="defaultAttr" @change="getStoreId(index)">
+					<el-cascader  size="small" :options="organizes" change-on-select v-model="val.organizeId" :props="defaultAttr" @change="getStoreId(index)">
 					</el-cascader>
 					<span class="store">门店：</span>
 					<el-select style="width: 180px;" size="small" placeholder="请选择" v-model="val.storeId" :no-data-text="val.showText">
