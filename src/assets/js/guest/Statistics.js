@@ -115,7 +115,9 @@ export default {
 
 		//根据门店组织获取门店
 		getStoreId(x) {				
-			this.$data.storeGroup[x].storeId = "";
+			console.log(x)
+			this.$data.storeGroup[x].stores = [];
+			this.$data.storeGroup[x].storeId = "";			
 			let g = this.$data.storeGroup[x].organizeId;
 			let data = {
 				merchant_organize_id: g[g.length - 1]
