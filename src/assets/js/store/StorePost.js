@@ -31,6 +31,8 @@ export default{
       dialogForm2: [],
       checkedIds: [],
       dialogForm:[],
+      nodeId:'',
+			parentId:'',
     }
   },
   created:function(){
@@ -90,6 +92,7 @@ export default{
       this.$data.editFormVisible = true;
 
     },
+    
     fnAdds(){
       this.$data.dialogTitle = '门店添加';
       this.$data.currentId = "";
@@ -118,14 +121,10 @@ export default{
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if(this.$data.currentId !== ''){
-            // this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
             let list = {
               'id': this.$data.currentId,
               'name': this.$data.ruleForm.name,
               'sort':this.$data.ruleForm.sort,
-              // 'person_in_charge':this.$data.ruleForm.person_in_charge,
-              // 'phone':this.$data.ruleForm.phone,
-              // 'permission_ids': this.$data.checkedIds.toString(),
             }
             let qs = require('querystring')
             storeRoleApi.edit(qs.stringify(list)).then((res) => {
@@ -150,8 +149,16 @@ export default{
 
             })
           }else{
-            this.getTree();
-            this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
+            let arr = this.$refs.tree.getCheckedKeys();
+              var num ;
+              for(let n=0;n<arr.length;n++){
+                num = arr[n];
+                this.$data.checkedIds.push(num);
+              }
+              let set = new Set(this.$data.checkedIds);
+              for(var item in set){
+                this.$data.checkedIds.push(item)
+              }
             let list = {
               'name': this.$data.ruleForm.name,
               'person_in_charge':this.$data.ruleForm.person_in_charge,
@@ -187,6 +194,25 @@ export default{
         }
       });
     },
+    change(data, val, child){
+      //data该节点的对象，val自身是否被选中，child子节点是否被选中
+      console.log(data);
+      this.$data.nodeId = data.id;
+      if(val == true && data.parent_id != 0){
+        this.$data.parentId = this.$refs.tree.getNode(this.$data.nodeId).parent.data.id;
+        this.$data.checkedIds.push(this.$data.parentId );
+      }
+    },
+    changeSetting(data, val, child){
+      //data该节点的对象，val自身是否被选中，child子节点是否被选中
+      console.log(this.$data.checkedIds);
+      console.log(data);
+      this.$data.nodeId = data.id;
+      if(val == true && data.parent_id != 0){
+        this.$data.parentId = this.$refs.tree.getNode(this.$data.nodeId).parent.data.id;
+        this.$data.checkedIds.push(this.$data.parentId );
+      }
+    },
     fnGoPage(row){
       this.$router.push({
         name: 'StoreAccount',
@@ -218,21 +244,17 @@ export default{
     getTree(){
       var checkedId = [];
       for(var i = 0; i < this.$data.dialogForm2.length; i++) {
-        var rootIdx = i;
-        if(this.$data.dialogForm2[rootIdx].is_permission === 1) {
-          var len = checkedId.length;
-          checkedId[len] = this.$data.dialogForm2[rootIdx].id;
-
-        }
-        if(this.$data.dialogForm2[rootIdx].children && this.$data.dialogForm2[rootIdx].children.length > 0) {
-          for(var j = 0; j < this.$data.dialogForm2[rootIdx].children.length; j++) {
-            var childIdx = j;
-            if(this.$data.dialogForm2[rootIdx].children[childIdx].is_permission === 1) {
-              var len = checkedId.length;
-              checkedId[len] = this.$data.dialogForm2[rootIdx].children[childIdx].id;
-
+        if(this.$data.dialogForm2[i].children && this.$data.dialogForm2[i].children.length > 0) {
+          for(var j = 0; j < this.$data.dialogForm2[i].children.length; j++) {
+            if(this.$data.dialogForm2[i].children[j].is_permission === 1) {
+              checkedId.push(this.$data.dialogForm2[i].children[j].id);
+            }else if (this.$data.dialogForm2[i].children[j].is_permission === 0){
+              this.$data.dialogForm2[i].is_permission = 0;
             }
           }
+        }
+        if(this.$data.dialogForm2[i].is_permission === 1) {
+          checkedId.push(this.$data.dialogForm2[i].id);
         }
       }
       this.$data.checkedIds = checkedId;
@@ -245,7 +267,20 @@ export default{
       this.$data.currentId = '';
     },
     submitForm2() {
-      this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
+      let setNum = [];
+				let parentIds;
+        for(var settingNum=0;settingNum < this.$data.checkedIds.length;settingNum++){
+          if(this.$data.checkedIds[settingNum].parent_id != 0){
+					  parentIds = this.$refs.tree.getNode(this.$data.checkedIds[settingNum]).parent.data.id;
+          }
+				}
+				this.$data.checkedIds.push(parentIds);
+				let arr1 = this.$refs.tree.getCheckedKeys();
+        var numSetting ;
+        for(let n=0;n<arr1.length;n++){
+          numSetting = arr1[n];
+          this.$data.checkedIds.push(numSetting);
+        }
       let list = {
         'role_id': this.$data.currentId,
         'permission_ids': this.$data.checkedIds.toString()

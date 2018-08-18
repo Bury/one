@@ -31,14 +31,14 @@
 
 		<!-- 分页 -->
 		<div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
-			<el-pagination 
-				background 
-				class="pagination" 
-				layout="prev, pager, next" 
-				small 
-				@current-change="handleCurrentChange" 
-				:current-page="pagination.currentPage" 
-				:page-size="requestParameters.page_size" 
+			<el-pagination
+				background
+				class="pagination"
+				layout="prev, pager, next"
+				small
+				@current-change="handleCurrentChange"
+				:current-page="pagination.currentPage"
+				:page-size="requestParameters.page_size"
 				:total="pagination.totalCount">
 			</el-pagination>
 		</div>
@@ -52,6 +52,7 @@
         <el-form-item label="权限：">
         <div style="margin:20px 0;overflow:hidden;">
           <el-tree :data="dialogForm" show-checkbox default-expand-all node-key="id" ref="tree"
+                   @check-change="change"
                    highlight-current :default-checked-keys="checkedIds" class="permission-tree">
           </el-tree>
         </div>
@@ -81,7 +82,9 @@
 			<h4 class="role-info"><span>岗位名称：</span>{{currentName}}</h4>
 			<div style="margin:20px 0;overflow:hidden;">
 				<h4 class="role-info" style="float:left;"><span>权限：</span></h4>
-				<el-tree :data="dialogForm2" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :default-checked-keys="checkedIds" class="permission-tree">
+				<el-tree :data="dialogForm2" show-checkbox default-expand-all node-key="id"
+                 @check-change="changeSetting"
+                 ref="tree" highlight-current :default-checked-keys="checkedIds" class="permission-tree">
 				</el-tree>
 			</div>
 			<div slot="footer" class="dialog-footer">

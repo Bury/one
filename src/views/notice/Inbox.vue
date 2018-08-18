@@ -14,7 +14,7 @@
       <tr v-for="(item,index) in tableData" :key="index" height="40">
         <td>{{item.title}}</td>
         <td>{{item.content | fonts(10)}}</td>
-        <td>{{item.sender}}</td>
+        <td>{{item.sender_name}}</td>
         <td>{{item.created_at | date(4)}}</td>
         <td>
           <el-button @click="fnCheck(item)" type="text" size="small">查看</el-button>

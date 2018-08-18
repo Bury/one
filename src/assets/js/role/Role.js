@@ -33,7 +33,8 @@
 				},
         dialogForm : [],
         editFormVisible: false,
-
+        nodeId:'',
+				parentId:'',
 			}
 		},
 		watch:{
@@ -125,7 +126,7 @@
 				this.$data.ruleForm.sort = 0;
 				this.$data.currentId = '';
         setTimeout(()=>{
-          this.$refs.ruleForm.resetFields();
+          // this.$refs.ruleForm.resetFields();
         })
         // this.$data.dialogForm2 = [];
 				// this.$refs[formName].resetFields(); //关闭dialog后重置验证结果
@@ -158,8 +159,16 @@
 
 							})
 						} else {
-              this.getTree();
-              this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
+              let arr = this.$refs.tree.getCheckedKeys();
+              var num ;
+              for(let n=0;n<arr.length;n++){
+                num = arr[n];
+                this.$data.checkedIds.push(num);
+              }
+							let set = new Set(this.$data.checkedIds);
+							for(var item in set){
+                this.$data.checkedIds.push(item)
+              }
 							let list = {
 								'name': this.$data.ruleForm.name,
 								'sort': this.$data.ruleForm.sort,
@@ -179,18 +188,37 @@
 									this.$data.currentId = '';
 									this.$data.dialogFormVisible = false;
 
-								} else {
+								}else if(res.data.errno == -1){
+                  this.$message.error(res.data.msg);
+                } else {
 									this.$message.error('请至少选择一个权限');
-
 								}
 							})
 						}
 					}
 				});
 			},
+      change(data, val, child){
+        //data该节点的对象，val自身是否被选中，child子节点是否被选中
+        console.log(data);
+        this.$data.nodeId = data.id;
+        if(val == true && data.parent_id != 0){
+          this.$data.parentId = this.$refs.tree.getNode(this.$data.nodeId).parent.data.id;
+          this.$data.checkedIds.push(this.$data.parentId );
+        }
+      },
+      changeSetting(data, val, child){
+        //data该节点的对象，val自身是否被选中，child子节点是否被选中
+        console.log(this.$data.checkedIds);
+        console.log(data);
+        this.$data.nodeId = data.id;
+        if(val == true && data.parent_id != 0){
+          this.$data.parentId = this.$refs.tree.getNode(this.$data.nodeId).parent.data.id;
+          this.$data.checkedIds.push(this.$data.parentId );
+        }
+      },
 
 			fnSet(row) {
-			  // console.log(row);
 				this.$data.currentName = row.name;
 				this.$data.currentId = row.id;
 				let list = {
@@ -210,34 +238,39 @@
       getTree(){
         var checkedId = [];
         for(var i = 0; i < this.$data.dialogForm2.length; i++) {
-          var rootIdx = i;
-          if(this.$data.dialogForm2[rootIdx].is_permission === 1) {
-            var len = checkedId.length;
-            checkedId[len] = this.$data.dialogForm2[rootIdx].id;
-            console.log(checkedId[len],11111);
-          }
-          if(this.$data.dialogForm2[rootIdx].children && this.$data.dialogForm2[rootIdx].children.length > 0) {
-            for(var j = 0; j < this.$data.dialogForm2[rootIdx].children.length; j++) {
-              var childIdx = j;
-              if(this.$data.dialogForm2[rootIdx].children[childIdx].is_permission === 1) {
-                // console.log(this.$data.dialogForm2[rootIdx]);
-                var len = checkedId.length;
-                checkedId[len] = this.$data.dialogForm2[rootIdx].children[childIdx].id;
-                console.log(checkedId[len],222222)
-                // this.$refs.tree.getNode(id);
-                console.log(this.$refs.tree.getNode(checkedId[len]))
-                console.log(this.$refs.tree.getNode(checkedId[len]).parent.data.id)
-                console.log(this.$refs.tree.getNode(checkedId[len]).parent.id)
+          if(this.$data.dialogForm2[i].children && this.$data.dialogForm2[i].children.length > 0) {
+            for(var j = 0; j < this.$data.dialogForm2[i].children.length; j++) {
+              if(this.$data.dialogForm2[i].children[j].is_permission === 1) {
+                checkedId.push(this.$data.dialogForm2[i].children[j].id);
+              }else if (this.$data.dialogForm2[i].children[j].is_permission === 0){
+                this.$data.dialogForm2[i].is_permission = 0;
               }
             }
-            // console.log(this.$data.dialogForm2[rootIdx],333333);
           }
-        }
-        this.$data.checkedIds = checkedId;
+          if(this.$data.dialogForm2[i].is_permission === 1) {
+            checkedId.push(this.$data.dialogForm2[i].id);
+          }
+				}
+				this.$data.checkedIds = checkedId;
       },
 
 			submitForm2() {
-				this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
+				let setNum = [];
+				let parentIds;
+        for(var settingNum=0;settingNum < this.$data.checkedIds.length;settingNum++){
+          if(this.$data.checkedIds[settingNum].parent_id != 0){
+					  parentIds = this.$refs.tree.getNode(this.$data.checkedIds[settingNum]).parent.data.id;
+          }
+				}
+				this.$data.checkedIds.push(parentIds);
+				let arr1 = this.$refs.tree.getCheckedKeys();
+        var numSetting ;
+        for(let n=0;n<arr1.length;n++){
+          numSetting = arr1[n];
+          this.$data.checkedIds.push(numSetting);
+        }
+        let set = new Set(this.$data.checkedIds);
+        this.$data.checkedIds = Array.from(set);
 				let list = {
 					'role_id': this.$data.currentId,
 					'permission_ids': this.$data.checkedIds.toString()
@@ -281,5 +314,8 @@
           this.$data.dialogForm = [];
         })
       },
+
+
+
 		}
 	}
