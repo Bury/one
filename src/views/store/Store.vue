@@ -40,7 +40,7 @@
 						<td>{{item.province.name + item.city.name + item.area.name}}</td>
 						<td>{{item.phone}}</td>
 						<td>
-							<el-button type="primary" size="mini" circle plain icon="el-icon-setting" @click="fnGoPage(item)"></el-button>
+							<el-button type="primary" size="mini" circle plain icon="el-icon-more" @click="fnGoPage(item)"></el-button>
 							<el-button type="warning" size="mini" circle plain icon="el-icon-edit" @click="fnEdit(item)"></el-button>
 							<el-button type="danger" size="mini" circle plain icon="el-icon-delete" @click="fnRemove(item)"></el-button>
 

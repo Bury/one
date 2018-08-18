@@ -20,6 +20,7 @@
 			</el-form-item>
 			<el-form-item label="岗位：">
 				<el-select v-model="requestParameters.merchant_role_id" placeholder="请选择">
+          <el-option label="全部" value="全部"></el-option>
 					<el-option v-for="(item,index) in allRole" :key="index" :label="item.name" :value="item.id"></el-option>
 				</el-select>
 			</el-form-item>

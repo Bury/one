@@ -6,12 +6,12 @@
 			    	<el-input v-model="requestParameters.username"></el-input>
 			  	</el-form-item>
 			  	<el-form-item label="岗位：">
-				    <el-select v-model="requestParameters.role_id" placeholder="请选择">
+				    <el-select v-model="requestParameters.merchant_role_id" placeholder="请选择">
 				        <el-option v-for="(item,idx) in allRoles" :label="allRoles[idx].name" :value="allRoles[idx].id" :key="idx"></el-option>
 				    </el-select>
 				</el-form-item>
 				<el-form-item label="手机号码：">
-				    <el-input v-model="requestParameters.telephone"></el-input>
+				    <el-input v-model="requestParameters.phone"></el-input>
 				</el-form-item>
 				<el-form-item>
 				    <el-button type="primary" @click="onSubmitSearch">查询</el-button>

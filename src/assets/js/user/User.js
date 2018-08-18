@@ -18,8 +18,8 @@ export default{
         page: 1,
         page_size:20,
         username:'',
-        role_id:'',
-        telephone:'',
+        merchant_role_id:'',
+        phone:'',
       },
       dialogTitle:"",
       userDialogFormVisible: false,
@@ -60,6 +60,9 @@ export default{
     lists(){
       let qs = require('querystring')
       userApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
+        if( res.data.errno == 1000002){
+          this.$message.error('请输入完整的手机号码')
+        }
         if(res==undefined || res=='' || res.data==undefined || res.data==''){
           return ;
         }
@@ -68,6 +71,7 @@ export default{
         }else{
           this.$data.noData = false;
         }
+
         if(res.data.errno === 0){
           this.$data.tableData = res.data.data.list;
           this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
@@ -250,8 +254,8 @@ export default{
     },
     resetSearch(){
       this.$data.requestParameters.username='';
-      this.$data.requestParameters.role_id='';
-      this.$data.requestParameters.telephone='';
+      this.$data.requestParameters.merchant_role_id='';
+      this.$data.requestParameters.phone='';
       this.lists();
     },
   }
