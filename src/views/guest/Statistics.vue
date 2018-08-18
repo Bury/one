@@ -69,8 +69,10 @@
                    <el-button type="primary" @click="setSubmit">确 定</el-button>
             </span>
 		</el-dialog>
-
-		<ul class="charts-type">
+		
+		
+        <div v-show="customShow">       	
+        <ul class="charts-type">
 			<li class="charts-wrap">
 				<div style="padding:10px 0 20px;text-align:center;">
 					<el-radio-group v-model="statisticsType" @change="customerClass" size="small">
@@ -140,6 +142,8 @@
 				</el-pagination>
 			</div>
 		</template>
+		</div>
+		<div v-show="customShow === false" style="text-align: center;padding-top: 20px;">请选择时间</div>
 	</div>
 </template>
 

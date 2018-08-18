@@ -54,6 +54,7 @@ export default {
 			month: '',
 			year: '',
 			userDefined: '',
+			customShow:true,
 			ctrlTimeType: [true, false, false, false, false],
 			statisticsType: "1",
 			newOldData: [],
@@ -339,6 +340,7 @@ export default {
 				}
 				this.$data.guestParameters.begin_time = this.getS(this.$data.day);
 				this.$data.guestParameters.end_time = this.getS(this.$data.day) + 86399;
+				this.$data.changeFlag = !this.$data.changeFlag;
 
 			} else if(this.$data.ctrlTimeType[1]) {
 				if(this.$data.week == null) {
@@ -346,6 +348,7 @@ export default {
 				}
 				this.$data.guestParameters.begin_time = this.getS(this.$data.week);
 				this.$data.guestParameters.end_time = this.getS(this.$data.week) + 604799;
+				this.$data.changeFlag = !this.$data.changeFlag;
 
 			} else if(this.$data.ctrlTimeType[2]) {
 				if(this.$data.month == null) {
@@ -358,6 +361,7 @@ export default {
 				m === 12 ? (nexty = y + 1, nextm = 1) : (nexty = y, nextm = m + 1)
 				this.$data.guestParameters.begin_time = t.getTime() / 1000;
 				this.$data.guestParameters.end_time = this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
+				this.$data.changeFlag = !this.$data.changeFlag;
 
 			} else if(this.$data.ctrlTimeType[3]) {
 				if(this.$data.year == null) {
@@ -367,20 +371,34 @@ export default {
 				let y = yearDate.getFullYear();
 				this.$data.guestParameters.begin_time = this.getS(`${y}/01/01 00:00:00`);
 				this.$data.guestParameters.end_time = this.getS(`${y}/12/31 23:59:59`);
+				this.$data.changeFlag = !this.$data.changeFlag;
 
 			} else if(this.$data.ctrlTimeType[4]) {
+				if(this.$data.userDefined == null || this.$data.userDefined.length == 0) {
+            		this.$data.customShow = false;
+            		return false;
+            	}           	
 				this.$data.guestParameters.begin_time = utils.getDateTime(this.userDefined[0]);
 				this.$data.guestParameters.end_time = utils.getDateTime(this.userDefined[1]);
+				this.$data.changeFlag = !this.$data.changeFlag;
+				this.$data.customShow  = true;
 			}
-			this.$data.changeFlag = !this.$data.changeFlag;
+			
+			
 		},
 
 		changeTimeType(tab, event) {
 			var nowIdx = tab.index;
 			this.$data.ctrlTimeType = [false, false, false, false, false];
 			this.$data.ctrlTimeType[nowIdx] = true;
-			this.setData();
-			this.$data.changeFlag = !this.$data.changeFlag;
+			if (nowIdx == 4) {
+				this.$data.customShow = false;				
+			}else{
+				this.$data.customShow = true;
+				this.setData();
+				this.$data.changeFlag = !this.$data.changeFlag;
+			}
+			
 		},
 
 		//绑定默认时间
@@ -422,10 +440,6 @@ export default {
 					this.$data.guestParameters.end_time = this.getS(`${y}/12/31 23:59:59`);
 					this.$data.year = this.modelDate(this.$data.guestParameters.begin_time);
 					break;
-				case "select":
-					this.$data.guestParameters.begin_time = utils.getDateTime(this.userDefined[0]);
-					this.$data.guestParameters.end_time = utils.getDateTime(this.userDefined[1]);
-					break;
 			}
 		},
 
@@ -448,11 +462,6 @@ export default {
 			if(this.$data.ctrlTimeType[3]) {
 				//年            
 				this.getBeginEndTime("year")
-				return false;
-			}
-			if(this.$data.ctrlTimeType[4]) {
-				//自定义
-				this.getBeginEndTime("select")
 				return false;
 			}
 
