@@ -68,7 +68,7 @@ import globalRules from '@/config/global_rules'
 				requestParameters: {
 	                page: 1,
 	                page_size:20,
-	                organize:'',
+	                merchant_organize_id:'',
 					store_id:'',
 	            },
 			}
@@ -88,10 +88,15 @@ import globalRules from '@/config/global_rules'
 			storeLists(){
 				let qs = require('querystring')
 	    		storeApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
+	    			console.log(res)
 	    			if(res.data.errno === 0){
-						this.$data.tableData = res.data.data.list;
-						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
-		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
+	    				if(res.data.data !== null){
+	    				  this.$data.tableData = res.data.data.list;
+						  this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
+		        		  this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
+	    				}else{
+	    					this.$data.tableData = [];
+	    				}
 	    			}else{
 						this.$message.error(res.data.msg);
 	    			}
@@ -306,9 +311,10 @@ import globalRules from '@/config/global_rules'
 					this.$message("请选择门店架构");
 					return false;
 				}else{
-				    this.$data.requestParameters.organize = this.$data.lookData.organize.join();
+				    this.$data.requestParameters.merchant_organize_id = this.$data.lookData.organize[this.$data.lookData.organize.length - 1];
 				    this.$data.requestParameters.store_id = this.$data.lookData.store_id;
 				}
+				console.log(this.$data.requestParameters)
 				this.storeLists();
 			},
 
