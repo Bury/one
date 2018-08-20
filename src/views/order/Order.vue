@@ -2,11 +2,11 @@
 	<div class="guest-list-page">
 		<div class="top-box">
 			<el-form :inline="true" :model="requestParameters" class="demo-form-inline" size="mini">
-				<el-form-item label="门店架构：">
+				<el-form-item label="门店架构 - 门店：">
 					<el-cascader v-model="organizeCode" :options="organizes" :props='defaultAttr' @change="getStore">
 					</el-cascader>
 				</el-form-item>
-				<el-form-item label="门店：">
+				<el-form-item label=" - ">
 					<el-select v-model="requestParameters.store_id" placeholder="请选择" :no-data-text="nodatatext">
 						<el-option v-for="(item,index) in selectStore" :key="index" :label="item.name" :value="item.id">
 						</el-option>
@@ -167,12 +167,12 @@
 	.el-table thead {
 		color: #333;
 	}
-	
+
 	.el-pagination {
 		margin: 10px;
 		float: right;
 	}
-	
+
 	.numberPrice {
 		border: 1px solid #e4e7ed;
 		height: 3.5rem;
@@ -183,7 +183,7 @@
 		color: #606266;
 		line-height: 3rem;
 	}
-	
+
 	.totalAll {
 		overflow: hidden;
 		P {
