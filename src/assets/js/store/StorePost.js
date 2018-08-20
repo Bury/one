@@ -92,7 +92,7 @@ export default{
       this.$data.editFormVisible = true;
 
     },
-    
+
     fnAdds(){
       this.$data.dialogTitle = '门店添加';
       this.$data.currentId = "";
@@ -155,10 +155,16 @@ export default{
                 num = arr[n];
                 this.$data.checkedIds.push(num);
               }
-              let set = new Set(this.$data.checkedIds);
-              for(var item in set){
-                this.$data.checkedIds.push(item)
+            Array.prototype.getOne = function(){
+              for(let i=0;i<this.length - 1;i++){
+                for(let j= i+1;j<this.length;j++){
+                  if(this[i] == this[j]){
+                    this.splice(j--,1)
+                  }
+                }
               }
+            }
+            this.$data.checkedIds.getOne();
             let list = {
               'name': this.$data.ruleForm.name,
               'person_in_charge':this.$data.ruleForm.person_in_charge,

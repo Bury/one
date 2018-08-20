@@ -115,7 +115,7 @@
         this.$data.dialogForm2 = [];
         this.$data.checkedIds = [];
         roleApi.merchantRoleLists().then((res) => {
-				  console.log(res);
+				  // console.log(res);
 				  this.$data.dialogForm = res.data.data;
         })
 			},
@@ -158,17 +158,24 @@
 								}
 
 							})
-						} else {
+						}
+						else {
               let arr = this.$refs.tree.getCheckedKeys();
               var num ;
               for(let n=0;n<arr.length;n++){
                 num = arr[n];
                 this.$data.checkedIds.push(num);
               }
-							let set = new Set(this.$data.checkedIds);
-							for(var item in set){
-                this.$data.checkedIds.push(item)
+              Array.prototype.getOne = function(){
+                for(let i=0;i<this.length - 1;i++){
+                  for(let j= i+1;j<this.length;j++){
+                    if(this[i] == this[j]){
+                      this.splice(j--,1)
+                    }
+                  }
+                }
               }
+              this.$data.checkedIds.getOne();
 							let list = {
 								'name': this.$data.ruleForm.name,
 								'sort': this.$data.ruleForm.sort,
@@ -190,9 +197,11 @@
 
 								}else if(res.data.errno == -1){
                   this.$message.error(res.data.msg);
-                } else {
-									this.$message.error('请至少选择一个权限');
-								}
+                } else if(res.data.errno == 1000003){
+								  this.$message.error(res.data.msg);
+								} else{
+                  this.$message.error('请至少选择一个权限');
+                }
 							})
 						}
 					}
@@ -200,7 +209,6 @@
 			},
       change(data, val, child){
         //data该节点的对象，val自身是否被选中，child子节点是否被选中
-        console.log(data);
         this.$data.nodeId = data.id;
         if(val == true && data.parent_id != 0){
           this.$data.parentId = this.$refs.tree.getNode(this.$data.nodeId).parent.data.id;
@@ -255,11 +263,10 @@
       },
 
 			submitForm2() {
-				let setNum = [];
 				let parentIds;
-        for(var settingNum=0;settingNum < this.$data.checkedIds.length;settingNum++){
-          if(this.$data.checkedIds[settingNum].parent_id != 0){
-					  parentIds = this.$refs.tree.getNode(this.$data.checkedIds[settingNum]).parent.data.id;
+        for(var s=0;s< this.$data.checkedIds.length;s++){
+          if(this.$data.checkedIds[s].parent_id != 0){
+					  parentIds = this.$refs.tree.getNode(this.$data.checkedIds[s]).parent.data.id;
           }
 				}
 				this.$data.checkedIds.push(parentIds);
