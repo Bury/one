@@ -1,15 +1,34 @@
 <template>
   <div class="left-menu1">
-    <el-menu :default-active="currentMenu" :data="tableData" @select="getUrl1"
-             v-for="(item,index) in tableData"
-             :key="index"
+    <el-menu :default-active="currentMenu" 
+    	       router
              class="el-menu-vertical-demo"
              :collapse="isCollapse && isShow"
              background-color="#545c64"
              text-color="#fff"
              active-text-color="#409EFF">
-
-      <router-link :to="{name: item.front_url}" v-if="item.no_child">
+        
+      <template v-for="(item,index) in tableData">      	
+        <el-menu-item :index="item.front_url" v-if="item.no_child"  >
+        	<template slot="title">
+            <i :class="item.front_icon"></i>
+            <span slot="title">{{item.name}}</span>
+          </template>  
+        </el-menu-item>
+        
+        <el-submenu v-else   :index="item.front_url" >
+         <template slot="title">
+          <i :class="item.front_icon"></i>
+          <span slot="title">{{item.name}}</span>
+         </template>
+          <template v-for="(item1,index1) in item.children">
+          	<el-menu-item :index="item1.front_url" style="padding-left:53px;">{{item1.name}}</el-menu-item>
+          </template>
+        </el-submenu>
+      </template>     
+      
+      
+      <!--<router-link :to="{name: item.front_url}" v-if="item.no_child">
         <el-menu-item :index="item.front_url">
           <i :class="item.front_icon"></i>
           <span slot="title">{{item.name}}</span>
@@ -24,7 +43,7 @@
         <router-link v-for="(item1,index1) in item.children" :key="index1" :to="{name: item1.front_url}">
           <el-menu-item :index="item1.front_url" style="padding-left:53px;">{{item1.name}}</el-menu-item>
         </router-link>
-      </el-submenu>
+      </el-submenu>-->
 
     </el-menu>
   </div>
@@ -40,22 +59,22 @@
     },
     data() {
       return {
-        currentMenu: '/Statistics',
+        currentMenu: '',
         tableData: [],
       }
+    },
+    watch:{
+    	$route(to,from){
+    		this.$data.currentMenu = this.$route.name;
+    	}
     },
     created() {
       this.getUrl();
       this.menu();
     },
     methods: {
-      getUrl1(key){
-        this.$data.currentMenu = key;
-      },
       getUrl() {
-        let self = this;
-        let currentUrl = window.location.href;
-        self.currentMenu = currentUrl.split('#')[1];
+       this.$data.currentMenu = this.$route.name;
       },
       menu() {
         userApi.menu().then((res) => {
