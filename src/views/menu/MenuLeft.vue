@@ -9,20 +9,20 @@
              active-text-color="#409EFF">
         
       <template v-for="(item,index) in tableData">      	
-        <el-menu-item :index="item.front_url" v-if="item.no_child"  >
+        <el-menu-item :index="item.front_url" :key="index" v-if="item.no_child"  >
         	<template slot="title">
             <i :class="item.front_icon"></i>
             <span slot="title">{{item.name}}</span>
           </template>  
         </el-menu-item>
         
-        <el-submenu v-else   :index="item.front_url" >
+        <el-submenu v-else  :key="index"  :index="item.front_url" >
          <template slot="title">
           <i :class="item.front_icon"></i>
           <span slot="title">{{item.name}}</span>
          </template>
           <template v-for="(item1,index1) in item.children">
-          	<el-menu-item :index="item1.front_url" style="padding-left:53px;">{{item1.name}}</el-menu-item>
+          	<el-menu-item :index="item1.front_url" :key="index1" style="padding-left:53px;">{{item1.name}}</el-menu-item>
           </template>
         </el-submenu>
       </template>     
