@@ -58,6 +58,7 @@ import Drafts from '../views/notice/Drafts'
 Vue.use(Router)
 
 const router = new Router({
+  mode:'history',
   routes: [
     { path: '/login',name: 'UserLogin',component: UserLogin},
     {

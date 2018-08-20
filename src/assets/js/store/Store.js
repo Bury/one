@@ -325,7 +325,14 @@ import globalRules from '@/config/global_rules'
         				this.$message(res.statusText)
         			}
         		})
-			}
+			},
+      fnReset(){
+			  this.$data.lookData.store_id = '';
+			  this.$data.lookData.organize = [];
+        this.$data.requestParameters.merchant_organize_id = '';
+        this.$data.requestParameters.store_id = '';
+			  this.storeLists();
+      }
 
 		}
 	}
