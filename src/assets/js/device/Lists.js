@@ -74,7 +74,7 @@ export default {
 	created: function() {
 		this.lists();
 		this.getDeviceVersionListsResults();
-		this.getOrganizes()
+		this.getOrganizes();
 	},
 	methods: {
 		lists() {
@@ -82,10 +82,9 @@ export default {
 			this.$data.requestParameters.cteated_at_end = this.$data.createdTimes[1];
 			this.$data.requestParameters.start_at_begin = this.$data.startTimes[0];
 			this.$data.requestParameters.start_at_end = this.$data.startTimes[1];
-			let qs = require('querystring')
-			console.log(this.$data.requestParameters)
+			
+			let qs = require('querystring');
 			deviceApi.lists(this.$data.requestParameters).then((res) => {
-				console.log(res)
 				if(res.data.errno === 0) {
 					this.$data.tableData = res.data.data.list;
 					this.$data.pagination.currentPage = res.data.data.pagination.currentPage;

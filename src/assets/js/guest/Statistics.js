@@ -1,14 +1,14 @@
 import storeApi from '@/api/store';
 import statisticsApi from '@/api/statistics';
-import storeRole from '@/api/store_role'
-import * as utils from '@/utils/index'
-import GuestChart from '@/views/guest/GuestChart'
-import NewOldChart from '@/views/guest/NewOldChart'
-import AgeChart from '@/views/guest/AgeChart'
-import SexChart from '@/views/guest/SexChart'
-import columnNewChart from '@/views/guest/columnNewChart'
-import columnAgeChart from '@/views/guest/columnAgeChart'
-import columnSexChart from '@/views/guest/columnSexChart'
+import storeRole from '@/api/store_role';
+import * as utils from '@/utils/index';
+import GuestChart from '@/views/guest/GuestChart';
+import NewOldChart from '@/views/guest/NewOldChart';
+import AgeChart from '@/views/guest/AgeChart';
+import SexChart from '@/views/guest/SexChart';
+import columnNewChart from '@/views/guest/columnNewChart';
+import columnAgeChart from '@/views/guest/columnAgeChart';
+import columnSexChart from '@/views/guest/columnSexChart';
 export default {
 	name: 'dashboard',
 	components: {
@@ -84,8 +84,8 @@ export default {
 			},
 			loading: false,
 			pickerOptionsSet: {
-				disabledDate(time) {
-					return time.getTime() > Date.now() - 8.64e6
+				disabledDate:function(time) {
+					return time.getTime() > Date.now() - 8.64e6;
 				}
 			},
 
@@ -195,7 +195,6 @@ export default {
 			this.$data.datadialog.allOrSetShow = false : 
 			this.$data.datadialog.allOrSetShow = true;
 		},
-
 		//提交前的一些验证操作
 		beforeSubmit() {
 			let flag = false;
@@ -205,7 +204,7 @@ export default {
 				for(let i = 0; i < this.$data.storeGroup.length; i++) {
 					if(this.$data.storeGroup[i].organizeId.length === 0) {
 						flag = true;
-						this.$message(`请选择第${i+ 1}个门店组织`)
+						this.$message(`请选择第${i + 1}个门店组织`)
 						break;
 					}
 				}
@@ -218,10 +217,10 @@ export default {
 					flag = false;
 				} else {
 					this.$data.isAll = false;
-					for(let i = 0; i < this.$data.storeGroup.length; i++) {
+					for(var i = 0; i < this.$data.storeGroup.length; i++) {
 						if(this.$data.storeGroup[i].organizeId.length === 0) {
 							flag = true;
-							this.$message(`请选择第${i+ 1}个门店组织`)
+							this.$message(`请选择第${i + 1}个门店组织`);
 							break;
 						}
 					}
@@ -234,7 +233,7 @@ export default {
 
 		//按钮打开求和和对比dialog框
 		editSumDiff() {
-			this.$data.datadialog.dataDialogVisible = true
+			this.$data.datadialog.dataDialogVisible = true;
 		},
 
 		//选择后的提交

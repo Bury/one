@@ -48,7 +48,7 @@
 				<el-radio label="2">自定义</el-radio>
 			</el-radio-group>
 			<ul v-show="datadialog.allOrSetShow" class="store-form">
-				<li v-for="(val,index) in  storeGroup">
+				<li v-for="(val,index) in  storeGroup" :key="index">
 					<span>门店组织：</span>
 					<el-cascader  size="small" :options="organizes" change-on-select v-model="val.organizeId" :props="defaultAttr" @change="getStoreId(index)">
 					</el-cascader>

@@ -22,7 +22,7 @@
 			},
 			columnSex: {
 				type: Object,
-			},
+			},			
 			changeFlag: {
 				type: Boolean,
 			}
@@ -41,6 +41,11 @@
 					credits: {
 						text: '',
 					},
+					yAxis:{
+				        title:{
+                            text:""
+				        }
+			        },
 					colors: [
 						'#FFC200',
 						'#57B4F7',

@@ -16,7 +16,7 @@
           </template>  
         </el-menu-item>
         
-        <el-submenu v-else  :key="index"  :index="item.front_url" >
+        <el-submenu v-else  :key="index"  :index="item.front_url">
          <template slot="title">
           <i :class="item.front_icon"></i>
           <span slot="title">{{item.name}}</span>
@@ -78,7 +78,15 @@
       },
       menu() {
         userApi.menu().then((res) => {
-          this.$data.tableData = res.data.data;
+        	if(res.data.errno === 0){
+        		 for(let i=0;i<res.data.data.length;i++){
+        		 	  if(res.data.data[i].no_child === false){
+        		 	  	 res.data.data[i].front_url = String(i)
+        		 	  }
+        		 }
+        		 this.$data.tableData = res.data.data;
+        	}
+          
         })
       },
     }
