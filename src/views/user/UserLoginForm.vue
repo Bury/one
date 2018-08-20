@@ -6,10 +6,10 @@
         <el-form :model="loginInfo" :rules="rules" ref="loginForm" label-width="0px">
             <div class="title"></div>
             <el-form-item prop="username">
-              <el-input type="text" v-model="loginInfo.username" auto-complete="off" placeholder="帐号" />
+              <el-input type="text" v-model="loginInfo.username" auto-complete="off"  placeholder="帐号" />
             </el-form-item>
             <el-form-item prop="password">
-              <el-input type="password" v-model="loginInfo.password" auto-complete="off" placeholder="密码" />
+              <el-input type="password" v-model="loginInfo.password" auto-complete="off"  @keydown.enter.native="show($event)" placeholder="密码" />
             </el-form-item>
             <div class="login-btn-box">
               <el-button @click="forget" class="login-btn" v-bind:disabled="status==0">忘记密码</el-button>
