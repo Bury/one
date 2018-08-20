@@ -74,9 +74,9 @@ import globalRules from '@/config/global_rules'
 			}
 		},
 		watch: {
-               dialogFormVisible: function() {
-               	this.$refs.ruleForm.resetFields()
-               }
+               // dialogFormVisible: function() {
+               // 	this.$refs.ruleForm.resetFields()
+               // }
         },
 		created:function(){
 			this.storeLists();
@@ -152,13 +152,12 @@ import globalRules from '@/config/global_rules'
 				this.$data.dialogTitle = '门店编辑';
 				this.$data.currentId = row.id;
 				this.$data.ruleForm = {
-					name: row.name,
-		          	// phone:row.phone,
-		          	// locate:[row.province.code,row.city.code,row.area.code],
+					      name: row.name,
 		          	merchant_organize_id:row.organizes.id.split(','),
 		          	phone:row.phone,
 		          	locate:[String(row.province.code),String(row.city.code),String(row.area.code)],
 		          	merchant_organize_id:moi,
+                address:row.address,
 				}
 				this.$data.dialogFormVisible = true;
 
