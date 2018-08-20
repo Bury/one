@@ -91,6 +91,13 @@ export default {
 
 		}
 	},
+	watch:{
+		changeFlag:function(){
+			if(this.$data.statisticsType === "1"){
+				this.customerList();
+			}
+		}
+	},
 	created: function() {
 		this.setData();
 		this.customerList();
@@ -258,8 +265,7 @@ export default {
 				});
 			}
 			this.$data.datadialog.dataDialogVisible = false;
-			this.$data.changeFlag = !this.$data.changeFlag;
-			this.customerList();
+			this.$data.changeFlag = !this.$data.changeFlag;			
 		},
 
 		//增加门店操作
@@ -296,6 +302,7 @@ export default {
 		changeSort(val){
 			let flag =  val.order === "ascending" ? "+" : "-" ;
 			this.$data.listParameters.sort = flag + val.prop;
+			console.log(this.$data.listParameters.sort)
 			this.customerList();
 		},
 
@@ -306,7 +313,9 @@ export default {
 			this.$data.listParameters.end_time = this.$data.guestParameters.end_time;
 			this.$data.listParameters.store_id = this.$data.guestParameters.store_id;
 			this.$data.listParameters.merchant_organize_id = this.$data.guestParameters.merchant_organize_id;
+			console.log(this.$data.listParameters);
 			statisticsApi.customerList(this.$data.listParameters).then((res) => {
+				console.log(res)
 				if(res.data.errno === 0) {
 					this.$data.tableData = res.data.data.list
 					this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
@@ -316,6 +325,11 @@ export default {
 				}
 				this.$data.loading = false;
 			});
+		},
+		
+		//格式化客流列表数据展示
+		formatterVal(row,column,cellValue,index){
+			 return (cellValue * 100) + '%'
 		},
 		//分页
 		currentPage(currentPage) {

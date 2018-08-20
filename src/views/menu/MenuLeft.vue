@@ -21,7 +21,7 @@
           <i :class="item.front_icon"></i>
           <span slot="title">{{item.name}}</span>
         </template>
-        <router-link v-for="(item1,index1) in item.children" :to="{name: item1.front_url}">
+        <router-link v-for="(item1,index1) in item.children" :key="index1" :to="{name: item1.front_url}">
           <el-menu-item :index="item1.front_url" style="padding-left:53px;">{{item1.name}}</el-menu-item>
         </router-link>
       </el-submenu>

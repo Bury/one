@@ -116,25 +116,25 @@
 				</el-table-column>
 				<el-table-column prop="customer" label="客流量" sortable="custom" align="center">
 				</el-table-column>
-				<el-table-column prop="new" label="新客占比" sortable="custom" width="110" align="center">
+				<el-table-column prop="new" label="新客占比" :formatter="formatterVal" sortable="custom" width="110" align="center">
 				</el-table-column>
-				<el-table-column prop="old" label="熟客占比" sortable="custom"="custom" width="110" align="center">
+				<el-table-column prop="old" label="熟客占比" :formatter="formatterVal"  sortable="custom" width="110" align="center">
 				</el-table-column>
-				<el-table-column prop="men" label="男性占比" sortable="custom" width="110" align="center">
+				<el-table-column prop="men" label="男性占比" :formatter="formatterVal" sortable="custom" width="110" align="center">
 				</el-table-column>
-				<el-table-column prop="women" label="女性占比" sortable="custom" width="110" align="center">
+				<el-table-column prop="women" label="女性占比" :formatter="formatterVal" sortable="custom" width="110" align="center">
 				</el-table-column>
-				<el-table-column prop="0-20" label="20岁以下占比" sortable="custom" width="135" align="center">
+				<el-table-column prop="0-20" label="20岁以下占比" :formatter="formatterVal" sortable="custom" width="135" align="center">
 				</el-table-column>
-				<el-table-column prop="20-29" label="20-29岁占比" sortable="custom" width="130" align="center">
+				<el-table-column prop="20-29" label="20-29岁占比" :formatter="formatterVal" sortable="custom" width="130" align="center">
 				</el-table-column>
-				<el-table-column prop="30-39" label="30-39岁占比" sortable="custom" width="130" align="center">
+				<el-table-column prop="30-39" label="30-39岁占比" :formatter="formatterVal" sortable="custom" width="130" align="center">
 				</el-table-column>
-				<el-table-column prop="40-49" label="40-49岁占比" sortable="custom" width="130" align="center">
+				<el-table-column prop="40-49" label="40-49岁占比" :formatter="formatterVal" sortable="custom" width="130" align="center">
 				</el-table-column>
-				<el-table-column prop="50-59" label="50-59岁占比" sortable="custom" width="130" align="center">
+				<el-table-column prop="50-59" label="50-59岁占比" :formatter="formatterVal" sortable="custom" width="130" align="center">
 				</el-table-column>
-				<el-table-column prop="60-" label="60岁以上占比" sortable="custom" width="135" align="center">
+				<el-table-column prop="60-" label="60岁以上占比" :formatter="formatterVal" sortable="custom" width="135" align="center">
 				</el-table-column>
 			</el-table>
 			<div style="margin:0 auto;max-width:1551px; text-align: right;">
