@@ -300,9 +300,7 @@ export default {
 		},
 		
 		changeSort(val){
-			let flag =  val.order === "ascending" ? "+" : "-" ;
-			this.$data.listParameters.sort = flag + val.prop;
-			console.log(this.$data.listParameters.sort)
+			this.$data.listParameters.sort = val.order === "ascending" ? val.prop : "-" + val.prop;
 			this.customerList();
 		},
 
@@ -313,9 +311,7 @@ export default {
 			this.$data.listParameters.end_time = this.$data.guestParameters.end_time;
 			this.$data.listParameters.store_id = this.$data.guestParameters.store_id;
 			this.$data.listParameters.merchant_organize_id = this.$data.guestParameters.merchant_organize_id;
-			console.log(this.$data.listParameters);
 			statisticsApi.customerList(this.$data.listParameters).then((res) => {
-				console.log(res)
 				if(res.data.errno === 0) {
 					this.$data.tableData = res.data.data.list
 					this.$data.pagination.currentPage = res.data.data.pagination.currentPage;

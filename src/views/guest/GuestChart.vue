@@ -166,7 +166,7 @@
 			//绘制图形
 			drawChart(value) {
 
-				let dataDiff = {
+				let dataRate = {
 					tooltip: {
 						formatter: function() {
 							let s = this.point.series.name + ':' + (this.point.y * 100) + '%';
@@ -227,7 +227,7 @@
 							}
 						}
 					}
-				}
+				};
 				let guestCharts = this.$refs.guestCharts;
 				guestCharts.delegateMethod('showLoading', 'Loading...');
 				guestCharts.removeSeries();
@@ -240,7 +240,7 @@
 						guestCharts.getChart().xAxis[0].setCategories(value[0].time);
 
 						if(this.$props.statisticsType !== '1') {
-							guestCharts.getChart().update(dataDiff);
+							guestCharts.getChart().update(dataRate);
 
 						} else {
 							guestCharts.getChart().update(dataSum);
@@ -265,7 +265,8 @@
 				statisticsApi.getFeatureGraph(postData).then((res) => {
 					let arr = [];
 					if(res.data.errno === 0) {
-						let d = res.data.data;
+					  if(res.data.data !== null){
+					  	let d = res.data.data;
 						d.forEach(function(val, index) {
 							arr.push({
 								name: val.value,
@@ -273,10 +274,12 @@
 								time: val.time
 							})
 						})
-
-						this.drawChart(arr)
+                        this.drawChart(arr);
+                       }else{
+                       	this.drawChart([]);
+                       }
 					} else {
-						this.drawChart(arr)
+						this.$message(res.data.msg)
 					}
 				})
 			},
@@ -287,12 +290,16 @@
 				statisticsApi.getCustomerSum(this.$data.postParameters).then((res) => {
 					console.log(res)
 					if(res.data.errno === 0) {
-						let arr = [{
+						if(res.data.data !== null){
+						  let arr = [{
 							name: "总客流",
 							data: res.data.data.sum,
 							time: res.data.data.time
-						}]
-						this.drawChart(arr)
+						   }]
+						   this.drawChart(arr)
+						}else{
+						   this.drawChart([])
+						}
 					}
 				})
 			},
@@ -311,6 +318,8 @@
 								})
 							}
 							this.drawChart(arr)
+						}else{
+							this.drawChart([])
 						}
 					} else {
 						this.$message(res.data.msg)
@@ -321,12 +330,16 @@
 			orderSum() {
 				statisticsApi.getOrderSum(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
-						let arr = [{
+						if(res.data.data !== null){
+						  let arr = [{
 							name: "成交率",
 							data: res.data.data.success,
 							time: res.data.data.time
-						}]
-						this.drawChart(arr);
+						  }]
+						  this.drawChart(arr);
+						}else{
+						  this.drawChart([])
+						}
 					}
 				})
 			},
@@ -345,6 +358,8 @@
 								})
 							}
 							this.drawChart(arr)
+						}else{
+							this.drawChart([])
 						}
 					} else {
 						this.$message(res.data.msg)
@@ -356,7 +371,8 @@
 			customerLostSum() {
 				statisticsApi.customerlostSum(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
-						let dat = [];
+					   if(res.data.data !== null){
+					   	let dat = [];
 						res.data.data.diff.forEach(function(val) {
 							dat.push(parseFloat(val))
 						});
@@ -366,6 +382,9 @@
 							time: res.data.data.time
 						}]
 						this.drawChart(arr);
+					   }else{
+					   	this.drawChart([])
+					   }
 					}
 				})
 			},
@@ -383,7 +402,9 @@
 									time: res.data.data[i].time
 								})
 							}
-							this.drawChart(arr)
+							this.drawChart(arr);
+						}else{
+							this.drawChart([]);
 						}
 					} else {
 						this.$message(res.data.msg)
@@ -395,7 +416,8 @@
 			orderLostSum() {
 				statisticsApi.orderlostSum(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
-						let dat = [];
+					  if(res.data.data !== null){
+					  	let dat = [];
 						res.data.data.diff.forEach(function(val) {
 							dat.push(parseFloat(val))
 						})
@@ -404,7 +426,10 @@
 							data: dat,
 							time: res.data.data.time
 						}]
-						this.drawChart(arr)
+						this.drawChart(arr);
+					  }else{
+					  	this.drawChart([]);
+					  }
 					}
 				})
 			},
@@ -422,7 +447,9 @@
 									time: res.data.data[i].time
 								})
 							}
-							this.drawChart(arr)
+							this.drawChart(arr);
+						}else{
+							this.drawChart([]);
 						}
 					} else {
 						this.$message(res.data.msg)
