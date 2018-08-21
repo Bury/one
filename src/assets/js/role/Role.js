@@ -215,18 +215,19 @@
           this.$data.checkedIds.push(this.$data.parentId );
         }
       },
-      changeSetting(data, val, child){
-        //data该节点的对象，val自身是否被选中，child子节点是否被选中
-        console.log(this.$data.checkedIds);
-        console.log(data);
-        this.$data.nodeId = data.id;
-        if(val == true && data.parent_id != 0){
-          this.$data.parentId = this.$refs.tree.getNode(this.$data.nodeId).parent.data.id;
-          this.$data.checkedIds.push(this.$data.parentId );
-        }
-      },
+      // changeSetting(data, val, child){
+      //   //data该节点的对象，val自身是否被选中，child子节点是否被选中
+      //   console.log(this.$data.checkedIds);
+      //   console.log(data);
+      //   this.$data.nodeId = data.id;
+      //   if(val == true && data.parent_id != 0){
+      //     this.$data.parentId = this.$refs.tree.getNode(this.$data.nodeId).parent.data.id;
+      //     this.$data.checkedIds.push(this.$data.parentId );
+      //   }
+      // },
 
 			fnSet(row) {
+			  this.$data.dialogForm2 = [];
 				this.$data.currentName = row.name;
 				this.$data.currentId = row.id;
 				let list = {
@@ -263,21 +264,7 @@
       },
 
 			submitForm2() {
-				let parentIds;
-        for(var s=0;s< this.$data.checkedIds.length;s++){
-          if(this.$data.checkedIds[s].parent_id != 0){
-					  parentIds = this.$refs.tree.getNode(this.$data.checkedIds[s]).parent.data.id;
-          }
-				}
-				this.$data.checkedIds.push(parentIds);
-				let arr1 = this.$refs.tree.getCheckedKeys();
-        var numSetting ;
-        for(let n=0;n<arr1.length;n++){
-          numSetting = arr1[n];
-          this.$data.checkedIds.push(numSetting);
-        }
-        let set = new Set(this.$data.checkedIds);
-        this.$data.checkedIds = Array.from(set);
+        this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
 				let list = {
 					'role_id': this.$data.currentId,
 					'permission_ids': this.$data.checkedIds.toString()

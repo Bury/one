@@ -108,13 +108,9 @@ export default{
       })
     },
     cancel(){
-      this.$data.dialogFormVisible = false;
+      this.$data.editFormVisible = false;
       this.$data.currentId = '';
-      this.$data.ruleForm = {
-        name: '',
-        person_in_charge:'',
-        phone:''
-      };
+      this.$data.ruleForm.name = '';
       this.clearFormData();
     },
     submitForm(formName){
@@ -167,8 +163,8 @@ export default{
             this.$data.checkedIds.getOne();
             let list = {
               'name': this.$data.ruleForm.name,
-              'person_in_charge':this.$data.ruleForm.person_in_charge,
-              'phone':this.$data.ruleForm.phone,
+              // 'person_in_charge':this.$data.ruleForm.person_in_charge,
+              // 'phone':this.$data.ruleForm.phone,
               'permission_ids': this.$data.checkedIds.toString(),
             }
             let qs = require('querystring');
@@ -202,23 +198,23 @@ export default{
     },
     change(data, val, child){
       //data该节点的对象，val自身是否被选中，child子节点是否被选中
-      console.log(data);
+      // console.log(data);
       this.$data.nodeId = data.id;
       if(val == true && data.parent_id != 0){
         this.$data.parentId = this.$refs.tree.getNode(this.$data.nodeId).parent.data.id;
         this.$data.checkedIds.push(this.$data.parentId );
       }
     },
-    changeSetting(data, val, child){
-      //data该节点的对象，val自身是否被选中，child子节点是否被选中
-      console.log(this.$data.checkedIds);
-      console.log(data);
-      this.$data.nodeId = data.id;
-      if(val == true && data.parent_id != 0){
-        this.$data.parentId = this.$refs.tree.getNode(this.$data.nodeId).parent.data.id;
-        this.$data.checkedIds.push(this.$data.parentId );
-      }
-    },
+    // changeSetting(data, val, child){
+    //   //data该节点的对象，val自身是否被选中，child子节点是否被选中
+    //   // console.log(this.$data.checkedIds);
+    //   // console.log(data);
+    //   this.$data.nodeId = data.id;
+    //   if(val == true && data.parent_id != 0){
+    //     this.$data.parentId = this.$refs.tree.getNode(this.$data.nodeId).parent.data.id;
+    //     this.$data.checkedIds.push(this.$data.parentId );
+    //   }
+    // },
     fnGoPage(row){
       this.$router.push({
         name: 'StoreAccount',
@@ -273,20 +269,7 @@ export default{
       this.$data.currentId = '';
     },
     submitForm2() {
-      let setNum = [];
-				let parentIds;
-        for(var settingNum=0;settingNum < this.$data.checkedIds.length;settingNum++){
-          if(this.$data.checkedIds[settingNum].parent_id != 0){
-					  parentIds = this.$refs.tree.getNode(this.$data.checkedIds[settingNum]).parent.data.id;
-          }
-				}
-				this.$data.checkedIds.push(parentIds);
-				let arr1 = this.$refs.tree.getCheckedKeys();
-        var numSetting ;
-        for(let n=0;n<arr1.length;n++){
-          numSetting = arr1[n];
-          this.$data.checkedIds.push(numSetting);
-        }
+      this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
       let list = {
         'role_id': this.$data.currentId,
         'permission_ids': this.$data.checkedIds.toString()

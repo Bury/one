@@ -83,7 +83,6 @@
 			<div style="margin:20px 0;overflow:hidden;">
 				<h4 class="role-info" style="float:left;"><span>权限：</span></h4>
 				<el-tree :data="dialogForm2" show-checkbox default-expand-all node-key="id"
-                 @check-change="changeSetting"
                  ref="tree" highlight-current :default-checked-keys="checkedIds" class="permission-tree">
 				</el-tree>
 			</div>

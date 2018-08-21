@@ -21,7 +21,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="类型：">
-					<el-select v-model="requestParameters.belong_sido" placeholder="请选择">
+					<el-select v-model="requestParameters.locate" placeholder="请选择">
 						<el-option label="收银" value="cashier"></el-option>
 						<el-option label="其他" value="other"></el-option>
 					</el-select>

@@ -31,12 +31,12 @@ export default {
 				page_size: 10,
 				device_id: '',
 				version: '',
-				belong_sid: '',
+        locate: '',
 				name: '',
-				created_at_begin: '',
-				cteated_at_end: '',
-				start_at_begin: '',
-				start_at_end: '',
+				// created_at_begin: '',
+				// cteated_at_end: '',
+				// start_at_begin: '',
+				// start_at_end: '',
 				is_allocate: 1
 			},
 			distributionFormVisible: false,
@@ -78,11 +78,11 @@ export default {
 	},
 	methods: {
 		lists() {
-			this.$data.requestParameters.created_at_begin = this.$data.createdTimes[0];
-			this.$data.requestParameters.cteated_at_end = this.$data.createdTimes[1];
-			this.$data.requestParameters.start_at_begin = this.$data.startTimes[0];
-			this.$data.requestParameters.start_at_end = this.$data.startTimes[1];
-			
+			// this.$data.requestParameters.created_at_begin = this.$data.createdTimes[0];
+			// this.$data.requestParameters.cteated_at_end = this.$data.createdTimes[1];
+			// this.$data.requestParameters.start_at_begin = this.$data.startTimes[0];
+			// this.$data.requestParameters.start_at_end = this.$data.startTimes[1];
+
 			let qs = require('querystring');
 			deviceApi.lists(this.$data.requestParameters).then((res) => {
 				if(res.data.errno === 0) {
