@@ -34,8 +34,8 @@
 						text: '',
 					},
 					colors: [
-						'#FFC200',
 						'#57B4F7',
+						'#FFC200',						
 						'#90ED7D'
 					],
 					series: []

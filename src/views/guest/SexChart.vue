@@ -40,8 +40,8 @@ export default{
                 text: '',
             },
             colors:[
-                '#FFC200',
-                '#57B4F7', 
+                '#57B4F7',
+						    '#FFC200'
             ],
             series: []
           }

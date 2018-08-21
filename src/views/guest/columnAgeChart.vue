@@ -47,8 +47,8 @@
 						}
 					},
 					colors: [
-						'#FFC200',
-						'#57B4F7',
+					    '#57B4F7',
+						'#FFC200',						
 						'#90ED7D'
 					],
 					series: []
@@ -110,6 +110,35 @@
 			},
 
 			getData(value) {
+				let dataRate = {
+					tooltip: {
+						formatter: function() {
+							let s = this.point.series.name + ':' + (this.point.y * 100) + '%';
+							return s;
+						}
+					},
+					yAxis: {
+						labels: {
+							formatter: function() {
+								return this.value * 100 + "%"
+							}
+						},
+						max: 1,
+						tickPositioner: function() {
+							var positions = [0, 0.2, 0.4, 0.6, 0.8, 1];
+							return positions;
+						}
+
+					},
+					series: {
+						dataLabels: {
+							enabled: true,
+							formatter: function() {
+								return this.y * 100 + "%"
+							}
+						}
+					}
+				};
 				let columnAgeChart = this.$refs.columnAgeChart;
 				columnAgeChart.delegateMethod('showLoading', 'Loading...');
 				columnAgeChart.removeSeries();
@@ -123,6 +152,7 @@
 						columnAgeChart.getChart().addSeries(value[i])
 					}
 					columnAgeChart.getChart().xAxis[0].setCategories(["20岁以下", "20-29岁","30-39岁","40-49岁","50-59岁","60岁以上"]);
+					columnAgeChart.getChart().update(dataRate);
 
 				}, 0)
 			},

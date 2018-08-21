@@ -311,6 +311,7 @@ export default {
 			this.$data.listParameters.store_id = this.$data.guestParameters.store_id;
 			this.$data.listParameters.merchant_organize_id = this.$data.guestParameters.merchant_organize_id;
 			statisticsApi.customerList(this.$data.listParameters).then((res) => {
+				console.log(res.data)
 				if(res.data.errno === 0) {
 					this.$data.tableData = res.data.data.list
 					this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
@@ -324,7 +325,8 @@ export default {
 		
 		//格式化客流列表数据展示
 		formatterVal(row,column,cellValue,index){
-			 return (cellValue * 100) + '%'
+			 let val = Math.round(cellValue * 10000) / 100 + '%';
+			 return val;
 		},
 		//分页
 		currentPage(currentPage) {
