@@ -110,8 +110,8 @@ export default{
     cancel(){
       this.$data.editFormVisible = false;
       this.$data.currentId = '';
-      this.$data.ruleForm.name = '';
-      this.clearFormData();
+      // this.$data.ruleForm.name = '';
+      // this.clearFormData();
     },
     submitForm(formName){
       this.$refs[formName].validate((valid) => {
