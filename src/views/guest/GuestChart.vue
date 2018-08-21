@@ -114,6 +114,16 @@
 
 		},
 		methods: {
+			
+			//判断数组是否都为零
+			zeroFlag(arr){
+				arr = arr || [];
+			    let flag =	arr.some(function(item){
+					return item === 0;
+				})
+				return flag;
+			},
+			
 			setData() {
 				let val = this.$props.statisticsType;
 				switch(val) {
@@ -253,7 +263,7 @@
 
 			},
 
-			//客流统计分类数据
+			//客流统计特征饼图
 			postFeatureSum(flag) {
 				let postData = {
 					feature: flag,
@@ -261,7 +271,7 @@
 					end_time: this.$props.postVal.end_time,
 					store_id: this.$props.postVal.store_id,
 					merchant_organize_id: this.$props.postVal.merchant_organize_id,
-				}
+				};
 				statisticsApi.getFeatureGraph(postData).then((res) => {
 					let arr = [];
 					if(res.data.errno === 0) {
@@ -284,19 +294,18 @@
 				})
 			},
 
-			//客流统计默认数据
+			//客流统计默认数据求和
 			getCustomer() {
-				console.log(this.$data.postParameters)
 				statisticsApi.getCustomerSum(this.$data.postParameters).then((res) => {
-					console.log(res)
 					if(res.data.errno === 0) {
 						if(res.data.data !== null){
 						  let arr = [{
 							name: "总客流",
 							data: res.data.data.sum,
 							time: res.data.data.time
-						   }]
-						   this.drawChart(arr)
+						   }];		
+						   
+						   this.drawChart(arr);
 						}else{
 						   this.drawChart([])
 						}
@@ -326,7 +335,7 @@
 					}
 				})
 			},
-			//成交率
+			//成交率求和
 			orderSum() {
 				statisticsApi.getOrderSum(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
