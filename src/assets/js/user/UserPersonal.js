@@ -124,7 +124,6 @@ export default {
         };
         let qs = require('querystring');
         userApi.phoneSms(qs.stringify(list)).then((res) => {
-          console.log(res.data.msg)
           if(res.data.errno == -1){
             this.$message({
               type: 'warning',
@@ -178,6 +177,7 @@ export default {
       window.clearInterval(clock);
       this.$data.getClickName = '发送验证码';
       this.$data.canClick = true;
+      this.$data.waitTime = 60;
     },
     dialogCloseTel(){
       setTimeout(() => {
@@ -187,6 +187,7 @@ export default {
       window.clearInterval(clock);
       this.$data.getClickName = '发送验证码';
       this.$data.canClick = true;
+      this.$data.waitTime = 60;
     },
     getMsg(){
       let val = this.$data.telForm.phone;
