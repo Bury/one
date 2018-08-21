@@ -160,8 +160,9 @@ export default{
       this.$data.ruleForm.username = '';
       this.$data.ruleForm.password = '';
       this.$data.ruleForm.name = '';
-      this.$data.ruleForm.telephone = '';
+      this.$data.ruleForm.phone = '';
       this.$data.ruleForm.status = '';
+      this.$data.ruleForm.role_id = '';
       this.$data.currentId = '';
       this.$data.userDialogFormVisible = false;
     },
@@ -194,12 +195,12 @@ export default{
               duration:1500
             });
             this.lists();
-            this.userEditVisible = false;
+            this.$data.userEditVisible = false;
           }else{
             this.$message.error(res.data.msg);
           }
           setTimeout(() =>{
-            this.$refs.ruleForm.resetFields();
+            this.$refs.editForm.resetFields();
           })
         })
       }else{
@@ -213,7 +214,6 @@ export default{
         let qs = require('querystring')
         userApi.adds(qs.stringify(list)).then((res) => {
           if(res.data.errno === 0){
-            this.$data.ruleForm = {};
             this.$message({
               message: '操作成功',
               type: 'success',
@@ -243,10 +243,12 @@ export default{
       })
     },
     fnEditCancel(){
-      this.editClear();
+      this.$data.userEditVisible = false;
+      // this.editClear();
     },
     editDialogClose(){
-      this.editClear();
+      this.$data.userEditVisible = false;
+      // this.editClear();
     },
 
     changeSwitch (data) {
