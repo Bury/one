@@ -113,14 +113,14 @@
 				let dataRate = {
 					tooltip: {
 						formatter: function() {
-							let s = this.point.series.name + ':' + (this.point.y * 100) + '%';
+							let s = this.point.series.name + ':' + ((this.point.y * 1000000) / 10000) + '%';
 							return s;
 						}
 					},
 					yAxis: {
 						labels: {
 							formatter: function() {
-								return this.value * 100 + "%"
+								return (this.value * 1000000) / 10000 + "%"
 							}
 						},
 						max: 1,
@@ -134,7 +134,7 @@
 						dataLabels: {
 							enabled: true,
 							formatter: function() {
-								return this.y * 100 + "%"
+								return (this.y * 1000000) / 10000 + "%"
 							}
 						}
 					}

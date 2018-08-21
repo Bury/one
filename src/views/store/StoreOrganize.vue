@@ -8,7 +8,7 @@
 			<el-tree :data="treeData" node-key="id" default-expand-all :expand-on-click-node="false" :props="defaultProps">
 				<span class="custom-tree-node" slot-scope="{ node, data }">
                 <span>{{ node.label }}</span>
-				<span>
+				        <span>
                   <el-button type="text" size="mini" @click="addAndEdit(node,data,'add')">创建</el-button>
                   <el-button type="text" size="mini" @click="addAndEdit(node,data,'edit')">编辑</el-button>
                   <el-button type="text" size="mini"  @click="remove(node,data)">删除</el-button>
@@ -25,7 +25,8 @@
 			</el-form>
 			<span slot="footer" class="dialog-footer">
                  <el-button @click="addAndEditDialog = false">取 消</el-button>
-                 <el-button type="primary" @click="onsubmit">确 定</el-button>
+                 <el-button type="primary" @click="onsubmit
+">确 定</el-button>
            </span>
 		</el-dialog>
 

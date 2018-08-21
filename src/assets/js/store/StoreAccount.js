@@ -24,7 +24,7 @@
 					phone:'',
 					merchant_role_id:'',
 	                page: 1,
-	                page_size:10,	                
+	                page_size:20,	                
 	            },
 	            editFormVisible:false,
 	            allRole:[],

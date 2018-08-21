@@ -139,6 +139,11 @@ export default{
       window.history.back(-1);
     },
     fnDistribution(row){
+			this.$data.dorganizeCode = [];
+			this.$data.distributionForm = {
+				device_id: '',
+				belong_sid: ''
+			};
       this.$data.distributionForm.device_id = row.device_id;
       this.$data.distributionForm.belong_sid = '';
       this.$data.distributionFormVisible = true;
@@ -170,12 +175,7 @@ export default{
     },
 
     //分配
-    distributionCancel() {
-      this.$data.dorganizeCode = [];
-      this.$data.distributionForm = {
-        device_id: '',
-        belong_sid: ''
-      };
+    distributionCancel() { 
       this.$data.distributionFormVisible = false;
     },
     getOrganizes() {

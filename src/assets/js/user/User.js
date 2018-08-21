@@ -24,33 +24,43 @@ export default{
       dialogTitle:"",
       userDialogFormVisible: false,
       ruleForm: {
+				username:'',
+				truename:'',
+				phone:'',
         role_id:'',
-        name: '',
+        password:'',
       },
-      currentId:'',
-      currentName:'',
       rules: {
         username:globalRules.rules.username() ,
         password: globalRules.rules.password(),
         truename:globalRules.rules.truename(),
         phone: globalRules.rules.phone(),
       },
-      permissionDialogFormVisible:false,
-      dialogForm2: [],
-      checkedIds:[],
       userEditVisible:false,
       editForm:{
+				id:'',
         role_id:'',
         username:'',
         phone:'',
         truename:'',
-        status:1,
+        status:'',
         password:'',
-        roleName:'',
       },
-      noData:false,
     }
   },
+	watch:{
+		userDialogFormVisible:function(){
+			setTimeout( ()=>{
+				this.$refs.ruleForm.clearValidate();
+			},0)
+		},
+		userEditVisible:function(){
+			setTimeout( ()=>{
+				this.$refs.editForm.clearValidate();
+			},0)
+		}
+		
+	},
   created:function(){
     this.lists();
     this.getRoles();
@@ -60,27 +70,43 @@ export default{
     lists(){
       let qs = require('querystring')
       userApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-        if( res.data.errno == 1000002){
-          this.$message.error('请输入完整的手机号码')
-        }
-        if(res==undefined || res=='' || res.data==undefined || res.data==''){
-          return ;
-        }
-        if(res.data.data.list.length === 0){
-          this.$data.noData = true;
-        }else{
-          this.$data.noData = false;
-        }
-
         if(res.data.errno === 0){
-          this.$data.tableData = res.data.data.list;
-          this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
-          this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
-        }else{
+					if(res.data.data.list.length !== 0){
+						 this.$data.tableData = res.data.data.list;
+					 	 this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
+						 this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
+					}else{
+						 this.$data.tableData = []
+					}          
+        }else if(res.data.errno == 1000002){
+					this.$message.error('请输入完整的手机号码');
+				}else{
           this.$message.error(res.data.msg);
         }
       })
     },
+		
+		//清除新增的弹窗数据
+		fuResetRuleForm(){
+			this.$data.ruleForm.username = '';
+			this.$data.ruleForm.password = '';
+			this.$data.ruleForm.truename = '';
+			this.$data.ruleForm.phone = '';
+			this.$data.ruleForm.role_id = '';
+		},
+		
+		//清除编辑的弹框数据
+		editClear(){
+			this.$data.editForm.id = '';
+			this.$data.editForm.role_id='';
+			this.$data.editForm.username='';
+			this.$data.editForm.phone='';
+			this.$data.editForm.truename='';
+			this.$data.editForm.status='';
+			this.$data.editForm.password='';			
+		},
+		
+		//获得岗位列表
     getRoles(){
       roleApi.lists_results().then((res) => {
         if(res.data.errno === 0){
@@ -88,10 +114,14 @@ export default{
         }
       })
     },
+		
+		//点击分页发送数据
     handleCurrentChange(currentPage) {
       this.$data.requestParameters.page = currentPage;
       this.lists();
     },
+		
+		//删除该数据
     fnRemove(row){
       this.$confirm('确认删除该角色：'+row.username+' ？', '删除提示', {
         confirmButtonText: '确定',
@@ -117,143 +147,79 @@ export default{
       }).catch(() => {
       });
     },
-    //关闭弹框事件
-    dialogClose(){
-      this.$data.ruleForm={};
-      this.$data.userDialogFormVisible = false;
-    },
+    //新增
     fnAdds(){
-      this.$data.currentId = "";
-      this.$data.ruleForm.name = "";
-      this.$data.userDialogFormVisible = true;
-      this.getRoles();
-      setTimeout(() =>{
-        this.$refs.ruleForm.resetFields();
-      })
+			this.fuResetRuleForm();
+			this.$data.userDialogFormVisible = true;			
     },
+		
     fnEdit(row){
-
-      this.$data.editForm = row;
-      this.$data.editForm.roleName = row.storeRole.name;
-      this.$data.editForm.role_id = row.storeRole.id;
-      this.$data.currentId = row.id;
-      this.$data.userEditVisible = true;
-      if(row.status == '启用'){
-        this.$data.editForm.status = 1;
-      }else{
-        this.$data.editForm.status = 0;
-      }
-      this.getRoles();
-    },
-    fnCancel(){
-      this.$data.userDialogFormVisible = false;
-      this.$data.permissionDialogFormVisible = false;
-      this.$data.ruleForm.name = '';
-      this.$data.ruleForm.name = 0;
-      this.$data.currentId = '';
-      this.$data.ruleForm = {};
-      setTimeout(() =>{
-        this.$refs.ruleForm.resetFields();
-      })
-    },
-    fuResetRuleForm(){
-      this.$data.ruleForm.username = '';
-      this.$data.ruleForm.password = '';
-      this.$data.ruleForm.name = '';
-      this.$data.ruleForm.phone = '';
-      this.$data.ruleForm.status = '';
-      this.$data.ruleForm.role_id = '';
-      this.$data.currentId = '';
-      this.$data.userDialogFormVisible = false;
-    },
+			this.$data.editForm.id = row.id;
+			this.$data.editForm.role_id = row.storeRole.id;
+			this.$data.editForm.username = row.username;
+			this.$data.editForm.phone = row.phone;
+			this.$data.editForm.truename = row.truename;
+			this.$data.editForm.status = row.status;
+			this.$data.editForm.password = '';		
+			this.$data.userEditVisible = true;
+    },   
+    
     onSubmitSearch(){
       this.lists();
     },
-    submitForm(formName){
-      if(this.$data.currentId !== ''){
-        if(this.$data.editForm.status == '启用'){
-          this.$data.editForm.status = 1;
-        }else{
-          this.$data.editForm.status = 0;
-        }
-        let list = {
-          'id': this.$data.currentId,
-          'username':this.$data.editForm.username,
-          'password':this.$data.editForm.password,
-          'truename':this.$data.editForm.truename,
-          'phone':this.$data.editForm.phone,
-          'role_id':this.$data.editForm.role_id,
-          'status':this.$data.editForm.status,
-
-        }
-        let qs = require('querystring')
-        userApi.edit(qs.stringify(list)).then((res) => {
-          if(res.data.errno === 0){
-            this.$message({
-              message: '操作成功',
-              type: 'success',
-              duration:1500
-            });
-            this.lists();
-            this.$data.userEditVisible = false;
-          }else{
-            this.$message.error(res.data.msg);
-          }
-          setTimeout(() =>{
-            this.$refs.editForm.resetFields();
-          })
-        })
-      }else{
-        let list = {
-          'username':this.$data.ruleForm.username,
-          'password':this.$data.ruleForm.password,
-          'truename':this.$data.ruleForm.truename,
-          'phone':this.$data.ruleForm.phone,
-          'role_id':this.$data.ruleForm.role_id,
-        }
-        let qs = require('querystring')
-        userApi.adds(qs.stringify(list)).then((res) => {
-          if(res.data.errno === 0){
-            this.$message({
-              message: '操作成功',
-              type: 'success',
-              duration:1500
-            });
-            this.lists();
-            this.fuResetRuleForm();
-          }else{
-            this.$message.error(res.data.msg);
-
-          }
-        })
-      }
-    },
-    //编辑清除数据
-    editClear(){
-      this.$data.userEditVisible = false;
-      this.$data.editForm.role_id='';
-      this.$data.editForm.username='';
-      this.$data.editForm.phone='';
-      this.$data.editForm.truename='';
-      this.$data.editForm.status=1;
-      this.$data.editForm.password='';
-      this.$data.editForm.roleName='';
-      setTimeout(()=>{
-        this.$refs.editForm.resetFields();
-      })
-    },
+		
+		//新增的提交
+		addSubmitForm(){    
+		    let qs = require('querystring')
+		    userApi.adds(qs.stringify(this.$data.ruleForm)).then((res) => {
+		        if(res.data.errno === 0){
+		            this.$message({
+		              message: '操作成功',
+		              type: 'success',
+		              duration:1500
+		            });
+		            this.lists();
+		            this.fuResetRuleForm();	
+								this.$data.userDialogFormVisible = false;
+		        }else{
+		            this.$message.error(res.data.msg);
+		
+		        }
+						
+		    })
+		},		
+		
+		//编辑的提交
+		submitForm(){
+			let qs = require('querystring');
+			userApi.edit(qs.stringify(this.$data.editForm)).then((res) => {
+				if(res.data.errno === 0){
+					this.$message({
+						message: '操作成功',
+						type: 'success',
+						duration:1500
+					});
+					this.lists();	
+					this.$data.userEditVisible = false;				
+				}else{
+					this.$message.error(res.data.msg);
+				}
+			})
+		},
+    
+		
+		fnCancel(){      
+			this.$data.userDialogFormVisible = false;
+		},
+		editDialogClose(){
+			this.editClear();
+			this.$data.userEditVisible = false;
+		},
     fnEditCancel(){
       this.$data.userEditVisible = false;
-      // this.editClear();
     },
-    editDialogClose(){
-      this.$data.userEditVisible = false;
-      // this.editClear();
-    },
-
-    changeSwitch (data) {
-      console.log(this.$data.editForm.status)
-    },
+		
+		//重置搜索
     resetSearch(){
       this.$data.requestParameters.username='';
       this.$data.requestParameters.merchant_role_id='';

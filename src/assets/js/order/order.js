@@ -25,7 +25,7 @@ export default {
       styles:[],
       requestParameters: {
         page: 1,
-        page_size:10,
+        page_size:20,
         store_id:'',
         sn:'',
         material:'',
@@ -126,7 +126,10 @@ export default {
     		this.$data.requestParameters.created_at_start = "";
         this.$data.requestParameters.created_at_end = "";
     	}
-    	
+			if(this.$data.organizeCode.length > 0 && this.$data.requestParameters.store_id == ""){
+				 this.$message("请选择门店！");
+				 return false;
+			}			
       this.lists();
     },
     fnView(row){

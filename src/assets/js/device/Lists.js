@@ -28,11 +28,13 @@ export default {
 			startTimes: ['', ''],
 			requestParameters: {
 				page: 1,
-				page_size: 10,
+				page_size: 20,
 				device_id: '',
 				version: '',
-        locate: '',
-				name: '',
+				merchant_organize_id:'',
+				belong_sid: '',
+                locate: '',
+				name: '',				
 				// created_at_begin: '',
 				// cteated_at_end: '',
 				// start_at_begin: '',
@@ -45,7 +47,6 @@ export default {
 				belong_sid: ''
 			},
 			operationRules: {},
-
 			editFormVisible: false,
 			editForm: {
 				device_id: '',
@@ -110,6 +111,11 @@ export default {
 			this.lists();
 		},
 		onSubmit() {
+			if(this.organizeCode.length > 0){
+				this.$data.requestParameters.merchant_organize_id = this.organizeCode[this.organizeCode.length - 1];
+			}else{
+				this.$data.requestParameters.merchant_organize_id = "";
+			}
 			this.lists();
 		},
 		resetSearch() {
@@ -124,6 +130,7 @@ export default {
 				page_size: 10,
 				device_id: '',
 				version: '',
+				merchant_organize_id:'',
 				belong_sid: '',
 				name: '',
 				created_at_begin: '',
@@ -136,6 +143,11 @@ export default {
 			this.lists();
 		},
 		fnDistribution(row) {
+			this.$data.dorganizeCode = [];
+			this.$data.distributionForm = {
+				device_id: '',
+				belong_sid: ''
+			};
 			this.$data.distributionForm.device_id = row.device_id;
 			this.$data.distributionForm.belong_sid = '';
 			this.$data.distributionFormVisible = true;
@@ -167,11 +179,6 @@ export default {
 
 		},
 		distributionCancel() {
-			this.$data.dorganizeCode = [];
-			this.$data.distributionForm = {
-				device_id: '',
-				belong_sid: ''
-			};
 			this.$data.distributionFormVisible = false;
 		},
 		distributionSubmit() {

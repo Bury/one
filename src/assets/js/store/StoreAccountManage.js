@@ -31,7 +31,7 @@ export default {
 				truename: '',
 				phone: '',
 				page: 1,
-				page_size: 10,
+				page_size: 20,
 			},
 			editFormVisible: false,
 			editFormOrganize: [],
@@ -156,9 +156,13 @@ export default {
 			let qs = require('querystring');
 			storeAccountApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
 				if(res.data.errno === 0) {
-					this.$data.tableData = res.data.data.list;
-					this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
-					this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
+					if(res.data.data !== null){
+						this.$data.tableData = res.data.data.list;
+						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
+						this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
+					}else{
+						this.$data.tableData = [];
+					}					
 				} else {
 					this.$message.error(res.data.msg);
 				}
@@ -445,7 +449,7 @@ export default {
 			if(this.$data.organizeCode.length !== 0) {
 				this.$data.requestParameters.merchant_organize_id = this.$data.organizeCode[this.$data.organizeCode.length - 1]
 			}
-			this.accountLists()
+			this.accountLists();
 		},
 		resetForm() {
 			this.$data.organizeCode = [];
@@ -459,7 +463,8 @@ export default {
 				phone: '',
 				page: 1,
 				page_size: 10,
-			}
+			};
+			this.accountLists();
 		}
 
 	}
