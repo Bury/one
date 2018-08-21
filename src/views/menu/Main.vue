@@ -89,7 +89,7 @@ export default {
   },
 
   created: function(){
-    this.$data.userName = sessionStorage.getItem('username')
+    this.$data.userName = localStorage.getItem('username')
   },
 
   methods: {
@@ -117,8 +117,8 @@ export default {
     logout(){
         userApi.logout().then((res) => {
             if(res.data.errno === 0){
-                sessionStorage.setItem('knock_knock', null)
-                sessionStorage.setItem('username', '')
+                localStorage.setItem('knock_knock', null)
+                localStorage.setItem('username', '')
                 this.$router.replace({name: 'UserLogin'})
             }else{
                 //logout failed
