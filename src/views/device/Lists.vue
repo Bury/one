@@ -2,11 +2,11 @@
 	<div class="device-box">
 		<div class="top-box">
 			<el-form :inline="true" :model="requestParameters" class="demo-form-inline" size="mini">
-				<el-form-item label="门店架构：">
+				<el-form-item label="门店架构 - 门店：">
 					<el-cascader :options="organizes" v-model='organizeCode' :props='defaultAttr' @change="getStore">
 					</el-cascader>
 				</el-form-item>
-				<el-form-item label="门店：">
+				<el-form-item label=" - ">
 					<el-select v-model="requestParameters.belong_sid" placeholder="请选择" :no-data-text="nodatatext">
 						<el-option v-for="(item,idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id" :key="idx">
 						</el-option>

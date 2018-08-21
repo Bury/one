@@ -73,7 +73,7 @@
       </el-dialog>
       <!--忘记密码第三步-->
       <el-dialog title="忘记密码" :visible.sync="passwordVisibleThird" :before-close="dialogClose">
-        <el-form label-width="100px">
+        <el-form label-width="100px" :rules="editPwd">
           <el-form-item label="新密码:" prop="password">
             <el-col :span="15"><el-input v-model="passwordForm.new_password" type="password"></el-input></el-col>
           </el-form-item>

@@ -270,6 +270,7 @@ export default {
 					if(res.data.data != null && res.data.data.length > 0) {
 						this.$data.allStores = res.data.data;
 					} else {
+            this.$data.dallStores = [];
 						this.$data.nodatatext = "此地区暂无门店";
 						this.$data.distributionForm.belong_sid = "";
 					}
@@ -288,6 +289,7 @@ export default {
 					if(res.data.data != null && res.data.data.length > 0) {
 						this.$data.dallStores = res.data.data;
 					} else {
+            this.$data.dallStores = [];
 						this.$data.dnodatatext = "此地区暂无门店";
 						this.$data.distributionForm.belong_sid = "";
 					}
