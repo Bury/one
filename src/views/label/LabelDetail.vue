@@ -1,6 +1,7 @@
 <template>
 	<div class="label-detail-page">
 		<div class="top-box">
+			<el-button type="primary" size="small" class="add-btn1" @click="fnGoback()">返回</el-button>
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdd()">新增</el-button>
 		</div>
     <!--列表-->
@@ -162,6 +163,9 @@
 				this.$data.ruleForm.name = "";
 				this.$data.dialogFormVisible = true;
 			},
+      fnGoback(){
+			  this.$router.push('/LabelList');
+      },
 
 			cancel(){
 				this.$data.dialogFormVisible = false;
@@ -222,12 +226,14 @@
 			margin-bottom:20px;
 			height: 36px;
 			border-bottom:1px solid #d2d2d2;
-			.add-btn{
+			.add-btn,.add-btn1{
 				position: absolute;
 				top:0;
 				right:20px;
-
 			}
+      .add-btn1{
+        right: 100px;
+      }
 		}
 	}
 

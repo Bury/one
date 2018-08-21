@@ -167,8 +167,7 @@
 			},
 			submitForm(formName){
 				this.$refs[formName].validate((valid) => {
-					console.log(valid)
-			        if (valid) {
+          if (valid) {
 						if(this.$data.currentId !== ''){
 							let list = {
 								'id': this.$data.currentId,
@@ -177,13 +176,10 @@
 							let qs = require('querystring')
 			        		labelApi.editLabel(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
-									console.log(res)
-									this.labelList();
-
+									  this.labelList();
 			        			}else{
-
+			        			  this.$message.error(res.data.msg)
 			        			}
-
 			        		})
 						}else{
 							let list = {
@@ -192,13 +188,10 @@
 						    let qs = require('querystring')
 			        		labelApi.addLabel(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
-									console.log(res)
-									this.labelList();
-
+									  this.labelList();
 			        			}else{
-
+                      this.$message.error(res.data.msg)
 			        			}
-
 			        		})
 						}
 						this.$data.ruleForm.name = '';
