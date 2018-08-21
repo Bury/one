@@ -1,12 +1,13 @@
 import userApi from '@/api/user.js'
 import globalRules from '@/config/global_rules'
 import globalFunctions from '@/config/global_functions'
-
+// import userApi from '@/api/user.js'
 let clock;
 export default {
   name: 'login-form',
   data () {
     return {
+      routeName:'',
       getClickName:'获取验证码',
       waitTime:60,
       canClick: true,
@@ -61,10 +62,26 @@ export default {
       passwordVisibleSecond:false,
       passwordVisibleThird:false,
       getMsgAfter:false,
+      editPwd:{
+        password:globalRules.rules.password(),
+        repassword: [
+          { required: true, message: '请再次输入密码', trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+              if (value !== this.$data.passwordForm.new_password) {
+                callback(new Error('两次输入密码不一致!'));
+              } else {
+                callback();
+              }
+            },
+            trigger: 'blur'
+          }
+        ]
+      }
     }
   },
   created: function () {
-
+    this.menu();
   },
   mounted: function () {
   },
@@ -80,15 +97,14 @@ export default {
           let qs = require('querystring');
           userApi.login(qs.stringify(this.$data.loginInfo)).then((res) => {
             if(res.data.errno === 0){
-              console.log(res);
               localStorage.setItem('knock_knock', res.data.data.access_token);
               localStorage.setItem('username', res.data.data.user.username);
               if(res.data.data.user.is_change_pwd == 0){
                 this.$data.dialogFormVisible = true;
               }else{
-                this.$router.push('/Statistics');
+                this.menu();
+                this.$router.push(this.$data.routeName);
               }
-              // this.$router.replace({name: 'Statistics'})
             }else if(res.data.msg === '此账号被禁用'){
               this.$message.error(res.data.msg);
               this.$data.status = 0
@@ -99,6 +115,21 @@ export default {
 
         } else {
           return false
+        }
+      })
+    },
+    menu() {
+      userApi.menu().then((res) => {
+        if(res.data.errno === 0){
+          for(let i=0;i<res.data.data.length;i++){
+            if(res.data.data[i].no_child === true){
+              this.$data.routeName = res.data.data[0].front_url;
+              break
+            }else if(res.data.data[i].no_child === false){
+              this.$data.routeName = res.data.data[i].children[0].front_url;
+              break
+            }
+          }
         }
       })
     },
@@ -125,7 +156,8 @@ export default {
                   this.$data.passwordEditForm.passwordOld = '';
                   this.$data.passwordEditForm.passwordCurrent = '';
                   this.$data.passwordEditForm.passwordRepeat = '';
-                  this.$router.push('/Statistics');
+                  this.menu();
+                  this.$router.push(this.$data.routeName);
                 }else{
                   this.$message.error(res.data.msg);
                 }
