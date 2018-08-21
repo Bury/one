@@ -103,7 +103,6 @@ export default {
                 this.$data.dialogFormVisible = true;
               }else{
                 this.menu();
-                this.$router.push(this.$data.routeName);
               }
             }else if(res.data.msg === '此账号被禁用'){
               this.$message.error(res.data.msg);
@@ -130,6 +129,7 @@ export default {
               break
             }
           }
+          this.$router.push(this.$data.routeName);
         }
       })
     },
@@ -157,7 +157,6 @@ export default {
                   this.$data.passwordEditForm.passwordCurrent = '';
                   this.$data.passwordEditForm.passwordRepeat = '';
                   this.menu();
-                  this.$router.push(this.$data.routeName);
                 }else{
                   this.$message.error(res.data.msg);
                 }
