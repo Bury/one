@@ -36,7 +36,7 @@
 						type: ''
 					},
 					title: {
-						text: '性别'
+						text: '性别占比'
 					},
 					credits: {
 						text: '',
