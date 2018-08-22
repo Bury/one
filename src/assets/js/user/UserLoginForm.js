@@ -120,6 +120,12 @@ export default {
     menu() {
       userApi.menu().then((res) => {
         if(res.data.errno === 0){
+					if(res.data.data === null){
+						this.$message("此账号暂无权限！");
+						localStorage.setItem('knock_knock',null);
+						localStorage.setItem('username', '');
+						return false;
+					};
           for(let i=0;i<res.data.data.length;i++){
             if(res.data.data[i].no_child === true){
               this.$data.routeName = res.data.data[0].front_url;
