@@ -51,14 +51,14 @@
 			</div>
 		</el-dialog>
     <!-- 修改 -->
-    <el-dialog title="修改岗位" :visible.sync="editFormVisible">
+    <el-dialog title="修改岗位" :visible.sync="editFormVisible" :before-close="closeDialog">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="岗位名称：" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancel">取 消</el-button>
+        <el-button @click="editCancle">取 消</el-button>
         <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
       </div>
     </el-dialog>

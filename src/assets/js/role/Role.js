@@ -215,17 +215,6 @@
           this.$data.checkedIds.push(this.$data.parentId );
         }
       },
-      // changeSetting(data, val, child){
-      //   //data该节点的对象，val自身是否被选中，child子节点是否被选中
-      //   console.log(this.$data.checkedIds);
-      //   console.log(data);
-      //   this.$data.nodeId = data.id;
-      //   if(val == true && data.parent_id != 0){
-      //     this.$data.parentId = this.$refs.tree.getNode(this.$data.nodeId).parent.data.id;
-      //     this.$data.checkedIds.push(this.$data.parentId );
-      //   }
-      // },
-
 			fnSet(row) {
 			  this.$data.dialogForm2 = [];
 				this.$data.currentName = row.name;
@@ -284,6 +273,7 @@
       dialogClose(){
         this.$data.dialogFormVisible = false;
         this.$data.ruleForm = {};
+        this.$data.editFormVisible = false;
         setTimeout(()=>{
           this.$refs.ruleForm.resetFields();
         })

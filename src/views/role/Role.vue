@@ -65,7 +65,7 @@
 		</el-dialog>
 
     <!-- 修改 -->
-    <el-dialog title="修改岗位" :visible.sync="editFormVisible">
+    <el-dialog title="修改岗位" :visible.sync="editFormVisible" :before-close="dialogClose">
       <el-form :model="ruleForm" :rules="rulesEdit" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="岗位名称：" prop="name">
           <el-input v-model="ruleForm.name"></el-input>

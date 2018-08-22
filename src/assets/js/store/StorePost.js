@@ -108,10 +108,20 @@ export default{
       })
     },
     cancel(){
-      this.$data.editFormVisible = false;
+      this.$data.dialogFormVisible = false;
       this.$data.currentId = '';
-      // this.$data.ruleForm.name = '';
-      // this.clearFormData();
+      this.$data.ruleForm.name = '';
+      this.clearFormData();
+      setTimeout(() => {
+        this.$refs.ruleForm.resetFields();
+      })
+    },
+    editCancle(){
+      // this.$data.currentId = '';
+      this.$data.editFormVisible = false;
+      setTimeout(() => {
+        this.$refs.ruleForm.resetFields();
+      })
     },
     submitForm(formName){
       this.$refs[formName].validate((valid) => {
@@ -288,6 +298,10 @@ export default{
     },
     closeDialog(){
       this.clearFormData();
+      setTimeout(() => {
+        this.$refs.ruleForm.resetFields();
+        this.$data.editFormVisible = false;
+      })
     },
     //清除数据
     clearFormData(){
