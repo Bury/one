@@ -17,12 +17,8 @@ export default {
         password: ''
       },
       rules: {
-        username: [
-          { required: true, message: '请填写登录帐号', trigger: 'blur' },
-        ],
-        password: [
-          { required: true, message: '请填写登录密码', trigger: 'blur' },
-        ]
+        username: globalRules.rules.username(),
+        password: globalRules.rules.password(),
       },
       dialogFormVisible:false,
       passwordEditForm:{
