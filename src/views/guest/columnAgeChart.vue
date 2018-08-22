@@ -36,7 +36,7 @@
 						type: ''
 					},
 					title: {
-						text: '年龄段'
+						text: '年龄段占比'
 					},
 					credits: {
 						text: '',
