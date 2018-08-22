@@ -87,11 +87,6 @@
 							enableMouseTracking: true
 						}
 					},
-					colors: [
-						'#57B4F7',
-						'#FFC200',						
-						'#90ED7D'
-					],
 					series: [{
 						name: "客流统计",
 						data: []
