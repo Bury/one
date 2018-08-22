@@ -129,14 +129,6 @@
 							return positions;
 						}
 
-					},
-					series: {
-						dataLabels: {
-							enabled: true,
-							formatter: function() {
-								return (this.y * 1000000) / 10000 + "%"
-							}
-						}
 					}
 				};
 				let columnAgeChart = this.$refs.columnAgeChart;
@@ -144,11 +136,13 @@
 				columnAgeChart.removeSeries();
 				setTimeout(() => {
 					columnAgeChart.hideLoading();
-					while(columnAgeChart.getChart().series.length > 0) {
-						columnAgeChart.getChart().remove(true);
-					}
-
 					for(let i = 0; i < value.length; i++) {
+						value[i].dataLabels = {
+							enabled: true,
+							formatter: function() {
+								return (this.y * 1000000) / 10000 + "%"
+							}
+						}						
 						columnAgeChart.getChart().addSeries(value[i])
 					}
 					columnAgeChart.getChart().xAxis[0].setCategories(["20岁以下", "20-29岁","30-39岁","40-49岁","50-59岁","60岁以上"]);

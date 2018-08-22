@@ -129,14 +129,6 @@
 							return positions;
 						}
 
-					},
-					series: {
-						dataLabels: {
-							enabled: true,
-							formatter: function() {
-								return (this.y * 1000000) / 10000 + "%"
-							}
-						}
 					}
 				};
 				let columnSexChart = this.$refs.columnSexChart;
@@ -144,11 +136,17 @@
 				columnSexChart.removeSeries();
 				setTimeout(() => {
 					columnSexChart.hideLoading();
-					while(columnSexChart.getChart().series.length > 0) {
-						columnSexChart.getChart().remove(true);
-					}
+// 					while(columnSexChart.getChart().series.length > 0) {
+// 						columnSexChart.getChart().remove(true);
+// 					}
 
 					for(let i = 0; i < value.length; i++) {
+						value[i].dataLabels = {
+							enabled: true,
+							formatter: function() {
+								return (this.y * 1000000) / 10000 + "%"
+							}
+						}						
 						columnSexChart.getChart().addSeries(value[i])
 					}
 					columnSexChart.getChart().xAxis[0].setCategories(["男", "女"]);

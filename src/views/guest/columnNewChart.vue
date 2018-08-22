@@ -129,14 +129,6 @@
 							return positions;
 						}
 
-					},
-					series: {
-						dataLabels: {
-							enabled: true,
-							formatter: function() {
-								return (this.y * 1000000) / 10000 + "%"
-							}
-						}
 					}
 				};
 				let columnNewChart = this.$refs.columnNewChart;
@@ -144,11 +136,17 @@
 				columnNewChart.removeSeries();
 				setTimeout(() => {
 					columnNewChart.hideLoading();
-					while(columnNewChart.getChart().series.length > 0) {
-						columnNewChart.getChart().remove(true);
-					}
+// 					while(columnNewChart.getChart().series.length > 0) {
+// 						columnNewChart.getChart().remove(true);
+// 					}
 
 					for(let i = 0; i < value.length; i++) {
+						value[i].dataLabels = {
+							enabled: true,
+							formatter: function() {
+								return (this.y * 1000000) / 10000 + "%"
+							}
+						}						
 						columnNewChart.getChart().addSeries(value[i])
 					}
 					

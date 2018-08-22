@@ -95,12 +95,12 @@
 			}
 		},
 		watch: {
-			changeFlag: function() {
+			changeFlag: function () {
 				this.$data.postParameters = this.$props.postVal;
 				this.setData();
 			}
 		},
-		created: function() {
+		created: function () {
 			this.$data.postParameters = this.$props.postVal;
 			this.setData();
 			Highcharts.setOptions({
@@ -110,33 +110,33 @@
 				}
 			});
 		},
-		mounted: function() {
+		mounted: function () {
 
 		},
 		methods: {
-			
+
 			//判断数组是否都为零
-			zeroFlag(arr){
+			zeroFlag(arr) {
 				arr = arr || [];
-			    let flag =	arr.some(function(item){
+				let flag = arr.some(function (item) {
 					return item === 0;
 				})
 				return flag;
 			},
-			
+
 			setData() {
 				let val = this.$props.statisticsType;
-				switch(val) {
+				switch (val) {
 					case "1":
-						if(this.$props.sumOrDiff === "0") {
+						if (this.$props.sumOrDiff === "0") {
 							this.isShow = true;
-							if(this.$data.chartOptionsType === 0) {
+							if (this.$data.chartOptionsType === 0) {
 								this.getCustomer()
-							} else if(this.$data.chartOptionsType === 1) {
+							} else if (this.$data.chartOptionsType === 1) {
 								this.postFeatureSum("face")
-							} else if(this.$data.chartOptionsType === 2) {
+							} else if (this.$data.chartOptionsType === 2) {
 								this.postFeatureSum("age")
-							} else if(this.$data.chartOptionsType === 3) {
+							} else if (this.$data.chartOptionsType === 3) {
 								this.postFeatureSum("gender")
 							}
 						} else {
@@ -146,7 +146,7 @@
 						break;
 					case "2":
 						this.isShow = false;
-						if(this.$props.sumOrDiff === "0") {
+						if (this.$props.sumOrDiff === "0") {
 							this.orderSum();
 						} else {
 							this.orderDiff();
@@ -154,7 +154,7 @@
 						break;
 					case "3":
 						this.isShow = false;
-						if(this.$props.sumOrDiff === "0") {
+						if (this.$props.sumOrDiff === "0") {
 							this.customerLostSum()
 						} else {
 							this.customerLostDiff()
@@ -162,7 +162,7 @@
 						break;
 					case "4":
 						this.isShow = false;
-						if(this.$props.sumOrDiff === "0") {
+						if (this.$props.sumOrDiff === "0") {
 							this.orderLostSum();
 						} else {
 							this.orderLostDiff();
@@ -178,63 +178,47 @@
 
 				let dataRate = {
 					tooltip: {
-						formatter: function() {
+						formatter: function () {
 							let s = this.point.series.name + ':' + ((this.point.y * 1000000) / 10000) + '%';
 							return s;
 						}
 					},
 					yAxis: {
 						labels: {
-							formatter: function() {
+							formatter: function () {
 								return (this.value * 1000000) / 10000 + "%"
 							}
 						},
 						max: 1,
-						tickPositioner: function() {
+						tickPositioner: function () {
 							var positions = [0, 0.2, 0.4, 0.6, 0.8, 1];
 							return positions;
 						}
 
-					},
-					series: {
-						dataLabels: {
-							enabled: true,
-							formatter: function() {
-								return (this.y * 1000000) / 10000 + "%"
-							}
-						}
 					}
 				};
 				let dataSum = {
 					tooltip: {
-						formatter: function() {
+						formatter: function () {
 							let s = this.point.series.name + ':' + this.point.y;
 							return s;
 						}
 					},
 					yAxis: {
 						labels: {
-							formatter: function() {
+							formatter: function () {
 								return this.value
 							}
 						},
 						max: null,
-						tickPositioner: function() {
+						tickPositioner: function () {
 							let positions = [],
 								increment;
 							increment = this.dataMax > 10 ? Math.ceil(this.dataMax / 4) : 2;
-							for(let i = 0; i < 6; i++) {
+							for (let i = 0; i < 6; i++) {
 								positions.push(increment * i)
 							}
 							return positions;
-						}
-					},
-					series: {
-						dataLabels: {
-							enabled: true,
-							formatter: function() {
-								return this.y
-							}
 						}
 					}
 				};
@@ -243,20 +227,36 @@
 				guestCharts.removeSeries();
 				setTimeout(() => {
 					guestCharts.hideLoading();
-					if(value.length !== 0) {
-						for(var i = 0; i < value.length; i++) {
-							guestCharts.addSeries(value[i])
-						}
+					if (value.length !== 0) {
 						guestCharts.getChart().xAxis[0].setCategories(value[0].time);
 
-						if(this.$props.statisticsType !== '1') {
+						if (this.$props.statisticsType !== '1') {
+							for (var i = 0; i < value.length; i++) {
+								value[i].dataLabels = {
+									enabled: true,
+									formatter: function () {
+										return (this.y * 1000000) / 10000 + "%";
+									}
+								}
+								guestCharts.addSeries(value[i])
+							};
 							guestCharts.getChart().update(dataRate);
-
 						} else {
+
+							for (var i = 0; i < value.length; i++) {
+								value[i].dataLabels = {
+									enabled: true,
+									formatter: function () {
+										return this.y;
+									}
+								}
+								guestCharts.addSeries(value[i]);
+							};
 							guestCharts.getChart().update(dataSum);
 						}
 
 					} else {
+
 						guestCharts.addSeries(value)
 					}
 				}, 0)
@@ -274,20 +274,20 @@
 				};
 				statisticsApi.getFeatureGraph(postData).then((res) => {
 					let arr = [];
-					if(res.data.errno === 0) {
-					  if(res.data.data !== null){
-					  	let d = res.data.data;
-						d.forEach(function(val, index) {
-							arr.push({
-								name: val.value,
-								data: val.sum,
-								time: val.time
+					if (res.data.errno === 0) {
+						if (res.data.data !== null) {
+							let d = res.data.data;
+							d.forEach(function (val, index) {
+								arr.push({
+									name: val.value,
+									data: val.sum,
+									time: val.time
+								})
 							})
-						})
-                        this.drawChart(arr);
-                       }else{
-                       	this.drawChart([]);
-                       }
+							this.drawChart(arr);
+						} else {
+							this.drawChart([]);
+						}
 					} else {
 						this.$message(res.data.msg)
 					}
@@ -297,17 +297,17 @@
 			//客流统计默认数据求和
 			getCustomer() {
 				statisticsApi.getCustomerSum(this.$data.postParameters).then((res) => {
-					if(res.data.errno === 0) {
-						if(res.data.data !== null){
-						  let arr = [{
-							name: "总客流",
-							data: res.data.data.sum,
-							time: res.data.data.time
-						   }];		
-						   
-						   this.drawChart(arr);
-						}else{
-						   this.drawChart([])
+					if (res.data.errno === 0) {
+						if (res.data.data !== null) {
+							let arr = [{
+								name: "总客流",
+								data: res.data.data.sum,
+								time: res.data.data.time
+							}];
+
+							this.drawChart(arr);
+						} else {
+							this.drawChart([])
 						}
 					}
 				})
@@ -316,10 +316,10 @@
 			//客流统计折线图比对			
 			getCustomerDiff() {
 				statisticsApi.getCustomerDiff(this.$data.postParameters).then((res) => {
-					if(res.data.errno === 0) {
-						if(res.data.data !== null) {
+					if (res.data.errno === 0) {
+						if (res.data.data !== null) {
 							let arr = [];
-							for(let i = 0; i < res.data.data.length; i++) {
+							for (let i = 0; i < res.data.data.length; i++) {
 								arr.push({
 									name: res.data.data[i].diff_name,
 									data: res.data.data[i].sum,
@@ -327,7 +327,7 @@
 								})
 							}
 							this.drawChart(arr)
-						}else{
+						} else {
 							this.drawChart([])
 						}
 					} else {
@@ -338,16 +338,16 @@
 			//成交率求和
 			orderSum() {
 				statisticsApi.getOrderSum(this.$data.postParameters).then((res) => {
-					if(res.data.errno === 0) {
-						if(res.data.data !== null){
-						  let arr = [{
-							name: "成交率",
-							data: res.data.data.success,
-							time: res.data.data.time
-						  }]
-						  this.drawChart(arr);
-						}else{
-						  this.drawChart([])
+					if (res.data.errno === 0) {
+						if (res.data.data !== null) {
+							let arr = [{
+								name: "成交率",
+								data: res.data.data.success,
+								time: res.data.data.time
+							}]
+							this.drawChart(arr);
+						} else {
+							this.drawChart([])
 						}
 					}
 				})
@@ -356,10 +356,10 @@
 			//成交率折线图比对
 			orderDiff() {
 				statisticsApi.getOrderDiff(this.$data.postParameters).then((res) => {
-					if(res.data.errno === 0) {
-						if(res.data.data !== null) {
+					if (res.data.errno === 0) {
+						if (res.data.data !== null) {
 							let arr = [];
-							for(let i = 0; i < res.data.data.length; i++) {
+							for (let i = 0; i < res.data.data.length; i++) {
 								arr.push({
 									name: res.data.data[i].diff_name,
 									data: res.data.data[i].success,
@@ -367,7 +367,7 @@
 								})
 							}
 							this.drawChart(arr)
-						}else{
+						} else {
 							this.drawChart([])
 						}
 					} else {
@@ -379,21 +379,21 @@
 			//潜在客户流失率
 			customerLostSum() {
 				statisticsApi.customerlostSum(this.$data.postParameters).then((res) => {
-					if(res.data.errno === 0) {
-					   if(res.data.data !== null){
-					   	let dat = [];
-						res.data.data.diff.forEach(function(val) {
-							dat.push(parseFloat(val))
-						});
-						let arr = [{
-							name: "潜在客户流失率",
-							data: dat,
-							time: res.data.data.time
-						}]
-						this.drawChart(arr);
-					   }else{
-					   	this.drawChart([])
-					   }
+					if (res.data.errno === 0) {
+						if (res.data.data !== null) {
+							let dat = [];
+							res.data.data.diff.forEach(function (val) {
+								dat.push(parseFloat(val))
+							});
+							let arr = [{
+								name: "潜在客户流失率",
+								data: dat,
+								time: res.data.data.time
+							}]
+							this.drawChart(arr);
+						} else {
+							this.drawChart([])
+						}
 					}
 				})
 			},
@@ -401,10 +401,10 @@
 			//潜在客户流失率比对
 			customerLostDiff() {
 				statisticsApi.customerlostDiff(this.$data.postParameters).then((res) => {
-					if(res.data.errno === 0) {
-						if(res.data.data !== null) {
+					if (res.data.errno === 0) {
+						if (res.data.data !== null) {
 							let arr = [];
-							for(let i = 0; i < res.data.data.length; i++) {
+							for (let i = 0; i < res.data.data.length; i++) {
 								arr.push({
 									name: res.data.data[i].diff_name,
 									data: res.data.data[i].diff,
@@ -412,7 +412,7 @@
 								})
 							}
 							this.drawChart(arr);
-						}else{
+						} else {
 							this.drawChart([]);
 						}
 					} else {
@@ -424,21 +424,21 @@
 			//成交客户流失率
 			orderLostSum() {
 				statisticsApi.orderlostSum(this.$data.postParameters).then((res) => {
-					if(res.data.errno === 0) {
-					  if(res.data.data !== null){
-					  	let dat = [];
-						res.data.data.diff.forEach(function(val) {
-							dat.push(parseFloat(val))
-						})
-						let arr = [{
-							name: "成交客户流失率",
-							data: dat,
-							time: res.data.data.time
-						}]
-						this.drawChart(arr);
-					  }else{
-					  	this.drawChart([]);
-					  }
+					if (res.data.errno === 0) {
+						if (res.data.data !== null) {
+							let dat = [];
+							res.data.data.diff.forEach(function (val) {
+								dat.push(parseFloat(val))
+							})
+							let arr = [{
+								name: "成交客户流失率",
+								data: dat,
+								time: res.data.data.time
+							}]
+							this.drawChart(arr);
+						} else {
+							this.drawChart([]);
+						}
 					}
 				})
 			},
@@ -446,10 +446,10 @@
 			//成交客户流失率比对
 			orderLostDiff() {
 				statisticsApi.orderlostDiff(this.$data.postParameters).then((res) => {
-					if(res.data.errno === 0) {
-						if(res.data.data !== null) {
+					if (res.data.errno === 0) {
+						if (res.data.data !== null) {
 							let arr = [];
-							for(let i = 0; i < res.data.data.length; i++) {
+							for (let i = 0; i < res.data.data.length; i++) {
 								arr.push({
 									name: res.data.data[i].diff_name,
 									data: res.data.data[i].diff,
@@ -457,7 +457,7 @@
 								})
 							}
 							this.drawChart(arr);
-						}else{
+						} else {
 							this.drawChart([]);
 						}
 					} else {
@@ -468,13 +468,13 @@
 
 			//客流统计求和类型切换
 			customerType(val) {
-				if(val === 0) {
+				if (val === 0) {
 					this.getCustomer()
-				} else if(val === 1) {
+				} else if (val === 1) {
 					this.postFeatureSum("face")
-				} else if(val === 2) {
+				} else if (val === 2) {
 					this.postFeatureSum("age")
-				} else if(val === 3) {
+				} else if (val === 3) {
 					console.log("s")
 					this.postFeatureSum("gender")
 				}
@@ -487,7 +487,7 @@
 	.chartWrap {
 		position: relative;
 	}
-	
+
 	.el-radio-select {
 		position: absolute;
 		top: 100px;
