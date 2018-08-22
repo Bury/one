@@ -125,8 +125,8 @@
 		          type: 'warning'
 		        }).then(() => {
 		        	let list = {
-						'id': row.id
-					}
+                'id': row.id
+              }
 					let qs = require('querystring')
 	        		labelApi.deleChildLabel(qs.stringify(list)).then((res) => {
 	        			if(res.data.errno === 0){
@@ -136,8 +136,8 @@
 					            message: '删除成功!'
 					          });
 							this.labeChildlList();
-	        			}else{
-
+	        			}else if(res.data.errno == -1){
+	        			  this.$message.warning(res.data.msg);
 	        			}
 
 	        		})
