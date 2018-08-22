@@ -10,10 +10,8 @@
         
       <template v-for="(item,index) in tableData">      	
         <el-menu-item :index="item.front_url" :key="index" v-if="item.no_child"  >
-        	<template slot="title">
             <i :class="item.front_icon"></i>
             <span slot="title">{{item.name}}</span>
-          </template>  
         </el-menu-item>
         
         <el-submenu v-else  :key="index"  :index="item.front_url">
