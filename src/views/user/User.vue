@@ -11,7 +11,7 @@
 				    </el-select>
 				</el-form-item>
 				<el-form-item label="手机号码：">
-				    <el-input v-model="requestParameters.phone"></el-input>
+				    <el-input v-model.trim="requestParameters.phone"></el-input>
 				</el-form-item>
 				<el-form-item>
 				    <el-button type="primary" @click="onSubmitSearch">查询</el-button>

@@ -59,7 +59,7 @@ export default{
 				this.$refs.editForm.clearValidate();
 			},0)
 		}
-		
+
 	},
   created:function(){
     this.lists();
@@ -77,15 +77,15 @@ export default{
 						 this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
 					}else{
 						 this.$data.tableData = []
-					}          
+					}
         }else if(res.data.errno == 1000002){
-					this.$message.error('请输入完整的手机号码');
+					this.$message.error(res.data.msg);
 				}else{
           this.$message.error(res.data.msg);
         }
       })
     },
-		
+
 		//清除新增的弹窗数据
 		fuResetRuleForm(){
 			this.$data.ruleForm.username = '';
@@ -94,7 +94,7 @@ export default{
 			this.$data.ruleForm.phone = '';
 			this.$data.ruleForm.role_id = '';
 		},
-		
+
 		//清除编辑的弹框数据
 		editClear(){
 			this.$data.editForm.id = '';
@@ -103,9 +103,9 @@ export default{
 			this.$data.editForm.phone='';
 			this.$data.editForm.truename='';
 			this.$data.editForm.status='';
-			this.$data.editForm.password='';			
+			this.$data.editForm.password='';
 		},
-		
+
 		//获得岗位列表
     getRoles(){
       roleApi.lists_results().then((res) => {
@@ -114,13 +114,13 @@ export default{
         }
       })
     },
-		
+
 		//点击分页发送数据
     handleCurrentChange(currentPage) {
       this.$data.requestParameters.page = currentPage;
       this.lists();
     },
-		
+
 		//删除该数据
     fnRemove(row){
       this.$confirm('确认删除该角色：'+row.username+' ？', '删除提示', {
@@ -150,9 +150,9 @@ export default{
     //新增
     fnAdds(){
 			this.fuResetRuleForm();
-			this.$data.userDialogFormVisible = true;			
+			this.$data.userDialogFormVisible = true;
     },
-		
+
     fnEdit(row){
 			this.$data.editForm.id = row.id;
 			this.$data.editForm.role_id = row.storeRole.id;
@@ -160,16 +160,16 @@ export default{
 			this.$data.editForm.phone = row.phone;
 			this.$data.editForm.truename = row.truename;
 			this.$data.editForm.status = row.status;
-			this.$data.editForm.password = '';		
+			this.$data.editForm.password = '';
 			this.$data.userEditVisible = true;
-    },   
-    
+    },
+
     onSubmitSearch(){
       this.lists();
     },
-		
+
 		//新增的提交
-		addSubmitForm(){    
+		addSubmitForm(){
 		    let qs = require('querystring')
 		    userApi.adds(qs.stringify(this.$data.ruleForm)).then((res) => {
 		        if(res.data.errno === 0){
@@ -179,16 +179,16 @@ export default{
 		              duration:1500
 		            });
 		            this.lists();
-		            this.fuResetRuleForm();	
+		            this.fuResetRuleForm();
 								this.$data.userDialogFormVisible = false;
 		        }else{
 		            this.$message.error(res.data.msg);
-		
+
 		        }
-						
+
 		    })
-		},		
-		
+		},
+
 		//编辑的提交
 		submitForm(){
 			let qs = require('querystring');
@@ -199,16 +199,16 @@ export default{
 						type: 'success',
 						duration:1500
 					});
-					this.lists();	
-					this.$data.userEditVisible = false;				
+					this.lists();
+					this.$data.userEditVisible = false;
 				}else{
 					this.$message.error(res.data.msg);
 				}
 			})
 		},
-    
-		
-		fnCancel(){      
+
+
+		fnCancel(){
 			this.$data.userDialogFormVisible = false;
 		},
 		editDialogClose(){
@@ -218,7 +218,7 @@ export default{
     fnEditCancel(){
       this.$data.userEditVisible = false;
     },
-		
+
 		//重置搜索
     resetSearch(){
       this.$data.requestParameters.username='';

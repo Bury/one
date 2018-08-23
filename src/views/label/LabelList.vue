@@ -124,8 +124,8 @@
 					            message: '删除成功!'
 					          });
 							this.labelList();
-	        			}else{
-
+	        			}else if(res.data.errno == -1){
+                  this.$message.warning(res.data.msg);
 	        			}
 
 	        		})
