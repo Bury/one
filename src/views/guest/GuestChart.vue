@@ -179,14 +179,14 @@
 				let dataRate = {
 					tooltip: {
 						formatter: function () {
-							let s = this.point.series.name + ':' + ((this.point.y * 1000000) / 10000) + '%';
+							let s = this.point.series.name + ':' + parseFloat(Math.round(this.point.y * 10000) / 100) + '%';
 							return s;
 						}
 					},
 					yAxis: {
 						labels: {
 							formatter: function () {
-								return (this.value * 1000000) / 10000 + "%"
+								return parseFloat(Math.round(this.value * 10000) / 100) + "%"
 							}
 						},
 						max: 1,
@@ -235,7 +235,7 @@
 								value[i].dataLabels = {
 									enabled: true,
 									formatter: function () {
-										return (this.y * 1000000) / 10000 + "%";
+										return parseFloat(Math.round(this.y * 10000) / 100) + "%";
 									}
 								}
 								guestCharts.addSeries(value[i])
