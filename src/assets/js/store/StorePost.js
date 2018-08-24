@@ -198,7 +198,7 @@ export default{
                 this.$message.error(res.data.msg);
 
               }else{
-                this.$message.error('请至少选择一个权限');
+                this.$message.error(res.data.msg);
               }
 
             })
