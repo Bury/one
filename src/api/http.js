@@ -26,7 +26,7 @@ axios.interceptors.response.use(function (res) {
     if (res.data.errno == 1000000 || res.data.msg=='access-token不能为空' || res.data.msg=='用户不存在') {
             localStorage.setItem('knock_knock', '');
             localStorage.setItem('username', '');
-            window.location.href = window.location.hostname;
+            window.location.href = '/';
 //          router.replace({
 //              path: '/login',
 //              query: {redirect: router.currentRoute.fullPath}
@@ -40,7 +40,7 @@ axios.interceptors.response.use(function (res) {
      if (err.data.errno == 1000000 || err.data.msg=='access-token不能为空' || res.data.msg=='用户不存在') {
             localStorage.setItem('knock_knock', '')
             localStorage.setItem('username', '')
-            window.location.href = window.location.hostname;
+            window.location.href = '/';
 //          router.replace({
 //              path: '/login',
 //              query: {redirect: router.currentRoute.fullPath}

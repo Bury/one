@@ -119,7 +119,7 @@ export default {
             if(res.data.errno === 0){
                 localStorage.setItem('knock_knock', null);
                 localStorage.setItem('username', '');
-                window.location.href = window.location.hostname;
+                window.location.href = '/';
             }else{
                 //logout failed
             }
