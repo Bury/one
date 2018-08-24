@@ -49,7 +49,7 @@
 			</el-radio-group>
 			<ul v-show="datadialog.allOrSetShow" class="store-form">
 				<li v-for="(val,index) in  storeGroup" :key="index">
-					<span>门店组织：</span>
+					<span>门店架构：</span>
 					<el-cascader  size="small" :options="organizes" change-on-select v-model="val.organizeId" :props="defaultAttr" @change="getStoreId(index)">
 					</el-cascader>
 					<span class="store">门店：</span>
@@ -69,9 +69,9 @@
                    <el-button type="primary" @click="setSubmit">确 定</el-button>
             </span>
 		</el-dialog>
-		
-		
-        <div v-show="customShow">       	
+
+
+        <div v-show="customShow">
         <ul class="charts-type">
 			<li class="charts-wrap">
 				<div style="padding:10px 0 20px;text-align:center;">
@@ -95,7 +95,7 @@
 					<sex-chart :sumOrDiff="sumOrDiff" :sexData="guestParameters" :changeFlag="changeFlag"></sex-chart>
 				</li>
 			</template>
-			<template v-else>				
+			<template v-else>
 				<li v-show="statisticsType === '1'" class="charts-wrap">
 					<column-new-chart :sumOrDiff="sumOrDiff" :columnNew="guestParameters" :changeFlag="changeFlag"></column-new-chart>
 				</li>

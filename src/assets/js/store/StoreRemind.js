@@ -8,7 +8,7 @@ const typeId = ["1","3","4"];
         checkAll: false,
         checkedType: [],
         types: typeId,
-        typeVal: ['新客未购买','熟客未购买', '熟客已购买'],
+        typeVal: ['新客未购','熟客未购', '熟客已购'],
         isIndeterminate: true,
       };
     },
