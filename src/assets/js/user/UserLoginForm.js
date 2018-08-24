@@ -84,7 +84,7 @@ export default {
   methods: {
     show:function (ev) {
       if(ev.keyCode == 13){
-        this.login()
+        this.login();
       }
     },
     login() {

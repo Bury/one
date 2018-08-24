@@ -117,9 +117,9 @@ export default {
     logout(){
         userApi.logout().then((res) => {
             if(res.data.errno === 0){
-                localStorage.setItem('knock_knock', null)
-                localStorage.setItem('username', '')
-                this.$router.replace({name: 'UserLogin'})
+                localStorage.setItem('knock_knock', null);
+                localStorage.setItem('username', '');
+                window.location.href = window.location.hostname;
             }else{
                 //logout failed
             }
