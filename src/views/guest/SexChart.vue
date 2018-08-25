@@ -38,7 +38,10 @@ export default{
             },
             tooltip: {
 					    pointFormat:'{series.name}: <b>{point.y}</b>({point.percentage:.1f}%)'
-				    },
+						},
+						credits: {
+					  	text: '',
+					  },
             colors:[
                 '#57B4F7',
 						    '#FFC200'

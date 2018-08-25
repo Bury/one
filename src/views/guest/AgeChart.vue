@@ -39,7 +39,10 @@
 					},
 					tooltip: {
 					 pointFormat:'{series.name}: <b>{point.y}</b>({point.percentage:.1f}%)'
-				    },
+					},
+					credits: {
+						text: '',
+					},
 					colors: [
 						'#66E2B0',
 						'#FFC200',
