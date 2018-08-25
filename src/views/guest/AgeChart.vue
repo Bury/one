@@ -37,9 +37,9 @@
 					title: {
 						text: '年龄段占比'
 					},
-					credits: {
-						text: '',
-					},
+					tooltip: {
+					 pointFormat:'{series.name}: <b>{point.y}</b>({point.percentage:.1f}%)'
+				    },
 					colors: [
 						'#66E2B0',
 						'#FFC200',

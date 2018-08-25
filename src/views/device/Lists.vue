@@ -61,7 +61,7 @@
 					<td>{{item.device_id}}</td>
 					<!-- <td>{{item.version}}</td> -->
 					<!-- <td>{{item.start_at | date(4)}}</td> -->
-					<td>{{item.locate == 'other' ? '其他' : '收银'}}</td>
+					<td>{{item.locate === null ? '' :  item.locate == 'other' ? '其他' : '收银'}}</td>
 					<td> {{item.store.name != '' ? item.store.name : '未分配'}}</td>
 					<td>{{item.locate_desc}}</td>
 					<td>{{item.status == 0 ? '断开' : '正常'}}</td>

@@ -36,9 +36,9 @@ export default{
             title: {
                 text: '性别占比'
             },
-            credits: {
-                text: '',
-            },
+            tooltip: {
+					    pointFormat:'{series.name}: <b>{point.y}</b>({point.percentage:.1f}%)'
+				    },
             colors:[
                 '#57B4F7',
 						    '#FFC200'
