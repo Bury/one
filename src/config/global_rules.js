@@ -122,10 +122,10 @@ const rules={
 			    // { min: 2,max: 8,message: '长度在 2 到 8 个字符',trigger: 'blur'},
         {
           validator: (rule, value, callback) => {
-            if (value.match(/^[0-9\u4E00-\u9FA5]{1,15}$/)){
+            if (value.match(/^[0-9\u4E00-\u9FA5]{1,6}$/)){
               callback();
             } else {
-              callback("岗位名称由1-15位数字或汉字组成");
+              callback("岗位名称由1-6位数字或汉字组成");
             }
           },
           trigger: 'blur'

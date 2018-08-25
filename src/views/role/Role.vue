@@ -52,8 +52,10 @@
         <el-form-item label="权限：">
         <div style="margin:20px 0;overflow:hidden;">
           <el-tree :data="dialogForm" show-checkbox default-expand-all node-key="id" ref="tree"
-                   @check-change="change"
-                   highlight-current :default-checked-keys="checkedIds" class="permission-tree">
+                   @check-change="change"                  
+                   highlight-current 
+                   :default-checked-keys="checkedIds"  
+                   class="permission-tree">
           </el-tree>
         </div>
         </el-form-item>

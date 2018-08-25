@@ -80,13 +80,13 @@
 		<el-dialog title="编辑" :visible.sync="editFormVisible">
 			<el-form :model="editFormData" :rules="editRules" ref="editFormData" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="帐号：" prop="username">
-					<el-input :disabled="true" v-model="editFormData.username"></el-input>
+					<el-input :disabled="true" v-model.trim="editFormData.username"></el-input>
 				</el-form-item>
 				<el-form-item label="姓名：" prop="truename">
-					<el-input v-model="editFormData.truename"></el-input>
+					<el-input v-model.trim="editFormData.truename"></el-input>
 				</el-form-item>
 				<el-form-item label="手机：" prop="phone">
-					<el-input v-model="editFormData.phone"></el-input>
+					<el-input v-model.trim="editFormData.phone"></el-input>
 				</el-form-item>
 				<el-form-item style="display: inline-block;" label="门店架构：">
 					<el-cascader v-model="editFormOrganize" :options="organizes" :props='defaultAttr' @change="editGetSotre">
@@ -131,13 +131,13 @@
 		<el-dialog :title="!avatarFormVisible? '添加' : '关联头像'" :visible.sync="addsFormVisible" :fullscreen="avatarFormVisible" :before-close="closeChange">
 			<el-form :model="addsFormData" :rules="addsRules" ref="addsFormData" label-width="100px" class="demo-ruleForm" v-if="!avatarFormVisible" >
 				<el-form-item label="帐号：" prop="username">
-					<el-input  v-model="addsFormData.username"></el-input>
+					<el-input  v-model.tirm="addsFormData.username"></el-input>
 				</el-form-item>
 				<el-form-item label="姓名：" prop="truename">
-					<el-input v-model="addsFormData.truename"></el-input>
+					<el-input v-model.trim="addsFormData.truename"></el-input>
 				</el-form-item>
 				<el-form-item label="手机：" prop="phone">
-					<el-input v-model="addsFormData.phone"></el-input>
+					<el-input v-model.trim="addsFormData.phone"></el-input>
 				</el-form-item>
 				<el-form-item style="display: inline-block;" label="门店架构：">
 					<el-cascader v-model="addFormOrganize" :options="organizes" :props='defaultAttr' @change="addGetSotre">
