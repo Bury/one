@@ -179,7 +179,8 @@
 				let dataRate = {
 					tooltip: {
 						formatter: function () {
-							let s = this.point.series.name + ':' + parseFloat(Math.round(this.point.y * 10000) / 100) + '%';
+							
+							let s = '时间:' + this.point.category + '<br/>' + this.point.series.name + ':' + parseFloat(Math.round(this.point.y * 10000) / 100) + '%';
 							return s;
 						}
 					},
@@ -200,7 +201,7 @@
 				let dataSum = {
 					tooltip: {
 						formatter: function () {
-							let s = this.point.series.name + ':' + this.point.y;
+							let s = '时间:' + this.point.category +'<br/>' + this.point.series.name + ':' + this.point.y;
 							return s;
 						}
 					},
