@@ -37,7 +37,7 @@ export default{
                 text: '性别占比'
             },
             tooltip: {
-					    pointFormat:'{series.name}: <b>{point.y}</b>({point.percentage:.1f}%)'
+					   pointFormat:'{series.name}: <b>{point.y}</b><br/>占比:{point.percentage:.1f}%'
 						},
 						credits: {
 					  	text: '',

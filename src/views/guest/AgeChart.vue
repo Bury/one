@@ -38,7 +38,7 @@
 						text: '年龄段占比'
 					},
 					tooltip: {
-					 pointFormat:'{series.name}: <b>{point.y}</b>({point.percentage:.1f}%)'
+					 pointFormat:'{series.name}: <b>{point.y}</b><br/>占比:{point.percentage:.1f}%'
 					},
 					credits: {
 						text: '',
