@@ -224,7 +224,6 @@ export default{
       this.$data.requestParameters.username='';
       this.$data.requestParameters.merchant_role_id='';
       this.$data.requestParameters.phone='';
-      this.lists();
     },
   }
 }

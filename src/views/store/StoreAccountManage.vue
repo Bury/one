@@ -15,13 +15,13 @@
 					</el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="账号名：">
+			<el-form-item label="账号：">
 				<el-input type="text" v-model.trim="requestParameters.username"></el-input>
 			</el-form-item>
 			<el-form-item label="姓名：">
 				<el-input type="text" v-model.trim="requestParameters.truename"></el-input>
 			</el-form-item>
-			<el-form-item label="手机号：">
+			<el-form-item label="手机：">
 				<el-input type="text" v-model.trim="requestParameters.phone"></el-input>
 			</el-form-item>
 			<el-form-item label="岗位：">
@@ -41,7 +41,7 @@
 					<th class="col-md-1 text-center">序号</th>
 					<th class="col-md-2 text-center">门店架构</th>
 					<th class="col-md-2 text-center">门店</th>
-					<th class="col-md-2 text-center">账号名</th>
+					<th class="col-md-2 text-center">账号</th>
 					<th class="col-md-1 text-center">姓名</th>
 					<th class="col-md-1 text-center">手机</th>
 					<th class="col-md-1 text-center">岗位</th>

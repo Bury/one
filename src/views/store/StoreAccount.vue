@@ -9,13 +9,13 @@
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
 		</div>
 		<el-form :inline="true" ref="searchForm" size="mini">
-			<el-form-item label="账号名：">
+			<el-form-item label="账号：">
 				<el-input type="text" v-model.trim="requestParameters.username"></el-input>
 			</el-form-item>
 			<el-form-item label="姓名：">
 				<el-input type="text" v-model.trim="requestParameters.truename"></el-input>
 			</el-form-item>
-			<el-form-item label="手机号：">
+			<el-form-item label="手机：">
 				<el-input type="text" v-model.trim="requestParameters.phone"></el-input>
 			</el-form-item>
 			<el-form-item label="岗位：">
@@ -57,7 +57,7 @@
 					</tr>
 				</template>
 				<tr v-else>
-					<td colspan="6" style="height: 50px;">暂无数据</td>
+					<td colspan="7" style="height: 50px;">暂无数据</td>
 				</tr>
 			</tbody>
 		</table>
@@ -76,7 +76,7 @@
 				<el-form-item label="姓名：" prop="truename">
 					<el-input v-model="editFormData.truename"></el-input>
 				</el-form-item>
-				<el-form-item label="手机号：" prop="phone">
+				<el-form-item label="手机：" prop="phone">
 					<el-input v-model="editFormData.phone"></el-input>
 				</el-form-item>
 				<el-form-item label="岗位：" prop="role_id">
@@ -116,7 +116,7 @@
 				<el-form-item label="姓名：" prop="truename">
 					<el-input v-model="addsFormData.truename"></el-input>
 				</el-form-item>
-				<el-form-item label="手机号：" prop="phone">
+				<el-form-item label="手机：" prop="phone">
 					<el-input v-model="addsFormData.phone"></el-input>
 				</el-form-item>
 				<el-form-item label="岗位：" prop="role_id">

@@ -10,7 +10,7 @@
 				        <el-option v-for="(item,idx) in allRoles" :label="allRoles[idx].name" :value="allRoles[idx].id" :key="idx"></el-option>
 				    </el-select>
 				</el-form-item>
-				<el-form-item label="手机号码：">
+				<el-form-item label="手机：">
 				    <el-input v-model.trim="requestParameters.phone"></el-input>
 				</el-form-item>
 				<el-form-item>
@@ -29,7 +29,7 @@
         <th class="col-md-2 text-center">账号</th>
         <th class="col-md-1 text-center">岗位</th>
         <th class="col-md-1 text-center">姓名</th>
-        <th class="col-md-1 text-center">手机号码</th>
+        <th class="col-md-1 text-center">手机</th>
         <th class="col-md-1 text-center">状态</th>
         <th class="col-md-2 text-center">创建时间</th>
         <th class="col-md-1 text-center">操作</th>
@@ -84,7 +84,7 @@
           <el-form-item label="姓名：" prop="truename">
             <el-input v-model="ruleForm.truename"></el-input>
           </el-form-item>
-          <el-form-item label="手机号码：" prop="phone">
+          <el-form-item label="手机：" prop="phone">
             <el-input v-model="ruleForm.phone"></el-input>
           </el-form-item>
 			</el-form>

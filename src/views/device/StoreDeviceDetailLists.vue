@@ -11,23 +11,23 @@
       <thead style="background-color: #d1d1d1">
       <tr height="40">
         <th class="col-md-1 text-center">序号</th>
-        <th class="col-md-1 text-center">编号</th>
-        <th class="col-md-1 text-center">版本</th>
-        <th class="col-md-2 text-center">首次启用时间</th>
+        <th class="col-md-2 text-center">编号</th>
+        <!-- <th class="col-md-1 text-center">版本</th> -->
+        <!-- <th class="col-md-2 text-center">首次启用时间</th> -->
         <th class="col-md-1 text-center">类型</th>
-        <th class="col-md-1 text-center">门店</th>
+        <th class="col-md-2 text-center">门店</th>
         <th class="col-md-1 text-center">位置</th>
-        <th class="col-md-1 text-center">状态</th>
-        <th class="col-md-1 text-center">是否启用</th>
-        <th class="col-md-2 text-center">操作</th>
+        <th class="col-md-2 text-center">状态</th>
+        <!-- <th class="col-md-1 text-center">是否启用</th> -->
+        <th class="col-md-3 text-center">操作</th>
       </tr>
       </thead>
       <tbody v-if="tableData.length > 0" style="text-align: center">
       <tr v-for="(item,index) in tableData" :key="index" height="40">
         <td>{{item.id}}</td>
         <td>{{item.device_id}}</td>
-        <td>{{item.version}}</td>
-        <td>{{item.start_at | date(4)}}</td>
+        <!-- <td>{{item.version}}</td> -->
+        <!-- <td>{{item.start_at | date(4)}}</td> -->
         <td>
           {{item.locate == 'other' ? '其他' : '收银'}}
         </td>
@@ -36,7 +36,7 @@
         </td>
         <td>{{item.locate_desc}}</td>
         <td>{{item.status == 0 ? '断开' : '正常'}}</td>
-        <td>{{item.is_start == 0 ? '是' : '否'}}</td>
+        <!-- <td>{{item.is_start == 0 ? '是' : '否'}}</td> -->
         <td>
           <el-button v-if="item.store.name != ''" @click="fnDistribution(item)" type="text" size="small">重新分配</el-button>
           <el-button v-else @click="fnDistribution(item)" type="text" size="small">分配</el-button>

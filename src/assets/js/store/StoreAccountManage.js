@@ -462,9 +462,8 @@ export default {
 				truename: '',
 				phone: '',
 				page: 1,
-				page_size: 10,
+				page_size: 20,
 			};
-			this.accountLists();
 		}
 
 	}

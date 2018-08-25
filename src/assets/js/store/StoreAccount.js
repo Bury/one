@@ -330,16 +330,15 @@
 	          this.accountLists();	        	
 	        },
 	        resetList(){
-	         this.$data.requestParameters = {
+	          this.$data.requestParameters = {
 					store_id:'',
 					username:'',
 					truename:'',
 					phone:'',
 					merchant_role_id:'',
 	                page: 1,
-	                page_size:10,	                
+	                page_size:20,	                
 	           };
-	          this.accountLists();	   
 	        	
 	        }
 

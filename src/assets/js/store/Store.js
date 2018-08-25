@@ -1,7 +1,7 @@
 import storeApi from '@/api/store'
 import getCity from '@/api/getCity'
 import storeRoleApi from '@/api/store_role'
-import globalRules from '@/config/global_rules'
+import globalRules from '@/config/global_rules';
 	export default{
 		name:'store-set',
 		data(){
@@ -33,7 +33,6 @@ import globalRules from '@/config/global_rules'
 				dialogFormVisible: false,
 		        ruleForm: {
 		          	name: '',
-		          	phone:'',
 		          	person_in_charge:'',
 		          	locate:[],
 		          	address:'',
@@ -53,16 +52,15 @@ import globalRules from '@/config/global_rules'
 		          	{ required: true, message: '请输入负责人姓名', trigger: 'blur' },
 		            { min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
 		          ],
-		          phone:globalRules.rules.phone(),
 		          address:[
 		             { required: true, message: '请输入详细地址', trigger: 'blur' },
 		             { min: 2, max: 30, message: '长度在 2 到 30 个字符', trigger: 'blur' }
 		          ],
 		          merchant_organize_id:[
-		             { required: true, message: '请选择门店架构'},
+		             { required: true, message: '请选择门店架构',trigger: 'change'},
 		          ],
 		          locate:[
-		             {required: true, message: '请选择省市'}
+		             {required: true, message: '请选择省市',trigger: 'change'}
 		          ]
 		        },
 				requestParameters: {
@@ -74,9 +72,9 @@ import globalRules from '@/config/global_rules'
 			}
 		},
 		watch: {
-               // dialogFormVisible: function() {
-               // 	this.$refs.ruleForm.resetFields()
-               // }
+               dialogFormVisible: function() {
+               	
+               }
         },
 		created:function(){
 			this.storeLists();
@@ -112,13 +110,15 @@ import globalRules from '@/config/global_rules'
 	        	this.$data.ruleForm = {
 		          	name: '',
 		          	person_in_charge:'',
-		          	phone:'',
 		          	locate:[],
 		          	address:'',
 		          	merchant_organize_id:[],
 		        }
 
-	        },
+			},
+			closeClear(){
+				this.$refs.ruleForm.clearValidate();
+			},
 
 			fnRemove(row){
 				this.$confirm('确认删除该门店：'+row.name+' ？', '删除提示', {
@@ -154,7 +154,6 @@ import globalRules from '@/config/global_rules'
 				this.$data.ruleForm = {
 					      name: row.name,
 		          	merchant_organize_id:row.organizes.id.split(','),
-		          	phone:row.phone,
 		          	locate:[String(row.province.code),String(row.city.code),String(row.area.code)],
 		          	merchant_organize_id:moi,
                 address:row.address,
@@ -174,7 +173,6 @@ import globalRules from '@/config/global_rules'
 				this.$data.ruleForm = {
 		          	name: '',
 		          	person_in_charge:'',
-		          	phone:'',
 		          	locate:[],
 		          	address:'',
 		          	merchant_organize_id:[],
@@ -191,7 +189,6 @@ import globalRules from '@/config/global_rules'
 							let list = {
 								'id': this.$data.currentId,
 								'name': this.$data.ruleForm.name,
-					          	'phone':this.$data.ruleForm.phone,
 					          	'locate':loc,
 					          	'address':this.$data.ruleForm.address,
 					          	'merchant_organize_id':mer,
@@ -219,7 +216,6 @@ import globalRules from '@/config/global_rules'
 							let mer = this.$data.ruleForm.merchant_organize_id[this.$data.ruleForm.merchant_organize_id.length - 1]
 							let list = {
 						        'name': this.$data.ruleForm.name,
-					          	'phone':this.$data.ruleForm.phone,
 					          	'locate':parseInt(loc),
 					          	'address':this.$data.ruleForm.address,
 					          	'merchant_organize_id':mer,
@@ -306,14 +302,13 @@ import globalRules from '@/config/global_rules'
 			},
 
 			lookSubmit(){
-				if(this.$data.lookData.organize.length === 0){
-					this.$message("请选择门店架构");
-					return false;
-				}else{
-				    this.$data.requestParameters.merchant_organize_id = this.$data.lookData.organize[this.$data.lookData.organize.length - 1];
+				if(this.$data.lookData.organize.length !== 0){
+					this.$data.requestParameters.merchant_organize_id = this.$data.lookData.organize[this.$data.lookData.organize.length - 1];
 				    this.$data.requestParameters.store_id = this.$data.lookData.store_id;
+				}else{
+					this.$data.requestParameters.merchant_organize_id = "";
+					this.$data.requestParameters.store_id = "";
 				}
-				console.log(this.$data.requestParameters)
 				this.storeLists();
 			},
 
@@ -329,9 +324,9 @@ import globalRules from '@/config/global_rules'
       fnReset(){
 			  this.$data.lookData.store_id = '';
 			  this.$data.lookData.organize = [];
-        this.$data.requestParameters.merchant_organize_id = '';
-        this.$data.requestParameters.store_id = '';
-			  this.storeLists();
+			  this.$data.selectStore = [];
+              this.$data.requestParameters.merchant_organize_id = '';
+              this.$data.requestParameters.store_id = '';
       }
 
 		}

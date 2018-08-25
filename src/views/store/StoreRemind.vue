@@ -2,7 +2,7 @@
   <div style="display: flex;text-align: center">
     <el-col :span="11">
 	    <div class="remind-set-page">
-        <h3 class="top-box">到店提醒配置</h3>
+        <h3 class="top-box">来客提醒配置</h3>
         <div class="all-box">
             <el-checkbox :indeterminate="isIndeterminate"
             v-model="checkAll"

@@ -140,7 +140,6 @@ export default {
 				is_allocate: isAllocate
 			}
 			this.$data.organizeCode = [];
-			this.lists();
 		},
 		fnDistribution(row) {
 			this.$data.dorganizeCode = [];
