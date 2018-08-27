@@ -6,7 +6,7 @@
 
 		<el-form :inline="true"  size="mini">
 			<el-form-item label="门店架构：">
-				<el-cascader :options="organizes" :props='defaultAttr' v-model='lookData.organize' @change="getStore">
+				<el-cascader :options="organizes"  :props='defaultAttr' v-model='lookData.organize' @change="getStore">
 				</el-cascader>
 			</el-form-item>
 			<el-form-item label="门店：">
@@ -17,17 +17,17 @@
 			</el-form-item>
 			<el-form-item>
 				<el-button type="primary" @click="lookSubmit">查询</el-button>
+				<el-button type="primary" @click="fnReset">重置</el-button>
 			</el-form-item>
 		</el-form>
 
 		<table width="90%" class="table-bordered">
 			<thead style="background-color: #d1d1d1">
 				<tr height="50">
-					<th class="col-md-1 text-center">ID</th>
+					<th class="col-md-1 text-center">序号</th>
 					<th class="col-md-2 text-center">门店名</th>
-					<th class="col-md-3 text-center">门店架构</th>
-					<th class="col-md-2 text-center">省市区</th>
-					<th class="col-md-2 text-center">联系方式</th>
+					<th class="col-md-4 text-center">门店架构</th>
+					<th class="col-md-3 text-center">省市区</th>
 					<th class="col-md-2 text-center">操作</th>
 				</tr>
 			</thead>
@@ -38,9 +38,8 @@
 						<td>{{item.name}}</td>
 						<td>{{item.organizes.name}}</td>
 						<td>{{item.province.name + item.city.name + item.area.name}}</td>
-						<td>{{item.phone}}</td>
 						<td>
-							<el-button type="primary" size="mini" circle plain icon="el-icon-setting" @click="fnGoPage(item)"></el-button>
+							<el-button type="primary" size="mini" circle plain icon="el-icon-more" @click="fnGoPage(item)"></el-button>
 							<el-button type="warning" size="mini" circle plain icon="el-icon-edit" @click="fnEdit(item)"></el-button>
 							<el-button type="danger" size="mini" circle plain icon="el-icon-delete" @click="fnRemove(item)"></el-button>
 
@@ -59,13 +58,10 @@
 		</div>
 
 		<!-- 添加、修改 -->
-		<el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+		<el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" @close="closeClear">
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="门店名称：" prop="name">
 					<el-input v-model="ruleForm.name"></el-input>
-				</el-form-item>
-				<el-form-item label="联系电话：" prop="phone">
-					<el-input v-model="ruleForm.phone"></el-input>
 				</el-form-item>
 				<el-form-item label="门店架构：" prop='merchant_organize_id'>
 					<el-cascader :options="organizes" :props='defaultAttr' v-model='ruleForm.merchant_organize_id'></el-cascader>

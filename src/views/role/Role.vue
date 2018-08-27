@@ -6,9 +6,9 @@
 		<table width="80%" class="table-bordered">
 			<thead style="background-color: #d1d1d1">
 				<tr height="40">
-					<th class="col-md-1 text-center">ID</th>
-					<th class="col-md-2 text-center">名称</th>
-					<th class="col-md-1 text-center">排序</th>
+					<th class="col-md-1 text-center">序号</th>
+					<th class="col-md-2 text-center">岗位名称</th>
+					<!--<th class="col-md-1 text-center">排序</th>-->
 					<th class="col-md-1 text-center">权限</th>
 					<th class="col-md-2 text-center">操作</th>
 				</tr>
@@ -17,7 +17,7 @@
 				<tr v-for="(item,index) in tableData" :key="index" height="40">
 					<td>{{item.id}}</td>
 					<td>{{item.name}}</td>
-					<td>{{item.sort}}</td>
+					<!--<td>{{item.sort}}</td>-->
 					<td>
 						<el-button type="primary" plain icon="el-icon-setting" circle size="small" @click="fnSet(item)"></el-button>
 					</td>
@@ -31,19 +31,34 @@
 
 		<!-- 分页 -->
 		<div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
-			<el-pagination background class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
+			<el-pagination
+				background
+				class="pagination"
+				layout="prev, pager, next"
+				small
+				@current-change="handleCurrentChange"
+				:current-page="pagination.currentPage"
+				:page-size="requestParameters.page_size"
+				:total="pagination.totalCount">
 			</el-pagination>
 		</div>
 
-		<!-- 添加、修改 -->
-		<el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+		<!-- 添加 -->
+		<el-dialog title="添加岗位" :visible.sync="dialogFormVisible" :before-close="dialogClose">
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="名称：" prop="name">
 					<el-input v-model="ruleForm.name"></el-input>
 				</el-form-item>
-				<el-form-item label="排序：" prop="sort">
-					<el-input v-model="ruleForm.sort" style="width:60px"></el-input>
-				</el-form-item>
+        <el-form-item label="权限：">
+        <div style="margin:20px 0;overflow:hidden;">
+          <el-tree :data="dialogForm" show-checkbox default-expand-all node-key="id" ref="tree"
+                   @check-change="change"                  
+                   highlight-current 
+                   :default-checked-keys="checkedIds"  
+                   class="permission-tree">
+          </el-tree>
+        </div>
+        </el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="fnCancel('ruleForm')">取 消</el-button>
@@ -51,12 +66,26 @@
 			</div>
 		</el-dialog>
 
+    <!-- 修改 -->
+    <el-dialog title="修改岗位" :visible.sync="editFormVisible" :before-close="dialogClose">
+      <el-form :model="ruleForm" :rules="rulesEdit" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="岗位名称：" prop="name">
+          <el-input v-model="ruleForm.name"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+      </div>
+    </el-dialog>
+
 		<!-- 权限管理 -->
 		<el-dialog title="权限管理" :visible.sync="dialogForm2Visible">
 			<h4 class="role-info"><span>岗位名称：</span>{{currentName}}</h4>
 			<div style="margin:20px 0;overflow:hidden;">
 				<h4 class="role-info" style="float:left;"><span>权限：</span></h4>
-				<el-tree :data="dialogForm2" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :default-checked-keys="checkedIds" class="permission-tree">
+				<el-tree :data="dialogForm2" show-checkbox default-expand-all node-key="id"
+                 ref="tree" highlight-current :default-checked-keys="checkedIds" class="permission-tree">
 				</el-tree>
 			</div>
 			<div slot="footer" class="dialog-footer">

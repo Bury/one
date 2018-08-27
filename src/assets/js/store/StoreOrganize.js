@@ -32,8 +32,15 @@ import storeRoleApi from '@/api/store_role'
 				},
 			}
 		},
+		watch:{
+			addAndEditDialog:function(){
+				setTimeout(() => {
+					this.$refs.editForm.clearValidate();
+				},0)
+			}
+		},
 		created: function() {
-			this.getTreeData()
+			this.getTreeData();
 		},
 		methods: {
 			getTreeData() {
@@ -99,12 +106,6 @@ import storeRoleApi from '@/api/store_role'
 								parent_id: this.$data.parentId
 							};
 							this.editPost(qs.stringify(list))
-						}else{
-							let list = {
-								name: this.$data.editVlaue.name,
-								parent_id: this.$data.presentId
-							};
-							this.addPost(qs.stringify(list))
 						}
 
 					} else {
@@ -132,13 +133,6 @@ import storeRoleApi from '@/api/store_role'
 					}
 				})
 			},
-			addSuper(){
-				this.$data.addAndEditDialog = true;
-				this.$data.presentId = "";
-				this.$data.editVlaue.name = "";
-				this.$data.addOrEdit = 'addSuper';
-				this.$data.titleName = "创建顶级";
-			}
 
 		}
 	}

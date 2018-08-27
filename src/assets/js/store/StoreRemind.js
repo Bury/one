@@ -1,12 +1,14 @@
 import storeRemindApi from '@/api/store'
- 
+
+const typeId = ["1","3","4"];
+
   export default {
     data() {
       return {
         checkAll: false,
         checkedType: [],
-        types: ["1","3","4"],
-        typeVal: ['新客未购买','熟客未购买', '熟客已购买'],
+        types: typeId,
+        typeVal: ['新客未购','熟客未购', '熟客已购'],
         isIndeterminate: true,
       };
     },
@@ -18,7 +20,7 @@ import storeRemindApi from '@/api/store'
         fnRemindView(){
             storeRemindApi.remindView().then((res) => {
                 if(res.data.errno === 0){
-                    res.data.data.remind_ids != "" ? 
+                    res.data.data.remind_ids != "" ?
                     this.$data.checkedType = res.data.data.remind_ids.split(",") :
                     this.$data.checkedType = [];
                     if(this.$data.checkedType.length == this.$data.types.length){
@@ -54,6 +56,7 @@ import storeRemindApi from '@/api/store'
         },
 
         handleCheckAllChange(val) {
+          console.log(val);
             this.$data.checkedType = val ? typeId : [];
             this.$data.isIndeterminate = false;
         },

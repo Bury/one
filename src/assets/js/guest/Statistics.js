@@ -1,304 +1,488 @@
-import storeApi from '@/api/store'
-import statisticsApi from '@/api/statistics'
-
-import GuestChart from '@/views/guest/GuestChart'
-//import NewOldChart from './NewOldChart'
-//import VipChart from './VipChart'
-//import AgeChart from './AgeChart'
-//import SexChart from './SexChart'
-//import DeviceChart from './DeviceChart'
-
+import storeApi from '@/api/store';
+import statisticsApi from '@/api/statistics';
+import storeRole from '@/api/store_role';
+import * as utils from '@/utils/index';
+import GuestChart from '@/views/guest/GuestChart';
+import NewOldChart from '@/views/guest/NewOldChart';
+import AgeChart from '@/views/guest/AgeChart';
+import SexChart from '@/views/guest/SexChart';
+import columnNewChart from '@/views/guest/columnNewChart';
+import columnAgeChart from '@/views/guest/columnAgeChart';
+import columnSexChart from '@/views/guest/columnSexChart';
 export default {
-  name: 'dashboard',
-  components: {
-        GuestChart,
-        /*
-        NewOldChart,
-        VipChart,
-        AgeChart,
-        SexChart,
-        DeviceChart
-        */
-  },
-  data () {
-    return {   
-    	datadialog:{
-    		dataDialogVisible:false,
-    	    summationType:'1',
-    	    dataTypeShow:true,
-    	    formLabelWidth:'100px',
-    	    storeTotal:1,
-    	    radioShow:true,
-    	    allOrSetShow:true,
-    	},    	
-    	chartShowType:0,
-    	chartOptionsType:0,
-        allStores:[],
-        timeType: 'day',
-        day:'',
-        week:'',
-        month:'',
-        year:'',
-        userDefined:'',
-        ctrlTimeType:[true,false,false,false,false],
-        guestData:{},
-        newOldData:[],
-        vipData:[],
-        ageData:[],
-        sexData:[],
-        deviceData:[],
-        guestParameters:{
-            begin_time:'',
-            end_time:'',
-            store_id:''
-        },
-         tableData: [{
-          date: '80%',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '60%',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '10%',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '50%',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
-       
+	name: 'dashboard',
+	components: {
+		GuestChart: GuestChart,
+		NewOldChart: NewOldChart,
+		AgeChart: AgeChart,
+		SexChart: SexChart,
+		columnNewChart:columnNewChart,
+		columnAgeChart:columnAgeChart,
+		columnSexChart:columnSexChart,
+	},
+	data() {
+		return {
+			selectType:'全部-求和',
+			changeFlag: true,
+			sumOrDiff: '0',
+			isAll: true,
+			datadialog: {
+				dataDialogVisible: false,
+				summationType: '1',
+				dataTypeShow: true,
+				formLabelWidth: '100px',
+				radioShow: true,
+				allOrSetShow: false,
+				canDel: true,
+			},
+			defaultAttr: {
+				label: 'name',
+				value: 'id',
+				children: 'children',
+			},
+			organizes: [],
+			storeGroup: [{
+				organizeId: [],
+				stores: [],
+				showText: '请选择门店组织',
+				storeId: '',
+			}],
+			chartShowType: 0,
+			timeType: 'day',
+			day: '',
+			week: '',
+			month: '',
+			year: '',
+			userDefined: '',
+			customShow:true,
+			ctrlTimeType: [true, false, false, false, false],
+			statisticsType: "1",
+			newOldData: [],
+			vipData: [],
+			ageData: [],
+			sexData: [],
+			deviceData: [],
+			guestParameters: {
+				begin_time: '',
+				end_time: '',
+				store_id: [],
+				merchant_organize_id: [],
+			},
+			tableData: [],
+			pagination: {
+				currentPage: 1,
+				totalCount: 0,
+			},
+			listParameters: {
+				page: 1,
+				page_size: 10,
+				begin_time: '',
+				end_time: '',
+				store_id: [],
+				merchant_organize_id: [],
+				sort: '',
+			},
+			loading: false,
+			pickerOptionsSet: {
+				disabledDate:function(time) {
+					return time.getTime() > Date.now() - 8.64e6;
+				}
+			},
 
-    }
-  },
-  created:function(){
-    this.getStores();
-    this.setData();
+		}
+	},
+	watch:{
+		changeFlag:function(){
+			if(this.$data.statisticsType === "1"){
+				this.customerList();
+			}
+		}
+	},
+	created: function() {
+		this.setData();
+		this.customerList();
+		this.getOrganizes();
+	},
+	mounted: function() {},
+	methods: {
+		//时间转为秒
+		getS(value) {
+			var formatTimeS = new Date(value).getTime() / 1000;
+			return formatTimeS
+		},
+		getOrganizes() {
+			storeRole.organizeTree().then((res) => {
+				if(res.data.errno == 0) {
+					console.log(res.data.data)
+					this.$data.organizes = res.data.data
+				} else {
+					this.$message(res.data.msg)
+				}
+			})
+		},
 
-  },
-  mounted:function(){
-    //this.gocolumnChart();
-  },
-  methods: {
-    gocolumnChart(){
-        /*
-        chart.series[0].update({
-                type: 'column'
-        })
-        */
-        //let guestCharts = this.$refs.guestCharts;
-    },
-    //门店
-    getStores(){
-        storeApi.listsResults().then((res) => {
-            if(res.data.errno === 0){
-                this.$data.allStores = res.data.data;
-            }else{
+		//根据门店组织获取门店
+		getStoreId(x) {				
+			console.log(x)
+			this.$data.storeGroup[x].stores = [];
+			this.$data.storeGroup[x].storeId = "";			
+			let g = this.$data.storeGroup[x].organizeId;
+			let data = {
+				merchant_organize_id: g[g.length - 1]
+			};
+			storeApi.organizeStoreResult(data).then((res) => {
+				if(res.data.errno === 0) {
+					if(res.data.data != null && res.data.data.length > 0) {
+						this.$data.storeGroup[x].stores = res.data.data;
+					} else {
+						this.$data.storeGroup[x].showText = "此地区暂无门店";
+					}
+				} else {
+					this.$message(res.statusText)
+				}
+			})
+		},
 
-            }
-            
-        })
-    },
+		//切换求和和比对清空数据
+		clearGroup() {
+			this.$data.storeGroup = [{
+				organizeId: [],
+				stores: [],
+				showText: '请选择门店组织',
+				storeId: '',
+			}];
+		},
 
-    //时间转为秒
-    getS(value){
-        var formatTimeS = new Date(value).getTime()/1000;
-        return formatTimeS
-    },
+		//求和和比对的切换一些操作
+		dataSelect(type) {
+			if(type == 1) {
+				this.$data.datadialog.radioShow = true;
+				this.$data.datadialog.dataTypeShow = true;
+				this.$data.datadialog.canDel = true;
+				this.allOrSet();
+				this.clearGroup();
+			} else {
+				this.$data.datadialog.radioShow = false;
+				this.$data.datadialog.dataTypeShow = false;
+				this.$data.datadialog.allOrSetShow = true;
+				this.$data.datadialog.canDel = true;
+				this.$data.storeGroup = [{
+					organizeId: [],
+					stores: [],
+					showText: '请选择门店组织',
+					storeId: '',
+				}, {
+					organizeId: [],
+					stores: [],
+					showText: '请选择门店组织',
+					storeId: '',
+				}];
 
-    //客流量
-    getCustomer(parameters){
-        let qs = require('querystring');
-        statisticsApi.getCustomer(qs.stringify(parameters)).then((res) => {
-            if(res.data.errno === 0){
-                this.$data.guestData = res.data.data;
-            }else{
+			}
+		},
 
-            }
-        })
-    },
-    //特征
-    getFeature(parameters, types){
-        let list = {
-            begin_time: parameters.begin_time,
-            end_time: parameters.end_time,
-            store_id: parameters.store_id,
-            feature: types
-        }
-        let qs = require('querystring');
-        statisticsApi.getFeature(qs.stringify(list)).then((res) => {
-            if(res.data.errno === 0){
-                let thisData = res.data.data;
-                if(thisData==null || thisData==''){
-                    return false;
-                }
-                if(types == 'face'){
-                    let newData = [];
-                    for(var i=0; i<thisData.face.length; i++){
-                        newData.push([thisData.face[i],thisData.sum[i]])
-                    }
-                    this.$data.newOldData = newData;
-                }
-                if(types == 'vip'){
-                    let newData = [];
-                    for(var i=0; i<thisData.vip.length; i++){
-                        newData.push([thisData.vip[i],thisData.sum[i]])
-                    }
-                    this.$data.vipData = newData;
-                }
-                if(types == 'age'){
-                    let newData = [];
-                    for(var i=0; i<thisData.age.length; i++){
-                        newData.push([thisData.age[i],thisData.sum[i]])
-                    }
-                    this.$data.ageData = newData;
-                }
-                if(types == 'gender'){
-                    let newData = [];
-                    for(var i=0; i<thisData.gender.length; i++){
-                        newData.push([thisData.gender[i],thisData.sum[i]])
-                    }
-                    this.$data.sexData = newData;
-                }if(types == 'camera'){
-                    let newData = [];
-                    for(var i=0; i<thisData.camera.length; i++){
-                        newData.push([thisData.camera[i],thisData.sum[i]])
-                    }
-                    this.$data.deviceData = newData;
-                }
+		closeDialog(done) {
+			done();
+		},
+		//取消求和比对弹出框的操作
+		cancelDialog() {
+			this.$data.datadialog.dataDialogVisible = false;
+		},
 
-            }else{
+		//求和的全部或者自定义的操作
+		allOrSet() {
+			this.$data.datadialog.summationType == "1" ? 
+			this.$data.datadialog.allOrSetShow = false : 
+			this.$data.datadialog.allOrSetShow = true;
+		},
+		//提交前的一些验证操作
+		beforeSubmit() {
+			let flag = false;
+			if(this.$data.datadialog.dataTypeShow === false) {
+				//对比时一些操作
+				this.$data.isAll = false;				
+				for(let i = 0; i < this.$data.storeGroup.length; i++) {
+					if(this.$data.storeGroup[i].organizeId.length === 0) {
+						flag = true;
+						this.$message(`请选择第${i + 1}个门店组织`)
+						break;
+					}
+				}
 
-            }
-        })
-    
-    },
+			} else {
+				//求和时一些操作
+				
+				if(this.$data.datadialog.summationType == "1") {
+					this.$data.isAll = true;
+					flag = false;
+				} else {
+					this.$data.isAll = false;
+					for(var i = 0; i < this.$data.storeGroup.length; i++) {
+						if(this.$data.storeGroup[i].organizeId.length === 0) {
+							flag = true;
+							this.$message(`请选择第${i + 1}个门店组织`);
+							break;
+						}
+					}
+				}
 
-    //搜索
-    onSubmit(){
-        this.setData();
-    },
+			}
 
+			return flag;
+		},
 
-    changeTimeType(tab, event){
-        var nowIdx = tab.index;
-        this.$data.ctrlTimeType = [false,false,false,false,false];
-        this.$data.ctrlTimeType[nowIdx] = true;
-        this.$data.guestParameters = {
-            begin_time:'',
-            end_time:'',
-            store_id:''
-        }
-        this.setData();
-    },
-    
-    getBeginEndTime(val){
-        	let t = new Date();
-            let y = t.getFullYear();
-            let m = t.getMonth() + 1;
-            let d = t.getDate();    
-            let weekd  = t.getDay();
-            
-            switch (val){
-	       	case "day":
-	       	    this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/${d} 00:00:00`);
-                this.$data.guestParameters.end_time =  this.getS(`${y}/${m}/${d} 23:59:59`);
-	       		break;
-	       	case "week":
-	       	    if(weekd === 0){ weekd = 7 }
-            	this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/${d} 00:00:00`) - 86400*(weekd-1);
-                this.$data.guestParameters.end_time =  this.getS(`${y}/${m}/${d} 23:59:59`) + 86400*(7 - weekd);
-	       		break;
-	       	case "month":
-	       	    let nexty,nextm;            	
-            	m === 12 ? (nexty = y + 1,nextm = 1):(nexty = y,nextm = m + 1)
-            	this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/01 00:00:00`);
-            	this.$data.guestParameters.end_time =  this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
-	       		break;
-	       	case "year":
-	       	    this.$data.guestParameters.begin_time = this.getS(`${y}/01/01 00:00:00`);
-                this.$data.guestParameters.end_time =  this.getS(`${y}/12/31 23:59:59`);
-	       		break;
-	       	case "select":
-	       	    this.$data.guestParameters.begin_time = utils.getDateTime(this.userDefined[0]);
-                this.$data.guestParameters.end_time =  utils.getDateTime(this.userDefined[1]);
-	       	    break;
-	        }
-        },
+		//按钮打开求和和对比dialog框
+		editSumDiff() {
+			this.$data.datadialog.dataDialogVisible = true;
+		},
 
-    setData(){
-        if(this.$data.ctrlTimeType[0]){
-            //日
-            this.getBeginEndTime("day")
-            this.requestData();
-            return false;
-        }
-        if(this.$data.ctrlTimeType[1]){
-            //周
-            this.getBeginEndTime("week")
-            this.requestData();
-            return false;
-        }
-        if(this.$data.ctrlTimeType[2]){
-            //月
-            this.getBeginEndTime("month")
-            this.requestData();
-            return false;
-        }
-        if(this.$data.ctrlTimeType[3]){
-            //年            
-            this.getBeginEndTime("year")
-            this.requestData();
-            return false;
-        }
-        if(this.$data.ctrlTimeType[4]){
-            //自定义
-            this.getBeginEndTime("select")
-            this.requestData();
-            return false;
-        }
+		//选择后的提交
+		setSubmit() {
+			if(this.beforeSubmit() === true) {
+				return false;
+			}
+			if(this.$data.datadialog.dataTypeShow === false){
+				this.$data.sumOrDiff = "1";
+				this.$data.selectType = '自定义-对比';
+			}else{
+				this.$data.sumOrDiff = "0";
+				this.$data.selectType = this.$data.datadialog.summationType === '1' ? '全部-求和' :  '自定义-求和'
+			}
+			//每次验证前都要清空
+			this.$data.guestParameters.store_id.length = [];
+			this.$data.guestParameters.merchant_organize_id = [];
+			let _this = this;
+			if(this.$data.isAll === false) {
+				this.$data.storeGroup.forEach(function(val, index) {
+					if(val.storeId !== '') {
+						_this.$data.guestParameters.store_id.push(val.storeId);
+					} else {
+						_this.$data.guestParameters.merchant_organize_id.push(val.organizeId[val.organizeId.length - 1]);
+						
+					}
 
-    },
-    requestData(){
-        this.getCustomer(this.$data.guestParameters);
-        this.getFeature(this.$data.guestParameters, 'face');
-        this.getFeature(this.$data.guestParameters, 'vip');
-        this.getFeature(this.$data.guestParameters, 'age');
-        this.getFeature(this.$data.guestParameters, 'gender');
-        this.getFeature(this.$data.guestParameters, 'camera');
-    },
-    
-    selectData(){
-    	this.$data.datadialog.dataDialogVisible = true;
-    },
-    
-    dataSelect(type){
-    	if(type == 1){
-    		this.$data.datadialog.radioShow = true;
-    		this.$data.datadialog.dataTypeShow = true;
-    	}else{
-    		this.$data.datadialog.radioShow = false;
-    		this.$data.datadialog.dataTypeShow = false;
-    	}
-    	
-    },
-    
-    cancelDialog(){
-    	this.$data.datadialog.storeTotal = 1;
-    	this.$data.datadialog.dataDialogVisible = false;
-    },
-    addStoreData(){
-    	this.$data.datadialog.storeTotal++;
-    },
-    allOrSet(){
-    	this.$data.datadialog.summationType == "1" ? this.$data.datadialog.allOrSetShow = true : this.$data.datadialog.allOrSetShow = false;
-    	
-    },
-    indexRank(index){
-    	return index+1;
-    }
-    
-  }
+				});
+			}
+			this.$data.datadialog.dataDialogVisible = false;
+			this.$data.changeFlag = !this.$data.changeFlag;			
+		},
+
+		//增加门店操作
+		addStoreData() {
+			let child = {
+				organizeId: [],
+				stores: [],
+				showText: '请选择门店组织',
+				storeId: '',
+			};
+			this.$data.storeGroup.push(child);
+			this.$data.datadialog.canDel = false;
+		},
+
+		//删除门店操作
+		delStore(index) {
+			this.$data.storeGroup.splice(index, 1);
+			if(this.$data.datadialog.dataTypeShow === true) {
+				this.$data.storeGroup.length === 1 ? this.$data.datadialog.canDel = true : this.$data.datadialog.canDel = false;
+			} else {
+				this.$data.storeGroup.length === 2 ? this.$data.datadialog.canDel = true : this.$data.datadialog.canDel = false;
+			}
+		},
+
+		//客流趋势成交率等切换
+		customerClass(val) {
+			if(val === "1") {
+				this.customerList()
+			}
+			this.$data.statisticsType = val;
+			this.$data.changeFlag = !this.$data.changeFlag;
+		},
+		
+		changeSort(val){
+			this.$data.listParameters.sort = val.order === "ascending" ? val.prop : "-" + val.prop;
+			this.customerList();
+		},
+
+		//客流列表表格展示
+		customerList() {
+			this.$data.loading = true;
+			this.$data.listParameters.begin_time = this.$data.guestParameters.begin_time;
+			this.$data.listParameters.end_time = this.$data.guestParameters.end_time;
+			this.$data.listParameters.store_id = this.$data.guestParameters.store_id;
+			this.$data.listParameters.merchant_organize_id = this.$data.guestParameters.merchant_organize_id;
+			statisticsApi.customerList(this.$data.listParameters).then((res) => {
+				console.log(res.data)
+				if(res.data.errno === 0) {
+					this.$data.tableData = res.data.data.list
+					this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
+					this.$data.pagination.totalCount = res.data.data.pagination.pageCount;
+				} else {
+					this.$message(res.data.msg);
+				}
+				this.$data.loading = false;
+			});
+		},
+		
+		//格式化客流列表数据展示
+		formatterVal(row,column,cellValue,index){
+			 let val = Math.round(cellValue * 10000) / 100 + '%';
+			 return val;
+		},
+		//分页
+		currentPage(currentPage) {
+			this.$data.listParameters.page = currentPage;
+			this.customerList();
+		},
+
+		//客流统计折线图求和
+		getCustomer(parameters) {
+			statisticsApi.getCustomerSum(parameters).then((res) => {
+				if(res.data.errno === 0) {
+					this.$data.guestData = res.data.data;
+				}
+			});
+		},
+
+		//搜索
+		onSubmit() {
+			if(this.$data.ctrlTimeType[0]) {
+				if(this.$data.day == null) {
+					return false
+				}
+				this.$data.guestParameters.begin_time = this.getS(this.$data.day);
+				this.$data.guestParameters.end_time = this.getS(this.$data.day) + 86399;
+				this.$data.changeFlag = !this.$data.changeFlag;
+
+			} else if(this.$data.ctrlTimeType[1]) {
+				if(this.$data.week == null) {
+					return false
+				}
+				this.$data.guestParameters.begin_time = this.getS(this.$data.week);
+				this.$data.guestParameters.end_time = this.getS(this.$data.week) + 604799;
+				this.$data.changeFlag = !this.$data.changeFlag;
+
+			} else if(this.$data.ctrlTimeType[2]) {
+				if(this.$data.month == null) {
+					return false
+				}
+				let nexty, nextm;
+				let t = new Date(this.$data.month);
+				let m = t.getMonth() + 1;
+				let y = t.getFullYear();
+				m === 12 ? (nexty = y + 1, nextm = 1) : (nexty = y, nextm = m + 1)
+				this.$data.guestParameters.begin_time = t.getTime() / 1000;
+				this.$data.guestParameters.end_time = this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
+				this.$data.changeFlag = !this.$data.changeFlag;
+
+			} else if(this.$data.ctrlTimeType[3]) {
+				if(this.$data.year == null) {
+					return false;
+				}
+				let yearDate = new Date(this.$data.year);
+				let y = yearDate.getFullYear();
+				this.$data.guestParameters.begin_time = this.getS(`${y}/01/01 00:00:00`);
+				this.$data.guestParameters.end_time = this.getS(`${y}/12/31 23:59:59`);
+				this.$data.changeFlag = !this.$data.changeFlag;
+
+			} else if(this.$data.ctrlTimeType[4]) {
+				if(this.$data.userDefined == null || this.$data.userDefined.length == 0) {
+            		this.$data.customShow = false;
+            		return false;
+            	}           	
+				this.$data.guestParameters.begin_time = utils.getDateTime(this.userDefined[0]);
+				this.$data.guestParameters.end_time = utils.getDateTime(this.userDefined[1]);
+				this.$data.changeFlag = !this.$data.changeFlag;
+				this.$data.customShow  = true;
+			}
+			
+			
+		},
+
+		changeTimeType(tab, event) {
+			var nowIdx = tab.index;
+			this.$data.ctrlTimeType = [false, false, false, false, false];
+			this.$data.ctrlTimeType[nowIdx] = true;
+			if (nowIdx == 4) {
+				this.$data.customShow = false;				
+			}else{
+				this.$data.customShow = true;
+				this.setData();
+				this.$data.changeFlag = !this.$data.changeFlag;
+			}
+			
+		},
+
+		//绑定默认时间
+		modelDate(t) {
+			let d = new Date(t * 1000);
+			return d;
+		},
+
+		getBeginEndTime(val) {
+			let t = new Date();
+			let y = t.getFullYear();
+			let m = t.getMonth() + 1;
+			let d = t.getDate();
+			let weekd = t.getDay();
+
+			switch(val) {
+				case "day":
+					this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/${d} 00:00:00`);
+					this.$data.guestParameters.end_time = this.getS(`${y}/${m}/${d} 23:59:59`);
+					this.$data.day = this.modelDate(this.$data.guestParameters.begin_time)
+					break;
+				case "week":
+					if(weekd === 0) {
+						weekd = 7
+					}
+					this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/${d} 00:00:00`) - 86400 * (weekd - 1);
+					this.$data.guestParameters.end_time = this.getS(`${y}/${m}/${d} 23:59:59`) + 86400 * (7 - weekd);
+					this.$data.week = this.modelDate(this.$data.guestParameters.begin_time);
+					break;
+				case "month":
+					let nexty, nextm;
+					m === 12 ? (nexty = y + 1, nextm = 1) : (nexty = y, nextm = m + 1)
+					this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/01 00:00:00`);
+					this.$data.guestParameters.end_time = this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
+					this.$data.month = this.modelDate(this.$data.guestParameters.begin_time);
+					break;
+				case "year":
+					this.$data.guestParameters.begin_time = this.getS(`${y}/01/01 00:00:00`);
+					this.$data.guestParameters.end_time = this.getS(`${y}/12/31 23:59:59`);
+					this.$data.year = this.modelDate(this.$data.guestParameters.begin_time);
+					break;
+			}
+		},
+
+		setData() {
+			if(this.$data.ctrlTimeType[0]) {
+				//日
+				this.getBeginEndTime("day")
+				return false;
+			}
+			if(this.$data.ctrlTimeType[1]) {
+				//周
+				this.getBeginEndTime("week")
+				return false;
+			}
+			if(this.$data.ctrlTimeType[2]) {
+				//月
+				this.getBeginEndTime("month")
+				return false;
+			}
+			if(this.$data.ctrlTimeType[3]) {
+				//年            
+				this.getBeginEndTime("year")
+				return false;
+			}
+
+		},
+
+		//表格的操作
+		indexRank(index) {
+			
+			return  (this.$data.pagination.currentPage - 1) * 10 + index + 1;
+		},
+
+	}
 }

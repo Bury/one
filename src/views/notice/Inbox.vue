@@ -13,8 +13,8 @@
       <tbody style="text-align: center">
       <tr v-for="(item,index) in tableData" :key="index" height="40">
         <td>{{item.title}}</td>
-        <td>{{item.content}}</td>
-        <td>{{item.sender}}</td>
+        <td>{{item.content | fonts(10)}}</td>
+        <td>{{item.sender_name}}</td>
         <td>{{item.created_at | date(4)}}</td>
         <td>
           <el-button @click="fnCheck(item)" type="text" size="small">查看</el-button>
@@ -56,7 +56,7 @@
         </el-row>
         <el-form-item label="内容：" prop="account">
           <div class="time">
-            <div>{{checkForm.content}}</div>
+            <div v-html="checkForm.content">{{checkForm.content}}</div>
           </div>
         </el-form-item>
       </el-form>

@@ -54,7 +54,6 @@ import Notice from '../views/notice/Notice'
 import Inbox from '../views/notice/Inbox'
 import Outbox from '../views/notice/Outbox'
 import Drafts from '../views/notice/Drafts'
-import Check from '../views/notice/Check'
 
 Vue.use(Router)
 
@@ -68,7 +67,7 @@ const router = new Router({
       component: Main,
 
       children: [
-        {path: '/',name: 'Statistics',component: Statistics},
+        {path: 'Statistics',name: 'Statistics',component: Statistics},
         {path: 'Guest',name: 'Guest',component: Guest},
         {path: 'Order',name: 'Order',component: Order},
         {path: 'LabelList',name: 'LabelList',component: LabelList},
@@ -91,7 +90,6 @@ const router = new Router({
         {path: 'Inbox',name:'Inbox',component:Inbox},
         {path: 'Outbox',name:'Outbox',component:Outbox},
         {path: 'Drafts',name:'Drafts',component:Drafts},
-        {path: 'Check',name:'Check',component:Check},
       ]
 
   }]
@@ -101,10 +99,12 @@ router.beforeEach((to, from, next) => {
   let knock_knock = window.localStorage.getItem('knock_knock')
   if (to.matched.some(
         record => record.meta.requiresAuth)&& (!knock_knock || knock_knock === null)) {
-    next({
-      path: '/login',
-      query: { redirect: to.fullPath }
-    })
+        
+        window.location.href = '/';
+//  next({
+//    path: '/login',
+//    query: { redirect: to.fullPath }
+//  })
   } else {
     next()
   }

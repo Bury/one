@@ -79,7 +79,7 @@
 		        },
 		        requestParameters: {
 	                page: 1,
-	                page_size:10
+	                page_size:20
 	            }
 
 			}
@@ -103,7 +103,6 @@
         		})
 			},
 			handleCurrentChange(currentPage) {
-	            console.log(currentPage)
 	            this.$data.requestParameters.page = currentPage;
 	            this.labelList();
 	        },
@@ -125,8 +124,8 @@
 					            message: '删除成功!'
 					          });
 							this.labelList();
-	        			}else{
-
+	        			}else if(res.data.errno == -1){
+                  this.$message.warning(res.data.msg);
 	        			}
 
 	        		})
@@ -168,8 +167,7 @@
 			},
 			submitForm(formName){
 				this.$refs[formName].validate((valid) => {
-					console.log(valid)
-			        if (valid) {
+          if (valid) {
 						if(this.$data.currentId !== ''){
 							let list = {
 								'id': this.$data.currentId,
@@ -178,13 +176,10 @@
 							let qs = require('querystring')
 			        		labelApi.editLabel(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
-									console.log(res)
-									this.labelList();
-
+									  this.labelList();
 			        			}else{
-
+			        			  this.$message.error(res.data.msg)
 			        			}
-
 			        		})
 						}else{
 							let list = {
@@ -193,13 +188,10 @@
 						    let qs = require('querystring')
 			        		labelApi.addLabel(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
-									console.log(res)
-									this.labelList();
-
+									  this.labelList();
 			        			}else{
-
+                      this.$message.error(res.data.msg)
 			        			}
-
 			        		})
 						}
 						this.$data.ruleForm.name = '';

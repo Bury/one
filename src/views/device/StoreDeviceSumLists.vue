@@ -3,10 +3,9 @@
     <table width="80%" class="table-bordered">
       <thead style="background-color: #d1d1d1">
       <tr height="40">
-        <th class="col-md-2 text-center">ID</th>
+        <th class="col-md-3 text-center">序号</th>
         <th class="col-md-3 text-center">门店</th>
-        <th class="col-md-2 text-center">总数</th>
-        <th class="col-md-2 text-center">待分配数</th>
+        <th class="col-md-3 text-center">设备数</th>
         <th class="col-md-3 text-center">操作</th>
       </tr>
       </thead>
@@ -14,9 +13,8 @@
       <tr v-for="(item,index) in tableData" :key="index" height="40">
         <td>{{item.id}}</td>
         <td>{{item.name}}</td>
-        <td></td>
-        <td></td>
-        <td><el-button @click="fnGoPage(scope.row)" type="text" size="small">详情</el-button></td>
+        <td>{{item.deviceFaceCount}}</td>
+        <td><el-button @click="fnGoPage(item)" type="text" size="small">详情</el-button></td>
 
       </tr>
       </tbody>
@@ -37,59 +35,7 @@
 		</div>
 	</div>
 </template>
-<script>
-	import deviceApi from '../../api/device'
-
-	export default{
-		name:'store',
-		data(){
-			return{
-				tableData:[],
-				pagination:{
-		        	currentPage:1,
-		        	totalCount:0,
-		        },
-				requestParameters: {
-	                page: 1,
-	                page_size:10
-	            },
-			}
-		},
-		created:function(){
-			this.storeDeviceSumLists();
-		},
-		methods:{
-			storeDeviceSumLists(){
-				let qs = require('querystring');
-				deviceApi.storeDeviceSumLists(qs.stringify(this.$data.requestParameters)).then((res) => {
-					console.log(res)
-        			if(res.data.errno === 0){
-						this.$data.tableData = res.data.data.list;
-						console.log(this.$data.tableData)
-						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
-		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
-        			}else{
-
-        			}
-
-        		})
-			},
-			handleCurrentChange(currentPage) {
-	            this.$data.requestParameters.page = currentPage;
-	            this.storeDeviceSumLists();
-	        },
-			fnGoPage(row){
-				this.$router.push({
-					name: 'StoreDeviceDetailLists',
-					query: {
-	                    storeId: row.id,
-	                    storeName: row.name
-	                }
-				});
-			}
-		}
-	}
-</script>
+<script src="@/assets/js/store/StoreDeviceSumLists.js"></script>
 <style lang="scss" scoped>
 	.store-box{
 		.top-box{

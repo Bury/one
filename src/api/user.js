@@ -58,9 +58,9 @@ export default {
       })
     })
   },
-  edi (list) {
+  editUser (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.USER_EDI,list).then((res) => {
+      axios.post(global.USER_EDIT_INFO,list).then((res) => {
         resolve(res)
       }).catch((err) => {
         reject(err)
@@ -94,6 +94,79 @@ export default {
       })
     })
   },
-
+  menu (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_MENU, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  childMenu (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_CHILD_MENU, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  //忘记密码
+  sendSms (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_SEND_MSG, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  checkSms (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_CHECK_MSG, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  passwordForget (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_CHANGE_PWD, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  //个人中心修改手机号
+  phoneSms (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_SEND_PHONE, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  phoneCheck (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_CKECK_PHONE, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  savePhone (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_SAVE_CHANGE_PHONE, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
 
 }

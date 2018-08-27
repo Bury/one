@@ -70,6 +70,25 @@ export default {
       })
     })
   },
+//岗位权限设置
+  merchantRoleLists (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.MERCHANT_POWER_LIST,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+ storeRoleLists (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.STORE_POWER_LIST,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
 
 
 

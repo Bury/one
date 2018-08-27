@@ -7,11 +7,26 @@ import apiUrl from './API.js'
 const SERVER_IP = apiUrl.apiUrl
 const COMMON = 'mv1/'
 
+//标签数据
+global.TAG_LISTS_RESULTS = `${SERVER_IP}${COMMON}tag/tree-form`
+
 //客流统计
-// post analysis/customer
-global.GET_CUSTOMER = `${SERVER_IP}${COMMON}analysis/customer`
-// post analysis/feature
-global.GET_FEATURE = `${SERVER_IP}${COMMON}analysis/feature`
+global.GRAPH_CUSTOMER_SUM = `${SERVER_IP}${COMMON}analysis/graph-customer-sum` //客流统计折线图求和
+global.GRAPH_CUSTOMER_DIFF = `${SERVER_IP}${COMMON}analysis/graph-customer-diff` //客流统计折线图比对
+global.PIE_FEATURE_SUM = `${SERVER_IP}${COMMON}analysis/pie-feature-sum`  //特征饼图求和
+global.GRAPH_FEATURE_SUM = `${SERVER_IP}${COMMON}analysis/graph-feature-sum`  //特征折线图求和
+global.BAR_FEATURE_DIFF = `${SERVER_IP}${COMMON}analysis/bar-feature-diff`  //特征柱状图比对
+
+global.GRAPH_ORDER_SUM = `${SERVER_IP}${COMMON}analysis/graph-order-sum`  //成交率折线图求和
+global.GRAPH_ORDER_DIFF = `${SERVER_IP}${COMMON}analysis/graph-order-diff`  //成交率折线图比对
+
+global.GRAPH_CUSTOMER_LOST_SUM = `${SERVER_IP}${COMMON}analysis/graph-customer-lost-sum`  //潜在客户流失率折线图求和
+global.GRAPH_CUSTOMER_LOST_DIFF = `${SERVER_IP}${COMMON}analysis/graph-customer-lost-diff`  //潜在客户流失率折线图比对
+
+global.GRAPH_ORDER_LOST_SUM = `${SERVER_IP}${COMMON}analysis/graph-order-lost-sum`  //成交客户流失率折线图求和
+global.GRAPH_ORDER_LOST_DIFF = `${SERVER_IP}${COMMON}analysis/graph-order-lost-diff`  //成交客户流失率折线图比对
+
+global.ANALYSIS_LIST = `${SERVER_IP}${COMMON}analysis/list`  //客流列表
 
 /*提醒列表*/
 // post customer//remind-list 获取提醒列表
@@ -52,8 +67,12 @@ global.STORE_LOCATE = `${SERVER_IP}${COMMON}store/locate`
 //设备管理
 global.DEVICE_LISTS = `${SERVER_IP}${COMMON}device/list`
 global.DEVICE_EDIT = `${SERVER_IP}${COMMON}device/edit`
-global.DEVICE_DISTRIBUTION = `${SERVER_IP}${COMMON}device/camera-depoly`
+global.DEVICE_DISTRIBUTION = `${SERVER_IP}${COMMON}device/camera-deploy`
+global.DEVICE_UN_DEPLOY = `${SERVER_IP}${COMMON}device/camera-un-deploy`
 global.STORE_DEVICE_SUM_LISTS = `${SERVER_IP}${COMMON}device/device-list`
+
+//设备详情
+global.DEVICE_VIEW = `${SERVER_IP}${COMMON}device/view`
 
 //设备版本
 global.DEVICE_VERSION_LISTS_RESULTS = `${SERVER_IP}${COMMON}device-version/lists_results`
@@ -106,10 +125,18 @@ global.MERCHANT_TIME_SET = `${SERVER_IP}${COMMON}merchant-config/business-time`
 //个人中心
 global.USER_INFO = `${SERVER_IP}${COMMON}user/info`
 global.USER_CHANGE_PASSWORD = `${SERVER_IP}${COMMON}user/change-password`
-global.USER_EDI = `${SERVER_IP}${COMMON}user/edit`
+global.USER_EDIT_INFO = `${SERVER_IP}${COMMON}user/edit`
+global.USER_SEND_PHONE = `${SERVER_IP}${COMMON}user/change-phone-sms`
+global.USER_CKECK_PHONE = `${SERVER_IP}${COMMON}user/change-phone-check`
+global.USER_SAVE_CHANGE_PHONE = `${SERVER_IP}${COMMON}user/change-phone-save`
+
 //登录退出
 global.USER_LOGIN = `${SERVER_IP}${COMMON}user/login`
 global.USER_LOGOUT = `${SERVER_IP}${COMMON}user/logout`
+//登录--忘记密码
+global.USER_SEND_MSG = `${SERVER_IP}${COMMON}user/send-sms`
+global.USER_CHECK_MSG = `${SERVER_IP}${COMMON}user/check-sms`
+global.USER_CHANGE_PWD = `${SERVER_IP}${COMMON}user/change-password-forgot`
 
 
 
@@ -165,6 +192,12 @@ global.NOTICE_INBOX_LISTS = `${SERVER_IP}${COMMON}message/inbox-list`
 global.NOTICE_MYBOX_LISTS = `${SERVER_IP}${COMMON}message/mybox-list`
 
 //左侧菜单权限
-global.USER_MENU = `${SERVER_IP}${COMMON}user/child-menu`
+global.USER_CHILD_MENU = `${SERVER_IP}${COMMON}user/child-menu`
+global.USER_MENU = `${SERVER_IP}${COMMON}user/left-menu`
+
+//岗位权限设置
+global.MERCHANT_POWER_LIST = `${SERVER_IP}${COMMON}merchant-role/list-permission`
+global.STORE_POWER_LIST = `${SERVER_IP}${COMMON}store-role/list-permission`
+
 
 

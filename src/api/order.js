@@ -13,6 +13,15 @@ export default {
 	      })
 	    })
 	},
+  getAll (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.TAG_LISTS_RESULTS,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
 	dele (list) {
 	    return new Promise((resolve, reject) => {
 	      axios.post(global.DELE_OTDER,list).then((res) => {

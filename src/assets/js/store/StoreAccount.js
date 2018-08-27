@@ -1,6 +1,7 @@
 //import Guest from '../../guest/Guest'
 	import storeRole from '@/api/store_role'
 	import storeAccountApi from '@/api/store_account'
+	import globalRules from '@/config/global_rules'
 
 	export default{
 		name:'accoun-set',
@@ -17,31 +18,28 @@
 		        	totalCount:0,
 		        },
 				requestParameters: {
+					store_id:'',
+					username:'',
+					truename:'',
+					phone:'',
+					merchant_role_id:'',
 	                page: 1,
-	                page_size:10,
-	                sid:''
+	                page_size:20,	                
 	            },
 	            editFormVisible:false,
 	            allRole:[],
 	            editFormData:{
 	            	id:'',
+	            	store_id:'',
 	            	username:'',
 	            	truename:'',
 	            	phone:'',
 	            	role_id:''
 	            },
 	            editRules:{
-	            	username: [
-		            	{ required: true, message: '请输入帐号', trigger: 'blur' },
-		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
-		          	],
-		          	truename:[
-		          		{ required: true, message: '请输入姓名', trigger: 'blur' },
-		            	{ min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
-		          	],
-		          	role_id:[
-		          		{ required: true, message: '请选择角色', trigger: 'blur' }
-		          	]
+	            	username: globalRules.rules.username('请输入账号'),
+		          	truename: globalRules.rules.truename(),
+		          	role_id: globalRules.rules.selectRule('请选择岗位'),
 	            },
 	            changePwdFormVisible:false,
 	            changePwdFormData:{
@@ -50,10 +48,7 @@
 	            	repassword:'',
 	            },
 	            changePwdRules:{
-	            	new_password:[
-	            		{ required: true, message: '请输入新密码：', trigger: 'blur' },
-            			{ min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }
-	            	],
+	            	password:globalRules.rules.password(),
 	            	repassword:[
 	            		{ required: true, message: '请再次输入密码', trigger: 'blur' },
 			            {
@@ -71,37 +66,19 @@
 	            },
 	            addsFormVisible:false,
 	            addsFormData:{
-	            	sid:'',
+	            	store_id:'',
 	            	username:'',
 	            	truename:'',
-	            	role_id:'',
 	            	phone:'',
+	            	role_id:'',	            	
 	            	password:'',
-
 	            },
 	            addsRules:{
-	            	store_id:[
-	            		{ required: true, message: '请输入店铺名称', trigger: 'blur' },
-		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
-	            	],
-	            	username:[
-	            		{ required: true, message: '请输入帐号称', trigger: 'blur' },
-		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
-	            	],
-	            	desc:[
-	            		{ required: true, message: '请输入姓名姓名', trigger: 'blur' },
-		            	{ min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
-	            	],
-	            	role_id:[
-	            		{ required: true, message: '请选择角色', trigger: 'blur' },
-	            	],
-	            	avatar:[
-	            		{ required: true, message: '请选择头像', trigger: 'blur' }
-	            	],
-	            	password:[
-	            		{ required: true, message: '请输入新密码：', trigger: 'blur' },
-            			{ min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }
-	            	],
+	            	username:globalRules.rules.username('请输入账号'),
+	            	truename:globalRules.rules.truename(),
+	            	phone:globalRules.rules.phone(),	            	
+	            	role_id:globalRules.rules.selectRule('请选择岗位'),
+	            	password:globalRules.rules.password(),
 	            	repassword:[
 	            		{ required: true, message: '请再次输入密码', trigger: 'blur' },
 			            {
@@ -120,17 +97,25 @@
 			}
 		},
 		watch: {
-               dialogFormVisible: function() {               	
-               	this.$refs.editFormData.resetFields()
+               addsFormVisible(){
+               	 setTimeout(() => {
+               		this.$refs.addsFormData.clearValidate()
+               	},0)
+               },
+               editFormVisible(){
+               	 setTimeout(() => {
+               		this.$refs.editFormData.clearValidate()
+               	},0)
                }
         },
 		created:function(){
-			this.accountLists();
+			this.accountLists();	
+			this.getRoleLists();
 		},
 		methods: {
 			//列表
 			accountLists(){
-				this.$data.requestParameters.sid = this.$route.query.StoreId;
+				this.$data.requestParameters.store_id = this.$route.query.StoreId;
 				let qs = require('querystring');
 				storeAccountApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
 	    			if(res.data.errno === 0){
@@ -176,25 +161,18 @@
 		          // });
 		        });
 			},
-			fnEdit(row){
-				this.getRoleLists();
-				this.viewAccount(row.id);
+			fnEdit(row){				
+				this.$data.editFormData = {
+					id:row.id,
+					store_id:row.store.id,
+	            	username:row.username,
+	            	truename:row.truename,
+	            	phone:row.phone,
+	            	role_id:row.role_id
+				}
+				this.$data.editFormVisible = true;
 			},
-			viewAccount(id){
-				let qs = require('querystring')
-        		storeAccountApi.view(qs.stringify({
-        			id:id
-        		})).then((res) => {
-        			if(res.data.errno === 0){
-						this.$data.editFormData = res.data.data;
-						this.$data.editFormVisible = true;
-
-        			}else{
-						this.$message.error(res.data.msg);
-					}
-
-        		})
-			},
+			
 			getRoleLists(){
 				let qs = require('querystring')
 	    		storeRole.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
@@ -209,21 +187,19 @@
 				this.$data.editFormVisible = false;
 				this.$data.editFormData = {
 					id:'',
+					store_id:'',
 	            	username:'',
 	            	truename:'',
 	                phone:'',
 	                role_id:''
 				}
 			},
-			editSubmit(formName){
-				
+			editSubmit(formName){				
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
 						let qs = require('querystring')
-						console.log(this.$data.editFormData)
 		        		storeAccountApi.edit(qs.stringify(this.$data.editFormData)).then((res) => {
 		        			if(res.data.errno === 0){
-		        				console.log(res)
 								this.$message({
 						            type: 'success',
 						            message: '操作成功'
@@ -231,6 +207,7 @@
 								this.accountLists();
 								this.$data.editFormData = {
 									id:'',
+									store_id:'',
 	            	                username:'',
 	            	                truename:'',
 	                              	phone:'',
@@ -268,9 +245,7 @@
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
 						let qs = require('querystring')
-						console.log(this.$data.changePwdFormData)
 		        		storeAccountApi.password_edit(qs.stringify(this.$data.changePwdFormData)).then((res) => {
-		        			console.log(res)
 		        			if(res.data.errno === 0){
 								this.$message({
 						            type: 'success',
@@ -296,7 +271,7 @@
 			},
 			fnClearAddsFormData(){
 				this.$data.addsFormData = {
-	            	sid:'',
+	            	store_id:'',
 	            	username:'',
 	            	truename:'',
 	            	role_id:'',
@@ -307,7 +282,6 @@
 
 			fnAdds(){
 				this.fnClearAddsFormData();
-				this.getRoleLists();
 				this.$data.addsFormVisible = true;
 			},
 			//头像选择
@@ -323,11 +297,9 @@
 			addsSubmit(formName){
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
-			        	this.$data.addsFormData.sid = this.$route.query.StoreId;
-						let qs = require('querystring');
-						console.log(this.$data.addsFormData)
+			        	this.$data.addsFormData.store_id = this.$route.query.StoreId;
+						let qs = require('querystring');					
 		        		storeAccountApi.adds(qs.stringify(this.$data.addsFormData)).then((res) => {
-		        			console.log(res)
 		        			if(res.data.errno === 0){
 								this.$message({
 						            type: 'success',
@@ -353,8 +325,22 @@
 	            }else{
 	            	done()
 	            }
-
 	        },
+	        searchList(){
+	          this.accountLists();	        	
+	        },
+	        resetList(){
+	          this.$data.requestParameters = {
+					store_id:'',
+					username:'',
+					truename:'',
+					phone:'',
+					merchant_role_id:'',
+	                page: 1,
+	                page_size:20,	                
+	           };
+	        	
+	        }
 
 
 		}

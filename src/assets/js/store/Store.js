@@ -1,6 +1,7 @@
 import storeApi from '@/api/store'
 import getCity from '@/api/getCity'
 import storeRoleApi from '@/api/store_role'
+import globalRules from '@/config/global_rules';
 	export default{
 		name:'store-set',
 		data(){
@@ -32,7 +33,6 @@ import storeRoleApi from '@/api/store_role'
 				dialogFormVisible: false,
 		        ruleForm: {
 		          	name: '',
-		          	phone:'',
 		          	person_in_charge:'',
 		          	locate:[],
 		          	address:'',
@@ -52,41 +52,28 @@ import storeRoleApi from '@/api/store_role'
 		          	{ required: true, message: '请输入负责人姓名', trigger: 'blur' },
 		            { min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
 		          ],
-		          phone:[
-		          	{ required: true, message: '请输入手机号码', trigger: 'blur' },
-		          	{
-		                validator: (rule, value, callback) => {
-		                    if (value.match(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/)) {
-		                        callback();
-		                    } else {
-		                        callback("请输入正确的手机号码！");
-		                    }
-		                },
-		                trigger: 'blur'
-		            }
-		          ],
 		          address:[
 		             { required: true, message: '请输入详细地址', trigger: 'blur' },
 		             { min: 2, max: 30, message: '长度在 2 到 30 个字符', trigger: 'blur' }
 		          ],
 		          merchant_organize_id:[
-		             { required: true, message: '请选择门店架构'},
+		             { required: true, message: '请选择门店架构',trigger: 'change'},
 		          ],
 		          locate:[
-		             {required: true, message: '请选择省市'}
+		             {required: true, message: '请选择省市',trigger: 'change'}
 		          ]
 		        },
 				requestParameters: {
 	                page: 1,
-	                page_size:10,
-	                organize:'',
+	                page_size:20,
+	                merchant_organize_id:'',
 					store_id:'',
 	            },
 			}
 		},
 		watch: {
                dialogFormVisible: function() {
-               	this.$refs.ruleForm.resetFields()
+               	
                }
         },
 		created:function(){
@@ -99,11 +86,15 @@ import storeRoleApi from '@/api/store_role'
 			storeLists(){
 				let qs = require('querystring')
 	    		storeApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-
+	    			console.log(res)
 	    			if(res.data.errno === 0){
-						this.$data.tableData = res.data.data.list;
-						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
-		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
+	    				if(res.data.data !== null){
+	    				  this.$data.tableData = res.data.data.list;
+						  this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
+		        		  this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
+	    				}else{
+	    					this.$data.tableData = [];
+	    				}
 	    			}else{
 						this.$message.error(res.data.msg);
 	    			}
@@ -119,13 +110,15 @@ import storeRoleApi from '@/api/store_role'
 	        	this.$data.ruleForm = {
 		          	name: '',
 		          	person_in_charge:'',
-		          	phone:'',
 		          	locate:[],
 		          	address:'',
 		          	merchant_organize_id:[],
 		        }
 
-	        },
+			},
+			closeClear(){
+				this.$refs.ruleForm.clearValidate();
+			},
 
 			fnRemove(row){
 				this.$confirm('确认删除该门店：'+row.name+' ？', '删除提示', {
@@ -159,13 +152,11 @@ import storeRoleApi from '@/api/store_role'
 				this.$data.dialogTitle = '门店编辑';
 				this.$data.currentId = row.id;
 				this.$data.ruleForm = {
-					name: row.name,
-		          	// phone:row.phone,
-		          	// locate:[row.province.code,row.city.code,row.area.code],
+					      name: row.name,
 		          	merchant_organize_id:row.organizes.id.split(','),
-		          	phone:row.phone,
 		          	locate:[String(row.province.code),String(row.city.code),String(row.area.code)],
 		          	merchant_organize_id:moi,
+                address:row.address,
 				}
 				this.$data.dialogFormVisible = true;
 
@@ -182,7 +173,6 @@ import storeRoleApi from '@/api/store_role'
 				this.$data.ruleForm = {
 		          	name: '',
 		          	person_in_charge:'',
-		          	phone:'',
 		          	locate:[],
 		          	address:'',
 		          	merchant_organize_id:[],
@@ -199,7 +189,6 @@ import storeRoleApi from '@/api/store_role'
 							let list = {
 								'id': this.$data.currentId,
 								'name': this.$data.ruleForm.name,
-					          	'phone':this.$data.ruleForm.phone,
 					          	'locate':loc,
 					          	'address':this.$data.ruleForm.address,
 					          	'merchant_organize_id':mer,
@@ -227,7 +216,6 @@ import storeRoleApi from '@/api/store_role'
 							let mer = this.$data.ruleForm.merchant_organize_id[this.$data.ruleForm.merchant_organize_id.length - 1]
 							let list = {
 						        'name': this.$data.ruleForm.name,
-					          	'phone':this.$data.ruleForm.phone,
 					          	'locate':parseInt(loc),
 					          	'address':this.$data.ruleForm.address,
 					          	'merchant_organize_id':mer,
@@ -314,12 +302,12 @@ import storeRoleApi from '@/api/store_role'
 			},
 
 			lookSubmit(){
-				if(this.$data.lookData.organize.length === 0){
-					this.$message("请选择门店架构");
-					return false;
-				}else{
-				    this.$data.requestParameters.organize = this.$data.lookData.organize.join();
+				if(this.$data.lookData.organize.length !== 0){
+					this.$data.requestParameters.merchant_organize_id = this.$data.lookData.organize[this.$data.lookData.organize.length - 1];
 				    this.$data.requestParameters.store_id = this.$data.lookData.store_id;
+				}else{
+					this.$data.requestParameters.merchant_organize_id = "";
+					this.$data.requestParameters.store_id = "";
 				}
 				this.storeLists();
 			},
@@ -332,7 +320,14 @@ import storeRoleApi from '@/api/store_role'
         				this.$message(res.statusText)
         			}
         		})
-			}
+			},
+      fnReset(){
+			  this.$data.lookData.store_id = '';
+			  this.$data.lookData.organize = [];
+			  this.$data.selectStore = [];
+              this.$data.requestParameters.merchant_organize_id = '';
+              this.$data.requestParameters.store_id = '';
+      }
 
 		}
 	}

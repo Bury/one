@@ -15,13 +15,13 @@
 					</el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="账号名：">
+			<el-form-item label="账号：">
 				<el-input type="text" v-model.trim="requestParameters.username"></el-input>
 			</el-form-item>
 			<el-form-item label="姓名：">
 				<el-input type="text" v-model.trim="requestParameters.truename"></el-input>
 			</el-form-item>
-			<el-form-item label="手机号：">
+			<el-form-item label="手机：">
 				<el-input type="text" v-model.trim="requestParameters.phone"></el-input>
 			</el-form-item>
 			<el-form-item label="岗位：">
@@ -32,16 +32,16 @@
 
 			<el-form-item>
 				<el-button type="primary" @click="clickSearch">查询</el-button>
-				<el-button type="primary">重置</el-button>
+				<el-button type="primary" @click="resetForm">重置</el-button>
 			</el-form-item>
 		</el-form>
 		<table width="100%" class="table-bordered">
 			<thead style="background-color: #d1d1d1">
 				<tr height="40">
-					<th class="col-md-1 text-center">ID</th>
+					<th class="col-md-1 text-center">序号</th>
 					<th class="col-md-2 text-center">门店架构</th>
 					<th class="col-md-2 text-center">门店</th>
-					<th class="col-md-2 text-center">账号名</th>
+					<th class="col-md-2 text-center">账号</th>
 					<th class="col-md-1 text-center">姓名</th>
 					<th class="col-md-1 text-center">手机</th>
 					<th class="col-md-1 text-center">岗位</th>
@@ -80,13 +80,13 @@
 		<el-dialog title="编辑" :visible.sync="editFormVisible">
 			<el-form :model="editFormData" :rules="editRules" ref="editFormData" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="帐号：" prop="username">
-					<el-input :disabled="true" v-model="editFormData.username"></el-input>
+					<el-input :disabled="true" v-model.trim="editFormData.username"></el-input>
 				</el-form-item>
 				<el-form-item label="姓名：" prop="truename">
-					<el-input v-model="editFormData.truename"></el-input>
+					<el-input v-model.trim="editFormData.truename"></el-input>
 				</el-form-item>
 				<el-form-item label="手机：" prop="phone">
-					<el-input v-model="editFormData.phone"></el-input>
+					<el-input v-model.trim="editFormData.phone"></el-input>
 				</el-form-item>
 				<el-form-item style="display: inline-block;" label="门店架构：">
 					<el-cascader v-model="editFormOrganize" :options="organizes" :props='defaultAttr' @change="editGetSotre">
@@ -131,21 +131,21 @@
 		<el-dialog :title="!avatarFormVisible? '添加' : '关联头像'" :visible.sync="addsFormVisible" :fullscreen="avatarFormVisible" :before-close="closeChange">
 			<el-form :model="addsFormData" :rules="addsRules" ref="addsFormData" label-width="100px" class="demo-ruleForm" v-if="!avatarFormVisible" >
 				<el-form-item label="帐号：" prop="username">
-					<el-input  v-model="addsFormData.username"></el-input>
+					<el-input  v-model.tirm="addsFormData.username"></el-input>
 				</el-form-item>
 				<el-form-item label="姓名：" prop="truename">
-					<el-input v-model="addsFormData.truename"></el-input>
+					<el-input v-model.trim="addsFormData.truename"></el-input>
 				</el-form-item>
 				<el-form-item label="手机：" prop="phone">
-					<el-input v-model="addsFormData.phone"></el-input>
+					<el-input v-model.trim="addsFormData.phone"></el-input>
 				</el-form-item>
 				<el-form-item style="display: inline-block;" label="门店架构：">
-					<el-cascader v-model="editFormOrganize" :options="organizes" :props='defaultAttr' @change="editGetSotre">
+					<el-cascader v-model="addFormOrganize" :options="organizes" :props='defaultAttr' @change="addGetSotre">
 					</el-cascader>
 				</el-form-item>
 				<el-form-item style="display: inline-block;"  label="门店：" prop="store_id">
 					<el-select v-model="addsFormData.store_id" placeholder="请选择" :no-data-text="noeditStore">
-						<el-option v-for="(item,index) in editStore" :key="index" :label="item.name" :value="item.id">
+						<el-option v-for="(item,index) in addStore" :key="index" :label="item.name" :value="item.id">
 						</el-option>
 					</el-select>
 				</el-form-item>

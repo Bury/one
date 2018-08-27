@@ -1,6 +1,7 @@
 <template>
 	<div class="label-detail-page">
 		<div class="top-box">
+			<el-button type="primary" size="small" class="add-btn1" @click="fnGoback()">返回</el-button>
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdd()">新增</el-button>
 		</div>
     <!--列表-->
@@ -11,7 +12,7 @@
         <th class="col-md-1 text-center">操作</th>
       </tr>
       </thead>
-      <tbody style="text-align: center">
+      <tbody v-if="tableData.length > 0" style="text-align: center">
       <tr v-for="(item,index) in tableData" :key="index" height="40">
         <td>{{item.name}}</td>
         <td>
@@ -21,6 +22,11 @@
                      @click="fnRemove(item)"></el-button>
         </td>
       </tr>
+      </tbody>
+      <tbody v-else>
+      	<tr>
+      		<td colspan="2" align="center" height="50px">暂无数据</td>
+      	</tr>
       </tbody>
     </table>
 
@@ -79,7 +85,7 @@
 		        requestParameters: {
 		        	parent_id:'',
 	                page: 1,
-	                page_size:10
+	                page_size:20
 	            }
 
 			}
@@ -93,6 +99,7 @@
 				this.$data.requestParameters.parent_id = this.$route.query.LabelId;
 			    let qs = require('querystring')
 				labelApi.labeChildlList(qs.stringify(this.$data.requestParameters)).then((res) => {
+					console.log(res)
         			if(res.data.errno === 0){
 						console.log(res.data.data.list)
 						this.$data.tableData = res.data.data.list;
@@ -118,8 +125,8 @@
 		          type: 'warning'
 		        }).then(() => {
 		        	let list = {
-						'id': row.id
-					}
+                'id': row.id
+              }
 					let qs = require('querystring')
 	        		labelApi.deleChildLabel(qs.stringify(list)).then((res) => {
 	        			if(res.data.errno === 0){
@@ -129,8 +136,8 @@
 					            message: '删除成功!'
 					          });
 							this.labeChildlList();
-	        			}else{
-
+	        			}else if(res.data.errno == -1){
+	        			  this.$message.warning(res.data.msg);
 	        			}
 
 	        		})
@@ -156,6 +163,9 @@
 				this.$data.ruleForm.name = "";
 				this.$data.dialogFormVisible = true;
 			},
+      fnGoback(){
+			  this.$router.push('/LabelList');
+      },
 
 			cancel(){
 				this.$data.dialogFormVisible = false;
@@ -216,12 +226,14 @@
 			margin-bottom:20px;
 			height: 36px;
 			border-bottom:1px solid #d2d2d2;
-			.add-btn{
+			.add-btn,.add-btn1{
 				position: absolute;
 				top:0;
 				right:20px;
-
 			}
+      .add-btn1{
+        right: 100px;
+      }
 		}
 	}
 

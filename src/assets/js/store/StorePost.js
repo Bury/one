@@ -1,4 +1,6 @@
 import storeRoleApi from '@/api/store_role'
+import roleApi from '@/api/role'
+import globalRules from '@/config/global_rules'
 
 export default{
   name:'store-set',
@@ -18,19 +20,19 @@ export default{
       },
       currentId:'',
       rules: {
-        name: [
-          { required: true, message: '请输入门店岗位名称', trigger: 'blur' },
-          { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
-        ]
+        name:globalRules.rules.name(),
       },
       requestParameters: {
         page: 1,
-        page_size:10
+        page_size:20
       },
       dialogForm2Visible: false,
       currentName: '',
       dialogForm2: [],
       checkedIds: [],
+      dialogForm:[],
+      nodeId:'',
+			parentId:'',
     }
   },
   created:function(){
@@ -87,9 +89,10 @@ export default{
       this.$data.dialogTitle = '门店编辑';
       this.$data.currentId = row.id;
       this.$data.ruleForm = row;
-      this.$data.dialogFormVisible = true;
+      this.$data.editFormVisible = true;
 
     },
+
     fnAdds(){
       this.$data.dialogTitle = '门店添加';
       this.$data.currentId = "";
@@ -99,15 +102,26 @@ export default{
         phone:''
       };
       this.$data.dialogFormVisible = true;
+      this.$data.checkedIds = [];
+      roleApi.storeRoleLists().then((res) => {
+        this.$data.dialogForm = res.data.data;
+      })
     },
     cancel(){
       this.$data.dialogFormVisible = false;
       this.$data.currentId = '';
-      this.$data.ruleForm = {
-        name: '',
-        person_in_charge:'',
-        phone:''
-      };
+      this.$data.ruleForm.name = '';
+      this.clearFormData();
+      setTimeout(() => {
+        this.$refs.ruleForm.resetFields();
+      })
+    },
+    editCancle(){
+      // this.$data.currentId = '';
+      this.$data.editFormVisible = false;
+      setTimeout(() => {
+        this.$refs.ruleForm.resetFields();
+      })
     },
     submitForm(formName){
       this.$refs[formName].validate((valid) => {
@@ -116,8 +130,7 @@ export default{
             let list = {
               'id': this.$data.currentId,
               'name': this.$data.ruleForm.name,
-              'person_in_charge':this.$data.ruleForm.person_in_charge,
-              'phone':this.$data.ruleForm.phone
+              'sort':this.$data.ruleForm.sort,
             }
             let qs = require('querystring')
             storeRoleApi.edit(qs.stringify(list)).then((res) => {
@@ -134,7 +147,7 @@ export default{
                   person_in_csharge:'',
                   phone:''
                 };
-                this.$data.dialogFormVisible = false;
+                this.$data.editFormVisible = false;
 
               }else{
                 this.$message.error(res.data.msg);
@@ -142,12 +155,29 @@ export default{
 
             })
           }else{
+            let arr = this.$refs.tree.getCheckedKeys();
+              var num ;
+              for(let n=0;n<arr.length;n++){
+                num = arr[n];
+                this.$data.checkedIds.push(num);
+              }
+            Array.prototype.getOne = function(){
+              for(let i=0;i<this.length - 1;i++){
+                for(let j= i+1;j<this.length;j++){
+                  if(this[i] == this[j]){
+                    this.splice(j--,1)
+                  }
+                }
+              }
+            }
+            this.$data.checkedIds.getOne();
             let list = {
               'name': this.$data.ruleForm.name,
-              'person_in_charge':this.$data.ruleForm.person_in_charge,
-              'phone':this.$data.ruleForm.phone
+              // 'person_in_charge':this.$data.ruleForm.person_in_charge,
+              // 'phone':this.$data.ruleForm.phone,
+              'permission_ids': this.$data.checkedIds.toString(),
             }
-            let qs = require('querystring')
+            let qs = require('querystring');
             storeRoleApi.adds(qs.stringify(list)).then((res) => {
               if(res.data.errno === 0){
                 this.$message({
@@ -164,9 +194,11 @@ export default{
                 };
                 this.$data.dialogFormVisible = false;
 
-              }else{
+              }else if(res.data.errno == -1){
                 this.$message.error(res.data.msg);
 
+              }else{
+                this.$message.error(res.data.msg);
               }
 
             })
@@ -174,6 +206,25 @@ export default{
         }
       });
     },
+    change(data, val, child){
+      //data该节点的对象，val自身是否被选中，child子节点是否被选中
+      // console.log(data);
+      this.$data.nodeId = data.id;
+      if(val == true && data.parent_id != 0){
+        this.$data.parentId = this.$refs.tree.getNode(this.$data.nodeId).parent.data.id;
+        this.$data.checkedIds.push(this.$data.parentId );
+      }
+    },
+    // changeSetting(data, val, child){
+    //   //data该节点的对象，val自身是否被选中，child子节点是否被选中
+    //   // console.log(this.$data.checkedIds);
+    //   // console.log(data);
+    //   this.$data.nodeId = data.id;
+    //   if(val == true && data.parent_id != 0){
+    //     this.$data.parentId = this.$refs.tree.getNode(this.$data.nodeId).parent.data.id;
+    //     this.$data.checkedIds.push(this.$data.parentId );
+    //   }
+    // },
     fnGoPage(row){
       this.$router.push({
         name: 'StoreAccount',
@@ -193,26 +244,7 @@ export default{
       storeRoleApi.viewPermission(qs.stringify(list)).then((res) => {
         if(res.data.errno === 0) {
           this.$data.dialogForm2 = res.data.data;
-          var checkedId = [];
-          for(var i = 0; i < this.$data.dialogForm2.length; i++) {
-            var rootIdx = i;
-            if(this.$data.dialogForm2[rootIdx].is_permission === 1) {
-              var len = checkedId.length;
-              checkedId[len] = this.$data.dialogForm2[rootIdx].id;
-
-            }
-            if(this.$data.dialogForm2[rootIdx].children && this.$data.dialogForm2[rootIdx].children.length > 0) {
-              for(var j = 0; j < this.$data.dialogForm2[rootIdx].children.length; j++) {
-                var childIdx = j;
-                if(this.$data.dialogForm2[rootIdx].children[childIdx].is_permission === 1) {
-                  var len = checkedId.length;
-                  checkedId[len] = this.$data.dialogForm2[rootIdx].children[childIdx].id;
-
-                }
-              }
-            }
-          }
-          this.$data.checkedIds = checkedId;
+          this.getTree();
         } else {
           this.$message.error(res.data.msg);
 
@@ -220,6 +252,24 @@ export default{
 
       })
       this.$data.dialogForm2Visible = true;
+    },
+    getTree(){
+      var checkedId = [];
+      for(var i = 0; i < this.$data.dialogForm2.length; i++) {
+        if(this.$data.dialogForm2[i].children && this.$data.dialogForm2[i].children.length > 0) {
+          for(var j = 0; j < this.$data.dialogForm2[i].children.length; j++) {
+            if(this.$data.dialogForm2[i].children[j].is_permission === 1) {
+              checkedId.push(this.$data.dialogForm2[i].children[j].id);
+            }else if (this.$data.dialogForm2[i].children[j].is_permission === 0){
+              this.$data.dialogForm2[i].is_permission = 0;
+            }
+          }
+        }
+        if(this.$data.dialogForm2[i].is_permission === 1) {
+          checkedId.push(this.$data.dialogForm2[i].id);
+        }
+      }
+      this.$data.checkedIds = checkedId;
     },
     fnCancel(formName){
       this.$data.dialogFormVisible = false;
@@ -240,11 +290,28 @@ export default{
           this.$data.currentId = '';
           this.$data.dialogForm2Visible = false;
         } else {
-          this.$message.error(res.data.msg);
+          this.$message.error('请至少选择一个权限');
 
         }
 
       })
-    }
+    },
+    closeDialog(){
+      this.clearFormData();
+      setTimeout(() => {
+        this.$refs.ruleForm.resetFields();
+        this.$data.editFormVisible = false;
+      })
+    },
+    //清除数据
+    clearFormData(){
+      this.$data.ruleForm.name = '';
+      // this.$data.dialogForm2 = [];
+      setTimeout(() => {
+        this.$refs.ruleForm.resetFields();
+        this.$data.dialogFormVisible = false;
+        this.$data.dialogForm = [];
+      })
+    },
   }
 }
