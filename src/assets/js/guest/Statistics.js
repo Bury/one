@@ -84,6 +84,7 @@ export default {
 			},
 			loading: false,
 			pickerOptionsSet: {
+				firstDayOfWeek:1,
 				disabledDate:function(time) {
 					return time.getTime() > Date.now() - 8.64e6;
 				}
