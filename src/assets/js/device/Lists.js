@@ -127,7 +127,7 @@ export default {
 			}
 			this.$data.requestParameters = {
 				page: 1,
-				page_size: 10,
+				page_size: 20,
 				device_id: '',
 				version: '',
 				merchant_organize_id:'',

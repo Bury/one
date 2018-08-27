@@ -1,12 +1,12 @@
 <template>
   <div class="left-menu1">
-    <el-menu :default-active="currentMenu" 
-    	       router
+    <el-menu :default-active="currentMenu"
              class="el-menu-vertical-demo"
              :collapse="isCollapse && isShow"
              background-color="#545c64"
              text-color="#fff"
-             active-text-color="#409EFF">
+             active-text-color="#409EFF"
+             @select="handleSelect">
         
       <template v-for="(item,index) in tableData">      	
         <el-menu-item :index="item.front_url" :key="index" v-if="item.no_child"  >
@@ -57,13 +57,13 @@
     },
     data() {
       return {
-        currentMenu: '',
+        currentMenu: 'StoreTime',
         tableData: [],
       }
     },
     watch:{
-    	$route(to,from){
-    		this.$data.currentMenu = this.$route.name;
+    	$route(to,from){    		
+    		this.getUrl();
     	}
     },
     created() {
@@ -72,7 +72,29 @@
     },
     methods: {
       getUrl() {
-       this.$data.currentMenu = this.$route.name;
+       switch (this.$route.name){
+       	  case "Lists":
+    			  this.$data.currentMenu = 'Device';
+    				break;
+    			case "StoreDeviceDetailLists":
+    			  this.$data.currentMenu = 'Device';
+    				break;
+    			case "StoreDeviceSumLists":
+    			  this.$data.currentMenu = 'Device';
+    				break;	
+    			case "StoreAccount":
+    			  this.$data.currentMenu = 'Store';
+    				break;	
+    			default:
+    			  this.$data.currentMenu = this.$route.name;
+    				break;
+    		}
+      },
+      handleSelect(index,indexPath){
+      	(index === "Device") && (index = "Lists");
+      	this.$router.push({
+      		 name:index
+      	})
       },
       menu() {
         userApi.menu().then((res) => {

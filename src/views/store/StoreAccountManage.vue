@@ -51,7 +51,7 @@
 			<tbody style="text-align: center">
 				<template v-if='tableData.length > 0'>
 					<tr v-for="(item,index) in tableData" :key="index" height="40">
-						<td>{{item.id}}</td>
+						<td>{{(pagination.currentPage - 1) * 20 + index + 1 }}</td>
 						<td>{{item.organizes.name}}</td>
 						<td>{{item.store != null ? item.store.name : ""}}</td>
 						<td>{{item.username}}</td>

@@ -14,7 +14,7 @@
 			</thead>
 			<tbody style="text-align:center;">
 				<tr v-for="(item,index) in tableData" :key="index">
-					<td height="40px">{{item.id}}</td>
+					<td height="40px">{{(pagination.currentPage - 1) * 20 + index + 1 }}</td>
 					<td>{{item.name}}</td>
 					<td><el-button type="primary" plain icon="el-icon-setting" circle size="small" @click="fnSetting(item)"></el-button></td>
 					<td>

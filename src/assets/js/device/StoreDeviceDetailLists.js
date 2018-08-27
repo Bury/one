@@ -18,7 +18,7 @@ export default{
       startTimes:['',''],
       requestParameters: {
         page: 1,
-        page_size:10,
+        page_size:20,
         belong_sid:'',
       },
       operationForm:{
@@ -136,7 +136,7 @@ export default{
       })
     },
     goBack(){
-      window.history.back(-1);
+    	this.$router.go(-1);
     },
     fnDistribution(row){
 			this.$data.dorganizeCode = [];
