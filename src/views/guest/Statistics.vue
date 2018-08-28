@@ -40,7 +40,7 @@
 		<!--数据选择弹框-->
 		<el-dialog title="数据选择" :visible.sync="datadialog.dataDialogVisible" :before-close="closeDialog">
 			<el-row class="data-select">
-				<el-button :type="datadialog.dataTypeShow === true ? 'primary' : ''" @click="dataSelect(1)">求和</el-button>
+				<el-button :type="datadialog.dataTypeShow === true ? 'primary' : ''" @click="dataSelect(1)">汇总</el-button>
 				<el-button :type="datadialog.dataTypeShow === false ? 'primary' : ''" @click="dataSelect(2)">对比</el-button>
 			</el-row>
 			<el-radio-group v-model="datadialog.summationType" @change="allOrSet" class="sum-cut" v-show="datadialog.radioShow">

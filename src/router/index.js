@@ -73,6 +73,7 @@ const router = new Router({
         {path: 'Guest',name: 'Guest',component: Guest},
         {path: 'Order',name: 'Order',component: Order},
         {path: 'LabelList',name: 'LabelList',component: LabelList},
+        {path: 'LabelDetail',name: 'LabelDetail',component: LabelDetail},
         {
         	path: 'Device',
           component: Device,
@@ -81,8 +82,7 @@ const router = new Router({
           {path: 'StoreDeviceSumLists',name: 'StoreDeviceSumLists',component: StoreDeviceSumLists},
           {path: 'StoreDeviceDetailLists',name: 'StoreDeviceDetailLists',component: StoreDeviceDetailLists},
          ]
-        },
-        
+        },        
         {path: 'Store',name:'Store',component:Store},
         {path: 'StoreOrganize',name:'StoreOrganize',component:StoreOrganize},
         {path: 'StoreAccount',name:'StoreAccount',component:StoreAccount},

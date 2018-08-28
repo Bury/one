@@ -22,7 +22,7 @@ export default {
 	},
 	data() {
 		return {
-			selectType:'全部-求和',
+			selectType:'全部-汇总',
 			changeFlag: true,
 			sumOrDiff: '0',
 			isAll: true,
@@ -247,7 +247,7 @@ export default {
 				this.$data.selectType = '自定义-对比';
 			}else{
 				this.$data.sumOrDiff = "0";
-				this.$data.selectType = this.$data.datadialog.summationType === '1' ? '全部-求和' :  '自定义-求和'
+				this.$data.selectType = this.$data.datadialog.summationType === '1' ? '全部-汇总' :  '自定义-汇总'
 			}
 			//每次验证前都要清空
 			this.$data.guestParameters.store_id.length = [];

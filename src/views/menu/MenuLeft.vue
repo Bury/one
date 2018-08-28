@@ -85,6 +85,9 @@
     			case "StoreAccount":
     			  this.$data.currentMenu = 'Store';
     				break;	
+    			case "LabelDetail":
+    			  this.$data.currentMenu = 'LabelList';
+    				break;	
     			default:
     			  this.$data.currentMenu = this.$route.name;
     				break;
