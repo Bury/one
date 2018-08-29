@@ -16,13 +16,14 @@ export default {
 		NewOldChart: NewOldChart,
 		AgeChart: AgeChart,
 		SexChart: SexChart,
-		columnNewChart:columnNewChart,
-		columnAgeChart:columnAgeChart,
-		columnSexChart:columnSexChart,
+		columnNewChart: columnNewChart,
+		columnAgeChart: columnAgeChart,
+		columnSexChart: columnSexChart,
 	},
 	data() {
 		return {
-			selectType:'全部-汇总',
+			pattern: '1',
+			selectType: '全部-汇总',
 			changeFlag: true,
 			sumOrDiff: '0',
 			isAll: true,
@@ -47,6 +48,13 @@ export default {
 				showText: '请选择门店组织',
 				storeId: '',
 			}],
+			copyPattern:'1',
+			copyGroup:[{
+				organizeId: [],
+				stores: [],
+				showText: '请选择门店组织',
+				storeId: '',
+			}],
 			chartShowType: 0,
 			timeType: 'day',
 			day: '',
@@ -54,7 +62,7 @@ export default {
 			month: '',
 			year: '',
 			userDefined: '',
-			customShow:true,
+			customShow: true,
 			ctrlTimeType: [true, false, false, false, false],
 			statisticsType: "1",
 			newOldData: [],
@@ -84,17 +92,17 @@ export default {
 			},
 			loading: false,
 			pickerOptionsSet: {
-				firstDayOfWeek:1,
-				disabledDate:function(time) {
+				firstDayOfWeek: 1,
+				disabledDate: function(time) {
 					return time.getTime() > Date.now() - 8.64e6;
 				}
 			},
 
 		}
 	},
-	watch:{
-		changeFlag:function(){
-			if(this.$data.statisticsType === "1"){
+	watch: {
+		changeFlag: function() {
+			if(this.$data.statisticsType === "1") {
 				this.customerList();
 			}
 		}
@@ -123,10 +131,10 @@ export default {
 		},
 
 		//根据门店组织获取门店
-		getStoreId(x) {				
+		getStoreId(x) {
 			console.log(x)
 			this.$data.storeGroup[x].stores = [];
-			this.$data.storeGroup[x].storeId = "";			
+			this.$data.storeGroup[x].storeId = "";
 			let g = this.$data.storeGroup[x].organizeId;
 			let data = {
 				merchant_organize_id: g[g.length - 1]
@@ -145,28 +153,15 @@ export default {
 		},
 
 		//切换求和和比对清空数据
-		clearGroup() {
-			this.$data.storeGroup = [{
-				organizeId: [],
-				stores: [],
-				showText: '请选择门店组织',
-				storeId: '',
-			}];
-		},
-
-		//求和和比对的切换一些操作
-		dataSelect(type) {
-			if(type == 1) {
-				this.$data.datadialog.radioShow = true;
-				this.$data.datadialog.dataTypeShow = true;
-				this.$data.datadialog.canDel = true;
-				this.allOrSet();
-				this.clearGroup();
-			} else {
-				this.$data.datadialog.radioShow = false;
-				this.$data.datadialog.dataTypeShow = false;
-				this.$data.datadialog.allOrSetShow = true;
-				this.$data.datadialog.canDel = true;
+		clearGroup(val) {
+			if(val == 1) {
+				this.$data.storeGroup = [{
+					organizeId: [],
+					stores: [],
+					showText: '请选择门店组织',
+					storeId: '',
+				}];
+			} else if(val == 2) {
 				this.$data.storeGroup = [{
 					organizeId: [],
 					stores: [],
@@ -178,11 +173,37 @@ export default {
 					showText: '请选择门店组织',
 					storeId: '',
 				}];
+			}
 
+		},
+
+		//模式选择操作
+		patternSelect(type) {
+			this.editSumDiff(); //打开弹框
+			if(type == 1) {				
+				this.$data.datadialog.radioShow = true;
+//				this.$data.datadialog.dataTypeShow = true;
+				this.$data.datadialog.canDel = true;
+				this.allOrSet();
+				this.clearGroup(1);
+			} else if(type == 2) {
+                this.$data.datadialog.radioShow = false;
+//				this.$data.datadialog.dataTypeShow = false;
+				this.$data.datadialog.allOrSetShow = true;
+				this.$data.datadialog.canDel = true;
+                this.clearGroup(2);
 			}
 		},
 
 		closeDialog(done) {
+			this.$data.pattern = this.$data.copyPattern;
+			this.$data.storeGroup = this.$data.copyGroup;
+			if(this.$data.pattern === '1') { 
+				this.$data.datadialog.radioShow = true;
+				
+			}else if(this.$data.pattern === '2'){
+				this.$data.datadialog.radioShow = false;
+			}
 			done();
 		},
 		//取消求和比对弹出框的操作
@@ -192,16 +213,16 @@ export default {
 
 		//求和的全部或者自定义的操作
 		allOrSet() {
-			this.$data.datadialog.summationType == "1" ? 
-			this.$data.datadialog.allOrSetShow = false : 
-			this.$data.datadialog.allOrSetShow = true;
+			this.$data.datadialog.summationType == "1" ?
+				this.$data.datadialog.allOrSetShow = false :
+				this.$data.datadialog.allOrSetShow = true;
 		},
 		//提交前的一些验证操作
 		beforeSubmit() {
 			let flag = false;
-			if(this.$data.datadialog.dataTypeShow === false) {
+			if(this.$data.pattern  === '2') {
 				//对比时一些操作
-				this.$data.isAll = false;				
+				this.$data.isAll = false;
 				for(let i = 0; i < this.$data.storeGroup.length; i++) {
 					if(this.$data.storeGroup[i].organizeId.length === 0) {
 						flag = true;
@@ -212,7 +233,7 @@ export default {
 
 			} else {
 				//求和时一些操作
-				
+
 				if(this.$data.datadialog.summationType == "1") {
 					this.$data.isAll = true;
 					flag = false;
@@ -228,7 +249,7 @@ export default {
 				}
 
 			}
-
+  
 			return flag;
 		},
 
@@ -241,13 +262,15 @@ export default {
 		setSubmit() {
 			if(this.beforeSubmit() === true) {
 				return false;
-			}
-			if(this.$data.datadialog.dataTypeShow === false){
+			};
+			this.$data.copyPattern = this.$data.pattern.slice(0,1) //复制模式选择的值，如果没有提交就返回原来的选择数据
+			this.$data.copyGroup = this.$data.storeGroup.slice(0,this.$data.storeGroup.length); //复制一个选择的门店数组，如果没有提交就返回原来的选择数据
+			if(this.$data.pattern === '2') {
 				this.$data.sumOrDiff = "1";
 				this.$data.selectType = '自定义-对比';
-			}else{
+			} else {
 				this.$data.sumOrDiff = "0";
-				this.$data.selectType = this.$data.datadialog.summationType === '1' ? '全部-汇总' :  '自定义-汇总'
+				this.$data.selectType = this.$data.datadialog.summationType === '1' ? '全部-汇总' : '自定义-汇总'
 			}
 			//每次验证前都要清空
 			this.$data.guestParameters.store_id.length = [];
@@ -259,13 +282,14 @@ export default {
 						_this.$data.guestParameters.store_id.push(val.storeId);
 					} else {
 						_this.$data.guestParameters.merchant_organize_id.push(val.organizeId[val.organizeId.length - 1]);
-						
+
 					}
 
 				});
-			}
+			};			
+			
 			this.$data.datadialog.dataDialogVisible = false;
-			this.$data.changeFlag = !this.$data.changeFlag;			
+			this.$data.changeFlag = !this.$data.changeFlag;
 		},
 
 		//增加门店操作
@@ -283,7 +307,7 @@ export default {
 		//删除门店操作
 		delStore(index) {
 			this.$data.storeGroup.splice(index, 1);
-			if(this.$data.datadialog.dataTypeShow === true) {
+			if(this.$data.pattern === '1') {
 				this.$data.storeGroup.length === 1 ? this.$data.datadialog.canDel = true : this.$data.datadialog.canDel = false;
 			} else {
 				this.$data.storeGroup.length === 2 ? this.$data.datadialog.canDel = true : this.$data.datadialog.canDel = false;
@@ -298,8 +322,8 @@ export default {
 			this.$data.statisticsType = val;
 			this.$data.changeFlag = !this.$data.changeFlag;
 		},
-		
-		changeSort(val){
+
+		changeSort(val) {
 			this.$data.listParameters.sort = val.order === "ascending" ? val.prop : "-" + val.prop;
 			this.customerList();
 		},
@@ -312,7 +336,6 @@ export default {
 			this.$data.listParameters.store_id = this.$data.guestParameters.store_id;
 			this.$data.listParameters.merchant_organize_id = this.$data.guestParameters.merchant_organize_id;
 			statisticsApi.customerList(this.$data.listParameters).then((res) => {
-				console.log(res.data)
 				if(res.data.errno === 0) {
 					this.$data.tableData = res.data.data.list
 					this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
@@ -323,11 +346,11 @@ export default {
 				this.$data.loading = false;
 			});
 		},
-		
+
 		//格式化客流列表数据展示
-		formatterVal(row,column,cellValue,index){
-			 let val = Math.round(cellValue * 10000) / 100 + '%';
-			 return val;
+		formatterVal(row, column, cellValue, index) {
+			let val = Math.round(cellValue * 10000) / 100 + '%';
+			return val;
 		},
 		//分页
 		currentPage(currentPage) {
@@ -387,30 +410,29 @@ export default {
 
 			} else if(this.$data.ctrlTimeType[4]) {
 				if(this.$data.userDefined == null || this.$data.userDefined.length == 0) {
-            		this.$data.customShow = false;
-            		return false;
-            	}           	
+					this.$data.customShow = false;
+					return false;
+				}
 				this.$data.guestParameters.begin_time = utils.getDateTime(this.userDefined[0]);
 				this.$data.guestParameters.end_time = utils.getDateTime(this.userDefined[1]);
 				this.$data.changeFlag = !this.$data.changeFlag;
-				this.$data.customShow  = true;
+				this.$data.customShow = true;
 			}
-			
-			
+
 		},
 
 		changeTimeType(tab, event) {
 			var nowIdx = tab.index;
 			this.$data.ctrlTimeType = [false, false, false, false, false];
 			this.$data.ctrlTimeType[nowIdx] = true;
-			if (nowIdx == 4) {
-				this.$data.customShow = false;				
-			}else{
+			if(nowIdx == 4) {
+				this.$data.customShow = false;
+			} else {
 				this.$data.customShow = true;
 				this.setData();
 				this.$data.changeFlag = !this.$data.changeFlag;
 			}
-			
+
 		},
 
 		//绑定默认时间
@@ -481,8 +503,8 @@ export default {
 
 		//表格的操作
 		indexRank(index) {
-			
-			return  (this.$data.pagination.currentPage - 1) * 10 + index + 1;
+
+			return(this.$data.pagination.currentPage - 1) * 10 + index + 1;
 		},
 
 	}

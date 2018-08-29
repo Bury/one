@@ -11,6 +11,8 @@ export default {
     return {
       userForm:{},
       dialogFormVisible: false,
+      dialogSet:false,
+      saveUnit:'',
       ruleForm: {
         oldPwd:'',
         newPwd:'',
@@ -53,6 +55,7 @@ export default {
       userApi.getUserInfo().then((res) => {
         if(res.data.errno === 0){
           this.$data.userForm = res.data.data.user;
+          this.$data.saveUnit = res.data.data.user.analysis_unit;
         }else{
           this.$message.error(res.data.msg);
         }
@@ -214,5 +217,28 @@ export default {
       }
 
     },
+    personalSet(){
+    	this.$data.dialogSet = true;
+    },
+    submitUnit(){
+    	if(this.$data.saveUnit === ""){
+    		this.$message("请选择报表时间！");
+    		return false;
+    	};
+    	let qs = require('querystring');
+    	userApi.saveUnit(qs.stringify({unit:this.$data.saveUnit})).then((res) => {
+          if(res.data.errno === 0){
+          	 this.$message("设置成功");
+          	 this.getUserInfo();
+          }else{
+          	 this.$message(res.data.msg)
+          }
+          this.$data.dialogSet = false;
+        })
+    },
+    cancelUnit(){
+    	this.$data.saveUnit =  this.$data.userForm.analysis_unit;
+    	this.$data.dialogSet = false;
+    }
   }
 }

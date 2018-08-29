@@ -129,6 +129,8 @@ global.USER_EDIT_INFO = `${SERVER_IP}${COMMON}user/edit`
 global.USER_SEND_PHONE = `${SERVER_IP}${COMMON}user/change-phone-sms`
 global.USER_CKECK_PHONE = `${SERVER_IP}${COMMON}user/change-phone-check`
 global.USER_SAVE_CHANGE_PHONE = `${SERVER_IP}${COMMON}user/change-phone-save`
+//保存统计单位
+global.USER_SAVE_UNIT = `${SERVER_IP}${COMMON}user/save-unit`
 
 //登录退出
 global.USER_LOGIN = `${SERVER_IP}${COMMON}user/login`
@@ -179,6 +181,7 @@ global.STORE_ROLE_VIEW = `${SERVER_IP}${COMMON}store-role/view`
 global.STORE_LIST_RESULTS = `${SERVER_IP}${COMMON}store-role/list-results`
 global.STORE_EDIT_PERMISSION = `${SERVER_IP}${COMMON}store-role/edit-permission`
 global.STORE_VIEW_PERMISSION = `${SERVER_IP}${COMMON}store-role/view-permission`
+global.STORE_GRADE_PERMISSION = `${SERVER_IP}${COMMON}store-role/grade-permission` //获取岗位等级
 
 
 
