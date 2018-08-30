@@ -56,6 +56,9 @@ global.DELE_LABEL = `${SERVER_IP}${COMMON}tag/parent-dele`
 
 //2、子级
 // post tag/childs-list 标签列表
+global.GET_TAG_LIST = `${SERVER_IP}${COMMON}tag/list` //标签列表
+global.TAG_EDIT = `${SERVER_IP}${COMMON}tag/edit`  //标签编辑
+global.TAG_SORT = `${SERVER_IP}${COMMON}tag/sort` //变迁排序
 global.GET_CHILD_LABEL_LIST = `${SERVER_IP}${COMMON}tag/childs-list`
 global.ADD_CHILD_LABEL = `${SERVER_IP}${COMMON}tag/childs-adds`
 global.EDIT_CHILD_LABEL = `${SERVER_IP}${COMMON}tag/childs-edit`

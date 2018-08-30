@@ -17,7 +17,7 @@
 			</el-table-column>
 		</el-table>-->
 		<div class="saveBox">
-				<el-button type="primary" plain>保存</el-button>
+			<el-button type="primary" plain @click="saveSelectTag">保存</el-button>
 		</div>
 		<table width="60%" class="table-bordered">
 			<thead style="background-color: #d1d1d1">
@@ -27,11 +27,11 @@
 					<th class="col-md-3 text-center">标签类名</th>
 					<th class="col-md-3 text-center">操作</th>
 				</tr>
-			</thead>			
+			</thead>
 			<tbody v-if="tableData.length > 0" style="text-align: center">
 				<tr v-for="(item,index) in tableData" :key="index" height="40">
 					<td>
-						<el-checkbox :checked="item.id === 14" @change="selectBox($event,item.id)"></el-checkbox>
+						<el-checkbox :checked="item.selected === 0 ? false : true" @change="selectBox($event,item.id)"></el-checkbox>
 					</td>
 					<td>{{(pagination.currentPage - 1) * 20 + index + 1 }}</td>
 					<td>{{item.name}}</td>
@@ -84,18 +84,22 @@
 				ruleForm: {
 					sort: '',
 				},
-				saveTag:[],
+				saveTag: [],
 				currentId: '',
 				rules: {
-					name: [{
+					sort: [{
 							required: true,
-							message: '请输入标签类名',
+							message: '请输入排序名',
 							trigger: 'blur'
 						},
 						{
-							min: 2,
-							max: 4,
-							message: '长度在 2 到 4 个字符',
+							validator: (rule, value, callback) => {
+								if(value.match(/^\+?[1-9]\d*$/)) {
+									callback();
+								} else {
+									callback("只能输入大于0的整数");
+								}
+							},
 							trigger: 'blur'
 						}
 					]
@@ -108,6 +112,13 @@
 
 			}
 		},
+		watch: {
+			dialogFormVisible: function() {
+				setTimeout(() => {
+					this.$refs.ruleForm.clearValidate();
+				});				
+			}
+		},
 		created: function() {
 			this.labeChildlList();
 		},
@@ -116,10 +127,16 @@
 			labeChildlList() {
 				this.$data.requestParameters.parent_id = this.$route.query.LabelId;
 				let qs = require('querystring')
-				labelApi.labeChildlList(qs.stringify(this.$data.requestParameters)).then((res) => {
-					console.log(res)
+				labelApi.tagList(qs.stringify(this.$data.requestParameters)).then((res) => {
 					if(res.data.errno === 0) {
-						console.log(res.data.data.list)
+						let list = [];
+						for(let i = 0; i < res.data.data.list.length; i++) {
+							list.push({
+								id: res.data.data.list[i].id,
+								status: res.data.data.list[i].selected
+							})
+						};
+						this.$data.saveTag = list;
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 						this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
@@ -134,17 +151,36 @@
 				this.labeChildlList();
 			},
 			selectBox(val, d) {
-//				if(val === true){
-//					this.saveTag.push()
-//				}
+				let v = val === true ? 1 : 0;
+				for(let j = 0; j < this.$data.saveTag.length; j++) {
+					(this.$data.saveTag[j].id === d) && (this.$data.saveTag[j].status = v);
+				}
+				console.log(this.$data.saveTag)
 			},
-			
-			
+			saveSelectTag() {
+
+				let list = {
+					parent_id:this.$data.requestParameters.parent_id,
+					tag_ids: JSON.stringify(this.$data.saveTag)
+				};
+				let qs = require('querystring');
+				labelApi.tagEdit(qs.stringify(list)).then((res) => {
+					console.log(res)
+					if(res.data.errno === 0) {
+						this.$message({
+							message: '保存成功！',
+							type: 'success'
+						});
+					} else {
+                       this.$message.error(res.data.msg)
+					}
+				})
+			},
 
 			fnEdit(row) {
 				this.$data.dialogTitle = '编辑';
 				this.$data.currentId = row.id;
-				this.$data.ruleForm.name = row.name;
+				this.$data.ruleForm.sort = '';
 				this.$data.dialogFormVisible = true;
 			},
 			fnGoback() {
@@ -153,49 +189,25 @@
 
 			cancel() {
 				this.$data.dialogFormVisible = false;
-				this.$data.ruleForm.name = '';
+				this.$data.ruleForm.sort = '';
 				this.$data.currentId = '';
 			},
 			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {
-					console.log(valid)
 					if(valid) {
-						if(this.$data.currentId !== '') {
-							let list = {
-								'id': this.$data.currentId,
-								'name': this.$data.ruleForm.name
-							}
-							let qs = require('querystring')
-							labelApi.editChildLabel(qs.stringify(list)).then((res) => {
-								if(res.data.errno === 0) {
-									console.log(res)
-									this.labeChildlList();
-
-								} else {
-
-								}
-
-							})
-						} else {
-							let list = {
-								'name': this.$data.ruleForm.name,
-								'parent_id': this.$route.query.LabelId
-							}
-							let qs = require('querystring')
-							labelApi.addChildLabel(qs.stringify(list)).then((res) => {
-								if(res.data.errno === 0) {
-									console.log(res)
-									this.labeChildlList();
-
-								} else {
-
-								}
-
-							})
+						let list = {
+							'tag_id': this.$data.currentId,
+							'sort': this.$data.ruleForm.sort
 						}
-						this.$data.ruleForm.name = '';
-						this.$data.currentId = '';
-						this.$data.dialogFormVisible = false;
+						let qs = require('querystring');
+						labelApi.tagSort(qs.stringify(list)).then((res) => {
+							if(res.data.errno === 0) {
+								this.labeChildlList();
+							} else {
+								this.$message(res.data.msg)
+							}
+							this.$data.dialogFormVisible = false;
+						})
 					}
 				});
 			},
@@ -215,11 +227,13 @@
 			}
 		}
 	}
-	.saveBox{
+	
+	.saveBox {
 		width: 60%;
 		text-align: right;
 		margin: 20px auto;
 	}
+	
 	.el-pagination {
 		margin: 20px 0;
 		float: right;
