@@ -108,6 +108,24 @@ export default {
 		}
 	},
 	created: function() {
+		let unit = localStorage.getItem("unit") || '';
+		if(unit === 'd'){
+			this.$data.ctrlTimeType = [false, false, false, false, false];			
+			this.$data.ctrlTimeType[0] = true;
+			this.$data.timeType = 'day';
+		}else if(unit === 'w'){
+			this.$data.ctrlTimeType = [false, false, false, false, false];
+			this.$data.ctrlTimeType[1] = true;
+			this.$data.timeType = 'week';
+		}else if(unit === 'm'){
+			this.$data.ctrlTimeType = [false, false, false, false, false];
+			this.$data.ctrlTimeType[2] = true;
+			this.$data.timeType = 'month';
+		}else if(unit === 'y'){
+			this.$data.ctrlTimeType = [false, false, false, false, false];
+			this.$data.ctrlTimeType[3] = true;
+			this.$data.timeType = 'year';
+		};
 		this.setData();
 		this.customerList();
 		this.getOrganizes();
@@ -317,7 +335,7 @@ export default {
 		//客流趋势成交率等切换
 		customerClass(val) {
 			if(val === "1") {
-				this.customerList()
+				this.customerList();
 			}
 			this.$data.statisticsType = val;
 			this.$data.changeFlag = !this.$data.changeFlag;
@@ -328,7 +346,7 @@ export default {
 			this.customerList();
 		},
 
-		//客流列表表格展示
+		//客流列表Table表格展示
 		customerList() {
 			this.$data.loading = true;
 			this.$data.listParameters.begin_time = this.$data.guestParameters.begin_time;

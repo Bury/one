@@ -77,6 +77,14 @@
 					credits: {
 						text: '',
 					},
+					colors: [
+						'#7CB5EC',
+                        '#FFC200', 
+                        '#F15780',
+                        '#8085E9',
+                        '#90ED7D',
+                        '#909399'
+					],
 					plotOptions: {
 						line: {
 							dataLabels: {
@@ -95,12 +103,12 @@
 			}
 		},
 		watch: {
-			changeFlag: function () {
+			changeFlag: function() {
 				this.$data.postParameters = this.$props.postVal;
 				this.setData();
 			}
 		},
-		created: function () {
+		created: function() {
 			this.$data.postParameters = this.$props.postVal;
 			this.setData();
 			Highcharts.setOptions({
@@ -110,7 +118,7 @@
 				}
 			});
 		},
-		mounted: function () {
+		mounted: function() {
 
 		},
 		methods: {
@@ -118,7 +126,7 @@
 			//判断数组是否都为零
 			zeroFlag(arr) {
 				arr = arr || [];
-				let flag = arr.some(function (item) {
+				let flag = arr.some(function(item) {
 					return item === 0;
 				})
 				return flag;
@@ -126,17 +134,17 @@
 
 			setData() {
 				let val = this.$props.statisticsType;
-				switch (val) {
+				switch(val) {
 					case "1":
-						if (this.$props.sumOrDiff === "0") {
+						if(this.$props.sumOrDiff === "0") {
 							this.isShow = true;
-							if (this.$data.chartOptionsType === 0) {
+							if(this.$data.chartOptionsType === 0) {
 								this.getCustomer()
-							} else if (this.$data.chartOptionsType === 1) {
+							} else if(this.$data.chartOptionsType === 1) {
 								this.postFeatureSum("face")
-							} else if (this.$data.chartOptionsType === 2) {
+							} else if(this.$data.chartOptionsType === 2) {
 								this.postFeatureSum("age")
-							} else if (this.$data.chartOptionsType === 3) {
+							} else if(this.$data.chartOptionsType === 3) {
 								this.postFeatureSum("gender")
 							}
 						} else {
@@ -146,7 +154,7 @@
 						break;
 					case "2":
 						this.isShow = false;
-						if (this.$props.sumOrDiff === "0") {
+						if(this.$props.sumOrDiff === "0") {
 							this.orderSum();
 						} else {
 							this.orderDiff();
@@ -154,7 +162,7 @@
 						break;
 					case "3":
 						this.isShow = false;
-						if (this.$props.sumOrDiff === "0") {
+						if(this.$props.sumOrDiff === "0") {
 							this.customerLostSum()
 						} else {
 							this.customerLostDiff()
@@ -162,7 +170,7 @@
 						break;
 					case "4":
 						this.isShow = false;
-						if (this.$props.sumOrDiff === "0") {
+						if(this.$props.sumOrDiff === "0") {
 							this.orderLostSum();
 						} else {
 							this.orderLostDiff();
@@ -178,20 +186,20 @@
 
 				let dataRate = {
 					tooltip: {
-						formatter: function () {
-							
+						formatter: function() {
+
 							let s = '时间:' + this.point.category + '<br/>' + this.point.series.name + ':' + parseFloat(Math.round(this.point.y * 10000) / 100) + '%';
 							return s;
 						}
 					},
 					yAxis: {
 						labels: {
-							formatter: function () {
+							formatter: function() {
 								return parseFloat(Math.round(this.value * 10000) / 100) + "%"
 							}
 						},
 						max: 1,
-						tickPositioner: function () {
+						tickPositioner: function() {
 							var positions = [0, 0.2, 0.4, 0.6, 0.8, 1];
 							return positions;
 						}
@@ -200,23 +208,23 @@
 				};
 				let dataSum = {
 					tooltip: {
-						formatter: function () {
-							let s = '时间:' + this.point.category +'<br/>' + this.point.series.name + ':' + this.point.y;
+						formatter: function() {
+							let s = '时间:' + this.point.category + '<br/>' + this.point.series.name + ':' + this.point.y;
 							return s;
 						}
 					},
 					yAxis: {
 						labels: {
-							formatter: function () {
+							formatter: function() {
 								return this.value
 							}
 						},
 						max: null,
-						tickPositioner: function () {
+						tickPositioner: function() {
 							let positions = [],
 								increment;
 							increment = this.dataMax > 10 ? Math.ceil(this.dataMax / 4) : 2;
-							for (let i = 0; i < 6; i++) {
+							for(let i = 0; i < 6; i++) {
 								positions.push(increment * i)
 							}
 							return positions;
@@ -228,14 +236,14 @@
 				guestCharts.removeSeries();
 				setTimeout(() => {
 					guestCharts.hideLoading();
-					if (value.length !== 0) {
+					if(value.length !== 0) {
 						guestCharts.getChart().xAxis[0].setCategories(value[0].time);
 
-						if (this.$props.statisticsType !== '1') {
-							for (var i = 0; i < value.length; i++) {
+						if(this.$props.statisticsType !== '1') {
+							for(var i = 0; i < value.length; i++) {
 								value[i].dataLabels = {
 									enabled: true,
-									formatter: function () {
+									formatter: function() {
 										return parseFloat(Math.round(this.y * 10000) / 100) + "%";
 									}
 								}
@@ -244,10 +252,10 @@
 							guestCharts.getChart().update(dataRate);
 						} else {
 
-							for (var i = 0; i < value.length; i++) {
+							for(var i = 0; i < value.length; i++) {
 								value[i].dataLabels = {
 									enabled: true,
-									formatter: function () {
+									formatter: function() {
 										return this.y;
 									}
 								}
@@ -275,10 +283,10 @@
 				};
 				statisticsApi.getFeatureGraph(postData).then((res) => {
 					let arr = [];
-					if (res.data.errno === 0) {
-						if (res.data.data !== null) {
+					if(res.data.errno === 0) {
+						if(res.data.data !== null) {
 							let d = res.data.data;
-							d.forEach(function (val, index) {
+							d.forEach(function(val, index) {
 								arr.push({
 									name: val.value,
 									data: val.sum,
@@ -298,8 +306,8 @@
 			//客流统计默认数据求和
 			getCustomer() {
 				statisticsApi.getCustomerSum(this.$data.postParameters).then((res) => {
-					if (res.data.errno === 0) {
-						if (res.data.data !== null) {
+					if(res.data.errno === 0) {
+						if(res.data.data !== null) {
 							let arr = [{
 								name: "总客流",
 								data: res.data.data.sum,
@@ -317,10 +325,10 @@
 			//客流统计折线图比对			
 			getCustomerDiff() {
 				statisticsApi.getCustomerDiff(this.$data.postParameters).then((res) => {
-					if (res.data.errno === 0) {
-						if (res.data.data !== null) {
+					if(res.data.errno === 0) {
+						if(res.data.data !== null) {
 							let arr = [];
-							for (let i = 0; i < res.data.data.length; i++) {
+							for(let i = 0; i < res.data.data.length; i++) {
 								arr.push({
 									name: res.data.data[i].diff_name,
 									data: res.data.data[i].sum,
@@ -339,8 +347,8 @@
 			//成交率求和
 			orderSum() {
 				statisticsApi.getOrderSum(this.$data.postParameters).then((res) => {
-					if (res.data.errno === 0) {
-						if (res.data.data !== null) {
+					if(res.data.errno === 0) {
+						if(res.data.data !== null) {
 							let arr = [{
 								name: "成交率",
 								data: res.data.data.success,
@@ -357,10 +365,10 @@
 			//成交率折线图比对
 			orderDiff() {
 				statisticsApi.getOrderDiff(this.$data.postParameters).then((res) => {
-					if (res.data.errno === 0) {
-						if (res.data.data !== null) {
+					if(res.data.errno === 0) {
+						if(res.data.data !== null) {
 							let arr = [];
-							for (let i = 0; i < res.data.data.length; i++) {
+							for(let i = 0; i < res.data.data.length; i++) {
 								arr.push({
 									name: res.data.data[i].diff_name,
 									data: res.data.data[i].success,
@@ -380,10 +388,10 @@
 			//潜在客户流失率
 			customerLostSum() {
 				statisticsApi.customerlostSum(this.$data.postParameters).then((res) => {
-					if (res.data.errno === 0) {
-						if (res.data.data !== null) {
+					if(res.data.errno === 0) {
+						if(res.data.data !== null) {
 							let dat = [];
-							res.data.data.diff.forEach(function (val) {
+							res.data.data.diff.forEach(function(val) {
 								dat.push(parseFloat(val))
 							});
 							let arr = [{
@@ -402,10 +410,10 @@
 			//潜在客户流失率比对
 			customerLostDiff() {
 				statisticsApi.customerlostDiff(this.$data.postParameters).then((res) => {
-					if (res.data.errno === 0) {
-						if (res.data.data !== null) {
+					if(res.data.errno === 0) {
+						if(res.data.data !== null) {
 							let arr = [];
-							for (let i = 0; i < res.data.data.length; i++) {
+							for(let i = 0; i < res.data.data.length; i++) {
 								arr.push({
 									name: res.data.data[i].diff_name,
 									data: res.data.data[i].diff,
@@ -425,10 +433,10 @@
 			//成交客户流失率
 			orderLostSum() {
 				statisticsApi.orderlostSum(this.$data.postParameters).then((res) => {
-					if (res.data.errno === 0) {
-						if (res.data.data !== null) {
+					if(res.data.errno === 0) {
+						if(res.data.data !== null) {
 							let dat = [];
-							res.data.data.diff.forEach(function (val) {
+							res.data.data.diff.forEach(function(val) {
 								dat.push(parseFloat(val))
 							})
 							let arr = [{
@@ -447,10 +455,10 @@
 			//成交客户流失率比对
 			orderLostDiff() {
 				statisticsApi.orderlostDiff(this.$data.postParameters).then((res) => {
-					if (res.data.errno === 0) {
-						if (res.data.data !== null) {
+					if(res.data.errno === 0) {
+						if(res.data.data !== null) {
 							let arr = [];
-							for (let i = 0; i < res.data.data.length; i++) {
+							for(let i = 0; i < res.data.data.length; i++) {
 								arr.push({
 									name: res.data.data[i].diff_name,
 									data: res.data.data[i].diff,
@@ -469,13 +477,13 @@
 
 			//客流统计求和类型切换
 			customerType(val) {
-				if (val === 0) {
+				if(val === 0) {
 					this.getCustomer()
-				} else if (val === 1) {
+				} else if(val === 1) {
 					this.postFeatureSum("face")
-				} else if (val === 2) {
+				} else if(val === 2) {
 					this.postFeatureSum("age")
-				} else if (val === 3) {
+				} else if(val === 3) {
 					console.log("s")
 					this.postFeatureSum("gender")
 				}
@@ -488,7 +496,7 @@
 	.chartWrap {
 		position: relative;
 	}
-
+	
 	.el-radio-select {
 		position: absolute;
 		top: 100px;

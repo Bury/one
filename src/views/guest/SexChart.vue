@@ -1,61 +1,65 @@
 <template>
-  <div>
-    <vue-highcharts :highcharts="Highcharts" :options="options" ref="sexCharts"></vue-highcharts>
-  </div>
+	<div>
+		<vue-highcharts :highcharts="Highcharts" :options="options" ref="sexCharts"></vue-highcharts>
+	</div>
 </template>
- 
+
 <script>
 	import statisticsApi from '@/api/statistics'
 	import Highcharts from 'highcharts';
 	import HighchartsNoData from 'highcharts-no-data-to-display';
 	import VueHighcharts from 'vue2-highcharts'
 	HighchartsNoData(Highcharts)
-export default{
-    name:'vip-chart',
-    components: {
-        VueHighcharts
-    },
-    props:{
-    	sumOrDiff:{
-				type:String
+	export default {
+		name: 'vip-chart',
+		components: {
+			VueHighcharts
+		},
+		props: {
+			sumOrDiff: {
+				type: String
 			},
-      sexData:{
-        type:Object,
-      },
-      changeFlag: {
+			sexData: {
+				type: Object,
+			},
+			changeFlag: {
 				type: Boolean,
 			}
-    },
-    data(){
-      return{
-      	Highcharts:Highcharts,
-        options: {
-            chart: {
-                type: 'pie'
-            },
-            title: {
-                text: '性别占比'
-            },
-            tooltip: {
-					   pointFormat:'{series.name}: <b>{point.y}</b><br/>占比:{point.percentage:.1f}%'
-						},
-						credits: {
-					  	text: '',
-					  },
-            colors:[
-                '#57B4F7',
-						    '#FFC200'
-            ],
-            series: []
-          }
-        }
-    },
-    watch: {
-      changeFlag: function() {
-         this.getFeature(this.$props.sexData);
-      }
-    },
-    created: function() {
+		},
+		data() {
+			return {
+				Highcharts: Highcharts,
+				options: {
+					chart: {
+						type: 'pie'
+					},
+					title: {
+						text: '性别占比'
+					},
+					tooltip: {
+						pointFormat: '{series.name}: <b>{point.y}</b><br/>占比:{point.percentage:.1f}%'
+					},
+					credits: {
+						text: '',
+					},
+					colors: [
+						'#7CB5EC',
+						'#FFC200',
+						'#F15780',
+						'#8085E9',
+						'#90ED7D',
+						'#909399'
+					],
+					series: []
+				}
+			}
+		},
+		watch: {
+			changeFlag: function() {
+				this.getFeature(this.$props.sexData);
+			}
+		},
+		created: function() {
 			this.getFeature(this.$props.sexData);
 			Highcharts.setOptions({
 				lang: {
@@ -64,8 +68,8 @@ export default{
 				}
 			});
 		},
-    methods: {
-    	getFeature(val) {
+		methods: {
+			getFeature(val) {
 				let list = {
 					feature: 'gender',
 					begin_time: val.begin_time,
@@ -85,29 +89,29 @@ export default{
 								})
 							}
 							this.getData(sexData)
-						}else{
+						} else {
 							this.getData([])
 						}
-					}else {
-							this.$message(res.data.msg)
+					} else {
+						this.$message(res.data.msg)
 					}
 				});
 
 			},
-      getData(value){
-        let sexCharts = this.$refs.sexCharts;
-        sexCharts.delegateMethod('showLoading', 'Loading...');
-        sexCharts.removeSeries();
-        setTimeout(() => {
-        	    sexCharts.hideLoading();
-              sexCharts.addSeries({
-              	name:"人数",
-              	data: value
-              });
-              
-          }, 0)
-      },
-      
-    }
-}
+			getData(value) {
+				let sexCharts = this.$refs.sexCharts;
+				sexCharts.delegateMethod('showLoading', 'Loading...');
+				sexCharts.removeSeries();
+				setTimeout(() => {
+					sexCharts.hideLoading();
+					sexCharts.addSeries({
+						name: "人数",
+						data: value
+					});
+
+				}, 0)
+			},
+
+		}
+	}
 </script>
