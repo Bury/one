@@ -41,7 +41,8 @@
 					<th class="col-md-1 text-center">序号</th>
 					<th class="col-md-2 text-center">门店架构</th>
 					<th class="col-md-2 text-center">门店</th>
-					<th class="col-md-2 text-center">账号</th>
+					<th class="col-md-1 text-center">账号</th>
+					<th class="col-md-1 text-center">状态</th>
 					<th class="col-md-1 text-center">姓名</th>
 					<th class="col-md-1 text-center">手机</th>
 					<th class="col-md-1 text-center">岗位</th>
@@ -51,10 +52,11 @@
 			<tbody style="text-align: center">
 				<template v-if='tableData.length > 0'>
 					<tr v-for="(item,index) in tableData" :key="index" height="40">
-						<td>{{item.id}}</td>
+						<td>{{(pagination.currentPage - 1) * 20 + index + 1 }}</td>
 						<td>{{item.organizes.name}}</td>
 						<td>{{item.store != null ? item.store.name : ""}}</td>
 						<td>{{item.username}}</td>
+						<td>{{item.status === 1 ? '启用' : '禁用'}}</td>
 						<td>{{item.truename}}</td>
 						<td>{{item.phone}}</td>
 						<td>{{item.storeRole.name}}</td>
@@ -92,7 +94,7 @@
 					<el-cascader v-model="editFormOrganize" :options="organizes" :props='defaultAttr' @change="editGetSotre">
 					</el-cascader>
 				</el-form-item>
-				<el-form-item style="display: inline-block;"  label="门店：" prop="store_id">
+				<el-form-item style="display: inline-block;" label="门店：" prop="store_id">
 					<el-select v-model="editFormData.store_id" placeholder="请选择" :no-data-text="noeditStore">
 						<el-option v-for="(item,index) in editStore" :key="index" :label="item.name" :value="item.id">
 						</el-option>
@@ -103,6 +105,10 @@
 					<el-select v-model="editFormData.role_id" style="width: 100%;" placeholder="请选择">
 						<el-option v-for="(item,idx) in allRole" :label="allRole[idx].name" :value="allRole[idx].id" :key="idx"></el-option>
 					</el-select>
+				</el-form-item>
+				<el-form-item label="状态：">
+					<el-switch v-model="editFormData.status" :active-value="1"  :inactive-value="0">
+					</el-switch>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -129,9 +135,9 @@
 
 		<!-- 添加 -->
 		<el-dialog :title="!avatarFormVisible? '添加' : '关联头像'" :visible.sync="addsFormVisible" :fullscreen="avatarFormVisible" :before-close="closeChange">
-			<el-form :model="addsFormData" :rules="addsRules" ref="addsFormData" label-width="100px" class="demo-ruleForm" v-if="!avatarFormVisible" >
+			<el-form :model="addsFormData" :rules="addsRules" ref="addsFormData" label-width="100px" class="demo-ruleForm" v-if="!avatarFormVisible">
 				<el-form-item label="帐号：" prop="username">
-					<el-input  v-model.tirm="addsFormData.username"></el-input>
+					<el-input v-model.tirm="addsFormData.username"></el-input>
 				</el-form-item>
 				<el-form-item label="姓名：" prop="truename">
 					<el-input v-model.trim="addsFormData.truename"></el-input>
@@ -143,7 +149,7 @@
 					<el-cascader v-model="addFormOrganize" :options="organizes" :props='defaultAttr' @change="addGetSotre">
 					</el-cascader>
 				</el-form-item>
-				<el-form-item style="display: inline-block;"  label="门店：" prop="store_id">
+				<el-form-item style="display: inline-block;" label="门店：" prop="store_id">
 					<el-select v-model="addsFormData.store_id" placeholder="请选择" :no-data-text="noeditStore">
 						<el-option v-for="(item,index) in addStore" :key="index" :label="item.name" :value="item.id">
 						</el-option>

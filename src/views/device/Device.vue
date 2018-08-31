@@ -2,29 +2,36 @@
 	<div class="device-list-page">
 		<div class="top-box">
 			<div class="btn-wrap">
-				<el-button :type="isShow==true ? 'primary' : ''" size="small" @click="isShow=true">按设备</el-button>
-				<el-button :type="isShow==false ? 'primary' : ''" size="small" @click="isShow=false">按门店</el-button>
+				<el-button :type="isShow==true ? 'primary' : ''" size="small" @click="selectPath('Lists')">按设备</el-button>
+				<el-button :type="isShow==false ? 'primary' : ''" size="small" @click="selectPath('StoreDeviceSumLists')">按门店</el-button>
 			</div>
 		</div>
-		<lists v-if="isShow"></lists>
-		<StoreDeviceSumLists v-if="!isShow"></StoreDeviceSumLists>
+		<router-view></router-view>
+		<!--<lists v-if="isShow"></lists>
+		<StoreDeviceSumLists v-if="!isShow"></StoreDeviceSumLists>-->
 	</div>
 </template>
 <script>
-
-	import Lists from './Lists'
-	import StoreDeviceSumLists from './StoreDeviceSumLists'
+//	import Lists from './Lists'
+//	import StoreDeviceSumLists from './StoreDeviceSumLists'
 	export default{
 		name:"device-list",
-		components: {
-		    Lists,
-		    StoreDeviceSumLists
-		},
 		data(){
 			return{
 				isShow:true
 			}
 		},
+		created(){
+			this.$route.name === "Lists" ? this.$data.isShow = true : this.$data.isShow = false;
+		
+			 
+		},
+		methods:{
+			selectPath(val){
+				this.$router.push({name:val})
+				val === "Lists" ? this.$data.isShow = true : this.$data.isShow = false;				
+			}
+		}
 	}
 
 </script>

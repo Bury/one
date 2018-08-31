@@ -53,6 +53,9 @@ ul,li{list-style: none;}
   text-align: center;
   color:#333;
 }
+.el-message .el-message__icon{
+	margin: 0 10px;
+}
 /*.el-tree-node__content{
     display:inline-block !important;
   }*/

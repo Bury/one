@@ -1,7 +1,7 @@
 <template>
 
 	<div class="store-set-page">
-
+        <el-button type="primary" size="small" @click="goBack">返回</el-button>
 		<h3>
 			{{this.$route.query.StoreName}}
 		</h3>
@@ -43,7 +43,7 @@
 			<tbody style="text-align: center">
 				<template v-if='tableData.length > 0'>
 					<tr v-for="(item,index) in tableData" :key="index" height="40">
-						<td>{{item.id}}</td>
+						<td>{{(pagination.currentPage - 1) * 20 + index + 1 }}</td>
 						<td>{{item.username}}</td>
 						<td>{{item.truename}}</td>
 						<td>{{item.phone}}</td>

@@ -13,6 +13,8 @@ export default {
 	      })
 	    })
 	},
+	
+	
 
 	addLabel (list) {
 	    return new Promise((resolve, reject) => {
@@ -48,6 +50,40 @@ export default {
 	labeChildlList (list) {
 	    return new Promise((resolve, reject) => {
 	      axios.post(global.GET_CHILD_LABEL_LIST,list).then((res) => {
+	        resolve(res)
+	      }).catch((err) => {
+	        reject(err)
+	      })
+	    })
+	},
+	
+	//子级另一个接口
+	tagList (list) {
+	    return new Promise((resolve, reject) => {
+	      axios.post(global.GET_TAG_LIST,list).then((res) => {
+	        resolve(res)
+	      }).catch((err) => {
+	        reject(err)
+	      })
+	    })
+	},
+	
+	//标签编辑
+	tagEdit (list) {
+	    return new Promise((resolve, reject) => {
+	      axios.post(global.TAG_EDIT,list).then((res) => {
+	        resolve(res)
+	      }).catch((err) => {
+	        reject(err)
+	      })
+	    })
+	},
+	
+	
+	//标签排序
+	tagSort (list) {
+	    return new Promise((resolve, reject) => {
+	      axios.post(global.TAG_SORT,list).then((res) => {
 	        resolve(res)
 	      }).catch((err) => {
 	        reject(err)

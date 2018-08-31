@@ -340,6 +340,9 @@
 	                page_size:20,	                
 	           };
 	        	
+	        },
+	        goBack(){
+	        	this.$router.go(-1);
 	        }
 
 

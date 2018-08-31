@@ -42,7 +42,8 @@ export default {
 				username: '',
 				truename: '',
 				phone: '',
-				role_id: ''
+				role_id: '',
+				status:''
 			},
 			editRules: {
 				username: globalRules.rules.username('请输入账号'),
@@ -87,6 +88,7 @@ export default {
 				role_id: '',
 				phone: '',
 				password: '',
+				status:1,
 
 			},
 			addsRules: {
@@ -129,7 +131,8 @@ export default {
 					username: '',
 					truename: '',
 					phone: '',
-					role_id: ''
+					role_id: '',
+					status:''
 				}
 				this.$data.editFormOrganize = [];
 				this.$data.editStore = [];
@@ -207,6 +210,7 @@ export default {
 				phone: row.phone,
 				role_id: row.storeRole.id,
 				store_id: row.store.id,
+				status:row.status
 			}
 
 			if(row.organizes.length == 0) {
@@ -264,6 +268,7 @@ export default {
 								truename: '',
 								phone: '',
 								role_id: '',
+								status:''
 							}
 							this.$data.editFormVisible = false;
 
@@ -327,7 +332,8 @@ export default {
 				truename: '',
 				role_id: '',
 				phone: '',
-				password: ''
+				password: '',
+				status:1
 			};
 			this.$data.editFormOrganize = [];
 			this.$data.addsFormData.store_id = '';

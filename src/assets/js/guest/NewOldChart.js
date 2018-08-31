@@ -37,9 +37,12 @@ export default {
 					text: '',
 				},
 				colors: [
-					'#57B4F7',
-					'#FFC200',
-					'#90ED7D'
+					'#7CB5EC',
+                    '#FFC200', 
+                    '#F15780',
+                    '#8085E9',
+                    '#90ED7D',
+                    '#909399'
 				],
 				series: []
 			}

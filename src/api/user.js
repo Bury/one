@@ -168,5 +168,14 @@ export default {
       })
     })
   },
+  saveUnit(list){  	
+  	return new Promise((resolve, reject) => {
+      axios.post(global.USER_SAVE_UNIT, list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  }
 
 }

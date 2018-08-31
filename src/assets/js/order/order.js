@@ -220,7 +220,7 @@ export default {
       this.$data.createdTimes = ['',''];
       this.$data.requestParameters = {
         page: 1,
-        page_size:10,
+        page_size:20,
         store_id:'',
         sn:'',
         material:'',

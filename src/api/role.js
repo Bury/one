@@ -89,6 +89,16 @@ export default {
       })
     })
   },
+  
+  gradePermission(list){
+  	return new Promise((resolve, reject) => {
+      axios.post(global.STORE_GRADE_PERMISSION,list).then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  }
 
 
 

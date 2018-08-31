@@ -56,8 +56,8 @@
 				</tr>
 			</thead>
 			<tbody v-if="tableData.length > 0" style="text-align: center">
-				<tr v-for="(item,index) in tableData" :key="index" height="40">
-					<td>{{item.id}}</td>
+				<tr v-for="(item,index) in tableData" :key="index" height="40" :class="item.store.name == '' ? '' : item.status == 0 && 'break'">
+					<td>{{(pagination.currentPage - 1) * 20 + index + 1 }}</td>
 					<td>{{item.device_id}}</td>
 					<!-- <td>{{item.version}}</td> -->
 					<!-- <td>{{item.start_at | date(4)}}</td> -->
@@ -66,7 +66,7 @@
 					<td>{{item.locate_desc}}</td>
 					<td>{{item.store.name == '' ? '' : item.status == 0 ? '断开' : '正常'}}</td>
 					<!-- <td>{{item.is_start == 0 ? '是' : '否'}}</td> -->
-					<td>
+					<td class="handle">
 						<el-button v-if="item.store.name != ''" @click="fnDistribution(item)" type="text" size="small">重新分配</el-button>
 						<el-button v-else @click="fnDistribution(item)" type="text" size="small">分配</el-button>
 						<el-button v-if="item.store.name != ''" @click="cancelDeploy(item)" type="text" size="small" style="color: #66B1FF;">取消分配</el-button>

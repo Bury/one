@@ -2,243 +2,240 @@
 	<div class="label-detail-page">
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn1" @click="fnGoback()">返回</el-button>
-			<el-button type="primary" size="small" class="add-btn" @click="fnAdd()">新增</el-button>
 		</div>
-    <!--列表-->
-    <table width="60%" class="table-bordered">
-      <thead style="background-color: #d1d1d1">
-      <tr height="40">
-        <th class="col-md-1 text-center">标签类名</th>
-        <th class="col-md-1 text-center">操作</th>
-      </tr>
-      </thead>
-      <tbody v-if="tableData.length > 0" style="text-align: center">
-      <tr v-for="(item,index) in tableData" :key="index" height="40">
-        <td>{{item.name}}</td>
-        <td>
-          <el-button type="warning" plain icon="el-icon-edit" circle size="small"
-                     @click="fnEdit(item)"></el-button>
-          <el-button type="danger" plain icon="el-icon-delete" circle size="small"
-                     @click="fnRemove(item)"></el-button>
-        </td>
-      </tr>
-      </tbody>
-      <tbody v-else>
-      	<tr>
-      		<td colspan="2" align="center" height="50px">暂无数据</td>
-      	</tr>
-      </tbody>
-    </table>
+		<!--列表-->
+		<!--<el-table ref="elTable" border style="width: 60%;" :data="tableData" toolip-effect="dark" >
+			<el-table-column type="selection" width="55" align="center"></el-table-column>
+			<el-table-column label="排序" prop="name" align="center"></el-table-column>
+			<el-table-column label="标签类名" prop="name" align="center"></el-table-column>
+			<el-table-column label="操作" align="center">
+				<template slot-scope="scope">
+					<el-button   @click.native.prevent="deleteRow(scope.$index, tableData4)"  type="text" size="small">
+						编辑
+					</el-button>
+				</template>
+			</el-table-column>
+		</el-table>-->
+		<div class="saveBox">
+			<el-button type="primary" plain @click="saveSelectTag">保存</el-button>
+		</div>
+		<table width="60%" class="table-bordered">
+			<thead style="background-color: #d1d1d1">
+				<tr height="40">
+					<th class="col-md-1 text-center">选择</th>
+					<th class="col-md-3 text-center">排序</th>
+					<th class="col-md-3 text-center">标签类名</th>
+					<th class="col-md-3 text-center">操作</th>
+				</tr>
+			</thead>
+			<tbody v-if="tableData.length > 0" style="text-align: center">
+				<tr v-for="(item,index) in tableData" :key="index" height="40">
+					<td>
+						<el-checkbox :checked="item.selected === 0 ? false : true" @change="selectBox($event,item.id)"></el-checkbox>
+					</td>
+					<td>{{(pagination.currentPage - 1) * 20 + index + 1 }}</td>
+					<td>{{item.name}}</td>
+					<td>
+						<el-button type="warning" plain icon="el-icon-edit" circle size="small" @click="fnEdit(item)"></el-button>
+					</td>
+				</tr>
+			</tbody>
+			<tbody v-else>
+				<tr>
+					<td colspan="4" align="center" height="50px">暂无数据</td>
+				</tr>
+			</tbody>
+		</table>
 
-	    <!-- 分页 -->
-	    <div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
-	    	<el-pagination
-				background
-	            class="pagination"
-	            layout="prev, pager, next"
-	            small
-	            @current-change="handleCurrentChange"
-	            :current-page="pagination.currentPage"
-	            :page-size="requestParameters.page_size"
-	            :total="pagination.totalCount">
-	        </el-pagination>
-	    </div>
+		<!-- 分页 -->
+		<div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
+			<el-pagination background class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
+			</el-pagination>
+		</div>
 
-	    <!-- 添加、修改 -->
-	    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
-		  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-			  <el-form-item label="标签名：" prop="name">
-			    <el-input v-model="ruleForm.name"></el-input>
-			  </el-form-item>
-		  </el-form>
-		  <div slot="footer" class="dialog-footer">
-		    <el-button @click="cancel">取 消</el-button>
-		    <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
-		  </div>
+		<!-- 添加、修改 -->
+		<el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+				<el-form-item label="排序：" prop="sort">
+					<el-input v-model.trim="ruleForm.sort"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="cancel">取 消</el-button>
+				<el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+			</div>
 		</el-dialog>
 
 	</div>
 </template>
 <script>
 	import labelApi from '../../api/label'
-	export default{
-		name:'label-detail',
-		data(){
+	export default {
+		name: 'label-detail',
+		data() {
 			return {
 				tableData: [],
-				pagination:{
-		        	currentPage:1,
-		        	totalCount:0,
-		        },
-				dialogTitle:"",
+				pagination: {
+					currentPage: 1,
+					totalCount: 0,
+				},
+				dialogTitle: "",
 				dialogFormVisible: false,
-		        ruleForm: {
-		          	name: '',
-		        },
-		        currentId:'',
-		        rules: {
-		          name: [
-		            { required: true, message: '请输入标签类名', trigger: 'blur' },
-		            { min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
-		          ]
-		        },
-		        requestParameters: {
-		        	parent_id:'',
-	                page: 1,
-	                page_size:20
-	            }
+				ruleForm: {
+					sort: '',
+				},
+				saveTag: [],
+				currentId: '',
+				rules: {
+					sort: [{
+							required: true,
+							message: '请输入排序名',
+							trigger: 'blur'
+						},
+						{
+							validator: (rule, value, callback) => {
+								if(value.match(/^\+?[1-9]\d*$/)) {
+									callback();
+								} else {
+									callback("只能输入大于0的整数");
+								}
+							},
+							trigger: 'blur'
+						}
+					]
+				},
+				requestParameters: {
+					parent_id: '',
+					page: 1,
+					page_size: 20
+				}
 
 			}
 		},
-		created:function(){
+		watch: {
+			dialogFormVisible: function() {
+				setTimeout(() => {
+					this.$refs.ruleForm.clearValidate();
+				});				
+			}
+		},
+		created: function() {
 			this.labeChildlList();
 		},
 		methods: {
 			// 列表
-			labeChildlList(){
+			labeChildlList() {
 				this.$data.requestParameters.parent_id = this.$route.query.LabelId;
-			    let qs = require('querystring')
-				labelApi.labeChildlList(qs.stringify(this.$data.requestParameters)).then((res) => {
-					console.log(res)
-        			if(res.data.errno === 0){
-						console.log(res.data.data.list)
+				let qs = require('querystring')
+				labelApi.tagList(qs.stringify(this.$data.requestParameters)).then((res) => {
+					if(res.data.errno === 0) {
+						let list = [];
+						for(let i = 0; i < res.data.data.list.length; i++) {
+							list.push({
+								id: res.data.data.list[i].id,
+								status: res.data.data.list[i].selected
+							})
+						};
+						this.$data.saveTag = list;
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
-		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
+						this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
 
-        			}else{
+					} else {
 
-        			}
-        		})
+					}
+				})
 			},
 			handleCurrentChange(currentPage) {
-	            console.log(currentPage)
-	            this.$data.requestParameters.page = currentPage;
-	            this.labeChildlList();
-	        },
-
-
-			fnRemove(row){
-				this.$confirm('确认删除标签：'+row.name+' ？', '删除', {
-		          confirmButtonText: '确定',
-		          cancelButtonText: '取消',
-		          type: 'warning'
-		        }).then(() => {
-		        	let list = {
-                'id': row.id
-              }
-					let qs = require('querystring')
-	        		labelApi.deleChildLabel(qs.stringify(list)).then((res) => {
-	        			if(res.data.errno === 0){
-							console.log(res)
-							this.$message({
-					            type: 'success',
-					            message: '删除成功!'
-					          });
-							this.labeChildlList();
-	        			}else if(res.data.errno == -1){
-	        			  this.$message.warning(res.data.msg);
-	        			}
-
-	        		})
-
-		        }).catch(() => {
-		          // this.$message({
-		          //   type: 'info',
-		          //   message: '已取消删除'
-		          // });
-		        });
+				this.$data.requestParameters.page = currentPage;
+				this.labeChildlList();
 			},
-			fnEdit(row){
-				console.log(row);
+			selectBox(val, d) {
+				let v = val === true ? 1 : 0;
+				for(let j = 0; j < this.$data.saveTag.length; j++) {
+					(this.$data.saveTag[j].id === d) && (this.$data.saveTag[j].status = v);
+				}
+				console.log(this.$data.saveTag)
+			},
+			saveSelectTag() {
+
+				let list = {
+					parent_id:this.$data.requestParameters.parent_id,
+					tag_ids: JSON.stringify(this.$data.saveTag)
+				};
+				let qs = require('querystring');
+				labelApi.tagEdit(qs.stringify(list)).then((res) => {
+					console.log(res)
+					if(res.data.errno === 0) {
+						this.$message({
+							message: '保存成功！',
+							type: 'success'
+						});
+					} else {
+                       this.$message.error(res.data.msg)
+					}
+				})
+			},
+
+			fnEdit(row) {
 				this.$data.dialogTitle = '编辑';
 				this.$data.currentId = row.id;
-				this.$data.ruleForm.name = row.name;
-				this.$data.dialogFormVisible = true;
-
-			},
-			fnAdd(){
-				this.$data.dialogTitle = '添加';
-				this.$data.currentId = "";
-				this.$data.ruleForm.name = "";
+				this.$data.ruleForm.sort = '';
 				this.$data.dialogFormVisible = true;
 			},
-      fnGoback(){
-			  this.$router.push('/LabelList');
-      },
+			fnGoback() {
+				this.$router.push('/LabelList');
+			},
 
-			cancel(){
+			cancel() {
 				this.$data.dialogFormVisible = false;
-				this.$data.ruleForm.name = '';
+				this.$data.ruleForm.sort = '';
 				this.$data.currentId = '';
 			},
-			submitForm(formName){
+			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {
-					console.log(valid)
-			        if (valid) {
-						if(this.$data.currentId !== ''){
-							let list = {
-								'id': this.$data.currentId,
-								'name':this.$data.ruleForm.name
-							}
-							let qs = require('querystring')
-			        		labelApi.editChildLabel(qs.stringify(list)).then((res) => {
-			        			if(res.data.errno === 0){
-									console.log(res)
-									this.labeChildlList();
-
-			        			}else{
-
-			        			}
-
-			        		})
-						}else{
-							let list = {
-						        'name':this.$data.ruleForm.name,
-						        'parent_id':this.$route.query.LabelId
-						    }
-						    let qs = require('querystring')
-			        		labelApi.addChildLabel(qs.stringify(list)).then((res) => {
-			        			if(res.data.errno === 0){
-									console.log(res)
-									this.labeChildlList();
-
-			        			}else{
-
-			        			}
-
-			        		})
+					if(valid) {
+						let list = {
+							'tag_id': this.$data.currentId,
+							'sort': this.$data.ruleForm.sort
 						}
-						this.$data.ruleForm.name = '';
-						this.$data.currentId = '';
-						this.$data.dialogFormVisible = false;
-			        }
-		        });
+						let qs = require('querystring');
+						labelApi.tagSort(qs.stringify(list)).then((res) => {
+							if(res.data.errno === 0) {
+								this.labeChildlList();
+							} else {
+								this.$message(res.data.msg)
+							}
+							this.$data.dialogFormVisible = false;
+						})
+					}
+				});
 			},
 
 		}
 	}
 </script>
 <style lang="scss" scoped>
-	.label-detail-page{
-		.top-box{
-			position:relative;
-			margin-bottom:20px;
+	.label-detail-page {
+		.top-box {
+			position: relative;
+			margin-bottom: 20px;
 			height: 36px;
-			border-bottom:1px solid #d2d2d2;
-			.add-btn,.add-btn1{
-				position: absolute;
-				top:0;
-				right:20px;
+			border-bottom: 1px solid #d2d2d2;
+			.add-btn1 {
+				right: 100px;
 			}
-      .add-btn1{
-        right: 100px;
-      }
 		}
 	}
-
-	.el-pagination{
-		margin:20px 0;
-	  	float: right;
+	
+	.saveBox {
+		width: 60%;
+		text-align: right;
+		margin: 20px auto;
+	}
+	
+	.el-pagination {
+		margin: 20px 0;
+		float: right;
 	}
 </style>

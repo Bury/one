@@ -24,6 +24,8 @@ import LabelDetail from '../views/label/LabelDetail'
 
 /*设备管理*/
 import Device from '../views/device/Device'
+import Lists from '../views/device/Lists'
+import StoreDeviceSumLists from '../views/device/StoreDeviceSumLists'
 import StoreDeviceDetailLists from '../views/device/StoreDeviceDetailLists'
 
 
@@ -72,8 +74,15 @@ const router = new Router({
         {path: 'Order',name: 'Order',component: Order},
         {path: 'LabelList',name: 'LabelList',component: LabelList},
         {path: 'LabelDetail',name: 'LabelDetail',component: LabelDetail},
-        {path: 'Device',name: 'Device',component: Device},
-        {path: 'StoreDeviceDetailLists',name: 'StoreDeviceDetailLists',component: StoreDeviceDetailLists},
+        {
+        	path: 'Device',
+          component: Device,
+          children:[
+          {path: '',name: 'Lists',component: Lists},
+          {path: 'StoreDeviceSumLists',name: 'StoreDeviceSumLists',component: StoreDeviceSumLists},
+          {path: 'StoreDeviceDetailLists',name: 'StoreDeviceDetailLists',component: StoreDeviceDetailLists},
+         ]
+        },        
         {path: 'Store',name:'Store',component:Store},
         {path: 'StoreOrganize',name:'StoreOrganize',component:StoreOrganize},
         {path: 'StoreAccount',name:'StoreAccount',component:StoreAccount},
@@ -97,14 +106,12 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   let knock_knock = window.localStorage.getItem('knock_knock')
-  if (to.matched.some(
-        record => record.meta.requiresAuth)&& (!knock_knock || knock_knock === null)) {
-        
-        window.location.href = '/';
-//  next({
-//    path: '/login',
-//    query: { redirect: to.fullPath }
-//  })
+  if (to.matched.some(record => record.meta.requiresAuth)&& (!knock_knock || knock_knock === null)) {
+         window.location.href = '/';
+//    next({
+//      path: '/login',
+//      query: { redirect: to.fullPath }
+//    })
   } else {
     next()
   }
