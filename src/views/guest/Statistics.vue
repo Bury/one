@@ -119,7 +119,7 @@
 					</el-table-column>
 					<el-table-column prop="name" label="名称" align="center">
 					</el-table-column>
-					<el-table-column prop="customer" label="总客流" sortable="custom" align="center">
+					<el-table-column prop="customer" label="总客流" sortable="custom"  width="110" align="center">
 					</el-table-column>
 					<el-table-column prop="new" label="新客占比" :formatter="formatterVal" sortable="custom" width="110" align="center">
 					</el-table-column>
