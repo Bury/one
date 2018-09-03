@@ -110,7 +110,7 @@ export default {
 	created: function() {
 		let unit = localStorage.getItem("unit") || '';
 		if(unit === 'd'){
-			this.$data.ctrlTimeType = [false, false, false, false, false];			
+			this.$data.ctrlTimeType = [false, false, false, false, false];
 			this.$data.ctrlTimeType[0] = true;
 			this.$data.timeType = 'day';
 		}else if(unit === 'w'){
@@ -198,7 +198,7 @@ export default {
 		//模式选择操作
 		patternSelect(type) {
 			this.editSumDiff(); //打开弹框
-			if(type == 1) {				
+			if(type == 1) {
 				this.$data.datadialog.radioShow = true;
 //				this.$data.datadialog.dataTypeShow = true;
 				this.$data.datadialog.canDel = true;
@@ -216,9 +216,9 @@ export default {
 		closeDialog(done) {
 			this.$data.pattern = this.$data.copyPattern;
 			this.$data.storeGroup = this.$data.copyGroup;
-			if(this.$data.pattern === '1') { 
+			if(this.$data.pattern === '1') {
 				this.$data.datadialog.radioShow = true;
-				
+
 			}else if(this.$data.pattern === '2'){
 				this.$data.datadialog.radioShow = false;
 			}
@@ -267,7 +267,7 @@ export default {
 				}
 
 			}
-  
+
 			return flag;
 		},
 
@@ -304,8 +304,8 @@ export default {
 					}
 
 				});
-			};			
-			
+			};
+
 			this.$data.datadialog.dataDialogVisible = false;
 			this.$data.changeFlag = !this.$data.changeFlag;
 		},
@@ -399,8 +399,8 @@ export default {
 				if(this.$data.week == null) {
 					return false
 				}
-				this.$data.guestParameters.begin_time = this.getS(this.$data.week);
-				this.$data.guestParameters.end_time = this.getS(this.$data.week) + 604799;
+				this.$data.guestParameters.begin_time = this.getS(this.$data.week) - 86400;
+				this.$data.guestParameters.end_time = this.getS(this.$data.week) + 518399;
 				this.$data.changeFlag = !this.$data.changeFlag;
 
 			} else if(this.$data.ctrlTimeType[2]) {
@@ -512,7 +512,7 @@ export default {
 				return false;
 			}
 			if(this.$data.ctrlTimeType[3]) {
-				//年            
+				//年
 				this.getBeginEndTime("year")
 				return false;
 			}
