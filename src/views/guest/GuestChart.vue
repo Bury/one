@@ -79,18 +79,24 @@
 					},
 					colors: [
 						'#7CB5EC',
-                        '#FFC200', 
+                        '#FFC200',
                         '#F15780',
                         '#8085E9',
                         '#90ED7D',
                         '#909399'
 					],
 					plotOptions: {
+            series:{
+              dataLabels:{
+                border: 1,
+                align: 'left',
+                enabled: true,
+                rotation: -45,
+                x: 2,
+                y: -10
+              }
+            },
 						line: {
-							dataLabels: {
-								// 开启数据标签
-								enabled: true
-							},
 							// 关闭鼠标跟踪，对应的提示框、点击事件会失效
 							enableMouseTracking: true
 						}
@@ -322,7 +328,7 @@
 				})
 			},
 
-			//客流统计折线图比对			
+			//客流统计折线图比对
 			getCustomerDiff() {
 				statisticsApi.getCustomerDiff(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
@@ -496,7 +502,7 @@
 	.chartWrap {
 		position: relative;
 	}
-	
+
 	.el-radio-select {
 		position: absolute;
 		top: 100px;
