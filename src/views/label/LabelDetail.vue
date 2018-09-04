@@ -3,27 +3,15 @@
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn1" @click="fnGoback()">返回</el-button>
 		</div>
-		<!--列表-->
-		<!--<el-table ref="elTable" border style="width: 60%;" :data="tableData" toolip-effect="dark" >
-			<el-table-column type="selection" width="55" align="center"></el-table-column>
-			<el-table-column label="排序" prop="name" align="center"></el-table-column>
-			<el-table-column label="标签类名" prop="name" align="center"></el-table-column>
-			<el-table-column label="操作" align="center">
-				<template slot-scope="scope">
-					<el-button   @click.native.prevent="deleteRow(scope.$index, tableData4)"  type="text" size="small">
-						编辑
-					</el-button>
-				</template>
-			</el-table-column>
-		</el-table>-->
 		<div class="saveBox">
 			<el-button type="primary" plain @click="saveSelectTag">保存</el-button>
 		</div>
 		<table width="60%" class="table-bordered">
 			<thead style="background-color: #d1d1d1">
 				<tr height="40">
-					<th class="col-md-1 text-center">选择</th>
-					<th class="col-md-3 text-center">排序</th>
+					<th class="col-md-2 text-center">选择</th>
+					<th class="col-md-2 text-center">序号</th>
+					<th class="col-md-2 text-center">排序</th>
 					<th class="col-md-3 text-center">标签类名</th>
 					<th class="col-md-3 text-center">操作</th>
 				</tr>
@@ -34,6 +22,7 @@
 						<el-checkbox :checked="item.selected === 0 ? false : true" @change="selectBox($event,item.id)"></el-checkbox>
 					</td>
 					<td>{{(pagination.currentPage - 1) * 20 + index + 1 }}</td>
+					<td>{{item.sort}}</td>
 					<td>{{item.name}}</td>
 					<td>
 						<el-button type="warning" plain icon="el-icon-edit" circle size="small" @click="fnEdit(item)"></el-button>
@@ -42,7 +31,7 @@
 			</tbody>
 			<tbody v-else>
 				<tr>
-					<td colspan="4" align="center" height="50px">暂无数据</td>
+					<td colspan="5" align="center" height="50px">暂无数据</td>
 				</tr>
 			</tbody>
 		</table>
@@ -83,6 +72,7 @@
 				dialogFormVisible: false,
 				ruleForm: {
 					sort: '',
+          selected:'',
 				},
 				saveTag: [],
 				currentId: '',
@@ -116,7 +106,7 @@
 			dialogFormVisible: function() {
 				setTimeout(() => {
 					this.$refs.ruleForm.clearValidate();
-				});				
+				});
 			}
 		},
 		created: function() {
@@ -155,7 +145,6 @@
 				for(let j = 0; j < this.$data.saveTag.length; j++) {
 					(this.$data.saveTag[j].id === d) && (this.$data.saveTag[j].status = v);
 				}
-				console.log(this.$data.saveTag)
 			},
 			saveSelectTag() {
 
@@ -165,7 +154,6 @@
 				};
 				let qs = require('querystring');
 				labelApi.tagEdit(qs.stringify(list)).then((res) => {
-					console.log(res)
 					if(res.data.errno === 0) {
 						this.$message({
 							message: '保存成功！',
@@ -181,6 +169,7 @@
 				this.$data.dialogTitle = '编辑';
 				this.$data.currentId = row.id;
 				this.$data.ruleForm.sort = '';
+				this.$data.ruleForm.selected = row.selected;
 				this.$data.dialogFormVisible = true;
 			},
 			fnGoback() {
@@ -195,19 +184,24 @@
 			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						let list = {
-							'tag_id': this.$data.currentId,
-							'sort': this.$data.ruleForm.sort
-						}
-						let qs = require('querystring');
-						labelApi.tagSort(qs.stringify(list)).then((res) => {
-							if(res.data.errno === 0) {
-								this.labeChildlList();
-							} else {
-								this.$message(res.data.msg)
-							}
-							this.$data.dialogFormVisible = false;
-						})
+					  if(this.$data.ruleForm.selected == 1){
+              let list = {
+                'tag_id': this.$data.currentId,
+                'sort': this.$data.ruleForm.sort
+              }
+              let qs = require('querystring');
+              labelApi.tagSort(qs.stringify(list)).then((res) => {
+                if(res.data.errno === 0) {
+                  this.labeChildlList();
+                  this.$message.success('排序成功！')
+                }else {
+                  this.$message(res.data.msg)
+                }
+              })
+            }else if(this.$data.ruleForm.selected == 0){
+					    this.$message.info('该标签未保存，不允许排序')
+            }
+            this.$data.dialogFormVisible = false;
 					}
 				});
 			},
@@ -227,13 +221,13 @@
 			}
 		}
 	}
-	
+
 	.saveBox {
 		width: 60%;
 		text-align: right;
 		margin: 20px auto;
 	}
-	
+
 	.el-pagination {
 		margin: 20px 0;
 		float: right;
