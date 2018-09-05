@@ -154,6 +154,10 @@ export default {
         width: 100%;
         height: 100%;
         color: #333;
+      .el-dropdown-link:focus-within{
+        border: 0;
+        outline: 0;
+      }
         .header-wrap{
             position: fixed;
             top: 0;
