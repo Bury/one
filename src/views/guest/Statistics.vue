@@ -80,6 +80,7 @@
 			<ul class="charts-type">
 				<li class="charts-wrap">
 					<div style="padding:10px 0 20px;text-align:center;">
+            <div class="title-guest-chart">客流统计</div>
 						<el-radio-group v-model="statisticsType" @change="customerClass" size="small">
 							<el-radio-button label="1">客流趋势</el-radio-button>
 							<el-radio-button label="2">成交率</el-radio-button>

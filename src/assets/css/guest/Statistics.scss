@@ -1,5 +1,5 @@
 .statistics-page{
-    padding-top:200px;    
+    padding-top:200px;
     .top-box{
         position: fixed;
         padding-top:90px;
@@ -19,7 +19,7 @@
             width: 48%;
             height: 520px;
             position: relative;
-            
+
         }
         .charts-wrap:nth-child(2n){
             float:right;
@@ -58,5 +58,11 @@
             font-size: 17px;
         }
     }
+  .title-guest-chart{
+    font-size: 18px;
+    color: #333;
+    fill:#333;
+    margin-bottom: 1.5rem;
+  }
 }
 
