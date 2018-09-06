@@ -28,6 +28,8 @@ global.GRAPH_ORDER_LOST_DIFF = `${SERVER_IP}${COMMON}analysis/graph-order-lost-d
 
 global.ANALYSIS_LIST = `${SERVER_IP}${COMMON}analysis/list`  //客流列表
 
+global.STORE_STATISTICS_NEW = `${SERVER_IP}${COMMON}store/data-statistics-new`  //门店数据统计客流量
+
 /*提醒列表*/
 // post customer//remind-list 获取提醒列表
 global.GET_REMIND_LIST = `${SERVER_IP}${COMMON}customer/remind-list`

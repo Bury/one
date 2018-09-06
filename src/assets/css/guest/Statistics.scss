@@ -19,7 +19,18 @@
             width: 48%;
             height: 520px;
             position: relative;
+            .go-store-num{
+                text-align: left;
+                margin-bottom: 10px;
+                section{
+                    display: inline-block;
+                    margin-right: 20px;
+                }
+            }
 
+        }
+        .charts-wrap:nth-child(2){
+           padding-top: 100px;
         }
         .charts-wrap:nth-child(2n){
             float:right;

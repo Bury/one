@@ -138,6 +138,17 @@ export default {
 	        reject(err)
 	      })
 	    })
-	}
+	},
+	
+	//客流统计，门店数据统计
+	statisticsNew(list){
+		return new Promise((resolve, reject) => {
+	      axios.post(global.STORE_STATISTICS_NEW,list).then((res) => {
+	        resolve(res)
+	      }).catch((err) => {
+	        reject(err)
+	      })
+	    })
+	},
 	
 }
