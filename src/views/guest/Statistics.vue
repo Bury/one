@@ -81,7 +81,7 @@
 				<li class="charts-wrap">
 					<div style="padding:10px 0 12px;text-align:center;">
 						<div class="go-store-num">
-							<section v-if="sumOrDiff === '0'" v-for="item in goStoreSum">到店人数: <span>{{item.passenger_flow}}</span>(人)</section>
+							<section v-if="sumOrDiff === '0'">到店人数: <span>{{goStoreSum.passenger_flow}}</span>(人)</section>
 							<section v-if="sumOrDiff === '1'" v-for="(item,index) in goStoreSum">
 									<span>{{item.name}}</span>：<span>{{item.passenger_flow}}</span>(人)							
 							</section>
