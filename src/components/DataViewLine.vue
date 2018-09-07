@@ -1,5 +1,10 @@
 <template>
-	<div>
+	<div class="wrap">
+		<h4 class="statistics-title">客流趋势</h4>
+		<div class="chart-radio-wrap">
+			<span :class="radios == 'line' ? 'lc-active' : ''"  @click="cutChart('line')">折线图</span>
+			<span :class="radios == 'column' ? 'lc-active' : ''" @click="cutChart('column')">柱状图</span>
+		</div>
 		<vue-highcharts :options="options" ref="ageCharts"></vue-highcharts>
 	</div>
 </template>
@@ -13,13 +18,15 @@
 		},
 		data() {
 			return {
+				radios: 'line',
 				options: {
 					chart: {
 						type: 'areaspline',
-						backgroundColor: 'rgba(0,0,0,0)'
+						height: 280,
+						backgroundColor: 'rgba(0,0,0,0)',
 					},
 					title: {
-						text: '客流趋势',
+						text: '',
 						style: {
 							'color': '#ffffff',
 							'fongSize': '13px'
@@ -31,12 +38,12 @@
 					credits: {
 						text: '',
 					},
-					colors:[
-					   '#FFC400'
+					colors: [
+						'#FFC400'
 					],
 					plotOptions: {
 						series: {
-							fillColor:'rgba(149,199,255,0.2)',
+							fillColor: 'rgba(149,199,255,0.2)',
 						}
 					},
 					yAxis: {
@@ -52,12 +59,12 @@
 							}
 						}
 					},
-					xAxis:{
+					xAxis: {
 						tickColor: '#567398',
 						lineColor: '#567398',
-						labels:{
-							style:{
-								color:"#95C7FF"
+						labels: {
+							style: {
+								color: "#95C7FF"
 							}
 						}
 					},
@@ -79,8 +86,10 @@
 			}, 1000)
 		},
 		methods: {
+			cutChart(val){
+				this.$data.radios = val;				
+			},
 			getChart(val) {
-
 				let ageCharts = this.$refs.ageCharts;
 				ageCharts.delegateMethod('showLoading', 'Loading...');
 				//				ageCharts.removeSeries();
@@ -93,6 +102,26 @@
 	}
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+	.wrap {
+		.statistics-title {
+			text-align: center;
+			margin: 0;
+			height: 45px;
+			font-size: 16px;
+			padding-top: 18px;
+		}
+		.chart-radio-wrap {
+			text-align: right;
+			height: 35px;
+			span{
+				display: inline-block;
+				cursor: default;
+				margin-right: 10px;
+			}
+			.lc-active{
+				color: #95C7FF;
+			}
+		}
+	}
 </style>

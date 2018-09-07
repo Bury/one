@@ -33,7 +33,7 @@
 						<li>
 							<section>
 								<data-view-line></data-view-line>
-							</section>							
+							</section>
 							<section class="c-left-chart-bottom">
 								<p>客流<span class="font30 color-e">5555555</span>人&nbsp;环比上升<span class="color-f">12.28%</span></p>
 								<p class="ml20">新客<span class="font30 color-e">8273</span>人&nbsp;环比下降<span class="color-g">0.24%</span></p>
@@ -42,22 +42,22 @@
 						<li class="c-order-wrap">
 							<section>
 								<span>999</span>
-                          	    <p>订单数</p>
+								<p>订单数</p>
 							</section>
 							<section class="c-middle-section">
 								<span>6565.00</span>
-                          	    <p>销售额</p>
+								<p>销售额</p>
 							</section>
 							<section>
 								<span>56%</span>
-                          	    <p>成交率</p>
+								<p>成交率</p>
 							</section>
 						</li>
 						<li class="c-camera">
-							
+
 							<span class="c-left-eye"><img src="../assets/images/eye.png"/>摄像头</span>
 							<span class="ml20">在线<span class="font23 color-g">2036</span>台</span>
-							<span class="ml20">离线<span class="font23 color-e">7</span>台</span>							
+							<span class="ml20">离线<span class="font23 color-e">7</span>台</span>
 						</li>
 					</ul>
 				</div>
@@ -70,15 +70,15 @@
 								<th>次数</th>
 							</tr>
 							<tr>
-								<td><img src="../assets/images/first.png"/>黄金</td>
+								<td><img src="../assets/images/first.png" />黄金</td>
 								<td>oo</td>
 							</tr>
 							<tr>
-								<td><img src="../assets/images/second.png"/>钻石</td>
+								<td><img src="../assets/images/second.png" />钻石</td>
 								<td>oo</td>
 							</tr>
 							<tr>
-								<td><img src="../assets/images/third.png"/>项链</td>
+								<td><img src="../assets/images/third.png" />项链</td>
 								<td>oo</td>
 							</tr>
 							<tr>
@@ -89,13 +89,13 @@
 					</div>
 					<div class="c-middle-div mb16">
 						<h4 class="c-h4"><span>性别比例</span></h4>
-						
+						<data-view-sex></data-view-sex>
 					</div>
 					<div class="c-middle-div">
 						<h4 class="c-h4"><span>年龄比例</span></h4>
-						
+                        <data-view-age></data-view-age>
 					</div>
-					
+
 				</div>
 				<div class="c-right">
 					<div class="c-right-div mb16">
@@ -107,21 +107,21 @@
 							</tr>
 							<tr>
 								<td>
-								  <img src="../assets/images/first.png"/>
-								  <span>上海南京路店</span>
+									<img src="../assets/images/first.png" />
+									<span>上海南京路店</span>
 								</td>
 								<td>oo</td>
 							</tr>
 							<tr>
 								<td>
-									<img src="../assets/images/second.png"/>
-								     <span>杭州延安路店</span>
+									<img src="../assets/images/second.png" />
+									<span>杭州延安路店</span>
 								</td>
 								<td>oo</td>
 							</tr>
 							<tr>
 								<td>
-									<img src="../assets/images/third.png"/>
+									<img src="../assets/images/third.png" />
 									<span>北京三里屯店</span>
 								</td>
 								<td>oo</td>
@@ -142,10 +142,10 @@
 								<td>深时代光华</td>
 								<td>oo</td>
 							</tr>
-							
+
 						</table>
 					</div>
-					
+
 					<div class="c-right-div">
 						<h4 class="c-h4"><span>熟客占比</span></h4>
 						<table class="c-table">
@@ -155,21 +155,21 @@
 							</tr>
 							<tr>
 								<td>
-								  <img src="../assets/images/first.png"/>
-								  <span>上海南京路店</span>
+									<img src="../assets/images/first.png" />
+									<span>上海南京路店</span>
 								</td>
 								<td>oo</td>
 							</tr>
 							<tr>
 								<td>
-									<img src="../assets/images/second.png"/>
-								     <span>杭州延安路店</span>
+									<img src="../assets/images/second.png" />
+									<span>杭州延安路店</span>
 								</td>
 								<td>oo</td>
 							</tr>
 							<tr>
 								<td>
-									<img src="../assets/images/third.png"/>
+									<img src="../assets/images/third.png" />
 									<span>北京三里屯店</span>
 								</td>
 								<td>oo</td>
@@ -190,10 +190,9 @@
 								<td>深时代光华</td>
 								<td>oo</td>
 							</tr>
-							
+
 						</table>
 					</div>
-					
 
 				</div>
 			</div>
@@ -204,28 +203,70 @@
 
 <script>
 	import DataViewLine from './DataViewLine';
+	import DataViewSex from './DataViewSex';
+	import DataViewAge from './DataViewAge';
 	export default {
-		name: 'data-view',	
-		components:{
-			DataViewLine
+		name: 'data-view',
+		components: {
+			DataViewLine,
+			DataViewSex,
+			DataViewAge
 		},
 		data() {
 			return {
-				isSelect: 'y',
-				
+				isSelect: 'd',
+				guestParameters: {
+					begin_time: '',
+					end_time: ''
+				}
 			}
 		},
 		created() {
-			
+
 		},
-		mounted(){
-			
+		mounted() {
+
 		},
 		methods: {
 			selectTime(val) {
-				console.log(val)
+				this.$data.isSelect = val;
+				this.$data.getBeginEndTime(val);
 			},
-			
+			//时间转为秒
+			getS(value) {
+				var formatTimeS = new Date(value).getTime() / 1000;
+				return formatTimeS;
+			},
+			getBeginEndTime(val) {
+				let t = new Date();
+				let y = t.getFullYear();
+				let m = t.getMonth() + 1;
+				let d = t.getDate();
+				let weekd = t.getDay();
+				switch(val) {
+					case "d":
+						this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/${d} 00:00:00`);
+						this.$data.guestParameters.end_time = this.getS(`${y}/${m}/${d} 23:59:59`);
+						break;
+					case "w":
+						if(weekd === 0) {
+							weekd = 7
+						};
+						this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/${d} 00:00:00`) - 86400 * (weekd - 1);
+						this.$data.guestParameters.end_time = this.getS(`${y}/${m}/${d} 23:59:59`) + 86400 * (7 - weekd);
+						break;
+					case "m":
+						let nexty, nextm;
+						m === 12 ? (nexty = y + 1, nextm = 1) : (nexty = y, nextm = m + 1)
+						this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/01 00:00:00`);
+						this.$data.guestParameters.end_time = this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
+						break;
+					case "y":
+						this.$data.guestParameters.begin_time = this.getS(`${y}/01/01 00:00:00`);
+						this.$data.guestParameters.end_time = this.getS(`${y}/12/31 23:59:59`);
+						break;
+				}
+			},
 		}
 	}
 </script>
