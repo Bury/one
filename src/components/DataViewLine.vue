@@ -5,23 +5,37 @@
 			<span :class="radios == 'line' ? 'lc-active' : ''"  @click="cutChart('line')">折线图</span>
 			<span :class="radios == 'column' ? 'lc-active' : ''" @click="cutChart('column')">柱状图</span>
 		</div>
-		<vue-highcharts :options="options" ref="ageCharts"></vue-highcharts>
+		<vue-highcharts :highcharts="Highcharts" :options="options" ref="lineCharts"></vue-highcharts>
 	</div>
 </template>
 
 <script>
+	import statisticsApi from '@/api/statistics';
+	import Highcharts from 'highcharts';
+	import HighchartsNoData from 'highcharts-no-data-to-display';	
 	import VueHighcharts from 'vue2-highcharts';
+	HighchartsNoData(Highcharts);
 	export default {
 		name: 'data-view-line',
+		props:{
+			chartData:{
+				type:Object
+			},
+			timeFlag:{
+				type:Boolean
+			}
+		},
 		components: {
 			VueHighcharts,
 		},
 		data() {
 			return {
+				Highcharts: Highcharts,
 				radios: 'line',
 				options: {
 					chart: {
 						type: 'areaspline',
+						width:550,
 						height: 280,
 						backgroundColor: 'rgba(0,0,0,0)',
 					},
@@ -34,6 +48,12 @@
 					},
 					legend: {
 						enabled: false
+					},
+					loading:{
+						style:{
+							 "color":'#95C7FF',
+							 "backgroundColor": "rgba(255,255,255,0.2)",
+						}
 					},
 					credits: {
 						text: '',
@@ -50,6 +70,7 @@
 						title: {
 							text: null
 						},
+						allowDecimals: false,
 						tickAmount: 6,
 						gridLineColor: '#567398',
 						labels: {
@@ -72,31 +93,75 @@
 				}
 			}
 		},
-		created() {
-
+		watch:{
+			timeFlag:function(){
+				this.getCustomer();
+			}
+		},
+		created() {		
+			Highcharts.setOptions({
+				lang: {
+					thousandsSep: ',',
+					noData: '暂无数据'
+				}
+			});
+			this.getCustomer();
 		},
 		mounted() {
-			let datac = {
-				name: '安装，实施人员',
-				data: [200, 563, 98, 68, 77, 50, 500, 8]
-			};
-			this.getChart(datac);
-			setInterval(() => {
-
-			}, 1000)
+//			setInterval(()=> {
+//				this.timeCustomer();
+//			},10000)
 		},
 		methods: {
 			cutChart(val){
 				this.$data.radios = val;				
 			},
 			getChart(val) {
-				let ageCharts = this.$refs.ageCharts;
-				ageCharts.delegateMethod('showLoading', 'Loading...');
-				//				ageCharts.removeSeries();
+				let lineCharts = this.$refs.lineCharts;
+				lineCharts.delegateMethod('showLoading', 'Loading...');
+				lineCharts.removeSeries();
 				setTimeout(() => {
-					ageCharts.hideLoading();
-					ageCharts.addSeries(val);
-				}, 100)
+					lineCharts.getChart().xAxis[0].setCategories(val.time);
+					lineCharts.hideLoading();
+					lineCharts.addSeries(val);
+				},0)
+			},
+			
+			//折线图
+			getCustomer() {
+				statisticsApi.getCustomerSum(this.$props.chartData).then((res) => {					
+					if(res.data.errno === 0) {
+						if(res.data.data !== null) {
+							let arr = {
+								name: "客流",
+								data: res.data.data.sum,
+								time: res.data.data.time
+							};
+  						    this.getChart(arr);
+						} else {
+   						    this.getChart([])
+						}
+					}
+				})
+			},
+			//定时折线图
+			timeCustomer() {
+				let lineCharts = this.$refs.lineCharts;
+				statisticsApi.getCustomerSum(this.$props.chartData).then((res) => {					
+					if(res.data.errno === 0) {
+						if(res.data.data !== null) {
+							let arr = [{
+								name: "客流",
+								data: res.data.data.sum
+							}];
+							
+						    lineCharts.getChart().xAxis[0].setCategories(res.data.data.time);
+				            lineCharts.getChart().series[0].setData(res.data.data.sum);
+						} else {
+   						    
+						}
+					}
+				})
 			},
 		}
 	}

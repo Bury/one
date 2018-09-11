@@ -26,7 +26,7 @@ export default {
 			selectType: '全部-汇总',
 			changeFlag: true,
 			sumOrDiff: '0',
-			goStoreSum:[],    
+			goStoreSum:[{passenger_flow:0}],    
 			isAll: true,
 			datadialog: {
 				dataDialogVisible: false,
@@ -546,6 +546,7 @@ export default {
         	};
         	
         	statisticsApi.statisticsNew(list).then((res) => {
+        		console.log(res)
         		if(res.data.errno=== 0){
         			this.$data.goStoreSum = [];
         			this.$data.goStoreSum = res.data.data;

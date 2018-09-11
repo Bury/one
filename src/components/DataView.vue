@@ -32,7 +32,7 @@
 					<ul class="c-left-ul">
 						<li>
 							<section>
-								<data-view-line></data-view-line>
+								<data-view-line :timeFlag="changeFlag" :chartData="guestParameters"></data-view-line>
 							</section>
 							<section class="c-left-chart-bottom">
 								<p>客流<span class="font30 color-e">5555555</span>人&nbsp;环比上升<span class="color-f">12.28%</span></p>
@@ -218,19 +218,18 @@
 				guestParameters: {
 					begin_time: '',
 					end_time: ''
-				}
+				},
+				changeFlag:true,
 			}
 		},
 		created() {
-
-		},
-		mounted() {
-
+          this.getBeginEndTime('d');
 		},
 		methods: {
 			selectTime(val) {
 				this.$data.isSelect = val;
-				this.$data.getBeginEndTime(val);
+				this.getBeginEndTime(val);
+				this.$data.changeFlag = !this.$data.changeFlag;
 			},
 			//时间转为秒
 			getS(value) {
