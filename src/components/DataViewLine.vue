@@ -52,7 +52,7 @@
 					loading:{
 						style:{
 							 "color":'#95C7FF',
-							 "backgroundColor": "rgba(255,255,255,0.2)",
+							 "backgroundColor": "rgba(255,255,255,0.1)",
 						}
 					},
 					credits: {

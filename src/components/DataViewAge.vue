@@ -47,7 +47,10 @@
 						},
 						itemHoverStyle: {
 							'color': '#FFC400'
-						}
+						},
+						symbolHeight: 16,
+						symbolWidth: 16,
+						symbolRadius: 8
 					},
 					colors: [
 						'rgba(149,199,255,0.5)',
@@ -70,7 +73,7 @@
 
 					},
 					series: [{
-						name:'人数',
+						name: '人数',
 						data: [{
 								name: '小于20岁',
 								y: 200

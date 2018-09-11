@@ -12,7 +12,7 @@
 					</el-date-picker>
 					<el-date-picker v-show="ctrlTimeType[3]" v-model="year" type="year" placeholder="选择年" :picker-options="pickerOptionsSet">
 					</el-date-picker>
-					<el-date-picker v-show="ctrlTimeType[4]" v-model="userDefined" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptionsSet">
+					<el-date-picker v-show="ctrlTimeType[4]" v-model="userDefined" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptionsSet">
 					</el-date-picker>
 				</el-form-item>
 

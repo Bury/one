@@ -1,11 +1,15 @@
 <template>
 	<div class="ageWrap">
-		<vue-highcharts :options="options" ref="sexCharts"></vue-highcharts>
+		<vue-highcharts :highcharts="Highcharts" :options="options" ref="sexCharts"></vue-highcharts>
 	</div>
 </template>
 
 <script>
+	import statisticsApi from '@/api/statistics';
+	import Highcharts from 'highcharts';
+	import HighchartsNoData from 'highcharts-no-data-to-display';	
 	import VueHighcharts from 'vue2-highcharts';
+	HighchartsNoData(Highcharts);
 	
 	var t;
 	export default {
@@ -13,10 +17,17 @@
 		components: {
 			VueHighcharts,
 		},
+		props:{
+			chartData:{
+				type:Object
+			},
+			timeFlag:{
+				type:Boolean
+			}
+		},
 		data() {
 			return {
-				radios: 'line',
-				t:'',
+				Highcharts: Highcharts,
 				options: {
 					chart: {
 						type: 'pie',
@@ -36,8 +47,9 @@
 						pointFormat: '{series.name}: <b>{point.y}</b><br/>占比:{point.percentage:.1f}%'
 					},
 					colors:[
-					   'rgba(255,196,0,0.3)',
-					   'rgba(149,199,255,0.3)'
+					   'rgba(149,199,255,0.3)',
+					   'rgba(255,196,0,0.3)'
+					   
 					],
 					plotOptions: {
 						 pie: {
@@ -56,47 +68,31 @@
 				}
 			}
 		},
+		watch:{
+			timeFlag:function(){
+				this.getFeature(this.$props.chartData);
+			}
+		},
 		created() {
+			Highcharts.setOptions({
+				lang: {
+					thousandsSep: ',',
+					noData: '暂无数据'
+				}
+			});
+			
+			this.getFeature(this.$props.chartData);
 
 		},
 		mounted() {
-			let val = [{
-							name:'男',
-							y:8000
-					   },{
-							name:'女',
-							y:6000
-						}];
-			this.getChart(val);
+			
+			
 		},
 		destroyed(){
-			clearInterval(t)
+			
 		},
 		methods: {
-			cutChart(val) {
-				this.$data.radios = val;
-			},
-			post(){
-				let testData = [{
-							name:'男',
-							y:6000
-						},
-						{
-							name:'女',
-							y:6000
-						}];
-						
-			    let flag = Math.random() * 10;
-			    let sexCharts = this.$refs.sexCharts;
-				setTimeout(()=>{
-					 
-					 testData[0].y =  parseInt(Math.random() * 10000);
-					 testData[1].y =  parseInt(Math.random() * 10000);
-					 sexCharts.getChart().series[0].setData(testData)
-					
-							
-				},1000)
-			},
+			
 			getChart(val) {
 				let sexCharts = this.$refs.sexCharts;
 				sexCharts.delegateMethod('showLoading', 'Loading...');
@@ -108,10 +104,33 @@
 						data: val
 					})
 				},0)
-				
-//			    t = setInterval(()=>{					
-//					this.post();
-//				},4000)
+			},
+			getFeature(val) {
+				let list = {
+					feature: 'gender',
+					begin_time: val.begin_time,
+					end_time: val.end_time,
+				};
+				statisticsApi.getFeaturePie(list).then((res) => {
+					if(res.data.errno === 0) {
+						let thisData = res.data.data;
+						if(thisData != null && thisData != '') {
+							let sexData = [];
+							for(var i = 0; i < thisData.gender.length; i++) {
+								sexData.push({
+									name: thisData.gender[i],
+									y: thisData.sum[i]
+								})
+							}
+							this.getChart(sexData);
+						} else {
+							this.getChart([])
+						}
+					} else {
+						this.$message(res.data.msg)
+					}
+				});
+
 			},
 		}
 	}

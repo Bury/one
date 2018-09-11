@@ -89,7 +89,7 @@
 					</div>
 					<div class="c-middle-div mb16">
 						<h4 class="c-h4"><span>性别比例</span></h4>
-						<data-view-sex></data-view-sex>
+						<data-view-sex  :timeFlag="changeFlag" :chartData="guestParameters"></data-view-sex>
 					</div>
 					<div class="c-middle-div">
 						<h4 class="c-h4"><span>年龄比例</span></h4>
