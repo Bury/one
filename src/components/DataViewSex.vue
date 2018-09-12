@@ -23,6 +23,9 @@
 			},
 			timeFlag:{
 				type:Boolean
+			},
+			timeing: {
+				type: Boolean
 			}
 		},
 		data() {
@@ -71,7 +74,12 @@
 		watch:{
 			timeFlag:function(){
 				this.getFeature(this.$props.chartData);
+			},
+			timeing:function(){
+				//监听刷新chart
+				this.refreshChart();
 			}
+			
 		},
 		created() {
 			Highcharts.setOptions({
@@ -83,13 +91,6 @@
 			
 			this.getFeature(this.$props.chartData);
 
-		},
-		mounted() {
-			
-			
-		},
-		destroyed(){
-			
 		},
 		methods: {
 			
@@ -105,6 +106,8 @@
 					})
 				},0)
 			},
+			
+			//初始化请求
 			getFeature(val) {
 				let list = {
 					feature: 'gender',
@@ -125,6 +128,34 @@
 							this.getChart(sexData);
 						} else {
 							this.getChart([])
+						}
+					} else {
+						this.$message(res.data.msg)
+					}
+				});
+
+			},
+			
+			//定时刷新的请求
+			refreshChart() {
+				let sexCharts = this.$refs.sexCharts;
+				let list = {
+					feature: 'gender',
+					begin_time: this.$props.chartData.begin_time,
+					end_time: this.$props.chartData.end_time,
+				};
+				statisticsApi.getFeaturePie(list).then((res) => {
+					if(res.data.errno === 0) {
+						let thisData = res.data.data;
+						if(thisData != null && thisData != '') {
+							let sexData = [];
+							for(var i = 0; i < thisData.gender.length; i++) {
+								sexData.push({
+									name: thisData.gender[i],
+									y: thisData.sum[i]
+								})
+							}
+							sexCharts.getChart().series[0].setData(sexData);
 						}
 					} else {
 						this.$message(res.data.msg)

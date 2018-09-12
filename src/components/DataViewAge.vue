@@ -5,28 +5,37 @@
 </template>
 
 <script>
+	import statisticsApi from '@/api/statistics';
 	import Highcharts from 'highcharts';
-	import VariablePie from 'highcharts/modules/variable-pie.js';
 	import HighchartsNoData from 'highcharts-no-data-to-display';
 	import VueHighcharts from 'vue2-highcharts';
 	HighchartsNoData(Highcharts);
-	VariablePie(Highcharts);
 	export default {
 		name: 'data-view-sex',
 		components: {
 			VueHighcharts,
 		},
+		props: {
+			chartData: {
+				type: Object
+			},
+			timeFlag: {
+				type: Boolean
+			},
+			timeing: {
+				type: Boolean
+			}
+		},
 		data() {
 			return {
 				Highcharts: Highcharts,
-				radios: 'line',
 				options: {
 					chart: {
 						type: 'pie',
 						width: 350,
 						height: 165,
 						backgroundColor: 'rgba(0,0,0,0)',
-						spacing: [20, 0, 20, 0]
+						spacing: [10, 0, 10, 0]
 					},
 					title: {
 						text: '',
@@ -48,17 +57,17 @@
 						itemHoverStyle: {
 							'color': '#FFC400'
 						},
-						symbolHeight: 16,
-						symbolWidth: 16,
-						symbolRadius: 8
+						symbolHeight: 14,
+						symbolWidth: 14,
+						symbolRadius: 7
 					},
 					colors: [
-						'rgba(149,199,255,0.5)',
-						'rgba(255,196,0,0.5)',
-						'rgba(101,226,175,0.5)',
-						'rgba(89,210,252,0.5)',
-						'rgba(255,105,83,0.5)',
-						'rgba(79,233,213,0.5)',
+						'rgba(149,199,255,0.4)',
+						'rgba(255,255,128,0.4)',
+						'rgba(255,50,50,0.4)',
+						'rgba(0,255,128,0.4)',
+						'rgba(255,255,255,0.4)',
+						'rgba(0,0,20,0.4)',
 					],
 					plotOptions: {
 						pie: {
@@ -72,36 +81,17 @@
 						},
 
 					},
-					series: [{
-						name: '人数',
-						data: [{
-								name: '小于20岁',
-								y: 200
-							},
-							{
-								name: '20~29岁',
-								y: 400
-							},
-							{
-								name: '30~39岁',
-								y: 850
-							},
-							{
-								name: '40~49岁',
-								y: 100
-							}, {
-								name: '50~59岁',
-								y: 600
-							},
-							{
-								name: '大于60岁',
-								y: 400
-							}
-
-						]
-
-					}],
+					series: [],
 				}
+			}
+		},
+		watch: {
+			timeFlag: function() {
+				this.getFeature(this.$props.chartData);
+			},
+			timeing:function(){
+				//监听刷新chart
+				this.refreshChart();
 			}
 		},
 		created() {
@@ -111,24 +101,78 @@
 					noData: '暂无数据'
 				}
 			});
-
-		},
-		mounted() {
-			this.getChart();
+			this.getFeature(this.$props.chartData);
 		},
 		methods: {
-			cutChart(val) {
-				this.$data.radios = val;
-			},
 			getChart(val) {
 				let sexCharts = this.$refs.sexCharts;
 				sexCharts.delegateMethod('showLoading', 'Loading...');
-				//sexCharts.removeSeries();
+				sexCharts.removeSeries();
 				setTimeout(() => {
 					sexCharts.hideLoading();
-					//sexCharts.addSeries(val);
-				}, 100)
+					sexCharts.addSeries({
+						name: '人数',
+						data: val
+					});
+				}, 0)
 			},
+			//初始化请求
+			getFeature(val) {
+				let list = {
+					feature: 'age',
+					begin_time: val.begin_time,
+					end_time: val.end_time
+				}
+				statisticsApi.getFeaturePie(list).then((res) => {
+					if(res.data.errno === 0) {
+						let thisData = res.data.data;
+						if(thisData != null && thisData != '') {
+							let ageData = [];
+							for(var i = 0; i < thisData.age.length; i++) {
+								ageData.push({
+									name: thisData.age[i],
+									y: thisData.sum[i]
+								})
+							}
+							this.getChart(ageData)
+						} else {
+							this.getChart([])
+						}
+					} else {
+						this.$message(res.data.msg)
+					}
+
+				});
+			},
+			
+			//定时刷新的请求
+			refreshChart(){
+				let sexCharts = this.$refs.sexCharts;
+				let list = {
+					feature: 'age',
+					begin_time: this.$props.chartData.begin_time,
+					end_time: this.$props.chartData.end_time
+				};
+				statisticsApi.getFeaturePie(list).then((res) => {
+					if(res.data.errno === 0) {
+						let thisData = res.data.data;
+						if(thisData != null && thisData != '') {
+							let ageData = [];
+							for(var i = 0; i < thisData.age.length; i++) {
+								ageData.push({
+									name: thisData.age[i],
+									y: thisData.sum[i]
+								})
+							}
+						sexCharts.getChart().series[0].setData(ageData);
+						}
+					} else {
+						this.$message(res.data.msg)
+					}
+
+				});
+				
+			}
 		}
 	}
 </script>

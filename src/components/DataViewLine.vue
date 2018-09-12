@@ -2,7 +2,7 @@
 	<div class="wrap">
 		<h4 class="statistics-title">客流趋势</h4>
 		<div class="chart-radio-wrap">
-			<span :class="radios == 'line' ? 'lc-active' : ''"  @click="cutChart('line')">折线图</span>
+			<span :class="radios == 'areaspline' ? 'lc-active' : ''"  @click="cutChart('areaspline')">折线图</span>
 			<span :class="radios == 'column' ? 'lc-active' : ''" @click="cutChart('column')">柱状图</span>
 		</div>
 		<vue-highcharts :highcharts="Highcharts" :options="options" ref="lineCharts"></vue-highcharts>
@@ -23,6 +23,9 @@
 			},
 			timeFlag:{
 				type:Boolean
+			},
+			timeing: {
+				type: Boolean
 			}
 		},
 		components: {
@@ -31,7 +34,7 @@
 		data() {
 			return {
 				Highcharts: Highcharts,
-				radios: 'line',
+				radios: 'areaspline',
 				options: {
 					chart: {
 						type: 'areaspline',
@@ -85,7 +88,7 @@
 						lineColor: '#567398',
 						labels: {
 							style: {
-								color: "#95C7FF"
+								color: "#95C7FF",
 							}
 						}
 					},
@@ -96,6 +99,10 @@
 		watch:{
 			timeFlag:function(){
 				this.getCustomer();
+			},
+			timeing:function(){
+				//监听刷新chart
+				this.refreshChart();
 			}
 		},
 		created() {		
@@ -107,27 +114,26 @@
 			});
 			this.getCustomer();
 		},
-		mounted() {
-//			setInterval(()=> {
-//				this.timeCustomer();
-//			},10000)
-		},
 		methods: {
 			cutChart(val){
-				this.$data.radios = val;				
+				this.getCustomer();
+                this.$data.radios = val; 
 			},
 			getChart(val) {
 				let lineCharts = this.$refs.lineCharts;
 				lineCharts.delegateMethod('showLoading', 'Loading...');
 				lineCharts.removeSeries();
-				setTimeout(() => {
+				setTimeout(() => {					
 					lineCharts.getChart().xAxis[0].setCategories(val.time);
 					lineCharts.hideLoading();
 					lineCharts.addSeries(val);
+					lineCharts.getChart().series[0].update({
+                      type: this.$data.radios
+                    });
 				},0)
 			},
 			
-			//折线图
+			//初始化请求
 			getCustomer() {
 				statisticsApi.getCustomerSum(this.$props.chartData).then((res) => {					
 					if(res.data.errno === 0) {
@@ -144,8 +150,9 @@
 					}
 				})
 			},
-			//定时折线图
-			timeCustomer() {
+			
+			//定时刷新的请求
+			refreshChart() {
 				let lineCharts = this.$refs.lineCharts;
 				statisticsApi.getCustomerSum(this.$props.chartData).then((res) => {					
 					if(res.data.errno === 0) {

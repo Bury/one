@@ -1,6 +1,7 @@
 <template>
 	<div id="viewBg">
 		<div class="view-box">
+			<span class="closeViewBox"  @click="closeViewBox"></span>
 			<el-row type="flex" justify="space-between">
 				<el-col :span="4">
 					<img src="../assets/images/logo.png" />
@@ -15,7 +16,7 @@
 				<el-col :span="4">
 					<p class="title-time">
 						<i class="el-icon-time"></i>
-						<span>20180819 22:45:50</span>
+						<span>{{showTime | date(4)}}</span>
 					</p>
 				</el-col>
 			</el-row>
@@ -32,7 +33,7 @@
 					<ul class="c-left-ul">
 						<li>
 							<section>
-								<data-view-line :timeFlag="changeFlag" :chartData="guestParameters"></data-view-line>
+								<data-view-line :timeFlag="changeFlag" :timeing="timeingFlag" :chartData="guestParameters"></data-view-line>
 							</section>
 							<section class="c-left-chart-bottom">
 								<p>客流<span class="font30 color-e">5555555</span>人&nbsp;环比上升<span class="color-f">12.28%</span></p>
@@ -89,11 +90,11 @@
 					</div>
 					<div class="c-middle-div mb16">
 						<h4 class="c-h4"><span>性别比例</span></h4>
-						<data-view-sex  :timeFlag="changeFlag" :chartData="guestParameters"></data-view-sex>
+						<data-view-sex :timeFlag="changeFlag" :timeing="timeingFlag" :chartData="guestParameters"></data-view-sex>
 					</div>
 					<div class="c-middle-div">
 						<h4 class="c-h4"><span>年龄比例</span></h4>
-                        <data-view-age></data-view-age>
+						<data-view-age :timeFlag="changeFlag" :timeing="timeingFlag" :chartData="guestParameters"></data-view-age>
 					</div>
 
 				</div>
@@ -205,6 +206,9 @@
 	import DataViewLine from './DataViewLine';
 	import DataViewSex from './DataViewSex';
 	import DataViewAge from './DataViewAge';
+	
+	var t,c;
+	
 	export default {
 		name: 'data-view',
 		components: {
@@ -215,17 +219,40 @@
 		data() {
 			return {
 				isSelect: 'd',
+				showTime: '',
 				guestParameters: {
 					begin_time: '',
 					end_time: ''
 				},
-				changeFlag:true,
+				changeFlag: true,
+				timeingFlag:true
 			}
 		},
 		created() {
-          this.getBeginEndTime('d');
+			this.getBeginEndTime('d');
+            this.rightTopTime();
+		},
+		mounted(){
+			//右上角时间的定时器
+		    t =	setInterval(()=> {
+				this.rightTopTime();
+			},1000);
+			
+			//刷新chart定时器
+			c = setInterval(()=>{
+				this.$data.timeingFlag = !this.$data.timeingFlag;
+			},60000);
+		},
+		destroyed(){
+			//组件销毁后清空定时器			
+			clearInterval(t);
+			clearInterval(c);
 		},
 		methods: {
+			rightTopTime() {
+				let rightTopTime = new Date();
+				this.$data.showTime = rightTopTime.getTime() / 1000;
+			},
 			selectTime(val) {
 				this.$data.isSelect = val;
 				this.getBeginEndTime(val);
@@ -266,6 +293,10 @@
 						break;
 				}
 			},
+			//关闭全屏首页
+			closeViewBox(){
+				console.log("99")
+			}
 		}
 	}
 </script>

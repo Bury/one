@@ -9,8 +9,17 @@
     .view-box {
         width: 1300px;
         padding-top: 20px;
+        position: relative;
     }
-    
+    .closeViewBox{
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        background: url(../../images/close.png) no-repeat;
+        background-size: 100% 100%;
+        right: 0;
+        top: 10px;
+    }
     .title-box {
         width: 800px;
         height: 55px;
