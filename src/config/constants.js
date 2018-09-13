@@ -30,6 +30,9 @@ global.ANALYSIS_LIST = `${SERVER_IP}${COMMON}analysis/list`  //客流列表
 
 global.STORE_STATISTICS_NEW = `${SERVER_IP}${COMMON}store/data-statistics-new`  //门店数据统计客流量
 
+global.ANALYSIS_BRIEFING_DATA= `${SERVER_IP}${COMMON}analysis/briefing-data`  //大屏简报数据总览
+global.ANALYSIS_BRIEFING_RATIO= `${SERVER_IP}${COMMON}analysis/briefing-ratio`  //大屏简报性别年龄新熟客比例
+
 /*提醒列表*/
 // post customer//remind-list 获取提醒列表
 global.GET_REMIND_LIST = `${SERVER_IP}${COMMON}customer/remind-list`

@@ -16,11 +16,8 @@
 			VueHighcharts,
 		},
 		props: {
-			chartData: {
-				type: Object
-			},
-			timeFlag: {
-				type: Boolean
+			ageData: {
+				type: Array
 			},
 			timeing: {
 				type: Boolean
@@ -43,6 +40,15 @@
 					},
 					credits: {
 						text: '',
+					},
+					noData:{
+						style:{'color':'#457adb'}
+					},
+					loading:{
+						style:{
+							 "color":'#95C7FF',
+							 "backgroundColor": "rgba(255,255,255,0.1)",
+						}
 					},
 					tooltip: {
 						pointFormat: '{series.name}: <b>{point.y}</b><br/>占比:{point.percentage:.2f}%'
@@ -86,12 +92,9 @@
 			}
 		},
 		watch: {
-			timeFlag: function() {
-				this.getFeature(this.$props.chartData);
-			},
 			timeing:function(){
-				//监听刷新chart
-				this.refreshChart();
+				//监听更新chart
+				this.refreshData(this.$props.ageData);
 			}
 		},
 		created() {
@@ -101,7 +104,9 @@
 					noData: '暂无数据'
 				}
 			});
-			this.getFeature(this.$props.chartData);
+		},
+		mounted(){
+			this.getChart(this.$props.ageData);
 		},
 		methods: {
 			getChart(val) {
@@ -116,63 +121,11 @@
 					});
 				}, 0)
 			},
-			//初始化请求
-			getFeature(val) {
-				let list = {
-					feature: 'age',
-					begin_time: val.begin_time,
-					end_time: val.end_time
-				}
-				statisticsApi.getFeaturePie(list).then((res) => {
-					if(res.data.errno === 0) {
-						let thisData = res.data.data;
-						if(thisData != null && thisData != '') {
-							let ageData = [];
-							for(var i = 0; i < thisData.age.length; i++) {
-								ageData.push({
-									name: thisData.age[i],
-									y: thisData.sum[i]
-								})
-							}
-							this.getChart(ageData)
-						} else {
-							this.getChart([])
-						}
-					} else {
-						this.$message(res.data.msg)
-					}
-
-				});
-			},
 			
-			//定时刷新的请求
-			refreshChart(){
-				let sexCharts = this.$refs.sexCharts;
-				let list = {
-					feature: 'age',
-					begin_time: this.$props.chartData.begin_time,
-					end_time: this.$props.chartData.end_time
-				};
-				statisticsApi.getFeaturePie(list).then((res) => {
-					if(res.data.errno === 0) {
-						let thisData = res.data.data;
-						if(thisData != null && thisData != '') {
-							let ageData = [];
-							for(var i = 0; i < thisData.age.length; i++) {
-								ageData.push({
-									name: thisData.age[i],
-									y: thisData.sum[i]
-								})
-							}
-						sexCharts.getChart().series[0].setData(ageData);
-						}
-					} else {
-						this.$message(res.data.msg)
-					}
-
-				});
-				
-			}
+			//刷新图表数据
+			refreshData(val){
+			   this.$refs.sexCharts.getChart().series[0].setData(val);
+			},	
 		}
 	}
 </script>

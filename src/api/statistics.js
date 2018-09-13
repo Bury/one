@@ -151,4 +151,25 @@ export default {
 	    })
 	},
 	
+	//简报客流数据
+	briefingData(list){
+		return new Promise((resolve, reject) => {
+	      axios.post(global.ANALYSIS_BRIEFING_DATA,list).then((res) => {
+	        resolve(res)
+	      }).catch((err) => {
+	        reject(err)
+	      })
+	    })
+	},
+	//简报性别年龄新熟客比例
+	briefingRatio(list){
+		return new Promise((resolve, reject) => {
+	      axios.post(global.ANALYSIS_BRIEFING_RATIO,list).then((res) => {
+	        resolve(res)
+	      }).catch((err) => {
+	        reject(err)
+	      })
+	    })
+	},
+	
 }

@@ -21,10 +21,7 @@
 			chartData:{
 				type:Object
 			},
-			timeFlag:{
-				type:Boolean
-			},
-			timeing: {
+			lineFlag: {
 				type: Boolean
 			}
 		},
@@ -48,6 +45,9 @@
 							'color': '#ffffff',
 							'fongSize': '13px'
 						}
+					},
+					noData:{
+						style:{'color':'#457adb'}
 					},
 					legend: {
 						enabled: false
@@ -97,10 +97,7 @@
 			}
 		},
 		watch:{
-			timeFlag:function(){
-				this.getCustomer();
-			},
-			timeing:function(){
+			lineFlag:function(){
 				//监听刷新chart
 				this.refreshChart();
 			}
@@ -111,13 +108,18 @@
 					thousandsSep: ',',
 					noData: '暂无数据'
 				}
-			});
-			this.getCustomer();
+			});			
+		},
+		mounted(){
+			this.getChart([]);
+			this.refreshChart();
 		},
 		methods: {
 			cutChart(val){
-				this.getCustomer();
-                this.$data.radios = val; 
+				this.$data.radios = val;
+                this.$refs.lineCharts.getChart().series[0].update({
+                      type: val
+                });
 			},
 			getChart(val) {
 				let lineCharts = this.$refs.lineCharts;
@@ -126,42 +128,38 @@
 				setTimeout(() => {					
 					lineCharts.getChart().xAxis[0].setCategories(val.time);
 					lineCharts.hideLoading();
-					lineCharts.addSeries(val);
-					lineCharts.getChart().series[0].update({
-                      type: this.$data.radios
-                    });
+					lineCharts.addSeries({
+						name:'客流',
+						data:val
+					});					
 				},0)
 			},
 			
 			//初始化请求
-			getCustomer() {
-				statisticsApi.getCustomerSum(this.$props.chartData).then((res) => {					
-					if(res.data.errno === 0) {
-						if(res.data.data !== null) {
-							let arr = {
-								name: "客流",
-								data: res.data.data.sum,
-								time: res.data.data.time
-							};
-  						    this.getChart(arr);
-						} else {
-   						    this.getChart([])
-						}
-					}
-				})
-			},
+//			getCustomer() {
+//				statisticsApi.getCustomerSum(this.$props.chartData).then((res) => {	
+//					console.log(res)
+//					if(res.data.errno === 0) {
+//						if(res.data.data !== null) {
+//							let arr = {
+//								name: "客流",
+//								data: res.data.data.sum,
+//								time: res.data.data.time
+//							};
+//						    this.getChart(arr);
+//						} else {
+// 						    this.getChart([])
+//						}
+//					}
+//				})
+//			},
 			
 			//定时刷新的请求
 			refreshChart() {
 				let lineCharts = this.$refs.lineCharts;
-				statisticsApi.getCustomerSum(this.$props.chartData).then((res) => {					
+				statisticsApi.getCustomerSum(this.$props.chartData).then((res) => {	
 					if(res.data.errno === 0) {
-						if(res.data.data !== null) {
-							let arr = [{
-								name: "客流",
-								data: res.data.data.sum
-							}];
-							
+						if(res.data.data !== null) {							
 						    lineCharts.getChart().xAxis[0].setCategories(res.data.data.time);
 				            lineCharts.getChart().series[0].setData(res.data.data.sum);
 						} else {
