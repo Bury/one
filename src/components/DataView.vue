@@ -10,7 +10,9 @@
 				<el-col :span="16">
 					<div class="title-box">
 						<span class="all-year">全年累计客流量<span class="all-data">{{briefingData.yearly.total_ct}}</span><span class="all-font">人</span></span>
-						<span class="title-rise">同比增长<span>{{briefingData.yearly.total_rate}}</span></span>
+
+						<span class="title-rise" v-if="riseFlag.year">同比增长<span class="color-f">{{briefingData.yearly.total_rate}}</span></span>
+						<span class="title-rise" v-else>同比下降<span class="color-g">{{briefingData.yearly.total_rate}}</span></span>
 					</div>
 				</el-col>
 				<el-col :span="4">
@@ -36,8 +38,15 @@
 								<data-view-line :lineFlag="lineFlag" :chartData="guestParameters"></data-view-line>
 							</section>
 							<section class="c-left-chart-bottom">
-								<p>客流<span class="font30 color-e">{{briefingData.keliu.total_ct}}</span>人&nbsp;环比上升<span class="color-f">{{briefingData.keliu.total_rate}}</span></p>
-								<p class="ml20">新客<span class="font30 color-e">{{briefingData.keliu.new_ct}}</span>人&nbsp;环比下降<span class="color-g">{{briefingData.keliu.new_rate}}</span></p>
+								<p>客流<span class="font30 color-e">{{briefingData.keliu.total_ct}}</span>人&nbsp;
+
+									<span v-if="riseFlag.keliu">环比上升<span class="color-f">{{briefingData.keliu.total_rate}}</span></span>
+									<span v-else>环比下降<span class="color-g">{{briefingData.keliu.total_rate}}</span></span>
+								</p>
+								<p class="ml20">新客<span class="font30 color-e">{{briefingData.keliu.new_ct}}</span>人&nbsp; 
+									<span v-if="riseFlag.newke">环比上升<span class="color-f">{{briefingData.keliu.new_rate}}</span></span>
+									<span v-else>环比下降<span class="color-g">{{briefingData.keliu.new_rate}}</span></span>
+								</p>
 							</section>
 						</li>
 						<li class="c-order-wrap">
@@ -164,6 +173,11 @@
 			return {
 				isSelect: 'day',
 				showTime: '',
+				riseFlag: {
+					year: true,
+					keliu: true,
+					newke: true
+				},
 				guestParameters: {
 					begin_time: '',
 					end_time: ''
@@ -212,9 +226,9 @@
 
 			//刷新chart定时器
 			c = setInterval(() => {
-				this.$data.lineFlag = !this.$data.lineFlag;//折线图的数据改变操作
-				this.getRatio();//性别年龄饼状图的数据操作
-				this.getRank();//简报数据总览的数据操作
+				this.$data.lineFlag = !this.$data.lineFlag; //折线图的数据改变操作
+				this.getRatio(); //性别年龄饼状图的数据操作
+				this.getRank(); //简报数据总览的数据操作
 			}, 60000);
 		},
 		destroyed() {
@@ -230,8 +244,8 @@
 			selectTime(val) {
 				this.$data.isSelect = val;
 				this.getBeginEndTime(val);
-				this.$data.lineFlag = !this.$data.lineFlag;//折线图的数据改变操作
-				this.getRatio();//性别年龄饼状图的数据操作
+				this.$data.lineFlag = !this.$data.lineFlag; //折线图的数据改变操作
+				this.getRatio(); //性别年龄饼状图的数据操作
 				this.getRank(); //简报数据总览的数据操作
 			},
 			//时间转为秒
@@ -277,6 +291,25 @@
 				};
 				statisticsApi.briefingData(list).then((res) => {
 					if(res.data.errno === 0) {
+						console.log(/\-/.test("-59"))
+						if(/\-/.test(res.data.data.yearly.total_rate)) {
+							this.$data.riseFlag.year = false;
+							res.data.data.yearly.total_rate = res.data.data.yearly.total_rate.slice(1);
+						} else {
+							this.$data.riseFlag.year = true;
+						};
+						if(/\-/.test(res.data.data.keliu.total_rate)) {
+							res.data.data.keliu.total_rate = res.data.data.keliu.total_rate.slice(1);
+							this.$data.riseFlag.keliu = false;
+						} else {
+							this.$data.riseFlag.keliu = true;
+						};
+						if(/\-/.test(res.data.data.keliu.new_rate)) {
+							res.data.data.keliu.new_rate = res.data.data.keliu.new_rate.slice(1);
+							this.$data.riseFlag.newke = false;
+						} else {
+							this.$data.riseFlag.newke = true;
+						};
 						this.$data.briefingData = res.data.data;
 					} else {
 						this.$message(res.data.msg)
@@ -320,7 +353,9 @@
 			},
 			//关闭全屏首页
 			closeViewBox() {
-				this.$router.push({name:'Statistics'})
+				this.$router.push({
+					name: 'Statistics'
+				})
 			}
 		}
 	}
