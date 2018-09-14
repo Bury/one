@@ -64,7 +64,7 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     { path: '/login',name: 'UserLogin',component: UserLogin},
-    {path: '/DataView',name: 'DataView',component: DataView},
+    {path: '/DataView',meta:{requiresAuth: true },name: 'DataView',component: DataView},
     {
 
       path: '/',
