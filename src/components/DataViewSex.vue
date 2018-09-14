@@ -56,8 +56,8 @@
 						pointFormat: '{series.name}: <b>{point.y}</b><br/>占比:{point.percentage:.1f}%'
 					},
 					colors:[
-					   'rgba(149,199,255,0.3)',
-					   'rgba(255,196,0,0.3)'
+					   'rgba(149,199,255,0.5)',
+						'rgba(255,196,0,0.5)',
 					   
 					],
 					plotOptions: {
