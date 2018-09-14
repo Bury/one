@@ -16,7 +16,7 @@
                     <el-menu-item index="3">我的工作台3</el-menu-item>
                     <el-menu-item index="4">我的工作台4</el-menu-item>
                 </el-menu>
-            </div> -->
+            </div> -->            
             <div class="user">
                 <el-dropdown trigger="hover" >
                     <span class="el-dropdown-link" style="color:#fff;">
@@ -29,6 +29,7 @@
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
+            <span class="iconfont icon-home briefing-btn" @click="goDataView"></span>
           <!--<div class="user1">-->
             <!--<el-dropdown trigger="hover" >-->
                     <!--<span class="el-dropdown-link" style="color:#fff;">-->
@@ -142,6 +143,9 @@ export default {
     drafts(){
       this.$router.push('/Drafts')
     },
+    goDataView(){
+    	this.$router.push('/DataView')
+    }
 
   }
 
@@ -176,9 +180,16 @@ export default {
                 text-align:center;
                 color:#fff;
             }
+            .briefing-btn{
+            	float: right;
+            	margin-right: 20px;
+            	line-height:60px;
+            	font-size: 19px;
+            	color: #fff;
+            }
             .user{
-                position: absolute;
-                right:150px;
+                float: right;
+                margin-right:150px;
                 line-height:60px;
             }
           .user1{

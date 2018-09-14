@@ -26,6 +26,7 @@ export default {
 			selectType: '全部-汇总',
 			changeFlag: true,
 			sumOrDiff: '0',
+			goStoreSum:[{passenger_flow:0}],    
 			isAll: true,
 			datadialog: {
 				dataDialogVisible: false,
@@ -128,7 +129,8 @@ export default {
 		};
 		this.setData();
 		this.customerList();
-		this.getOrganizes();
+		this.getOrganizes();	
+		this.statisticsNew();
 	},
 	mounted: function() {},
 	methods: {
@@ -140,7 +142,6 @@ export default {
 		getOrganizes() {
 			storeRole.organizeTree().then((res) => {
 				if(res.data.errno == 0) {
-					console.log(res.data.data)
 					this.$data.organizes = res.data.data
 				} else {
 					this.$message(res.data.msg)
@@ -150,7 +151,6 @@ export default {
 
 		//根据门店组织获取门店
 		getStoreId(x) {
-			console.log(x)
 			this.$data.storeGroup[x].stores = [];
 			this.$data.storeGroup[x].storeId = "";
 			let g = this.$data.storeGroup[x].organizeId;
@@ -197,7 +197,7 @@ export default {
 
 		//模式选择操作
 		patternSelect(type) {
-			this.editSumDiff(); //打开弹框
+			this.$data.datadialog.dataDialogVisible = true; //打开弹框
 			if(type == 1) {
 				this.$data.datadialog.radioShow = true;
 //				this.$data.datadialog.dataTypeShow = true;
@@ -226,6 +226,14 @@ export default {
 		},
 		//取消求和比对弹出框的操作
 		cancelDialog() {
+			this.$data.pattern = this.$data.copyPattern;
+			this.$data.storeGroup = this.$data.copyGroup;
+			if(this.$data.pattern === '1') {
+				this.$data.datadialog.radioShow = true;
+
+			}else if(this.$data.pattern === '2'){
+				this.$data.datadialog.radioShow = false;
+			};
 			this.$data.datadialog.dataDialogVisible = false;
 		},
 
@@ -273,6 +281,11 @@ export default {
 
 		//按钮打开求和和对比dialog框
 		editSumDiff() {
+			if(this.$data.pattern === '1') {	
+				this.allOrSet();
+			}else if(this.$data.pattern === '2'){
+				this.$data.datadialog.allOrSetShow = true;
+			};
 			this.$data.datadialog.dataDialogVisible = true;
 		},
 
@@ -308,6 +321,7 @@ export default {
 
 			this.$data.datadialog.dataDialogVisible = false;
 			this.$data.changeFlag = !this.$data.changeFlag;
+			this.statisticsNew();
 		},
 
 		//增加门店操作
@@ -376,15 +390,6 @@ export default {
 			this.customerList();
 		},
 
-		//客流统计折线图求和
-		getCustomer(parameters) {
-			statisticsApi.getCustomerSum(parameters).then((res) => {
-				if(res.data.errno === 0) {
-					this.$data.guestData = res.data.data;
-				}
-			});
-		},
-
 		//搜索
 		onSubmit() {
 			if(this.$data.ctrlTimeType[0]) {
@@ -394,6 +399,7 @@ export default {
 				this.$data.guestParameters.begin_time = this.getS(this.$data.day);
 				this.$data.guestParameters.end_time = this.getS(this.$data.day) + 86399;
 				this.$data.changeFlag = !this.$data.changeFlag;
+				this.statisticsNew();
 
 			} else if(this.$data.ctrlTimeType[1]) {
 				if(this.$data.week == null) {
@@ -402,6 +408,7 @@ export default {
 				this.$data.guestParameters.begin_time = this.getS(this.$data.week) - 86400;
 				this.$data.guestParameters.end_time = this.getS(this.$data.week) + 518399;
 				this.$data.changeFlag = !this.$data.changeFlag;
+				this.statisticsNew();
 
 			} else if(this.$data.ctrlTimeType[2]) {
 				if(this.$data.month == null) {
@@ -415,6 +422,7 @@ export default {
 				this.$data.guestParameters.begin_time = t.getTime() / 1000;
 				this.$data.guestParameters.end_time = this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
 				this.$data.changeFlag = !this.$data.changeFlag;
+				this.statisticsNew();
 
 			} else if(this.$data.ctrlTimeType[3]) {
 				if(this.$data.year == null) {
@@ -425,6 +433,7 @@ export default {
 				this.$data.guestParameters.begin_time = this.getS(`${y}/01/01 00:00:00`);
 				this.$data.guestParameters.end_time = this.getS(`${y}/12/31 23:59:59`);
 				this.$data.changeFlag = !this.$data.changeFlag;
+				this.statisticsNew();
 
 			} else if(this.$data.ctrlTimeType[4]) {
 				if(this.$data.userDefined == null || this.$data.userDefined.length == 0) {
@@ -432,8 +441,9 @@ export default {
 					return false;
 				}
 				this.$data.guestParameters.begin_time = utils.getDateTime(this.userDefined[0]);
-				this.$data.guestParameters.end_time = utils.getDateTime(this.userDefined[1]);
+				this.$data.guestParameters.end_time = utils.getDateTime(this.userDefined[1]) + 86399;
 				this.$data.changeFlag = !this.$data.changeFlag;
+				this.statisticsNew();
 				this.$data.customShow = true;
 			}
 
@@ -449,6 +459,7 @@ export default {
 				this.$data.customShow = true;
 				this.setData();
 				this.$data.changeFlag = !this.$data.changeFlag;
+				this.statisticsNew();
 			}
 
 		},
@@ -521,9 +532,27 @@ export default {
 
 		//表格的操作
 		indexRank(index) {
-
 			return(this.$data.pagination.currentPage - 1) * 10 + index + 1;
 		},
+		
+		//到店人数
+        statisticsNew(){
+        	let list = {
+        		is_combine:this.$data.sumOrDiff === '0' ? '1':'0',
+        		time_start:this.$data.guestParameters.begin_time,
+        		time_end:this.$data.guestParameters.end_time,
+        		store_id:this.$data.guestParameters.store_id,
+        		merchant_organize_id:this.$data.guestParameters.merchant_organize_id
+        	};
+        	
+        	statisticsApi.statisticsNew(list).then((res) => {
+        		console.log(res)
+        		if(res.data.errno=== 0){
+        			this.$data.goStoreSum = [];
+        			this.$data.goStoreSum = res.data.data;
+        		}
+        	})
+        }
 
 	}
 }

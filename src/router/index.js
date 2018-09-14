@@ -10,6 +10,8 @@ import UserLogin from '../views/user/UserLogin'
 
 
 
+//数据图
+import DataView from '../components/DataView'
 
 //客流统计
 import Statistics from '../views/guest/Statistics'
@@ -62,13 +64,14 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     { path: '/login',name: 'UserLogin',component: UserLogin},
+    {path: '/DataView',meta:{requiresAuth: true },name: 'DataView',component: DataView},
     {
 
       path: '/',
       meta: { requiresAuth: true },
       component: Main,
 
-      children: [
+      children: [        
         {path: 'Statistics',name: 'Statistics',component: Statistics},
         {path: 'Guest',name: 'Guest',component: Guest},
         {path: 'Order',name: 'Order',component: Order},
@@ -107,11 +110,11 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   let knock_knock = window.localStorage.getItem('knock_knock')
   if (to.matched.some(record => record.meta.requiresAuth)&& (!knock_knock || knock_knock === null)) {
-         window.location.href = '/';
-//    next({
-//      path: '/login',
-//      query: { redirect: to.fullPath }
-//    })
+            window.location.href = '/';
+// next({
+//   path: '/login',
+//   query: { redirect: to.fullPath }
+// })
   } else {
     next()
   }

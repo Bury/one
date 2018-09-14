@@ -138,6 +138,38 @@ export default {
 	        reject(err)
 	      })
 	    })
-	}
+	},
+	
+	//客流统计，门店数据统计
+	statisticsNew(list){
+		return new Promise((resolve, reject) => {
+	      axios.post(global.STORE_STATISTICS_NEW,list).then((res) => {
+	        resolve(res)
+	      }).catch((err) => {
+	        reject(err)
+	      })
+	    })
+	},
+	
+	//简报客流数据
+	briefingData(list){
+		return new Promise((resolve, reject) => {
+	      axios.post(global.ANALYSIS_BRIEFING_DATA,list).then((res) => {
+	        resolve(res)
+	      }).catch((err) => {
+	        reject(err)
+	      })
+	    })
+	},
+	//简报性别年龄新熟客比例
+	briefingRatio(list){
+		return new Promise((resolve, reject) => {
+	      axios.post(global.ANALYSIS_BRIEFING_RATIO,list).then((res) => {
+	        resolve(res)
+	      }).catch((err) => {
+	        reject(err)
+	      })
+	    })
+	},
 	
 }

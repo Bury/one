@@ -12,7 +12,7 @@
 					</el-date-picker>
 					<el-date-picker v-show="ctrlTimeType[3]" v-model="year" type="year" placeholder="选择年" :picker-options="pickerOptionsSet">
 					</el-date-picker>
-					<el-date-picker v-show="ctrlTimeType[4]" v-model="userDefined" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptionsSet">
+					<el-date-picker v-show="ctrlTimeType[4]" v-model="userDefined" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptionsSet">
 					</el-date-picker>
 				</el-form-item>
 
@@ -79,8 +79,14 @@
 		<div v-show="customShow">
 			<ul class="charts-type">
 				<li class="charts-wrap">
-					<div style="padding:10px 0 20px;text-align:center;">
-            <div class="title-guest-chart">客流统计</div>
+					<div style="padding:10px 0 12px;text-align:center;">
+						<div class="go-store-num">
+							<section v-if="sumOrDiff === '0'">到店人数: <span>{{goStoreSum[0].passenger_flow}}</span>(人)</section>
+							<section v-if="sumOrDiff === '1'" v-for="(item,index) in goStoreSum">
+									<span>{{item.name}}</span>：<span>{{item.passenger_flow}}</span>(人)							
+							</section>
+						</div>
+                        <div class="title-guest-chart">客流统计</div>
 						<el-radio-group v-model="statisticsType" @change="customerClass" size="small">
 							<el-radio-button label="1">客流趋势</el-radio-button>
 							<el-radio-button label="2">成交率</el-radio-button>
