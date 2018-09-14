@@ -320,7 +320,7 @@
 			},
 			//关闭全屏首页
 			closeViewBox() {
-				console.log("99")
+				this.$router.push({name:'Statistics'})
 			}
 		}
 	}
