@@ -2,7 +2,7 @@
 	<div class="wrap">
 		<h4 class="statistics-title">客流趋势</h4>
 		<div class="chart-radio-wrap">
-			<span :class="radios == 'areaspline' ? 'lc-active' : ''"  @click="cutChart('areaspline')">折线图</span>
+			<span :class="radios == 'area' ? 'lc-active' : ''"  @click="cutChart('area')">折线图</span>
 			<span :class="radios == 'column' ? 'lc-active' : ''" @click="cutChart('column')">柱状图</span>
 		</div>
 		<vue-highcharts :highcharts="Highcharts" :options="options" ref="lineCharts"></vue-highcharts>
@@ -31,10 +31,10 @@
 		data() {
 			return {
 				Highcharts: Highcharts,
-				radios: 'areaspline',
+				radios: 'area',
 				options: {
 					chart: {
-						type: 'areaspline',
+						type: 'area',
 						width:550,
 						height: 280,
 						backgroundColor: 'rgba(0,0,0,0)',
