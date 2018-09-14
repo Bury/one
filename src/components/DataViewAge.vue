@@ -77,7 +77,7 @@
 					],
 					plotOptions: {
 						pie: {
-							innerSize: 60,
+							innerSize: 70,
 							borderColor: 'rgba(255,255,255,1)',
 							dataLabels: {
 								color: "#95C7FF",

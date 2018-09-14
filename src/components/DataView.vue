@@ -10,9 +10,10 @@
 				<el-col :span="16">
 					<div class="title-box">
 						<span class="all-year">全年累计客流量<span class="all-data">{{briefingData.yearly.total_ct}}</span><span class="all-font">人</span></span>
-
-						<span class="title-rise" v-if="riseFlag.year">同比增长<span class="color-f">{{briefingData.yearly.total_rate}}</span></span>
-						<span class="title-rise" v-else>同比下降<span class="color-g">{{briefingData.yearly.total_rate}}</span></span>
+                        
+                        <!--增长暂时隐藏-->
+						<!--<span class="title-rise" v-if="riseFlag.year">同比增长<span class="color-f">{{briefingData.yearly.total_rate}}</span></span>
+						<span class="title-rise" v-else>同比下降<span class="color-g">{{briefingData.yearly.total_rate}}</span></span>-->
 					</div>
 				</el-col>
 				<el-col :span="4">
@@ -27,7 +28,7 @@
 				<li :class="isSelect === 'day' ? 't-active' : ''" @click="selectTime('day')">今日</li>
 				<li :class="isSelect === 'week' ? 't-active' : ''" @click="selectTime('week')">本周</li>
 				<li :class="isSelect === 'month' ? 't-active' : ''" @click="selectTime('month')">本月</li>
-				<li :class="isSelect === 'year' ? 't-active' : ''" @click="selectTime('year')">当年</li>
+				<li :class="isSelect === 'year' ? 't-active' : ''" @click="selectTime('year')">本年</li>
 			</ul>
 
 			<div class="c-wrap">
@@ -38,14 +39,24 @@
 								<data-view-line :lineFlag="lineFlag" :chartData="guestParameters"></data-view-line>
 							</section>
 							<section class="c-left-chart-bottom">
-								<p>客流<span class="font30 color-e">{{briefingData.keliu.total_ct}}</span>人&nbsp;
+								<p>
+									<span class="font16">客流</span><br />
+								    <span class="font25 color-e">{{briefingData.keliu.total_ct}}</span><br />
 
-									<span v-if="riseFlag.keliu">环比上升<span class="color-f">{{briefingData.keliu.total_rate}}</span></span>
-									<span v-else>环比下降<span class="color-g">{{briefingData.keliu.total_rate}}</span></span>
+									<span v-if="briefingData.keliu.total_change == 1"  class="font13">对比{{rateFont}}同期上升<span class="color-f">{{briefingData.keliu.total_rate}}</span></span>
+									<span v-if="briefingData.keliu.total_change == 0"  class="font13">对比{{rateFont}}同期下降<span class="color-g">{{briefingData.keliu.total_rate}}</span></span>
 								</p>
-								<p class="ml20">新客<span class="font30 color-e">{{briefingData.keliu.new_ct}}</span>人&nbsp; 
-									<span v-if="riseFlag.newke">环比上升<span class="color-f">{{briefingData.keliu.new_rate}}</span></span>
-									<span v-else>环比下降<span class="color-g">{{briefingData.keliu.new_rate}}</span></span>
+								<p class="ml20">
+									<span class="font16">新客</span><br />
+									<span class="font25 color-e">{{briefingData.keliu.new_ct}}</span><br />
+									<span v-if="briefingData.keliu.new_change == 1" class="font13">对比{{rateFont}}同期上升<span class="color-f">{{briefingData.keliu.new_rate}}</span></span>
+									<span v-if="briefingData.keliu.new_change == 0" class="font13">对比{{rateFont}}同期下降<span class="color-g">{{briefingData.keliu.new_rate}}</span></span>
+								</p>
+								<p class="ml20">
+									<span class="font16">熟客</span><br />
+									<span class="font25 color-e">{{briefingData.keliu.old_ct}}</span><br />
+									<span v-if="briefingData.keliu.old_change == 1" class="font13">对比{{rateFont}}同期上升<span class="color-f">{{briefingData.keliu.old_rate}}</span></span>
+									<span v-if="briefingData.keliu.old_change == 0" class="font13">对比{{rateFont}}同期下降<span class="color-g">{{briefingData.keliu.old_rate}}</span></span>
 								</p>
 							</section>
 						</li>
@@ -173,11 +184,7 @@
 			return {
 				isSelect: 'day',
 				showTime: '',
-				riseFlag: {
-					year: true,
-					keliu: true,
-					newke: true
-				},
+				rateFont:'昨日',
 				guestParameters: {
 					begin_time: '',
 					end_time: ''
@@ -247,6 +254,23 @@
 				this.$data.lineFlag = !this.$data.lineFlag; //折线图的数据改变操作
 				this.getRatio(); //性别年龄饼状图的数据操作
 				this.getRank(); //简报数据总览的数据操作
+				
+				switch (val){
+					case 'day':
+					this.$data.rateFont = '昨日';
+						break;
+					case 'week':
+					this.$data.rateFont = '上周';
+						break;
+					case 'month':
+					this.$data.rateFont = '上月';
+						break;
+					case 'year':
+					this.$data.rateFont = '上年';
+						break;	
+					default:
+						break;
+				}
 			},
 			//时间转为秒
 			getS(value) {
@@ -291,25 +315,6 @@
 				};
 				statisticsApi.briefingData(list).then((res) => {
 					if(res.data.errno === 0) {
-						console.log(/\-/.test("-59"))
-						if(/\-/.test(res.data.data.yearly.total_rate)) {
-							this.$data.riseFlag.year = false;
-							res.data.data.yearly.total_rate = res.data.data.yearly.total_rate.slice(1);
-						} else {
-							this.$data.riseFlag.year = true;
-						};
-						if(/\-/.test(res.data.data.keliu.total_rate)) {
-							res.data.data.keliu.total_rate = res.data.data.keliu.total_rate.slice(1);
-							this.$data.riseFlag.keliu = false;
-						} else {
-							this.$data.riseFlag.keliu = true;
-						};
-						if(/\-/.test(res.data.data.keliu.new_rate)) {
-							res.data.data.keliu.new_rate = res.data.data.keliu.new_rate.slice(1);
-							this.$data.riseFlag.newke = false;
-						} else {
-							this.$data.riseFlag.newke = true;
-						};
 						this.$data.briefingData = res.data.data;
 					} else {
 						this.$message(res.data.msg)
