@@ -1,5 +1,5 @@
 <template>
-	<div id="viewBg">
+	<div class="viewBg">
 		<div class="view-box">
 			<span class="closeViewBox" @click="closeViewBox"></span>
 			<el-row type="flex" justify="space-between">
