@@ -12,8 +12,8 @@
 						<span class="all-year">全年累计客流量<span class="all-data">{{briefingData.yearly.total_ct}}</span><span class="all-font">人</span></span>
                         
                         <!--增长暂时隐藏-->
-						<!--<span class="title-rise" v-if="riseFlag.year">同比增长<span class="color-f">{{briefingData.yearly.total_rate}}</span></span>
-						<span class="title-rise" v-else>同比下降<span class="color-g">{{briefingData.yearly.total_rate}}</span></span>-->
+						<!--<span v-if="briefingData.yearly.total_change == 1" class="title-rise">同比增长<span class="color-f">{{briefingData.yearly.total_rate}}</span></span>
+						<span v-if="briefingData.yearly.total_change == 0" class="title-rise" v-else>同比下降<span class="color-g">{{briefingData.yearly.total_rate}}</span></span>-->
 					</div>
 				</el-col>
 				<el-col :span="4">
@@ -63,7 +63,7 @@
 						<li class="c-order-wrap">
 							<section>
 								<span>{{briefingData.order.order_ct}}</span>
-								<p>订单数</p>
+								<p>订单人数</p>
 							</section>
 							<section class="c-middle-section">
 								<span>{{briefingData.order.sales_volume}}</span>
