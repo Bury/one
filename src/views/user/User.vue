@@ -14,13 +14,13 @@
 				    <el-input v-model.trim="requestParameters.phone"></el-input>
 				</el-form-item>
 				<el-form-item>
-				    <el-button type="primary" @click="onSubmitSearch">查询</el-button>
+				    <el-button type="primary" @click="onSubmitSearch" onclick="clickTotal('412','查询账号',1)">查询</el-button>
 				    <el-button type="primary" @click="resetSearch">重置</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
 		<div class="top-box">
-			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
+			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()" onclick="clickTotal('413','新增账号',1)">新增</el-button>
 		</div>
     <table width="99%" class="table-bordered">
       <thead style="background-color: #d1d1d1">
@@ -45,8 +45,8 @@
         <td>{{item.status == '1' ? '启用' : '禁用' }}</td>
         <td>{{item.created_at | date(4)}}</td>
         <td>
-          <el-button @click="fnEdit(item)" type="primary" size="small" circle plain icon="el-icon-edit"></el-button>
-          <el-button @click="fnRemove(item)" type="danger" size="small" circle plain icon="el-icon-delete"></el-button>
+          <el-button @click="fnEdit(item)" type="primary" size="small" circle plain icon="el-icon-edit" onclick="clickTotal('414','编辑账号',1)"></el-button>
+          <el-button @click="fnRemove(item)" type="danger" size="small" circle plain icon="el-icon-delete" onclick="clickTotal('415','删除账号',1)"></el-button>
         </td>
       </tr>
       </tbody>

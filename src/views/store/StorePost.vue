@@ -54,7 +54,7 @@
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="cancel">取 消</el-button>
-				<el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+				<el-button type="primary" @click="submitForm('ruleForm')"  onclick="clickTotal('403','新增岗位确定',1)">确 定</el-button>
 			</div>
 		</el-dialog>
 		<!-- 修改 -->
@@ -87,7 +87,7 @@
 			</div>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="fnCancel">取 消</el-button>
-				<el-button type="primary" @click="submitForm2">确 定</el-button>
+				<el-button type="primary" @click="submitForm2" onclick="clickTotal('404','权限确定',1)">确 定</el-button>
 			</div>
 		</el-dialog>
 	</div>

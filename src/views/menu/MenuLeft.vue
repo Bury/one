@@ -7,25 +7,32 @@
              text-color="#fff"
              active-text-color="#409EFF"
              @select="handleSelect">
-        
-      <template v-for="(item,index) in tableData">      	
-        <el-menu-item :index="item.front_url" :key="index" v-if="item.no_child"  >
+
+      <template v-for="(item,index) in tableData">
+        <el-menu-item :index="item.front_url" :key="index" v-if="item.no_child" :id="item.id">
+          <div onclick="clickTotal(this.parentNode.id,this.id,1)" :id="item.name">
             <i :class="item.front_icon"></i>
             <span slot="title">{{item.name}}</span>
+          </div>
+
         </el-menu-item>
-        
+
         <el-submenu v-else  :key="index"  :index="item.front_url">
          <template slot="title">
           <i :class="item.front_icon"></i>
           <span slot="title">{{item.name}}</span>
          </template>
           <template v-for="(item1,index1) in item.children">
-          	<el-menu-item :index="item1.front_url" :key="index1" style="padding-left:53px;">{{item1.name}}</el-menu-item>
+          	<el-menu-item :index="item1.front_url" :key="index1" style="padding-left:53px;" :id="item1.id">
+              <div onclick="clickTotal(this.parentNode.id,this.id,1)" :id="item1.name">
+              {{item1.name}}
+              </div>
+            </el-menu-item>
           </template>
         </el-submenu>
-      </template>     
-      
-      
+      </template>
+
+
       <!--<router-link :to="{name: item.front_url}" v-if="item.no_child">
         <el-menu-item :index="item.front_url">
           <i :class="item.front_icon"></i>
@@ -62,7 +69,7 @@
       }
     },
     watch:{
-    	$route(to,from){    		
+    	$route(to,from){
     		this.getUrl();
     	}
     },
@@ -81,13 +88,13 @@
     				break;
     			case "StoreDeviceSumLists":
     			  this.$data.currentMenu = 'Device';
-    				break;	
+    				break;
     			case "StoreAccount":
     			  this.$data.currentMenu = 'Store';
-    				break;	
+    				break;
     			case "LabelDetail":
     			  this.$data.currentMenu = 'LabelList';
-    				break;	
+    				break;
     			default:
     			  this.$data.currentMenu = this.$route.name;
     				break;
@@ -109,7 +116,7 @@
         		 }
         		 this.$data.tableData = res.data.data;
         	}
-          
+
         })
       },
     }

@@ -2,18 +2,18 @@
 	<div class="device-box">
 		<div class="top-box">
 			<el-form :inline="true" :model="requestParameters" class="demo-form-inline" size="mini">
-				<el-form-item label="门店架构 - 门店：">
+				<el-form-item label="门店架构 - 门店：" onclick="clickTotal('450','门店架构',2)">
 					<el-cascader :options="organizes" v-model='organizeCode' :props='defaultAttr' @change="getStore">
 					</el-cascader>
 				</el-form-item>
 				<el-form-item label=" - ">
-					<el-select v-model="requestParameters.belong_sid" placeholder="请选择" :no-data-text="nodatatext">
+					<el-select v-model="requestParameters.belong_sid" placeholder="请选择" :no-data-text="nodatatext" onclick="clickTotal('451','门店',2)">
 						<el-option v-for="(item,idx) in allStores" :label="allStores[idx].name" :value="allStores[idx].id" :key="idx">
 						</el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="编号：">
-					<el-input v-model="requestParameters.device_id"></el-input>
+					<el-input v-model="requestParameters.device_id" onclick="clickTotal('452','编号',2)"></el-input>
 				</el-form-item>
 				<!-- <el-form-item label="版本：">
 					<el-select v-model="requestParameters.version" placeholder="请选择">
@@ -21,13 +21,13 @@
 					</el-select>
 				</el-form-item> -->
 				<el-form-item label="类型：">
-					<el-select v-model="requestParameters.locate" placeholder="请选择">
+					<el-select v-model="requestParameters.locate" placeholder="请选择" onclick="clickTotal('453','类型',2)">
 						<el-option label="收银" value="cashier"></el-option>
 						<el-option label="进店" value="other"></el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="onSubmit">查询</el-button>
+					<el-button type="primary" @click="onSubmit" onclick="clickTotal('454','设备查询',3)">查询</el-button>
 					<el-button type="primary" @click="resetSearch">重置</el-button>
 				</el-form-item>
 			</el-form>
@@ -108,7 +108,7 @@
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="distributionCancel">取 消</el-button>
-				<el-button type="primary" @click="distributionSubmit">确 定</el-button>
+				<el-button type="primary" @click="distributionSubmit"  onclick="clickTotal('401','分配确定',1)">确 定</el-button>
 			</div>
 		</el-dialog>
 

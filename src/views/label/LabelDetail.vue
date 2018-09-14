@@ -4,7 +4,7 @@
 			<el-button type="primary" size="small" class="add-btn1" @click="fnGoback()">返回</el-button>
 		</div>
 		<div class="saveBox">
-			<el-button type="primary" plain @click="saveSelectTag">保存</el-button>
+			<el-button type="primary" plain @click="saveSelectTag" onclick="clickTotal('407','来客标签保存',1)">保存</el-button>
 		</div>
 		<table width="60%" class="table-bordered">
 			<thead style="background-color: #d1d1d1">

@@ -1,7 +1,7 @@
 <template>
 	<div class="role-set-page">
 		<div class="top-box">
-			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
+			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()" onclick="clickTotal('408','新增岗位',1)">新增</el-button>
 		</div>
 		<table width="80%" class="table-bordered">
 			<thead style="background-color: #d1d1d1">
@@ -23,7 +23,7 @@
 					</td>
 					<td>
 						<el-button type="warning" plain icon="el-icon-edit" circle size="small" @click="fnEdit(item)"></el-button>
-						<el-button type="danger" plain icon="el-icon-delete" circle size="small" @click="fnRemove(item)"></el-button>
+						<el-button type="danger" plain icon="el-icon-delete" circle size="small" @click="fnRemove(item)" onclick="clickTotal('411','删除岗位',1)"></el-button>
 					</td>
 				</tr>
 			</tbody>
@@ -52,9 +52,9 @@
         <el-form-item label="权限：">
         <div style="margin:20px 0;overflow:hidden;">
           <el-tree :data="dialogForm" show-checkbox default-expand-all node-key="id" ref="tree"
-                   @check-change="change"                  
-                   highlight-current 
-                   :default-checked-keys="checkedIds"  
+                   @check-change="change"
+                   highlight-current
+                   :default-checked-keys="checkedIds"
                    class="permission-tree">
           </el-tree>
         </div>
@@ -75,7 +75,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel">取 消</el-button>
-        <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')" onclick="clickTotal('409','修改岗位名称',1)">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -90,7 +90,7 @@
 			</div>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="fnCancel">取 消</el-button>
-				<el-button type="primary" @click="submitForm2">确 定</el-button>
+				<el-button type="primary" @click="submitForm2" onclick="clickTotal('410','权限确定',1)">确 定</el-button>
 			</div>
 		</el-dialog>
 	</div>

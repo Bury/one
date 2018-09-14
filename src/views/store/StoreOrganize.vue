@@ -9,7 +9,7 @@
 				<span class="custom-tree-node" slot-scope="{ node, data }">
                 <span>{{ node.label }}</span>
 				        <span>
-                  <el-button type="text" size="mini" @click="addAndEdit(node,data,'add')">创建</el-button>
+                  <el-button type="text" size="mini" @click="addAndEdit(node,data,'add')" onclick="clickTotal('402','架构新建',1)">创建</el-button>
                   <el-button type="text" size="mini" @click="addAndEdit(node,data,'edit')">编辑</el-button>
                   <el-button type="text" size="mini"  @click="remove(node,data)">删除</el-button>
                 </span>
@@ -17,7 +17,7 @@
 			</el-tree>
 		</div>
 
-		<el-dialog :title="titleName" :visible.sync="addAndEditDialog" width="30%">
+		<el-dialog :title="titleName" :visible.sync="addAndEditDialog" width="50%">
 			<el-form :model="editVlaue" status-icon :rules="rules" ref="editForm" label-width="100px" @submit.native.prevent>
 				<el-form-item label="名称：" prop="name">
 					<el-input type="text" v-model="editVlaue.name" auto-complete="off" class="edit-input" placeholder="请输入名称"></el-input>
