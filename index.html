@@ -19,37 +19,17 @@
     canvas{
       display:block;
     }
-    #particles-js{
-      width: 100%;
-      height: 100%;
-      background-color: #FFF;
-      background-size: cover;
-      background-position: 50% 50%;
-      background-repeat: no-repeat;
-      background-image: linear-gradient(to bottom, #009edf, #002f44);
-    }
     </style>
-    <!-- <script src="https://cdn.staticfile.org/particles.js/2.0.0/particles.js"></script>
-	<link rel="stylesheet" href="static/css/bootstrap.css">
-	<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-	<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-	<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
     <script type="text/javascript">
       var timer = 0;
       var time1;
-      // var time2;
-      // var time3;
-      // var time4;
       var _czc = _czc || [];
       var action;
-
-
-    
-      _czc.push(["_setAccount", "1274752858"]);
+      var localhostUrl = window.location.href.split('//')[1].split('.')[0];
+      if(localhostUrl == 'web'){
+        _czc.push(["_setAccount", "1274752858"]);
+      }
       function clickTotal(id,name,type) {
-        console.log(id);
-        console.log(name);
-        console.log(type);
         if(type == 1){
           timer = 0;
           action = '点击次数';
@@ -60,27 +40,31 @@
           action = '点击次数';
           time1 = setInterval(function getTime(){
             timer ++;
-            console.log(timer)
           },1000);
         }else if(type == 3){
           action = '操作时长';
           window.clearInterval(time1);
-          console.log(timer);
           _czc.push(["_trackEvent",'商家端', name,  action, timer, id]);
         }
 
       }
     </script>
-	<link rel="stylesheet" href="static/css/bootstrap.css"> 
-	<link rel="stylesheet" href="static/css/iconfont.css"> 
-	<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"> 
-	<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script> 
-	<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>  
+	<link rel="stylesheet" href="static/css/bootstrap.css">
+	<link rel="stylesheet" href="static/css/iconfont.css">
+	<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+	<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   </head>
   <body>
     <div id="app"></div>
-    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ?
-      " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1274752858'%3E%3C/span%3E%3Cscript src='"
-      + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1274752858' type='text/javascript'%3E%3C/script%3E"));</script>
+    <script type="text/javascript">
+      var localhostUrl = window.location.href.split('//')[1].split('.')[0];
+      if(localhostUrl == 'web'){
+        var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1274752858'%3E%3C/span%3E%3Cscript src='"
+          + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1274752858' type='text/javascript'%3E%3C/script%3E"));
+      }
+
+    </script>
   </body>
 </html>
