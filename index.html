@@ -25,10 +25,12 @@
       var time1;
       var _czc = _czc || [];
       var action;
+      var obj;
       var localhostUrl = window.location.href.split('//')[1].split('.')[0];
       if(localhostUrl == 'web'){
-        _czc.push(["_setAccount", "1274752858"]);
+        obj = '1274752858';
       }
+      _czc.push(["_setAccount", obj]);
       function clickTotal(id,name,type) {
         if(type == 1){
           timer = 0;
@@ -60,10 +62,11 @@
     <script type="text/javascript">
       var localhostUrl = window.location.href.split('//')[1].split('.')[0];
       if(localhostUrl == 'web'){
-        var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-        document.write(unescape("%3Cspan id='cnzz_stat_icon_1274752858'%3E%3C/span%3E%3Cscript src='"
-          + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1274752858' type='text/javascript'%3E%3C/script%3E"));
+        var num = '1274752858'
       }
+      var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_"+num+"'%3E%3C/span%3E%3Cscript src='"
+        + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D"+num+"' type='text/javascript'%3E%3C/script%3E"));
 
     </script>
   </body>
