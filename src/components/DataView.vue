@@ -93,7 +93,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-for="(item,index) in briefingData.tag_list" :key="index">
+								<tr v-if="briefingData.tag_list !== null" v-for="(item,index) in briefingData.tag_list" :key="index">
 									<td v-if="index === 0"><img src="../assets/images/first.png" /><span class="c-tag-space">{{item.name}}</span></td>
 									<td v-else-if="index === 1"><img src="../assets/images/second.png" /><span class="c-tag-space">{{item.name}}</span></td>
 									<td v-else-if="index === 2"><img src="../assets/images/third.png" /><span class="c-tag-space">{{item.name}}</span></td>
@@ -101,8 +101,8 @@
 									<td>{{item.ct}}</td>
 								</tr>
 							</tbody>
-
 						</table>
+						<div v-if="briefingData.tag_list == null" class="c-table-no-data">暂无数据</div>
 					</div>
 					<div class="c-middle-div mb16">
 						<h4 class="c-h4"><span>性别比例</span></h4>
@@ -125,7 +125,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-for="(item,index) in briefingData.flow_list" :key="index">
+								<tr v-if="briefingData.flow_list !== null" v-for="(item,index) in briefingData.flow_list" :key="index">
 									<td v-if="index === 0"><img src="../assets/images/first.png" /><span>{{item.name}}</span></td>
 									<td v-else-if="index === 1"><img src="../assets/images/second.png" /><span>{{item.name}}</span></td>
 									<td v-else-if="index === 2"><img src="../assets/images/third.png" /><span>{{item.name}}</span></td>
@@ -134,6 +134,7 @@
 								</tr>
 							</tbody>
 						</table>
+						<div v-if="briefingData.flow_list == null" class="c-table-no-data2">暂无数据</div>
 					</div>
 
 					<div class="c-right-div">
@@ -146,7 +147,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-for="(item,index) in briefingData.old_list" :key="index">
+								<tr v-if="briefingData.old_list !== null" v-for="(item,index) in briefingData.old_list" :key="index">
 									<td v-if="index === 0"><img src="../assets/images/first.png" /><span>{{item.name}}</span></td>
 									<td v-else-if="index === 1"><img src="../assets/images/second.png" /><span>{{item.name}}</span></td>
 									<td v-else-if="index === 2"><img src="../assets/images/third.png" /><span>{{item.name}}</span></td>
@@ -156,6 +157,7 @@
 							</tbody>
 
 						</table>
+						<div v-if="briefingData.old_list == null" class="c-table-no-data2">暂无数据</div>
 					</div>
 
 				</div>
@@ -341,6 +343,8 @@
 								})
 							};
 							this.$data.sexData = sex;
+						}else{
+							this.$data.sexData = [];
 						}
 						if(thisData.gender !== null) {
 							for(let j = 0; j < thisData.gender.gender.length; j++) {
@@ -350,6 +354,8 @@
 								})
 							};
 							this.$data.ageData = age;
+						}else{
+							this.$data.ageData = [];
 						}
 						this.$data.timeingFlag = !this.$data.timeingFlag;
 					}

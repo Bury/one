@@ -53,7 +53,7 @@
 						style:{'color':'#457adb'}
 					},
 					tooltip: {
-						pointFormat: '{series.name}: <b>{point.y}</b><br/>占比:{point.percentage:.1f}%'
+						pointFormat: '{series.name}: <b>{point.y}</b><br/>占比:{point.percentage:.2f}%'
 					},
 					colors:[
 					   'rgba(149,199,255,0.5)',
