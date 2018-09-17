@@ -62,13 +62,13 @@
 					],
 					plotOptions: {
 						 pie: {
-                            innerSize: '60%',
+						 	innerSize:"60%",
                             borderColor:'rgba(255,255,255,1)',
                             dataLabels:{
-                           	color:"#95C7FF",
-                           	formatter:function(){                           		
-                           		return  this.point.name + ' ' + Math.round(this.percentage) + '%'
-                           	}					
+                               enabled: true,
+                           	   color:"#95C7FF",
+                           	   format: '<b>{point.name}</b> {point.percentage:.2f} %',	
+                           	   distance:12 
                            }
                         },
                         
