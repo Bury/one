@@ -29,7 +29,7 @@
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
-            <span class="iconfont icon-home briefing-btn" @click="goDataView"></span>
+            <span class="el-icon-yy-home briefing-btn" @click="goDataView"></span>
           <!--<div class="user1">-->
             <!--<el-dropdown trigger="hover" >-->
                     <!--<span class="el-dropdown-link" style="color:#fff;">-->
