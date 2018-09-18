@@ -27,13 +27,16 @@
       var action;
       var obj;
       var localhostUrl = window.location.href.split('//')[1].split('.')[0];
-      if(localhostUrl == 'web'){
+      if(localhostUrl == 'hzjd'){
         obj = '1274752858';
       }else if(localhostUrl == 'test'){
         obj = '1274816901';
       }
       _czc.push(["_setAccount", obj]);
       function clickTotal(id,name,type) {
+        console.log(id);
+        console.log(name);
+        console.log(type);
         if(type == 1){
           timer = 0;
           action = '点击次数';
@@ -52,6 +55,16 @@
         }
 
       }
+      function clickDevie(id,name,type) {
+        console.log(id);
+        console.log(name);
+        console.log(type);
+        if(type == 1){
+          action = '点击次数';
+          window.clearInterval(time1);
+          _czc.push(["_trackEvent",'商家端', name,  action, 1, id]);
+        }
+      }
     </script>
 	<link rel="stylesheet" href="static/css/bootstrap.css">
 	<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
@@ -63,7 +76,7 @@
     <script type="text/javascript">
       var num;
       var localhostUrl = window.location.href.split('//')[1].split('.')[0];
-      if(localhostUrl == 'web'){
+      if(localhostUrl == 'hzjd'){
         num = '1274752858'
       }else if(localhostUrl == 'test'){
         num = '1274816901';

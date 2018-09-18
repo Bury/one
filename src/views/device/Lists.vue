@@ -27,7 +27,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="onSubmit" onclick="clickTotal('454','设备查询',3)">查询</el-button>
+					<el-button type="primary" @click="onSubmit" onclick="clickTotal('454','设备查询时长',3);clickDevie('456','设备查询次数',1)">查询</el-button>
 					<el-button type="primary" @click="resetSearch">重置</el-button>
 				</el-form-item>
 			</el-form>

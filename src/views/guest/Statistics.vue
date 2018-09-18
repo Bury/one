@@ -83,15 +83,15 @@
 						<div class="go-store-num">
 							<section v-if="sumOrDiff === '0'">到店人数: <span>{{goStoreSum[0].passenger_flow}}</span>(人)</section>
 							<section v-if="sumOrDiff === '1'" v-for="(item,index) in goStoreSum">
-									<span>{{item.name}}</span>：<span>{{item.passenger_flow}}</span>(人)							
+									<span>{{item.name}}</span>：<span>{{item.passenger_flow}}</span>(人)
 							</section>
 						</div>
                         <div class="title-guest-chart">客流统计</div>
 						<el-radio-group v-model="statisticsType" @change="customerClass" size="small">
-							<el-radio-button label="1">客流趋势</el-radio-button>
-							<el-radio-button label="2">成交率</el-radio-button>
-							<el-radio-button label="3">潜在客户流失率</el-radio-button>
-							<el-radio-button label="4">成交客户流失率</el-radio-button>
+							<el-radio-button label="1" onclick="clickTotal('301','客流趋势',1)">客流趋势</el-radio-button>
+							<el-radio-button label="2" onclick="clickTotal('302','成交率',1)">成交率</el-radio-button>
+							<el-radio-button label="3" onclick="clickTotal('303','潜在客户流失率',1)">潜在客户流失率</el-radio-button>
+							<el-radio-button label="4" onclick="clickTotal('304','成交客户流失率',1)">成交客户流失率</el-radio-button>
 						</el-radio-group>
 					</div>
 					<guest-chart :sumOrDiff="sumOrDiff" :changeFlag="changeFlag" :postVal="guestParameters" :statisticsType="statisticsType"></guest-chart>
