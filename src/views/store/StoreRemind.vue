@@ -14,7 +14,7 @@
             </el-checkbox-group>
         </div>
 		<div class="saveBtn">
-            <el-button type="primary" class="save-btn" @click="fnRemindSet" onclick="clickTotal('406','来客提醒',1)">保存</el-button>
+            <el-button type="primary" class="save-btn" @click="fnRemindSet" onclick="clickTotal('406','来客提醒设置',1)">保存</el-button>
         </div>
 	</div>
     </el-col>
