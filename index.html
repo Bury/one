@@ -29,6 +29,8 @@
       var localhostUrl = window.location.href.split('//')[1].split('.')[0];
       if(localhostUrl == 'web'){
         obj = '1274752858';
+      }else if(localhostUrl == 'test'){
+        obj = '1274816901';
       }
       _czc.push(["_setAccount", obj]);
       function clickTotal(id,name,type) {
@@ -60,9 +62,12 @@
   <body>
     <div id="app"></div>
     <script type="text/javascript">
+      var num;
       var localhostUrl = window.location.href.split('//')[1].split('.')[0];
       if(localhostUrl == 'web'){
-        var num = '1274752858'
+        num = '1274752858'
+      }else if(localhostUrl == 'test'){
+        num = '1274816901';
       }
       var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
       document.write(unescape("%3Cspan id='cnzz_stat_icon_"+num+"'%3E%3C/span%3E%3Cscript src='"
