@@ -113,7 +113,7 @@
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="editCancel">取 消</el-button>
-				<el-button type="primary" @click="editSubmit('editFormData')" onclick="clickTotal('400','新建账号确定',1)">确 定</el-button>
+				<el-button type="primary" @click="editSubmit('editFormData')">确 定</el-button>
 			</div>
 		</el-dialog>
 
@@ -174,7 +174,7 @@
 			</el-form>
 			<div slot="footer" class="dialog-footer" v-if="!avatarFormVisible">
 				<el-button @click="addCancel">取 消</el-button>
-				<el-button type="primary" @click="addsSubmit('addsFormData')">确 定</el-button>
+				<el-button type="primary" @click="addsSubmit('addsFormData')" onclick="clickTotal('400','新建账号确定',1)">确 定</el-button>
 			</div>
 			<!--<guest-list v-if="avatarFormVisible" :avatarFormVisible="avatarFormVisible" @getChildData="getAvatarData"></guest-list>-->
 		</el-dialog>
