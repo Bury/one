@@ -27,7 +27,9 @@ Vue.use(VueQuillEditor)
 Vue.filter('date', filters.dateFilter)
 Vue.filter('numberFilter', filters.numberFilter)
 Vue.filter('numbersFilter', filters.numbersFilter)
-Vue.filter('fonts',filters.fontFilter)
+Vue.filter('fonts',filters.fontFilter);
+Vue.filter('numThousand', filters.numThousand);
+Vue.filter('hundredMillion', filters.hundredMillion);
 
 Vue.config.productionTip = false
 

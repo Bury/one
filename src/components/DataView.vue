@@ -25,10 +25,10 @@
 			</el-row>
 
 			<ul class="t-select">
-				<li :class="isSelect === 'day' ? 't-active' : ''" @click="selectTime('day')">今日</li>
-				<li :class="isSelect === 'week' ? 't-active' : ''" @click="selectTime('week')">本周</li>
-				<li :class="isSelect === 'month' ? 't-active' : ''" @click="selectTime('month')">本月</li>
-				<li :class="isSelect === 'year' ? 't-active' : ''" @click="selectTime('year')">本年</li>
+				<li :class="isSelect === 'day' ? 't-active' : ''" >今日</li>
+				<li :class="isSelect === 'week' ? 't-active' : ''" >本周</li>
+				<li :class="isSelect === 'month' ? 't-active' : ''" >本月</li>
+				<li :class="isSelect === 'year' ? 't-active' : ''"  >本年</li>
 			</ul>
 
 			<div class="c-wrap">
@@ -41,20 +41,20 @@
 							<section class="c-left-chart-bottom">
 								<p>
 									<span class="font16">客流</span><br />
-								    <span class="font25 color-e">{{briefingData.keliu.total_ct}}</span><br />
+								    <span class="font25 color-e">{{briefingData.keliu.total_ct | hundredMillion}}</span><br />
 
 									<span v-if="briefingData.keliu.total_change == 1"  class="font13">对比{{rateFont}}同期上升<span class="color-f">{{briefingData.keliu.total_rate}}</span></span>
 									<span v-if="briefingData.keliu.total_change == 0"  class="font13">对比{{rateFont}}同期下降<span class="color-g">{{briefingData.keliu.total_rate}}</span></span>
 								</p>
 								<p class="ml20">
 									<span class="font16">新客</span><br />
-									<span class="font25 color-e">{{briefingData.keliu.new_ct}}</span><br />
+									<span class="font25 color-e">{{briefingData.keliu.new_ct | hundredMillion}}</span><br />
 									<span v-if="briefingData.keliu.new_change == 1" class="font13">对比{{rateFont}}同期上升<span class="color-f">{{briefingData.keliu.new_rate}}</span></span>
 									<span v-if="briefingData.keliu.new_change == 0" class="font13">对比{{rateFont}}同期下降<span class="color-g">{{briefingData.keliu.new_rate}}</span></span>
 								</p>
 								<p class="ml20">
 									<span class="font16">熟客</span><br />
-									<span class="font25 color-e">{{briefingData.keliu.old_ct}}</span><br />
+									<span class="font25 color-e">{{briefingData.keliu.old_ct | hundredMillion}}</span><br />
 									<span v-if="briefingData.keliu.old_change == 1" class="font13">对比{{rateFont}}同期上升<span class="color-f">{{briefingData.keliu.old_rate}}</span></span>
 									<span v-if="briefingData.keliu.old_change == 0" class="font13">对比{{rateFont}}同期下降<span class="color-g">{{briefingData.keliu.old_rate}}</span></span>
 								</p>
@@ -62,11 +62,11 @@
 						</li>
 						<li class="c-order-wrap">
 							<section>
-								<span>{{briefingData.order.order_ct}}</span>
+								<span>{{briefingData.order.order_ct | hundredMillion}}</span>
 								<p>订单人数</p>
 							</section>
 							<section class="c-middle-section">
-								<span>{{briefingData.order.sales_volume}}</span>
+								<span>{{briefingData.order.sales_volume | hundredMillion}}</span>
 								<p>销售额</p>
 							</section>
 							<section>
@@ -234,11 +234,18 @@
 			}, 1000);
 
 			//刷新chart定时器
-			c = setInterval(() => {
-				this.$data.lineFlag = !this.$data.lineFlag; //折线图的数据改变操作
-				this.getRatio(); //性别年龄饼状图的数据操作
-				this.getRank(); //简报数据总览的数据操作
-			}, 60000);
+//			setInterval(() => {
+//				this.$data.lineFlag = !this.$data.lineFlag; //折线图的数据改变操作
+//				this.getRatio(); //性别年龄饼状图的数据操作
+//				this.getRank(); //简报数据总览的数据操作
+//			}, 60000);
+			
+			let k = 0;
+			let timeArr = ['day','week','month','year'];			
+			c =  setInterval(() => {
+				(k === 4) && (k = 0);
+				this.selectTime(timeArr[k++]);
+			},30000)
 		},
 		destroyed() {
 			//组件销毁后清空定时器			

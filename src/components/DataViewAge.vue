@@ -32,7 +32,7 @@
 						width: 350,
 						height: 165,
 						backgroundColor: 'rgba(0,0,0,0)',
-						spacing: [10, 0, 10, 0]
+						spacing: [2, 0, 2, 0]
 					},
 					title: {
 						text: '',
@@ -54,31 +54,36 @@
 						pointFormat: '{series.name}: <b>{point.y}</b><br/>占比:{point.percentage:.2f}%'
 					},
 					legend: {
-						layout: 'vertical',
-						align: 'right',
-						verticalAlign: 'middle',
+						layout: 'horizontal',
+						align: 'center',
+						verticalAlign: 'bottom',
 						itemStyle: {
 							'color': '#95C7FF'
 						},
 						itemHoverStyle: {
 							'color': '#FFC400'
 						},
-						symbolHeight: 14,
-						symbolWidth: 14,
-						symbolRadius: 7
+						itemDistance:1,
+						margin:0,
+						symbolHeight: 12,
+						symbolWidth: 12,
+						symbolRadius: 6,
+						labelFormatter: function () {
+				              return this.name + ' ' + this.percentage.toFixed(2) + '%' ;
+			            }
 					},
 					colors: [
-						'rgba(149,199,255,0.5)',
-						'rgba(255,196,0,0.5)',
-						'rgba(101,266,175,0.5)',
-						'rgba(89,210,252,0.5)',
-						'rgba(255,105,83,0.5)',
-						'rgba(79,233,212,0.5)',
+						'rgba(149,199,255,0.8)',
+						'rgba(255,196,0,0.8)',
+						'rgba(101,266,175,0.8)',
+						'rgba(202,129,222,0.8)',
+						'rgba(255,105,83,0.8)',
+						'rgba(255,255,255,0.8)',
 					],
 					plotOptions: {
 						pie: {
-							innerSize: 70,
-							borderColor: 'rgba(255,255,255,1)',
+							innerSize: 46,
+							borderColor: null,
 							dataLabels: {
 								color: "#95C7FF",
 								enabled: false
@@ -131,5 +136,4 @@
 </script>
 
 <style lang="scss" scoped>
-
 </style>

@@ -102,6 +102,17 @@ export const numbersFilter = (value) =>{
   return realVal;
 }
 
+//数字数字大于亿用亿表示
+export const hundredMillion = (value) =>{
+	 let val;
+   if(value >= 100000000){   	
+   	val =  "约" + (value / 100000000).toFixed(3).slice(0,-1) + '亿';
+   }else{
+   	val = value;
+   }
+  return val;
+}
+
 //数字千分位用逗号隔开展示
 export const numThousand = (value) =>{
   let res = value.toString().replace(/\d+/, function(n) { // 先提取整数部分

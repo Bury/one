@@ -56,14 +56,14 @@
 						pointFormat: '{series.name}: <b>{point.y}</b><br/>占比:{point.percentage:.2f}%'
 					},
 					colors:[
-					   'rgba(149,199,255,0.5)',
-						'rgba(255,196,0,0.5)',
+					   'rgba(149,199,255,0.8)',
+					   'rgba(255,196,0,0.8)',
 					   
 					],
 					plotOptions: {
 						 pie: {
 						 	innerSize:"60%",
-                            borderColor:'rgba(255,255,255,1)',
+                            borderColor:null,
                             dataLabels:{
                                enabled: true,
                            	   color:"#95C7FF",
@@ -113,64 +113,6 @@
 			refreshData(val){
 			   this.$refs.sexCharts.getChart().series[0].setData(val);
 			},		
-			
-			//初始化请求
-//			getFeature(val) {
-//				let list = {
-//					feature: 'gender',
-//					begin_time: val.begin_time,
-//					end_time: val.end_time,
-//				};
-//				statisticsApi.getFeaturePie(list).then((res) => {
-//					if(res.data.errno === 0) {
-//						let thisData = res.data.data;
-//						if(thisData != null && thisData != '') {
-//							let sexData = [];
-//							for(var i = 0; i < thisData.gender.length; i++) {
-//								sexData.push({
-//									name: thisData.gender[i],
-//									y: thisData.sum[i]
-//								})
-//							}
-//							this.getChart(sexData);
-//						} else {
-//							this.getChart([])
-//						}
-//					} else {
-//						this.$message(res.data.msg)
-//					}
-//				});
-//
-//			},
-			
-			//定时刷新的请求
-//			refreshChart() {
-//				
-//				let sexCharts = this.$refs.sexCharts;
-//				let list = {
-//					feature: 'gender',
-//					begin_time: this.$props.chartData.begin_time,
-//					end_time: this.$props.chartData.end_time,
-//				};
-//				statisticsApi.getFeaturePie(list).then((res) => {
-//					if(res.data.errno === 0) {
-//						let thisData = res.data.data;
-//						if(thisData != null && thisData != '') {
-//							let sexData = [];
-//							for(var i = 0; i < thisData.gender.length; i++) {
-//								sexData.push({
-//									name: thisData.gender[i],
-//									y: thisData.sum[i]
-//								})
-//							}
-//							sexCharts.getChart().series[0].setData(sexData);
-//						}
-//					} else {
-//						this.$message(res.data.msg)
-//					}
-//				});
-//
-//			},
 		}
 	}
 </script>
