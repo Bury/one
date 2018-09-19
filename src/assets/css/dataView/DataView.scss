@@ -59,9 +59,12 @@
     }
     
     .t-select {
+        width: 250px;
         margin-top: 20px;
+        margin-left: 0;
         margin-bottom: 0;
         height: 30px;
+       
         li {
             float: left;
             width: 60px;

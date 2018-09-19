@@ -24,11 +24,11 @@
 				</el-col>
 			</el-row>
 
-			<ul class="t-select">
-				<li :class="isSelect === 'day' ? 't-active' : ''" >今日</li>
-				<li :class="isSelect === 'week' ? 't-active' : ''" >本周</li>
-				<li :class="isSelect === 'month' ? 't-active' : ''" >本月</li>
-				<li :class="isSelect === 'year' ? 't-active' : ''"  >本年</li>
+			<ul class="t-select" @mouseover="enterFlag" @mouseout="outFlag">
+				<li :class="isSelect === 'day' ? 't-active' : ''" @click="selectTime('day')">今日</li>
+				<li :class="isSelect === 'week' ? 't-active' : ''" @click="selectTime('week')">本周</li>
+				<li :class="isSelect === 'month' ? 't-active' : ''" @click="selectTime('month')">本月</li>
+				<li :class="isSelect === 'year' ? 't-active' : ''"  @click="selectTime('year')">本年</li>
 			</ul>
 
 			<div class="c-wrap">
@@ -44,19 +44,22 @@
 								    <span class="font25 color-e">{{briefingData.keliu.total_ct | hundredMillion}}</span><br />
 
 									<span v-if="briefingData.keliu.total_change == 1"  class="font13">对比{{rateFont}}同期上升<span class="color-f">{{briefingData.keliu.total_rate}}</span></span>
-									<span v-if="briefingData.keliu.total_change == 0"  class="font13">对比{{rateFont}}同期下降<span class="color-g">{{briefingData.keliu.total_rate}}</span></span>
+									<span v-else-if="briefingData.keliu.total_change == 0"  class="font13">对比{{rateFont}}同期下降<span class="color-g">{{briefingData.keliu.total_rate}}</span></span>
+									<span v-else-if="briefingData.keliu.total_change == -1"  class="font13">对比{{rateFont}}同期持平<span class="color-f">{{briefingData.keliu.total_rate}}</span></span>
 								</p>
 								<p class="ml20">
 									<span class="font16">新客</span><br />
 									<span class="font25 color-e">{{briefingData.keliu.new_ct | hundredMillion}}</span><br />
 									<span v-if="briefingData.keliu.new_change == 1" class="font13">对比{{rateFont}}同期上升<span class="color-f">{{briefingData.keliu.new_rate}}</span></span>
-									<span v-if="briefingData.keliu.new_change == 0" class="font13">对比{{rateFont}}同期下降<span class="color-g">{{briefingData.keliu.new_rate}}</span></span>
+									<span v-else-if="briefingData.keliu.new_change == 0" class="font13">对比{{rateFont}}同期下降<span class="color-g">{{briefingData.keliu.new_rate}}</span></span>
+								    <span v-else-if="briefingData.keliu.new_change == -1" class="font13">对比{{rateFont}}同期持平<span class="color-f">{{briefingData.keliu.new_rate}}</span></span>
 								</p>
 								<p class="ml20">
 									<span class="font16">熟客</span><br />
 									<span class="font25 color-e">{{briefingData.keliu.old_ct | hundredMillion}}</span><br />
 									<span v-if="briefingData.keliu.old_change == 1" class="font13">对比{{rateFont}}同期上升<span class="color-f">{{briefingData.keliu.old_rate}}</span></span>
-									<span v-if="briefingData.keliu.old_change == 0" class="font13">对比{{rateFont}}同期下降<span class="color-g">{{briefingData.keliu.old_rate}}</span></span>
+									<span v-else-if="briefingData.keliu.old_change == 0" class="font13">对比{{rateFont}}同期下降<span class="color-g">{{briefingData.keliu.old_rate}}</span></span>
+								    <span v-else-if="briefingData.keliu.old_change == -1" class="font13">对比{{rateFont}}同期持平<span class="color-f">{{briefingData.keliu.old_rate}}</span></span>
 								</p>
 							</section>
 						</li>
@@ -184,6 +187,8 @@
 		},
 		data() {
 			return {
+				k:0,
+				timeArr:['day','week','month','year'],
 				isSelect: 'day',
 				showTime: '',
 				rateFont:'昨日',
@@ -239,12 +244,10 @@
 //				this.getRatio(); //性别年龄饼状图的数据操作
 //				this.getRank(); //简报数据总览的数据操作
 //			}, 60000);
-			
-			let k = 0;
-			let timeArr = ['day','week','month','year'];			
+           
 			c =  setInterval(() => {
-				(k === 4) && (k = 0);
-				this.selectTime(timeArr[k++]);
+				(this.$data.k === 4) && (this.$data.k = 0);
+				this.selectTime(this.$data.timeArr[this.$data.k]);
 			},30000)
 		},
 		destroyed() {
@@ -266,15 +269,19 @@
 				
 				switch (val){
 					case 'day':
+					this.$data.k = 1;
 					this.$data.rateFont = '昨日';
 						break;
 					case 'week':
+					this.$data.k = 2;
 					this.$data.rateFont = '上周';
 						break;
 					case 'month':
+					this.$data.k = 3;
 					this.$data.rateFont = '上月';
 						break;
 					case 'year':
+					this.$data.k = 0;
 					this.$data.rateFont = '上年';
 						break;	
 					default:
@@ -374,6 +381,15 @@
 				this.$router.push({
 					name: 'Statistics'
 				})
+			},
+			enterFlag(){
+				clearInterval(c);
+			},
+			outFlag(){
+			 c =  setInterval(() => {
+			 (this.$data.k === 4) && (this.$data.k = 0);
+				this.selectTime(this.$data.timeArr[this.$data.k]);
+			 },30000)
 			}
 		}
 	}
