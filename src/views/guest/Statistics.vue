@@ -12,7 +12,10 @@
 					</el-date-picker>
 					<el-date-picker v-show="ctrlTimeType[3]" v-model="year" type="year" placeholder="选择年" :picker-options="pickerOptionsSet">
 					</el-date-picker>
-					<el-date-picker v-show="ctrlTimeType[4]" v-model="userDefined" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptionsSet">
+					<el-date-picker :picker-options="pickerOptionsSet" v-model="times_start" v-show="ctrlTimeType[4]" type="date" placeholder="开始时间" :clearable=false>
+					</el-date-picker>
+					<span v-show="ctrlTimeType[4]">-</span>
+					<el-date-picker :picker-options="pickerOptionsSet" v-model="times_end" v-show="ctrlTimeType[4]" type="date" placeholder="结束时间" :clearable=false>
 					</el-date-picker>
 				</el-form-item>
 
@@ -20,12 +23,12 @@
 					<el-button type="primary" @click="onSubmit">查询</el-button>
 				</el-form-item>
 			</el-form>
-			<el-form  class="demo-form-inline" size="mini">
+			<el-form class="demo-form-inline" size="mini">
 				<el-form-item label="模式选择：">
-				   <el-radio-group v-model="pattern" @change="patternSelect">
-					<el-radio  label="1">门店数据汇总</el-radio>
-					<el-radio  label="2">门店数据对比</el-radio>
-				   </el-radio-group>
+					<el-radio-group v-model="pattern" @change="patternSelect">
+						<el-radio label="1">门店数据汇总</el-radio>
+						<el-radio label="2">门店数据对比</el-radio>
+					</el-radio-group>
 				</el-form-item>
 				<el-form-item label="范围选择：">
 					<el-button type="primary" @click="editSumDiff" plain>{{selectType}}</el-button>
@@ -46,7 +49,7 @@
 				<el-button :type="datadialog.dataTypeShow === true ? 'primary' : ''" @click="dataSelect(1)">汇总</el-button>
 				<el-button :type="datadialog.dataTypeShow === false ? 'primary' : ''" @click="dataSelect(2)">对比</el-button>
 			</el-row>-->
-			<div  class="sum-cut"  v-show="datadialog.radioShow">
+			<div class="sum-cut" v-show="datadialog.radioShow">
 				<el-radio-group v-model="datadialog.summationType" @change="allOrSet">
 					<el-radio label="1">全部</el-radio>
 					<el-radio label="2">自定义</el-radio>
@@ -83,10 +86,10 @@
 						<div class="go-store-num">
 							<section v-if="sumOrDiff === '0'">到店人数: <span>{{goStoreSum[0].passenger_flow}}</span>(人)</section>
 							<section v-if="sumOrDiff === '1'" v-for="(item,index) in goStoreSum">
-									<span>{{item.name}}</span>：<span>{{item.passenger_flow}}</span>(人)
+								<span>{{item.name}}</span>：<span>{{item.passenger_flow}}</span>(人)
 							</section>
 						</div>
-                        <div class="title-guest-chart">客流统计</div>
+						<div class="title-guest-chart">客流统计</div>
 						<el-radio-group v-model="statisticsType" @change="customerClass" size="small">
 							<el-radio-button label="1" onclick="clickTotal('301','客流趋势',1)">客流趋势</el-radio-button>
 							<el-radio-button label="2" onclick="clickTotal('302','成交率',1)">成交率</el-radio-button>
@@ -126,7 +129,7 @@
 					</el-table-column>
 					<el-table-column prop="name" label="名称" align="center">
 					</el-table-column>
-					<el-table-column prop="customer" label="总客流" sortable="custom"  width="110" align="center">
+					<el-table-column prop="customer" label="总客流" sortable="custom" width="110" align="center">
 					</el-table-column>
 					<el-table-column prop="new" label="新客占比" :formatter="formatterVal" sortable="custom" width="110" align="center">
 					</el-table-column>

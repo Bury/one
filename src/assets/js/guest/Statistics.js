@@ -26,7 +26,9 @@ export default {
 			selectType: '全部-汇总',
 			changeFlag: true,
 			sumOrDiff: '0',
-			goStoreSum:[{passenger_flow:0}],    
+			goStoreSum: [{
+				passenger_flow: 0
+			}],
 			isAll: true,
 			datadialog: {
 				dataDialogVisible: false,
@@ -49,8 +51,8 @@ export default {
 				showText: '请选择门店组织',
 				storeId: '',
 			}],
-			copyPattern:'1',
-			copyGroup:[{
+			copyPattern: '1',
+			copyGroup: [{
 				organizeId: [],
 				stores: [],
 				showText: '请选择门店组织',
@@ -62,7 +64,8 @@ export default {
 			week: '',
 			month: '',
 			year: '',
-			userDefined: '',
+			times_start: '',
+			times_end: '',
 			customShow: true,
 			ctrlTimeType: [true, false, false, false, false],
 			statisticsType: "1",
@@ -110,26 +113,26 @@ export default {
 	},
 	created: function() {
 		let unit = localStorage.getItem("unit") || '';
-		if(unit === 'd'){
+		if(unit === 'd') {
 			this.$data.ctrlTimeType = [false, false, false, false, false];
 			this.$data.ctrlTimeType[0] = true;
 			this.$data.timeType = 'day';
-		}else if(unit === 'w'){
+		} else if(unit === 'w') {
 			this.$data.ctrlTimeType = [false, false, false, false, false];
 			this.$data.ctrlTimeType[1] = true;
 			this.$data.timeType = 'week';
-		}else if(unit === 'm'){
+		} else if(unit === 'm') {
 			this.$data.ctrlTimeType = [false, false, false, false, false];
 			this.$data.ctrlTimeType[2] = true;
 			this.$data.timeType = 'month';
-		}else if(unit === 'y'){
+		} else if(unit === 'y') {
 			this.$data.ctrlTimeType = [false, false, false, false, false];
 			this.$data.ctrlTimeType[3] = true;
 			this.$data.timeType = 'year';
 		};
 		this.setData();
 		this.customerList();
-		this.getOrganizes();	
+		this.getOrganizes();
 		this.statisticsNew();
 	},
 	mounted: function() {},
@@ -200,16 +203,16 @@ export default {
 			this.$data.datadialog.dataDialogVisible = true; //打开弹框
 			if(type == 1) {
 				this.$data.datadialog.radioShow = true;
-//				this.$data.datadialog.dataTypeShow = true;
+				//				this.$data.datadialog.dataTypeShow = true;
 				this.$data.datadialog.canDel = true;
 				this.allOrSet();
 				this.clearGroup(1);
 			} else if(type == 2) {
-                this.$data.datadialog.radioShow = false;
-//				this.$data.datadialog.dataTypeShow = false;
+				this.$data.datadialog.radioShow = false;
+				//				this.$data.datadialog.dataTypeShow = false;
 				this.$data.datadialog.allOrSetShow = true;
 				this.$data.datadialog.canDel = true;
-                this.clearGroup(2);
+				this.clearGroup(2);
 			}
 		},
 
@@ -219,7 +222,7 @@ export default {
 			if(this.$data.pattern === '1') {
 				this.$data.datadialog.radioShow = true;
 
-			}else if(this.$data.pattern === '2'){
+			} else if(this.$data.pattern === '2') {
 				this.$data.datadialog.radioShow = false;
 			}
 			done();
@@ -231,7 +234,7 @@ export default {
 			if(this.$data.pattern === '1') {
 				this.$data.datadialog.radioShow = true;
 
-			}else if(this.$data.pattern === '2'){
+			} else if(this.$data.pattern === '2') {
 				this.$data.datadialog.radioShow = false;
 			};
 			this.$data.datadialog.dataDialogVisible = false;
@@ -246,7 +249,7 @@ export default {
 		//提交前的一些验证操作
 		beforeSubmit() {
 			let flag = false;
-			if(this.$data.pattern  === '2') {
+			if(this.$data.pattern === '2') {
 				//对比时一些操作
 				this.$data.isAll = false;
 				for(let i = 0; i < this.$data.storeGroup.length; i++) {
@@ -281,9 +284,9 @@ export default {
 
 		//按钮打开求和和对比dialog框
 		editSumDiff() {
-			if(this.$data.pattern === '1') {	
+			if(this.$data.pattern === '1') {
 				this.allOrSet();
-			}else if(this.$data.pattern === '2'){
+			} else if(this.$data.pattern === '2') {
 				this.$data.datadialog.allOrSetShow = true;
 			};
 			this.$data.datadialog.dataDialogVisible = true;
@@ -294,8 +297,8 @@ export default {
 			if(this.beforeSubmit() === true) {
 				return false;
 			};
-			this.$data.copyPattern = this.$data.pattern.slice(0,1) //复制模式选择的值，如果没有提交就返回原来的选择数据
-			this.$data.copyGroup = this.$data.storeGroup.slice(0,this.$data.storeGroup.length); //复制一个选择的门店数组，如果没有提交就返回原来的选择数据
+			this.$data.copyPattern = this.$data.pattern.slice(0, 1) //复制模式选择的值，如果没有提交就返回原来的选择数据
+			this.$data.copyGroup = this.$data.storeGroup.slice(0, this.$data.storeGroup.length); //复制一个选择的门店数组，如果没有提交就返回原来的选择数据
 			if(this.$data.pattern === '2') {
 				this.$data.sumOrDiff = "1";
 				this.$data.selectType = '自定义-对比';
@@ -436,15 +439,24 @@ export default {
 				this.statisticsNew();
 
 			} else if(this.$data.ctrlTimeType[4]) {
-				if(this.$data.userDefined == null || this.$data.userDefined.length == 0) {
-					this.$data.customShow = false;
-					return false;
+				let startTime = this.getS(this.$data.times_start);
+				let endTime = this.getS(this.$data.times_end) + 86399;
+				if(startTime > endTime) {
+					// this.$data.noTimeHide = true;
+					this.$confirm('您选择的结束时间应该大于开始时间', '日期选择警告', {
+						confirmButtonText: '知道了',
+						showCancelButton: false,
+						type: 'warning'
+					});
+				} else if(startTime < endTime) {
+					this.$data.noTimeHide = false;
+					this.$data.guestParameters.begin_time = this.getS(this.$data.times_start);
+					this.$data.guestParameters.end_time = this.getS(this.$data.times_end) + 86399;
+					this.$data.changeFlag = !this.$data.changeFlag;
+				    this.statisticsNew();
+				    this.$data.customShow = true;
 				}
-				this.$data.guestParameters.begin_time = utils.getDateTime(this.userDefined[0]);
-				this.$data.guestParameters.end_time = utils.getDateTime(this.userDefined[1]) + 86399;
-				this.$data.changeFlag = !this.$data.changeFlag;
-				this.statisticsNew();
-				this.$data.customShow = true;
+				
 			}
 
 		},
@@ -534,25 +546,25 @@ export default {
 		indexRank(index) {
 			return(this.$data.pagination.currentPage - 1) * 10 + index + 1;
 		},
-		
+
 		//到店人数
-        statisticsNew(){
-        	let list = {
-        		is_combine:this.$data.sumOrDiff === '0' ? '1':'0',
-        		time_start:this.$data.guestParameters.begin_time,
-        		time_end:this.$data.guestParameters.end_time,
-        		store_id:this.$data.guestParameters.store_id,
-        		merchant_organize_id:this.$data.guestParameters.merchant_organize_id
-        	};
-        	
-        	statisticsApi.statisticsNew(list).then((res) => {
-        		console.log(res)
-        		if(res.data.errno=== 0){
-        			this.$data.goStoreSum = [];
-        			this.$data.goStoreSum = res.data.data;
-        		}
-        	})
-        }
+		statisticsNew() {
+			let list = {
+				is_combine: this.$data.sumOrDiff === '0' ? '1' : '0',
+				time_start: this.$data.guestParameters.begin_time,
+				time_end: this.$data.guestParameters.end_time,
+				store_id: this.$data.guestParameters.store_id,
+				merchant_organize_id: this.$data.guestParameters.merchant_organize_id
+			};
+
+			statisticsApi.statisticsNew(list).then((res) => {
+				console.log(res)
+				if(res.data.errno === 0) {
+					this.$data.goStoreSum = [];
+					this.$data.goStoreSum = res.data.data;
+				}
+			})
+		}
 
 	}
 }

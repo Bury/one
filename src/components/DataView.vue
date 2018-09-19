@@ -9,7 +9,7 @@
 				</el-col>
 				<el-col :span="16">
 					<div class="title-box">
-						<span class="all-year">全年累计客流量<span class="all-data">{{briefingData.yearly.total_ct}}</span><span class="all-font">人</span></span>
+						<span class="all-year">全年累计客流量<span class="all-data">{{briefingData.yearly.total_ct | numThousand}}</span><span class="all-font">人</span></span>
                         
                         <!--增长暂时隐藏-->
 						<!--<span v-if="briefingData.yearly.total_change == 1" class="title-rise">同比增长<span class="color-f">{{briefingData.yearly.total_rate}}</span></span>
@@ -42,7 +42,6 @@
 								<p>
 									<span class="font16">客流</span><br />
 								    <span class="font25 color-e">{{briefingData.keliu.total_ct | hundredMillion}}</span><br />
-
 									<span v-if="briefingData.keliu.total_change == 1"  class="font13">对比{{rateFont}}同期上升<span class="color-f">{{briefingData.keliu.total_rate}}</span></span>
 									<span v-else-if="briefingData.keliu.total_change == 0"  class="font13">对比{{rateFont}}同期下降<span class="color-g">{{briefingData.keliu.total_rate}}</span></span>
 									<span v-else-if="briefingData.keliu.total_change == -1"  class="font13">对比{{rateFont}}同期持平<span class="color-f">{{briefingData.keliu.total_rate}}</span></span>

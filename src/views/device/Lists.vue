@@ -64,7 +64,7 @@
 					<td>{{item.locate === null ? '' :  item.locate == 'other' ? '进店' : '收银'}}</td>
 					<td> {{item.store.name != '' ? item.store.name : '未分配'}}</td>
 					<td>{{item.locate_desc}}</td>
-					<td>{{item.status == 0 ? '断开' : item.status == 1 ? '连接' : '/'}}</td>
+					<td>{{item.status == 0 ? '断开' : item.status == 1 ? '正常' : '/'}}</td>
 					<!-- <td>{{item.is_start == 0 ? '是' : '否'}}</td> -->
 					<td class="handle">
 						<el-button v-if="item.store.name != ''" @click="fnDistribution(item)" type="text" size="small">重新分配</el-button>
