@@ -79,8 +79,10 @@
 		},
 		watch:{
 			timeing:function(){
-				//监听更新chart
-				this.refreshData(this.$props.sexData);
+				//监听更新chart,
+				setTimeout(()=>{
+				 this.refreshData(this.$props.sexData);
+				},0)
 			}
 			
 		},

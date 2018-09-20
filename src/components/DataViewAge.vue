@@ -98,8 +98,10 @@
 		},
 		watch: {
 			timeing:function(){
-				//监听更新chart
-				this.refreshData(this.$props.ageData);
+				//监听更新chart,		
+				setTimeout(()=>{
+					this.refreshData(this.$props.ageData);
+				},0)
 			}
 		},
 		created() {
