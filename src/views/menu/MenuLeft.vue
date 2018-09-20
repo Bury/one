@@ -9,7 +9,7 @@
              @select="handleSelect">
 
       <template v-for="(item,index) in tableData">
-        <el-menu-item :index="item.front_url" :key="index" v-if="item.no_child" :id="item.id">
+        <el-menu-item class="leftIcon" :index="item.front_url" :key="index" v-if="item.no_child" :id="item.id">
           <div onclick="clickTotal(this.parentNode.id,this.id,1)" :id="item.name">
             <i :class="item.front_icon"></i>
             <span slot="title">{{item.name}}</span>
@@ -19,7 +19,7 @@
 
         <el-submenu v-else  :key="index"  :index="item.front_url">
          <template slot="title">
-          <i :class="item.front_icon"></i>
+          <i style="color: #fff;" :class="item.front_icon"></i>
           <span slot="title">{{item.name}}</span>
          </template>
           <template v-for="(item1,index1) in item.children">
@@ -129,5 +129,8 @@
 
   .el-menu {
     border: 0;
+  }
+  .leftIcon i{
+  	color: #fff;
   }
 </style>
