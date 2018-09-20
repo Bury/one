@@ -1,7 +1,7 @@
 <!-- 用户登录后的首页 -->
 <template>
     <div class="main-box">
-        <div class="header-wrap">
+        <div  :class="[isCollapse ? 'left70' : 'left160' , 'header-wrap']">
             <div class="company">鹰眼商家管理系统</div>
             <!-- <div class="top-menu" style="float:left;">
                 <el-menu :default-active="horizontalIndex"
@@ -48,10 +48,21 @@
 
         </div>
         <div class="left-menu-wrap">
-            <el-radio-group v-model="isCollapse">
+        	<div class="leftNav">
+              <img  :width="isCollapse ? 54 : 84" src="../../assets/images/leftLogo.png" />
+              <!--<img  v-if="isCollapse" src="../../assets/images/leftLogoMini.png"/>-->
+            </div>
+            <div class="left-arrow">
+            	<ul class="arrow-wrap">
+            		<li v-if="isCollapse" @click="isCollapse = false"><img class="moveImg" src="../../assets/images/right.png"/></li>
+            		<li v-if="!isCollapse" @click="isCollapse = true"><img class="moveImg" src="../../assets/images/left.png"/></li>            		
+            	</ul>
+            </div>
+            
+            <!--<el-radio-group v-model="isCollapse">
                 <el-radio-button :label="false" v-if="isCollapse">展开</el-radio-button>
                 <el-radio-button :label="true" v-if="!isCollapse">收起</el-radio-button>
-            </el-radio-group>
+            </el-radio-group>-->
             <MenuLeft v-if="leftMenu.leftMenu1" :isCollapse="isCollapse" :isShow="leftMenu.leftMenu1"></MenuLeft>
         </div>
         <div class="content-wrap" ref="content" :style="isCollapse ? 'margin-left:70px;' : 'margin-left:160px;'">
@@ -153,82 +164,4 @@ export default {
 
 </script>
 
-<style lang="scss" scoped>
-    .main-box{
-        width: 100%;
-        height: 100%;
-        color: #333;
-      .el-dropdown-link:focus-within{
-        border: 0;
-        outline: 0;
-      }
-        .header-wrap{
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index:99;
-            height: 60px;
-            width: 100%;
-            // min-width: 1204px;
-            background: #545c64;
-            .company{
-                float:left;
-                margin-right:30px;
-                width:160px;
-                line-height:60px;
-                font-size:18px;
-                text-align:center;
-                color:#fff;
-            }
-            .briefing-btn{
-            	float: right;
-            	margin-right: 20px;
-            	line-height:60px;
-            	font-size: 19px;
-            	color: #fff;
-            }
-            .user{
-                float: right;
-                margin-right:150px;
-                line-height:60px;
-            }
-          .user1{
-            position: absolute;
-            right:50px;
-            line-height:60px;
-          }
-        }
-        .left-menu-wrap{
-            position:fixed;
-            left:0;
-            top:60px;
-            z-index:999;
-            height: calc(100% - 60px);
-            background: #545c64;
-            overflow-x:hidden;
-            overflow-y:auto;
-            // -ms-overflow-style:none;
-            // overflow:-moz-scrollbars-none;
-            .left-menu{
-            }
-        }
-        .left-menu-wrap::-webkit-scrollbar {
-            // display: none;
-        }
-        .left-menu-wrap::-moz-scrollbar {
-            // display: none;
-        }
-
-        .content-wrap{
-            padding:90px 30px 30px;
-
-        }
-    }
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-        width: 160px;
-
-    }
-    .el-menu{
-        border:0;
-    }
-</style>
+<style lang="scss" scoped src="@/assets/css/menu/main.scss">

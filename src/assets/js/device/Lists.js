@@ -295,9 +295,10 @@ export default {
 				if(res.data.errno === 0) {
 					if(res.data.data != null && res.data.data.length > 0) {
 						this.$data.dallStores = res.data.data;
+						this.$data.distributionForm.belong_sid = "";
 					} else {
-            this.$data.dallStores = [];
-						this.$data.dnodatatext = "此地区暂无门店";
+                        this.$data.dallStores = [];
+					    this.$data.dnodatatext = "此地区暂无门店";
 						this.$data.distributionForm.belong_sid = "";
 					}
 				} else {
