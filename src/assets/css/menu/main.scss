@@ -71,7 +71,7 @@
                     line-height: 16px;
                 }
                 .moveImg{
-                    animation: movement 2s infinite;
+                    animation: movement 2s linear infinite;
                 }
                 @keyframes movement{
                   0%{transform:translate(0,0)}
