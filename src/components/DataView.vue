@@ -164,7 +164,6 @@
 
 				</div>
 			</div>
-
 		</div>
 	</div>
 </template>
@@ -236,13 +235,6 @@
 			t = setInterval(() => {
 				this.rightTopTime();
 			}, 1000);
-
-			//刷新chart定时器
-//			setInterval(() => {
-//				this.$data.lineFlag = !this.$data.lineFlag; //折线图的数据改变操作
-//				this.getRatio(); //性别年龄饼状图的数据操作
-//				this.getRank(); //简报数据总览的数据操作
-//			}, 60000);
            
 			c =  setInterval(() => {
 				(this.$data.k === 4) && (this.$data.k = 0);

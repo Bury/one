@@ -87,6 +87,14 @@
 			
 		},
 		created() {
+			let docW = document.body.clientWidth;
+			if (docW < 1930) {
+				this.options.chart.width = 360;
+				this.options.chart.height = 165;				
+			} else{
+				this.options.chart.width = 460;
+				this.options.chart.height = 240;
+			};
 			Highcharts.setOptions({
 				lang: {
 					thousandsSep: ',',

@@ -2,7 +2,7 @@
 	<div class="wrap">
 		<h4 class="statistics-title">客流趋势</h4>
 		<div class="chart-radio-wrap">
-			<span :class="radios == 'area' ? 'lc-active' : ''"  @click="cutChart('area')">折线图</span>
+			<span :class="radios == 'area' ? 'lc-active' : ''" @click="cutChart('area')">折线图</span>
 			<span :class="radios == 'column' ? 'lc-active' : ''" @click="cutChart('column')">柱状图</span>
 		</div>
 		<vue-highcharts :highcharts="Highcharts" :options="options" ref="lineCharts"></vue-highcharts>
@@ -12,14 +12,14 @@
 <script>
 	import statisticsApi from '@/api/statistics';
 	import Highcharts from 'highcharts';
-	import HighchartsNoData from 'highcharts-no-data-to-display';	
+	import HighchartsNoData from 'highcharts-no-data-to-display';
 	import VueHighcharts from 'vue2-highcharts';
 	HighchartsNoData(Highcharts);
 	export default {
 		name: 'data-view-line',
-		props:{
-			chartData:{
-				type:Object
+		props: {
+			chartData: {
+				type: Object
 			},
 			lineFlag: {
 				type: Boolean
@@ -35,7 +35,7 @@
 				options: {
 					chart: {
 						type: 'area',
-						width:550,
+						width: 550,
 						height: 280,
 						backgroundColor: 'rgba(0,0,0,0)',
 					},
@@ -46,16 +46,18 @@
 							'fongSize': '13px'
 						}
 					},
-					noData:{
-						style:{'color':'#457adb'}
+					noData: {
+						style: {
+							'color': '#457adb'
+						}
 					},
 					legend: {
 						enabled: false
 					},
-					loading:{
-						style:{
-							 "color":'#95C7FF',
-							 "backgroundColor": "rgba(255,255,255,0.1)",
+					loading: {
+						style: {
+							"color": '#95C7FF',
+							"backgroundColor": "rgba(255,255,255,0.1)",
 						}
 					},
 					credits: {
@@ -96,74 +98,83 @@
 				}
 			}
 		},
-		watch:{
-			lineFlag:function(){
+		watch: {
+			lineFlag: function() {
 				//监听刷新chart
 				this.refreshChart();
 			}
 		},
-		created() {		
+		created() {
+			let docW = document.body.clientWidth;
+			if(docW < 1930) {
+				this.options.chart.width = 520;
+				this.options.chart.height = 280;
+			} else {
+				this.options.chart.width = 720;
+				this.options.chart.height = 388;
+			};
+
 			Highcharts.setOptions({
 				lang: {
 					thousandsSep: ',',
 					noData: '暂无数据'
 				}
-			});			
+			});
 		},
-		mounted(){
+		mounted() {
 			this.getChart([]);
 			this.refreshChart();
 		},
 		methods: {
-			cutChart(val){
+			cutChart(val) {
 				this.$data.radios = val;
-                this.$refs.lineCharts.getChart().series[0].update({
-                      type: val
-                });
+				this.$refs.lineCharts.getChart().series[0].update({
+					type: val
+				});
 			},
 			getChart(val) {
 				let lineCharts = this.$refs.lineCharts;
 				lineCharts.delegateMethod('showLoading', 'Loading...');
 				lineCharts.removeSeries();
-				setTimeout(() => {					
+				setTimeout(() => {
 					lineCharts.getChart().xAxis[0].setCategories(val.time);
 					lineCharts.hideLoading();
 					lineCharts.addSeries({
-						name:'客流',
-						data:val
-					});					
-				},0)
+						name: '客流',
+						data: val
+					});
+				}, 0)
 			},
-			
+
 			//初始化请求
-//			getCustomer() {
-//				statisticsApi.getCustomerSum(this.$props.chartData).then((res) => {	
-//					console.log(res)
-//					if(res.data.errno === 0) {
-//						if(res.data.data !== null) {
-//							let arr = {
-//								name: "客流",
-//								data: res.data.data.sum,
-//								time: res.data.data.time
-//							};
-//						    this.getChart(arr);
-//						} else {
-// 						    this.getChart([])
-//						}
-//					}
-//				})
-//			},
-			
+			//			getCustomer() {
+			//				statisticsApi.getCustomerSum(this.$props.chartData).then((res) => {	
+			//					console.log(res)
+			//					if(res.data.errno === 0) {
+			//						if(res.data.data !== null) {
+			//							let arr = {
+			//								name: "客流",
+			//								data: res.data.data.sum,
+			//								time: res.data.data.time
+			//							};
+			//						    this.getChart(arr);
+			//						} else {
+			// 						    this.getChart([])
+			//						}
+			//					}
+			//				})
+			//			},
+
 			//定时刷新的请求
 			refreshChart() {
 				let lineCharts = this.$refs.lineCharts;
-				statisticsApi.getCustomerSum(this.$props.chartData).then((res) => {	
+				statisticsApi.getCustomerSum(this.$props.chartData).then((res) => {
 					if(res.data.errno === 0) {
-						if(res.data.data !== null) {							
-						    lineCharts.getChart().xAxis[0].setCategories(res.data.data.time);
-				            lineCharts.getChart().series[0].setData(res.data.data.sum);
+						if(res.data.data !== null) {
+							lineCharts.getChart().xAxis[0].setCategories(res.data.data.time);
+							lineCharts.getChart().series[0].setData(res.data.data.sum);
 						} else {
-   						    
+
 						}
 					}
 				})
@@ -173,24 +184,74 @@
 </script>
 
 <style lang="scss" scoped>
-	.wrap {
-		.statistics-title {
-			text-align: center;
-			margin: 0;
-			height: 45px;
-			font-size: 16px;
-			padding-top: 18px;
-		}
-		.chart-radio-wrap {
-			text-align: right;
-			height: 35px;
-			span{
-				display: inline-block;
-				cursor: default;
-				margin-right: 10px;
+	@media screen and (max-width: 1440px) {
+		.wrap {
+			.statistics-title {
+				text-align: center;
+				margin: 0;
+				height: 45px;
+				font-size: 16px;
+				padding-top: 18px;
 			}
-			.lc-active{
-				color: #95C7FF;
+			.chart-radio-wrap {
+				text-align: right;
+				height: 35px;
+				span {
+					display: inline-block;
+					cursor: default;
+					margin-right: 10px;
+				}
+				.lc-active {
+					color: #95C7FF;
+				}
+			}
+		}
+	}
+	
+	@media screen and (min-width: 1440px)  and (max-width: 1930px) {
+		.wrap {
+			.statistics-title {
+				text-align: center;
+				margin: 0;
+				height: 45px;
+				font-size: 16px;
+				padding-top: 18px;
+			}
+			.chart-radio-wrap {
+				text-align: right;
+				height: 35px;
+				span {
+					display: inline-block;
+					cursor: default;
+					margin-right: 10px;
+				}
+				.lc-active {
+					color: #95C7FF;
+				}
+			}
+		}
+	}
+	
+	@media screen and (min-width: 1930px) {
+		.wrap {
+			.statistics-title {
+				text-align: center;
+				margin: 0;
+				height: 45px;
+				font-size: 20px;
+				padding-top: 18px;
+			}
+			.chart-radio-wrap {
+				text-align: right;
+				height: 35px;
+				span {
+					display: inline-block;
+					cursor: default;
+					margin-right: 10px;
+				}
+				.lc-active {
+					color: #95C7FF;
+				}
 			}
 		}
 	}

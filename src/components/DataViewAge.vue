@@ -105,6 +105,17 @@
 			}
 		},
 		created() {
+			let docW = document.body.clientWidth;
+			if (docW < 1930) {
+				this.options.chart.width = 360;
+				this.options.chart.height = 165;				
+			} else{
+				this.options.chart.width = 460;
+				this.options.chart.height = 240;
+				this.options.plotOptions.pie.innerSize = 90;
+				this.options.legend.itemDistance = 5;
+			};
+			
 			Highcharts.setOptions({
 				lang: {
 					thousandsSep: ',',
