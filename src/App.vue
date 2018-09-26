@@ -39,7 +39,6 @@ export default {
   height: 100%;
   color: #ffffff;
   background-color: #fff;
-  overflow: auto;
 }
 
 input, .el-select-dropdown, .el-textarea, .el-textarea__inner, .el-message-box, .el-message,

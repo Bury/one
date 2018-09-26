@@ -1,8 +1,8 @@
 <!-- 用户登录后的首页 -->
 <template>
     <div class="main-box">
-        <div  :class="[isCollapse ? 'left70' : 'left160' , 'header-wrap']">
-            <div class="company">鹰眼商家管理系统</div>
+        <div  class="header-wrap">
+            <div :class="[isCollapse ? 'ml90' : 'ml190' , 'company']"><img src="../../assets/images/headLogo.png"/></div>
             <!-- <div class="top-menu" style="float:left;">
                 <el-menu :default-active="horizontalIndex"
                       class="el-menu-demo"
@@ -19,7 +19,7 @@
             </div> -->            
             <div class="user">
                 <el-dropdown trigger="hover" >
-                    <span class="el-dropdown-link" style="color:#fff;">
+                    <span class="el-dropdown-link" style="color:#2A2A2A;">
                       您好，{{userName}}
                       <i class="el-icon-caret-bottom el-icon--right"></i>
                     </span>

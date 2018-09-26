@@ -3,7 +3,7 @@
     <el-menu :default-active="currentMenu"
              class="el-menu-vertical-demo"
              :collapse="isCollapse && isShow"
-             background-color="#545c64"
+             background-color="#40166e"
              text-color="#fff"
              active-text-color="#409EFF"
              @select="handleSelect">
