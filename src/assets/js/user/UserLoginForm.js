@@ -76,9 +76,6 @@ export default {
       }
     }
   },
-  created: function () {
-    this.menu();
-  },
   mounted: function () {
   },
   methods: {
@@ -94,7 +91,9 @@ export default {
           userApi.login(qs.stringify(this.$data.loginInfo)).then((res) => {
             if(res.data.errno === 0){
               localStorage.setItem('knock_knock', res.data.data.access_token);
+              localStorage.setItem('domain', res.data.data.user.domain);
               localStorage.setItem('username', res.data.data.user.username);
+              
               if(res.data.data.user.is_change_pwd == 0){
                 this.$data.dialogFormVisible = true;
               }else{

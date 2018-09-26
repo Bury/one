@@ -26,13 +26,14 @@ const functions={
 			object.logout().then((res) => {
 				if(res.data.errno === 0){
 					localStorage.setItem('knock_knock', '');
+					localStorage.setItem('domain', '');
 			        localStorage.setItem('username', '');
 			        localStorage.setItem('store_id', '');
 			        localStorage.setItem('store_name', '');
 					// this.$router.replace({
 					// 	name: 'UserLogin'
 					// });
-					router.push('/');//this.$router.replace({name: '/'})
+					window.location.href = '/';//this.$router.replace({name: '/'})
 				}else{
 					message.error(res.ata.msg);
 				}
