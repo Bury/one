@@ -41,11 +41,11 @@
 			position:relative;
 			margin-bottom:20px;
 			height: 36px;
-			border-bottom:1px solid #d2d2d2;
+			border-bottom:1px solid #E4E7ED;
 			.btn-wrap{
 				position: absolute;
 				bottom:-1px;
-				right:20px;
+				right:0px;
 			}
 		}
 	}

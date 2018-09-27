@@ -3,9 +3,9 @@
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
 		</div>
-    <table width="80%" class="table-bordered">
-      <thead style="background-color: #d1d1d1">
-      <tr height="40">
+    <table width="80%" class="yingyanTable">
+      <thead>
+      <tr height="50">
         <th class="col-md-1 text-center">ID</th>
         <th class="col-md-2 text-center">名称</th>
         <th class="col-md-1 text-center">排序</th>
@@ -14,7 +14,7 @@
       </tr>
       </thead>
       <tbody style="text-align: center">
-      <tr v-for="(item,index) in tableData" :key="index" height="40">
+      <tr v-for="(item,index) in tableData" :key="index" height="50">
         <td>{{item.id}}</td>
         <td>{{item.name}}</td>
         <td>{{item.sort}}</td>
@@ -33,7 +33,7 @@
     </table>
 	    <!-- 分页 -->
 	    <!--
-	    <div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
+	    <div v-if="tableData.length > 0"  class="paginationBox">
 	    	<el-pagination
 				background
 	            class="pagination"
@@ -342,20 +342,16 @@
 		.top-box{
 			position:relative;
 			margin-bottom:20px;
-			height: 36px;
-			border-bottom:1px solid #d2d2d2;
+			height: 33px;
+			border-bottom:1px solid #E4E7ED;
 			.add-btn{
 				position: absolute;
 				top:0;
-				right:20px;
+				right:0px;
 
 			}
 		}
 
-	}
-	.el-pagination{
-		margin:20px 0;
-	  	float: right;
 	}
 
 </style>

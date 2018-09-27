@@ -3,9 +3,9 @@
 		<div class="top-box">
 			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
 		</div>
-		<table width="60%" class="table-bordered">
-			<thead style="background-color: #d1d1d1">
-				<tr height="40">
+		<table width="60%" class="yingyanTable">
+			<thead>
+				<tr height="50">
 					<th class="col-md-2 text-center">序号</th>
 					<th class="col-md-4 text-center">岗位名称</th>
 					<th class="col-md-2 text-center">权限</th>
@@ -13,7 +13,7 @@
 				</tr>
 			</thead>
 			<tbody style="text-align:center;">
-				<tr v-for="(item,index) in tableData" :key="index">
+				<tr v-for="(item,index) in tableData" :key="index" height="50">
 					<td height="40px">{{(pagination.currentPage - 1) * 20 + index + 1 }}</td>
 					<td>{{item.name}}</td>
 					<td>
@@ -27,7 +27,7 @@
 			</tbody>
 		</table>
 		<!-- 分页 -->
-		<div v-if="tableData.length > 0" style="margin:0 auto;width:701px;">
+		<div v-if="tableData.length > 0" class="paginationBox">
 			<el-pagination background class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
 			</el-pagination>
 		</div>

@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex;text-align: center">
+  <div style="display: flex;text-align: center;min-height: 600px;">
     <el-col :span="12">
 	<div class="open-time-set-page">
 		<h3 class="top-box">营业时间设置</h3>
@@ -98,9 +98,9 @@
 </script>
 <style lang="scss" scoped>
 	.open-time-set-page{
-		margin:80px auto 0;
+		margin: 80px auto;
 		padding:40px;
-		border:1px solid #d2d2d2;
+		border:1px solid #E4E7ED;
 		.top-box{
 			height: 60px;
 		}

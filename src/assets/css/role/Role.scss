@@ -2,12 +2,12 @@
         .top-box {
             position: relative;
             margin-bottom: 20px;
-            height: 36px;
-            border-bottom: 1px solid #d2d2d2;
+            height: 33px;
+            border-bottom: 1px solid #E4E7ED;
             .add-btn {
                 position: absolute;
                 top: 0;
-                right: 20px;
+                right: 0px;
             }
         }
         .role-info{
@@ -27,11 +27,6 @@
         label {
             margin: 0;
         }
-    }
-
-    .el-pagination {
-        margin: 20px 0;
-        float: right;
     }
 
     .permission-tree{

@@ -1,14 +1,14 @@
 <template>
 	<div class="label-list-page">
-		<table width="60%" class="table-bordered">
+		<table width="60%" class="yingyanTable">
 			<thead style="background-color: #d1d1d1">
-				<tr height="40">
+				<tr height="50">
 					<th class="col-md-2 text-center">标签类名</th>
 					<th class="col-md-2 text-center">操作</th>
 				</tr>
 			</thead>
 			<tbody style="text-align: center">
-				<tr v-for="(item,index) in tableData" :key="index" height="40">
+				<tr v-for="(item,index) in tableData" :key="index" height="50">
 					<td>{{item.name}}</td>
 					<td>
 						<el-button type="primary"  plain  size="small" @click="fnGoPage(item)">编辑</el-button>
@@ -17,7 +17,7 @@
 			</tbody>
 		</table>
 		<!-- 分页 -->
-		<div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
+		<div v-if="tableData.length > 0" class="paginationBox">
 			<el-pagination background class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
 			</el-pagination>
 		</div>
@@ -153,17 +153,12 @@
 			position: relative;
 			margin-bottom: 20px;
 			height: 36px;
-			border-bottom: 1px solid #d2d2d2;
+			border-bottom: 1px solid #E4E7ED;
 			.add-btn {
 				position: absolute;
 				top: 0;
 				right: 20px;
 			}
 		}
-	}
-	
-	.el-pagination {
-		margin: 20px 0;
-		float: right;
 	}
 </style>

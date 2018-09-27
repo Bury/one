@@ -19,7 +19,7 @@
 
         <el-submenu v-else  :key="index"  :index="item.front_url">
          <template slot="title">
-          <i style="color: #fff;" :class="item.front_icon"></i>
+          <i  :class="item.front_icon"></i>
           <span slot="title">{{item.name}}</span>
          </template>
           <template v-for="(item1,index1) in item.children">

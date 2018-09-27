@@ -58,14 +58,9 @@
             		<li v-if="!isCollapse" @click="isCollapse = true"><img class="moveImg" src="../../assets/images/left.png"/></li>            		
             	</ul>
             </div>
-            
-            <!--<el-radio-group v-model="isCollapse">
-                <el-radio-button :label="false" v-if="isCollapse">展开</el-radio-button>
-                <el-radio-button :label="true" v-if="!isCollapse">收起</el-radio-button>
-            </el-radio-group>-->
             <MenuLeft v-if="leftMenu.leftMenu1" :isCollapse="isCollapse" :isShow="leftMenu.leftMenu1"></MenuLeft>
         </div>
-        <div class="content-wrap" ref="content" :style="isCollapse ? 'margin-left:70px;' : 'margin-left:160px;'">
+        <div class="content-wrap" ref="content" :style="isCollapse ? 'margin-left:74px;' : 'margin-left:170px;'">
             <router-view></router-view>
         </div>
     </div>

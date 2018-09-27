@@ -28,9 +28,9 @@
 				<el-button type="primary" @click="resetList">重置</el-button>
 			</el-form-item>
 		</el-form>
-		<table width="100%" class="table-bordered">
-			<thead style="background-color: #d1d1d1">
-				<tr height="40">
+		<table width="100%" class="yingyanTable">
+			<thead>
+				<tr height="50">
 					<th class="col-md-1 text-center">序号</th>
 					<th class="col-md-2 text-center">账号</th>
 					<th class="col-md-2 text-center">姓名</th>
@@ -42,7 +42,7 @@
 			</thead>
 			<tbody style="text-align: center">
 				<template v-if='tableData.length > 0'>
-					<tr v-for="(item,index) in tableData" :key="index" height="40">
+					<tr v-for="(item,index) in tableData" :key="index" height="50">
 						<td>{{(pagination.currentPage - 1) * 20 + index + 1 }}</td>
 						<td>{{item.username}}</td>
 						<td>{{item.truename}}</td>
@@ -62,7 +62,7 @@
 			</tbody>
 		</table>
 		<!-- 分页 -->
-		<div v-if="tableData.length > 0" style="margin:0 auto;width:961px;">
+		<div v-if="tableData.length > 0" class="paginationBox">
 			<el-pagination background class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
 			</el-pagination>
 		</div>

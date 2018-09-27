@@ -1,6 +1,9 @@
 <template>
 	<div class="account-set-page">
 		<div class="top-box">
+			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()" onclick="clickTotal('413','新增账号',1)">新增</el-button>
+		</div>
+		<div>
 			<el-form :inline="true" :model="requestParameters" class="demo-form-inline" size="mini">
 				<el-form-item label="帐号：">
 			    	<el-input v-model="requestParameters.username"></el-input>
@@ -19,12 +22,10 @@
 				</el-form-item>
 			</el-form>
 		</div>
-		<div class="top-box">
-			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()" onclick="clickTotal('413','新增账号',1)">新增</el-button>
-		</div>
-    <table width="99%" class="table-bordered">
-      <thead style="background-color: #d1d1d1">
-      <tr height="40">
+		
+    <table width="100%" class="yingyanTable">
+      <thead>
+      <tr height="50">
         <th class="col-md-1 text-center">序号</th>
         <th class="col-md-2 text-center">账号</th>
         <th class="col-md-1 text-center">岗位</th>
@@ -36,7 +37,7 @@
       </tr>
       </thead>
       <tbody v-if="tableData.length > 0" style="text-align: center">
-      <tr v-for="(item,index) in tableData" :key="index" height="40">
+      <tr v-for="(item,index) in tableData" :key="index" height="50">
         <td>{{(pagination.currentPage - 1) * 20 + index + 1 }}</td>
         <td>{{item.username}}</td>
         <td>{{item.storeRole.name}}</td>
@@ -53,7 +54,7 @@
 			<tbody v-else><tr><td colspan="8" height="50px" align="center">暂无数据~</td></tr></tbody>
     </table>
 	    <!-- 分页 -->
-	   <div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
+	   <div v-if="tableData.length > 0" class="paginationBox">
 	    	<el-pagination
 				background
 	            class="pagination"

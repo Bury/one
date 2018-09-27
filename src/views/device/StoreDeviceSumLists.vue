@@ -1,8 +1,8 @@
 <template>
 	<div class="store-box">
-    <table width="80%" class="table-bordered">
-      <thead style="background-color: #d1d1d1">
-      <tr height="40">
+    <table width="99%" class="yingyanTable">
+      <thead>
+      <tr height="50">
         <th class="col-md-3 text-center">序号</th>
         <th class="col-md-3 text-center">门店</th>
         <th class="col-md-3 text-center">设备数</th>
@@ -10,7 +10,7 @@
       </tr>
       </thead>
       <tbody style="text-align: center">
-      <tr v-for="(item,index) in tableData" :key="index" height="40">
+      <tr v-for="(item,index) in tableData" :key="index" height="50">
         <td>{{(pagination.currentPage - 1) * 20 + index + 1 }}</td>
         <td>{{item.name}}</td>
         <td>{{item.deviceFaceCount}}</td>
@@ -21,7 +21,7 @@
     </table>
 
 	    <!-- 分页 -->
-		<div v-if="tableData.length > 0" style="margin:0 auto;max-width:521px;">
+		<div v-if="tableData.length > 0"  class="paginationBox">
 			<el-pagination
 				background
 	            class="pagination"
@@ -45,11 +45,6 @@
 			border-bottom:1px solid #d2d2d2;
 
 		}
-	}
-
-	.el-pagination{
-		margin:20px 0;
-	  	float: right;
 	}
 
 </style>

@@ -7,9 +7,9 @@
 			所属门店：{{this.$route.query.storeName}}
 		</h4>
 		<!-- 列表 -->
-    <table width="99%" class="table-bordered">
-      <thead style="background-color: #d1d1d1">
-      <tr height="40">
+    <table width="99%" class="yingyanTable">
+      <thead>
+      <tr height="50">
         <th class="col-md-1 text-center">序号</th>
         <th class="col-md-2 text-center">编号</th>
         <!-- <th class="col-md-1 text-center">版本</th> -->
@@ -23,7 +23,7 @@
       </tr>
       </thead>
       <tbody v-if="tableData.length > 0" style="text-align: center">
-      <tr v-for="(item,index) in tableData" :key="index" height="40">
+      <tr v-for="(item,index) in tableData" :key="index" height="50">
         <td>{{(pagination.currentPage - 1) * 20 + index + 1 }}</td>
         <td>{{item.device_id}}</td>
         <!-- <td>{{item.version}}</td> -->
@@ -53,7 +53,7 @@
 
 
 	    <!-- 分页 -->
-		<div v-if="tableData.length > 0" style="margin:0 auto;max-width:1332px;">
+		<div v-if="tableData.length > 0" class="paginationBox">
 			<el-pagination
 				background
 	            class="pagination"
@@ -90,9 +90,3 @@
 	</div>
 </template>
 <script src="@/assets/js/device/StoreDeviceDetailLists.js"></script>
-<style lang="scss" scoped>
-	.el-pagination{
-		margin:20px 0;
-	  	float: right;
-	}
-</style>

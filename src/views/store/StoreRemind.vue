@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex;text-align: center">
+  <div style="display: flex;text-align: center;min-height: 600px;">
     <el-col :span="11">
 	    <div class="remind-set-page">
         <h3 class="top-box">来客提醒配置</h3>

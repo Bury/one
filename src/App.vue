@@ -38,7 +38,7 @@ export default {
   min-width:1204px;
   height: 100%;
   color: #ffffff;
-  background-color: #fff;
+  background-color: #EEF1F6;
 }
 
 input, .el-select-dropdown, .el-textarea, .el-textarea__inner, .el-message-box, .el-message,
@@ -64,5 +64,25 @@ ul,li{list-style: none;}
 .el-message .el-message__icon{
 	margin: 0 10px;
 }
+
+/*左侧导航栏图标颜色重置*/
+ .el-submenu__title i{
+ 	color: #fff;
+ }
  
+ /*表格初始化样式*/
+ .yingyanTable thead tr{
+ 	color: #666666;
+ 	background-color: #FAFAFA;
+ 	border: solid 1px #F5F5F5;
+ }
+ .yingyanTable td{
+ 	color: #2A2A2A;
+ 	border-bottom: solid 1px #F5F5F5;
+ }
+ 
+ /*分页底部样式*/
+.paginationBox{
+	text-align: center;
+}
 </style>

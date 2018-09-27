@@ -6,9 +6,9 @@
 		<div class="saveBox">
 			<el-button type="primary" plain @click="saveSelectTag" onclick="clickTotal('407','来客标签保存',1)">保存</el-button>
 		</div>
-		<table width="60%" class="table-bordered">
-			<thead style="background-color: #d1d1d1">
-				<tr height="40">
+		<table width="60%" class="yingyanTable">
+			<thead>
+				<tr height="50">
 					<th class="col-md-2 text-center">选择</th>
 					<th class="col-md-2 text-center">序号</th>
 					<th class="col-md-2 text-center">排序</th>
@@ -17,7 +17,7 @@
 				</tr>
 			</thead>
 			<tbody v-if="tableData.length > 0" style="text-align: center">
-				<tr v-for="(item,index) in tableData" :key="index" height="40">
+				<tr v-for="(item,index) in tableData" :key="index" height="50">
 					<td>
 						<el-checkbox :checked="item.selected === 0 ? false : true" @change="selectBox($event,item.id)"></el-checkbox>
 					</td>
@@ -37,7 +37,7 @@
 		</table>
 
 		<!-- 分页 -->
-		<div v-if="tableData.length > 0" style="margin:0 auto;width:621px;">
+		<div v-if="tableData.length > 0"  class="paginationBox">
 			<el-pagination background class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
 			</el-pagination>
 		</div>
@@ -214,8 +214,8 @@
 		.top-box {
 			position: relative;
 			margin-bottom: 20px;
-			height: 36px;
-			border-bottom: 1px solid #d2d2d2;
+			height: 33px;
+			border-bottom: 1px solid #E4E7ED;
 			.add-btn1 {
 				right: 100px;
 			}
@@ -226,10 +226,5 @@
 		width: 60%;
 		text-align: right;
 		margin: 20px auto;
-	}
-
-	.el-pagination {
-		margin: 20px 0;
-		float: right;
 	}
 </style>

@@ -21,8 +21,8 @@
 			</el-form-item>
 		</el-form>
 
-		<table width="90%" class="table-bordered">
-			<thead style="background-color: #d1d1d1">
+		<table width="100%" class="yingyanTable"> 
+			<thead>
 				<tr height="50">
 					<th class="col-md-1 text-center">序号</th>
 					<th class="col-md-2 text-center">门店名</th>
@@ -33,7 +33,7 @@
 			</thead>
 			<tbody style="text-align: center">
 				<template v-if='tableData.length > 0'>
-					<tr v-for="(item,index) in tableData" :key="index" height="40px">
+					<tr v-for="(item,index) in tableData" :key="index" height="50px">
 						<td>{{(pagination.currentPage - 1) * 20 + index + 1 }}</td>
 						<td>{{item.name}}</td>
 						<td>{{item.organizes.name}}</td>
@@ -52,7 +52,7 @@
 			</tbody>
 		</table>
 		<!-- 分页 -->
-		<div v-if="tableData.length > 0" style="margin:0 auto;width:701px;">
+		<div v-if="tableData.length > 0" class="paginationBox">
 			<el-pagination background class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
 			</el-pagination>
 		</div>
