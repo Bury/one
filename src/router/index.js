@@ -2,62 +2,62 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 // 模板框架
-import Main from '../views/menu/Main'
+const Main = resolve => require(['@/views/menu/Main'],resolve)
 
 // 登录页面
-import UserLogin from '../views/user/UserLogin'
+const UserLogin = resolve => require(['@/views/user/UserLogin'],resolve);
 
 
 
 
 //数据图
-import DataView from '../components/DataView'
+const DataView = resolve => require(['@/components/DataView'],resolve);
 
 //客流统计
-import Statistics from '../views/guest/Statistics'
-import Guest from '../views/guest/Guest'
+const Statistics = resolve => require(['@/views/guest/Statistics'],resolve);
+const Guest = resolve => require(['@/views/guest/Guest'],resolve);
 
 /*订单管理*/
-import Order from '../views/order/Order'
+const Order = resolve => require(['@/views/order/Order'],resolve);
 
 /*标签管理*/
-import LabelList from '../views/label/LabelList'
-import LabelDetail from '../views/label/LabelDetail'
+const LabelList = resolve => require(['@/views/label/LabelList'],resolve);
+const LabelDetail = resolve => require(['@/views/label/LabelDetail'],resolve);
 
 /*设备管理*/
-import Device from '../views/device/Device'
-import Lists from '../views/device/Lists'
-import StoreDeviceSumLists from '../views/device/StoreDeviceSumLists'
-import StoreDeviceDetailLists from '../views/device/StoreDeviceDetailLists'
+const Device = resolve => require(['@/views/device/Device'],resolve);
+const Lists = resolve => require(['@/views/device/Lists'],resolve);
+const StoreDeviceSumLists = resolve => require(['@/views/device/StoreDeviceSumLists'],resolve);
+const StoreDeviceDetailLists = resolve => require(['@/views/device/StoreDeviceDetailLists'],resolve);
 
 
 /*****门店管理*****/
 
 //门店管理
-import StoreOrganize from '../views/store/StoreOrganize'
-import Store from '../views/store/Store'
-import StoreAccount from '../views/store/StoreAccount'
-import StoreAccountManage from '../views/store/StoreAccountManage'
-import StorePost from '../views/store/StorePost'
-import StoreRemind from '../views/store/StoreRemind'
-import StoreTime from '../views/store/StoreTime'
+const StoreOrganize = resolve => require(['@/views/store/StoreOrganize'],resolve);
+const Store = resolve => require(['@/views/store/Store'],resolve);
+const StoreAccount = resolve => require(['@/views/store/StoreAccount'],resolve);
+const StoreAccountManage = resolve => require(['@/views/store/StoreAccountManage'],resolve);
+const StorePost = resolve => require(['@/views/store/StorePost'],resolve);
+const StoreRemind = resolve => require(['@/views/store/StoreRemind'],resolve);
+const StoreTime = resolve => require(['@/views/store/StoreTime'],resolve);
 
 /*****系统设置*****/
 //部门管理
-import Department from '../views/department/Department'
+const Department = resolve => require(['@/views/department/Department'],resolve);
 //岗位管理
-import Role from '../views/role/Role'
+const Role = resolve => require(['@/views/role/Role'],resolve);
 //帐号管理
-import User from '../views/user/User'
+const User = resolve => require(['@/views/user/User'],resolve);
 
 
 //个人中心
-import UserPersonal from '../views/user/UserPersonal'
+const UserPersonal = resolve => require(['@/views/user/UserPersonal'],resolve);
 //通知
-import Notice from '../views/notice/Notice'
-import Inbox from '../views/notice/Inbox'
-import Outbox from '../views/notice/Outbox'
-import Drafts from '../views/notice/Drafts'
+const Notice = resolve => require(['@/views/notice/Notice'],resolve);
+const Inbox = resolve => require(['@/views/notice/Inbox'],resolve);
+const Outbox = resolve => require(['@/views/notice/Outbox'],resolve);
+const Drafts = resolve => require(['@/views/notice/Drafts'],resolve);
 
 Vue.use(Router)
 
