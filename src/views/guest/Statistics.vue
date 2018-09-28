@@ -2,6 +2,13 @@
 <template>
 	<div class="statistics-page">
 		<div class="top-box top-box-time">
+			<el-tabs v-model="timeType" type="card" @tab-click="changeTimeType">
+				<el-tab-pane label="日统计" name="day"></el-tab-pane>
+				<el-tab-pane label="周统计" name="week"></el-tab-pane>
+				<el-tab-pane label="月统计" name="month"></el-tab-pane>
+				<el-tab-pane label="年统计" name="year"></el-tab-pane>
+				<el-tab-pane label="自定义统计" name="userDefined"></el-tab-pane>
+			</el-tabs>
 			<el-form :inline="true" class="demo-form-inline" size="mini">
 				<el-form-item label="时间选择：">
 					<el-date-picker v-show="ctrlTimeType[0]" v-model="day" type="date" placeholder="选择日期时间" :picker-options="pickerOptionsSet">
@@ -34,13 +41,7 @@
 					<el-button type="primary" @click="editSumDiff" plain>{{selectType}}</el-button>
 				</el-form-item>
 			</el-form>
-			<el-tabs v-model="timeType" type="card" @tab-click="changeTimeType">
-				<el-tab-pane label="日统计" name="day"></el-tab-pane>
-				<el-tab-pane label="周统计" name="week"></el-tab-pane>
-				<el-tab-pane label="月统计" name="month"></el-tab-pane>
-				<el-tab-pane label="年统计" name="year"></el-tab-pane>
-				<el-tab-pane label="自定义统计" name="userDefined"></el-tab-pane>
-			</el-tabs>
+			
 		</div>
 
 		<!--数据选择弹框-->
