@@ -1,35 +1,92 @@
 .statistics-page{
+    position: absolute;
+    background-color: #EEF1F6;
+    top: 0;
+    left: 0;
+    width: 100%;
     .top-box{
-        z-index:9;
-        width:100%;
-        background:#fff;
+        z-index:9;        
+    }
+    .top-box-time{
+        width: 100%;
+        min-width: 1160px;
+        background-color: #fff;
+        padding: 30px 30px 20px;
     }
     .charts-type{
-        margin:0 auto;
-        padding:5px;
-        width: 99%;
+        width: 100%;
+        min-width: 1160px;
         overflow:hidden;
         .charts-wrap{
-            float:left;
-            margin: 15px 0;
-            width: 48%;
-            height: 520px;
+            padding: 15px;
+            margin-top: 10px;
             position: relative;
-            .go-store-num{
-                text-align: left;
-                margin-bottom: 10px;
-                section{
-                    display: inline-block;
-                    margin-right: 20px;
+            background-color: #FFFFFF;
+            .sumTop{
+                margin-top: 40px;
+                text-align: center;
+                border-bottom: solid 1px #EEF1F6;
+                h5{
+                    font-size: 17px;
+                    color: #2A2A2A;
+                }
+                span{
+                    font-size: 48px;
+                    color: #FF6953;
+                    line-height: 150px;
+                }
+            }
+            .sumBottom{
+                margin-top: 50px;
+                display: flex;
+                text-align: center;  
+                span{
+                    font-size: 24px;
+                    color: #2A2A2A;
+                    line-height: 60px;
+                }  
+                p{
+                    color: #999999;
+                }      
+                li:nth-child(2){
+                    border-left: solid 1px #EEF1F6;
+                    border-right: solid 1px #EEF1F6;
+                }      
+            }
+            .diffTable{
+                width: 100%;
+                text-align: center;
+                font-size: 15px;
+                th{
+                    text-align: center;
+                    height: 60px;
+                    background-color: #FAFAFA;
+                    color: #2A2A2A;
+                }
+                td{
+                    height: 60px;
+                    border-bottom: solid 1px #EEF1F6;
                 }
             }
 
         }
-        .charts-wrap:nth-child(2){
-           padding-top: 100px;
+        li:nth-child(2n){
+            float: right;
         }
-        .charts-wrap:nth-child(2n){
-            float:right;
+        li:nth-child(2n+1){
+            float: left;
+        }
+        .cwA{
+            width: 38%;
+            height: 451px;
+        }
+        .cwB{
+            width: calc(62% - 10px);
+        }
+        
+        .cwColumnPie{
+            width: calc(50% - 5px);
+            height: 393px;
         }
     }
     .data-select{
@@ -65,11 +122,19 @@
             font-size: 17px;
         }
     }
+   
+   .bottomTable{
+       background-color: #FFFFFF;
+       padding: 20px;
+       margin-bottom: 10px;
+   } 
   .title-guest-chart{
-    font-size: 18px;
-    color: #333;
-    fill:#333;
-    margin-bottom: 1.5rem;
+    font-size: 17px;
+    text-align: center;
+    color: #2A2A2A;
+    margin-top: 0;
+    padding-bottom: 13px;
+    border-bottom: solid 1px #EEF1F6;
   }
 }
 

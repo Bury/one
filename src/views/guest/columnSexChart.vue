@@ -33,10 +33,12 @@
 				xName:[],
 				options: {
 					chart: {
+						marginTop: 30,
+						height:'320',
 						type: ''
 					},
 					title: {
-						text: '性别占比'
+						text: ''
 					},
 					credits: {
 						text: '',

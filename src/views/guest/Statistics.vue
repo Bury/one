@@ -1,7 +1,7 @@
 <!-- 首页 -->
 <template>
 	<div class="statistics-page">
-		<div class="top-box">
+		<div class="top-box top-box-time">
 			<el-form :inline="true" class="demo-form-inline" size="mini">
 				<el-form-item label="时间选择：">
 					<el-date-picker v-show="ctrlTimeType[0]" v-model="day" type="date" placeholder="选择日期时间" :picker-options="pickerOptionsSet">
@@ -81,15 +81,51 @@
 
 		<div v-show="customShow">
 			<ul class="charts-type">
-				<li class="charts-wrap">
-					<div style="padding:10px 0 12px;text-align:center;">
-						<div class="go-store-num">
-							<section v-if="sumOrDiff === '0'">到店人数: <span>{{goStoreSum[0].passenger_flow}}</span>(人)</section>
-							<section v-if="sumOrDiff === '1'" v-for="(item,index) in goStoreSum">
-								<span>{{item.name}}</span>：<span>{{item.passenger_flow}}</span>(人)
-							</section>
+				<li class="charts-wrap cwA">
+					<section v-if="sumOrDiff === '0'">
+						<div class="sumTop">
+						   <h5>到店人数</h5>
+						   <span>{{goStoreSum[0].passenger_flow}}</span>
 						</div>
-						<div class="title-guest-chart">客流统计</div>
+						<ul class="sumBottom">
+							<li style="width: 30%;">
+								<span>{{goStoreSum[0].sales_volume}}</span>
+								<p>订单数</p>								
+							</li>
+							<li style="width: 40%;">
+								<span>{{goStoreSum[0].sales_singular}}</span>
+								<p>销售额</p>
+							</li>
+							<li style="width: 30%;">
+								<span>{{goStoreSum[0].turnover_rate}}</span>
+								<p>成交率</p>
+							</li>
+						</ul>
+					</section>
+					
+					<section v-if="sumOrDiff === '1'">
+						<table class="diffTable">
+							<tr>
+								<th>店名</th>
+								<th>到店人数</th>
+								<th>订单数</th>
+								<th>销售额</th>
+								<th>成交率</th>
+							</tr>
+							<tr   v-for="(item,index) in goStoreSum">
+								<td>{{item.name}}</td>
+								<td>{{item.passenger_flow}}</td>
+								<td>{{item.sales_volume}}</td>
+								<td>{{item.sales_singular}}</td>
+								<td>{{item.turnover_rate}}</td>
+							</tr>
+						</table>
+					</section>
+				</li>
+				<li class="charts-wrap cwB">
+					<h4 class="title-guest-chart">客流统计</h4>
+					<div style="padding:10px 0 12px;text-align:center;">
+												
 						<el-radio-group v-model="statisticsType" @change="customerClass" size="small">
 							<el-radio-button label="1" onclick="clickTotal('301','客流趋势',1)">客流趋势</el-radio-button>
 							<el-radio-button label="2" onclick="clickTotal('302','成交率',1)">成交率</el-radio-button>
@@ -100,31 +136,39 @@
 					<guest-chart :sumOrDiff="sumOrDiff" :changeFlag="changeFlag" :postVal="guestParameters" :statisticsType="statisticsType"></guest-chart>
 				</li>
 				<template v-if="sumOrDiff === '0'">
-					<li v-show="statisticsType === '1'" class="charts-wrap">
+					<li v-show="statisticsType === '1'" class="charts-wrap cwColumnPie">
+						<h4 class="title-guest-chart">新客熟客占比</h4>						
 						<new-old-chart :sumOrDiff="sumOrDiff" :newOldData="guestParameters" :changeFlag="changeFlag"></new-old-chart>
 					</li>
-					<li v-show="statisticsType === '1'" class="charts-wrap">
+					<li v-show="statisticsType === '1'" class="charts-wrap cwColumnPie">
+						<h4 class="title-guest-chart">年龄段占比</h4>	
 						<age-chart :sumOrDiff="sumOrDiff" :ageData="guestParameters" :changeFlag="changeFlag"></age-chart>
 					</li>
-					<li v-show="statisticsType === '1'" class="charts-wrap">
+					<li v-show="statisticsType === '1'" class="charts-wrap cwColumnPie">
+						<h4 class="title-guest-chart">性别占比</h4>	
 						<sex-chart :sumOrDiff="sumOrDiff" :sexData="guestParameters" :changeFlag="changeFlag"></sex-chart>
 					</li>
 				</template>
 				<template v-else>
-					<li v-show="statisticsType === '1'" class="charts-wrap">
+					<li v-show="statisticsType === '1'" class="charts-wrap cwColumnPie">
+						<h4 class="title-guest-chart">新客熟客占比</h4>	
 						<column-new-chart :sumOrDiff="sumOrDiff" :columnNew="guestParameters" :changeFlag="changeFlag"></column-new-chart>
 					</li>
-					<li v-show="statisticsType === '1'" class="charts-wrap">
+					<li v-show="statisticsType === '1'" class="charts-wrap cwColumnPie">
+						<h4 class="title-guest-chart">年龄段占比</h4>	
 						<column-age-chart :sumOrDiff="sumOrDiff" :columnAge="guestParameters" :changeFlag="changeFlag"></column-age-chart>
 					</li>
-					<li v-show="statisticsType === '1'" class="charts-wrap">
+					<li v-show="statisticsType === '1'" class="charts-wrap cwColumnPie">
+						<h4 class="title-guest-chart">性别占比</h4>	
 						<column-sex-chart :sumOrDiff="sumOrDiff" :columnSex="guestParameters" :changeFlag="changeFlag"></column-sex-chart>
 					</li>
 				</template>
+				<li style="clear: both;"></li>
 			</ul>
 
-			<template v-if="statisticsType === '1'">
-				<el-table :data="tableData" stripe v-loading="loading" style="width: 100%;" border @sort-change="changeSort">
+			<div class="bottomTable" v-if="statisticsType === '1'">
+				<h4 class="title-guest-chart">客流列表</h4>	
+				<el-table :data="tableData" stripe v-loading="loading" style="width: 100%;margin-top: 30px;" border @sort-change="changeSort">
 					<el-table-column type="index" :index="indexRank" label="排名" width="60" align="center">
 					</el-table-column>
 					<el-table-column prop="name" label="名称" align="center">
@@ -152,11 +196,11 @@
 					<el-table-column prop="60-" label="60岁以上占比" :formatter="formatterVal" sortable="custom" width="135" align="center">
 					</el-table-column>
 				</el-table>
-				<div style="margin:0 auto;max-width:1551px; text-align: right;">
+				<div style="text-align: center;">
 					<el-pagination background class="pagination" layout="prev, pager, next" small @current-change="currentPage" :current-page="pagination.currentPage" :page-size="listParameters.page_size" :page-count="pagination.totalCount">
 					</el-pagination>
 				</div>
-			</template>
+			</div>
 		</div>
 		<div v-show="customShow === false" style="text-align: center;padding-top: 20px;">请选择时间</div>
 	</div>

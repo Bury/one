@@ -32,10 +32,11 @@
 				Highcharts:Highcharts,
 				options: {
 					chart: {
+						height:'320',
 						type: 'pie'
 					},
 					title: {
-						text: '年龄段占比'
+						text: ''
 					},
 					tooltip: {
 					 pointFormat:'{series.name}: <b>{point.y}</b><br/>占比:{point.percentage:.1f}%'

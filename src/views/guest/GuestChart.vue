@@ -1,6 +1,8 @@
 <template>
 	<div class="chartWrap">
-		<vue-highcharts :highcharts="Highcharts" :options="options" ref="guestCharts"></vue-highcharts>
+		<div class="chartLine">
+			<vue-highcharts :highcharts="Highcharts" :options="options" ref="guestCharts"></vue-highcharts>
+		</div>		
 		<el-radio-group v-model="chartOptionsType" @change="customerType" class="el-radio-select" v-if="isShow">
 			<div>
 				<el-radio :label="0">默认</el-radio>
@@ -60,7 +62,8 @@
 				},
 				options: {
 					chart: {
-						type: 'line'
+						type: 'line',
+						height:'320',
 					},
 					title: {
 						text: ''
@@ -502,11 +505,15 @@
 	.chartWrap {
 		position: relative;
 	}
-
+     .chartLine{
+     	margin-left: 0;
+     	width: calc(100% - 110px);
+     }
 	.el-radio-select {
 		position: absolute;
-		top: 100px;
-		right: -60px;
+		width: 100px;
+		top: 70px;
+		right: 0px;
 		z-index: 2;
 		div {
 			margin-bottom: 15px;
