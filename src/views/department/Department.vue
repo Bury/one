@@ -141,7 +141,6 @@
 				let qs = require('querystring')
 	    		roleApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
 	    			if(res.data.errno === 0){
-						console.log(res);
 						this.$data.tableData = res.data.data.list;
 						this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
@@ -152,7 +151,6 @@
 	    	},
 
 	    	handleCurrentChange(currentPage) {
-	            console.log(currentPage)
 	            this.$data.requestParameters.page = currentPage;
 	            this.lists();
 	        },
@@ -169,7 +167,6 @@
 					let qs = require('querystring')
 	        		roleApi.dele(qs.stringify(list)).then((res) => {
 	        			if(res.data.errno === 0){
-							console.log(res)
 							this.$message({
 					            type: 'success',
 					            message: '删除成功!'
@@ -188,7 +185,6 @@
 		        });
 			},
 			fnEdit(row){
-				console.log(row);
 				this.$data.dialogTitle = '编辑';
 				this.$data.currentId = row.id;
 				this.$data.ruleForm.name = row.name;
@@ -212,7 +208,6 @@
 			},
 			submitForm(formName){
 				this.$refs[formName].validate((valid) => {
-					console.log(valid)
 			        if (valid) {
 						if(this.$data.currentId !== ''){
 							let list = {
@@ -223,7 +218,6 @@
 							let qs = require('querystring')
 			        		roleApi.edit(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
-									console.log(res)
 									this.$message({
 				                      message: '操作成功',
 				                      type: 'success',
@@ -248,7 +242,6 @@
 						    let qs = require('querystring')
 			        		roleApi.adds(qs.stringify(list)).then((res) => {
 			        			if(res.data.errno === 0){
-									console.log(res)
 									this.$message({
 				                      message: '操作成功',
 				                      type: 'success',
@@ -281,7 +274,6 @@
 			    let qs = require('querystring')
         		roleApi.allPermission(qs.stringify(list)).then((res) => {
         			if(res.data.errno === 0){
-						console.log(res)
 						this.$data.dialogForm2 = res.data.data;
 						var checkedId = [];
 						for(var i=0; i< this.$data.dialogForm2.length; i++){
@@ -303,7 +295,6 @@
 							}
 						}
 						this.$data.checkedIds = checkedId;
-						console.log(this.$data.checkedIds)
         			}else{
         				this.$message.error(res.data.msg);
 
@@ -315,8 +306,6 @@
 
 			submitForm2(){
 				this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
-				console.log(this.$data.currentId)
-				console.log(this.$data.checkedIds)
 				let list = {
 			        'role_id':this.$data.currentId,
 			        'permission_ids':this.$data.checkedIds.toString()
@@ -324,7 +313,6 @@
 			    let qs = require('querystring')
         		roleApi.editPermission(qs.stringify(list)).then((res) => {
         			if(res.data.errno === 0){
-						console.log(res)
 						this.$data.currentId = '';
 						this.$data.dialogForm2Visible = false;
         			}else{

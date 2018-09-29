@@ -119,7 +119,6 @@
                     'customer_id':customerId
                 })).then((res) => {
                     if(res.data.errno === 0){
-                        console.log(res.data.data)
                         this.$data.userInfo = res.data.data
                     }else{
 
@@ -129,14 +128,12 @@
             editUserInfo(){
                 this.$data.editUserInfoData = this.$data.userInfo;
                 this.$data.infoEdit = true;
-                console.log(this.$props)
             },
             userInfoCancel(){
                 this.$data.infoEdit = false;
             },
             userInfoSubmit(formName){
                 this.$refs[formName].validate((valid) => {
-                    console.log(this.$data.editUserInfoData.customer_id)
                     if (valid) {
                             let qs = require('querystring')
                             remindApi.editPersonalInfo(qs.stringify({
@@ -148,7 +145,6 @@
                                 remark     :this.$data.editUserInfoData.ramark,
                             })).then((res) => {
                                 if(res.data.errno === 0){
-                                    console.log(res.data.data);
                                     this.userInfoCancel();
                                     this.personalInfo(this.$props.customerId)
                                     

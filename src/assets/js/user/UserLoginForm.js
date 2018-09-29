@@ -223,7 +223,6 @@ export default {
       };
       let qs = require('querystring');
       userApi.sendSms(qs.stringify(list)).then((res) => {
-        console.log(res.data.msg)
         if(res.data.errno == -1){
           this.$message({
             type: 'warning',

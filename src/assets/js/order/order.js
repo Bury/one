@@ -119,7 +119,6 @@ export default {
     	};
     	
     	if(createdFlag){
-    		console.log("99")
     		 this.$data.requestParameters.created_at_start = utils.getDateTime(this.$data.createdTimes[0]);
          this.$data.requestParameters.created_at_end = utils.getDateTime(this.$data.createdTimes[1]);
     	}else{
@@ -154,9 +153,7 @@ export default {
         }
         let qs = require('querystring')
         OrderApi.dele(qs.stringify(list)).then((res) => {
-          console.log(res)
           if(res.data.errno === 0){
-            console.log(res)
             this.$message({
               type: 'success',
               message: '删除成功!'

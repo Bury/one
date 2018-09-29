@@ -493,7 +493,6 @@
 				} else if(val === 2) {
 					this.postFeatureSum("age")
 				} else if(val === 3) {
-					console.log("s")
 					this.postFeatureSum("gender")
 				}
 			}

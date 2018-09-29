@@ -556,9 +556,7 @@ export default {
 				store_id: this.$data.guestParameters.store_id,
 				merchant_organize_id: this.$data.guestParameters.merchant_organize_id
 			};
-
 			statisticsApi.statisticsNew(list).then((res) => {
-				console.log(res)
 				if(res.data.errno === 0) {
 					this.$data.goStoreSum = [];
 					this.$data.goStoreSum = res.data.data;

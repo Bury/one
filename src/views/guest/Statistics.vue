@@ -95,7 +95,7 @@
 								<p>订单数</p>								
 							</li>
 							<li style="width: 40%;">
-								<span>{{goStoreSum[0].sales_volume.toFixed(2)}}</span>
+								<span>{{goStoreSum[0].sales_volume}}</span>
 								<p>销售额</p>
 							</li>
 							<li style="width: 30%;">
@@ -118,7 +118,7 @@
 								<td>{{item.name}}</td>
 								<td>{{item.passenger_flow}}</td>
 								<td>{{item.sales_singular}}</td>
-								<td>{{item.sales_volume.toFixed(2)}}</td>
+								<td>{{item.sales_volume}}</td>
 								<td>{{item.turnover_rate}}</td>
 							</tr>
 						</table>

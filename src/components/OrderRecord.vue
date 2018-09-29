@@ -44,7 +44,6 @@
                 let qs = require('querystring')
                 remindApi.orderRecord(qs.stringify(list)).then((res) => {
                     if(res.data.errno === 0){
-                        console.log(res.data.data)
                         this.$data.orderRecords = res.data.data;
                     }else{
 

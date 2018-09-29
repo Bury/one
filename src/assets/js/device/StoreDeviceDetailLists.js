@@ -66,7 +66,6 @@ export default{
     allVersion(){
       deviceApi.allVersion().then((res) => {
         if(res.data.errno === 0){
-          console.log(res)
           this.$data.allVersions = res.data.data;
 
         }else{
@@ -91,7 +90,6 @@ export default{
       }
       storeApi.listsResults().then((res) => {
         if(res.data.errno === 0){
-          console.log(res)
           this.$data.allStores = res.data.data;
 
         }else{

@@ -81,7 +81,6 @@
 		    let qs = require('querystring')
     		storeTimeApi.timeSet(qs.stringify(list)).then((res) => {
     			if(res.data.errno === 0){
-					console.log(res)
 					this.$message({
 			          message: '营业时间设置成功',
 			          type: 'success',

@@ -149,7 +149,6 @@
 			//初始化请求
 			//			getCustomer() {
 			//				statisticsApi.getCustomerSum(this.$props.chartData).then((res) => {	
-			//					console.log(res)
 			//					if(res.data.errno === 0) {
 			//						if(res.data.data !== null) {
 			//							let arr = {

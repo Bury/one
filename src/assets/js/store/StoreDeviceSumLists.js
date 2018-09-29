@@ -23,10 +23,8 @@ export default{
     storeDeviceSumLists(){
       let qs = require('querystring');
       deviceApi.storeDeviceSumLists(qs.stringify(this.$data.requestParameters)).then((res) => {
-        console.log(res)
         if(res.data.errno === 0){
           this.$data.tableData = res.data.data.list;
-          console.log(this.$data.tableData)
           this.$data.pagination.currentPage = res.data.data.pagination.currentPage;
           this.$data.pagination.totalCount = res.data.data.pagination.totalCount;
         }else{
@@ -40,7 +38,6 @@ export default{
       this.storeDeviceSumLists();
     },
     fnGoPage(row){
-      console.log(row);
       this.$router.push({
         name: 'StoreDeviceDetailLists',
         query: {

@@ -66,9 +66,7 @@
 				this.$data.requestParas.customer_id = customerId;
                 let qs = require('querystring')
                 remindApi.storeRecord(qs.stringify(this.$data.requestParas)).then((res) => {
-                	console.log(res)
                     if(res.data.errno === 0){
-                        console.log(res.data.data)
                         this.$data.storeRecords = res.data.data;
                         this.$data.userInfoPagination.currentPage = res.data.data.pagination.currentPage;
 		        		this.$data.userInfoPagination.totalCount = res.data.data.pagination.totalCount;

@@ -170,8 +170,6 @@
 				guestApi.guestList(qs.stringify(this.$data.requestParameters)).then((res) => {
 					let result = res.data
 					if(result.errno === 0) {
-						console.log('aa')
-						console.log(result.data.list)
 						this.tableData = result.data.list;
 						this.$data.pagination.currentPage = result.data.pagination.currentPage;
 						this.$data.pagination.totalCount = result.data.pagination.totalCount;

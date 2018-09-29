@@ -155,8 +155,6 @@ export default {
           })
         }
         this.$data.telForm.code = res.data.data.sign_code;
-        console.log(res.data.data);
-        console.log(this.$data.telForm);
         userApi.savePhone(qs.stringify(this.$data.telForm)).then((res) => {
           this.$message({
             type:'success',

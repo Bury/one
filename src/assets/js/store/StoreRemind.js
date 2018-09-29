@@ -56,7 +56,6 @@ const typeId = ["1","3","4"];
         },
 
         handleCheckAllChange(val) {
-          console.log(val);
             this.$data.checkedType = val ? typeId : [];
             this.$data.isIndeterminate = false;
         },
