@@ -87,7 +87,7 @@
 					<section v-if="sumOrDiff === '0'">
 						<div class="sumTop">
 						   <h5>到店人数</h5>
-						   <span>{{goStoreSum[0].passenger_flow}}</span>
+						   <span>77</span>
 						</div>
 						<ul class="sumBottom">
 							<li style="width: 30%;">
@@ -95,7 +95,7 @@
 								<p>订单数</p>								
 							</li>
 							<li style="width: 40%;">
-								<span>{{goStoreSum[0].sales_volume}}</span>
+								<span>{{goStoreSum[0].sales_volume | hundredMillion}}</span>
 								<p>销售额</p>
 							</li>
 							<li style="width: 30%;">
@@ -118,7 +118,7 @@
 								<td>{{item.name}}</td>
 								<td>{{item.passenger_flow}}</td>
 								<td>{{item.sales_singular}}</td>
-								<td>{{item.sales_volume}}</td>
+								<td>{{item.sales_volume | hundredMillion}}</td>
 								<td>{{item.turnover_rate}}</td>
 							</tr>
 						</table>
