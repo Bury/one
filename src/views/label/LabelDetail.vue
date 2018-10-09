@@ -1,10 +1,10 @@
 <template>
 	<div class="label-detail-page">
 		<div class="top-box">
-			<el-button type="primary" size="small" class="add-btn1" @click="fnGoback()">返回</el-button>
+			<el-button size="mini" class="add-btn1" @click="fnGoback()">返回</el-button>
 		</div>
 		<div class="saveBox">
-			<el-button type="primary" plain @click="saveSelectTag" onclick="clickTotal('407','来客标签保存',1)">保存</el-button>
+			<el-button size="mini" @click="saveSelectTag" onclick="clickTotal('407','来客标签保存',1)">保存</el-button>
 		</div>
 		<table width="60%" class="yingyanTable">
 			<thead>
@@ -43,15 +43,15 @@
 		</div>
 
 		<!-- 添加、修改 -->
-		<el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+		<el-dialog center :title="dialogTitle" :visible.sync="dialogFormVisible">
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="排序：" prop="sort">
 					<el-input v-model.trim="ruleForm.sort"></el-input>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="cancel">取 消</el-button>
-				<el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+				<el-button size="mini" @click="cancel">取 消</el-button>
+				<el-button size="mini" @click="submitForm('ruleForm')">确 定</el-button>
 			</div>
 		</el-dialog>
 

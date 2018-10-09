@@ -45,8 +45,8 @@
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="onSubmit">查询</el-button>
-					<el-button type="primary" @click="resetForm">重置</el-button>
+					<el-button size="mini" @click="onSubmit">查询</el-button>
+					<el-button size="mini" @click="resetForm">重置</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -105,7 +105,7 @@
 			</el-pagination>
 		</div>
 		<!--查看-->
-		<el-dialog title="查看" :visible.sync="viewVisible">
+		<el-dialog center title="查看" :visible.sync="viewVisible">
 			<el-form :model='editForm' ref="editForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="收银时间：">
 					<el-date-picker disabled v-model="editForm.cash" type="datetime" placeholder="选择日期时间">

@@ -1,7 +1,7 @@
 <template>
 	<div class="device-box">
     <div class="top-box">
-      <el-button type="primary" size="small" class="add-btn" @click="goBack()">返回</el-button>
+      <el-button size="mini" class="add-btn" @click="goBack()">返回</el-button>
     </div>
 		<h4>
 			所属门店：{{this.$route.query.storeName}}
@@ -67,7 +67,7 @@
 		</div>
 
 		<!-- 分配 -->
-    <el-dialog title="分配" :visible.sync="distributionFormVisible">
+    <el-dialog center title="分配" :visible.sync="distributionFormVisible">
       <div style="margin-bottom:20px;"><span style="display:inline-block;width:106px;text-align:center;">编号：</span>{{distributionForm.device_id}}</div>
       <el-form :model="distributionForm" :rules="operationRules" ref="distributionForm" label-width="100px" class="demo-ruleForm" style="margin-bottom:50px;">
         <el-form-item label="门店架构：">
@@ -83,7 +83,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="distributionCancel">取 消</el-button>
-        <el-button type="primary" @click="distributionSubmit">确 定</el-button>
+        <el-button @click="distributionSubmit">确 定</el-button>
       </div>
     </el-dialog>
 

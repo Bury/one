@@ -28,7 +28,7 @@
 				</el-form-item>
 
 				<el-form-item>
-					<el-button type="primary" @click="onSubmit">查询</el-button>
+					<el-button size="mini" @click="onSubmit">查询</el-button>
 				</el-form-item>
 			</el-form>
 			<el-form class="demo-form-inline" size="mini">
@@ -42,7 +42,7 @@
 					<el-button type="primary" @click="editSumDiff" plain>{{selectType}}</el-button>
 				</el-form-item>
 			</el-form>
-			
+
 		</div>
 
 		<!--数据选择弹框-->
@@ -76,8 +76,8 @@
 			</ul>
 
 			<span slot="footer" class="dialog-footer">
-                   <el-button @click="cancelDialog">取 消</el-button>
-                   <el-button type="primary" @click="setSubmit">确 定</el-button>
+                   <el-button size="mini" @click="cancelDialog">取 消</el-button>
+                   <el-button size="mini" @click="setSubmit">确 定</el-button>
             </span>
 		</el-dialog>
 
@@ -87,24 +87,24 @@
 					<section v-if="sumOrDiff === '0'">
 						<div class="sumTop">
 						   <h5>到店人数</h5>
-						   <span>77</span>
+						   <span style="font-family: numFont">{{goStoreSum[0].passenger_flow}}</span>
 						</div>
 						<ul class="sumBottom">
 							<li style="width: 30%;">
-								<span>{{goStoreSum[0].sales_singular}}</span>
-								<p>订单数</p>								
+								<span style="font-family: numFont">{{goStoreSum[0].sales_singular}}</span>
+								<p>订单数</p>
 							</li>
 							<li style="width: 40%;">
-								<span>{{goStoreSum[0].sales_volume | hundredMillion}}</span>
+								<span style="font-family: numFont">{{goStoreSum[0].sales_volume | hundredMillion}}</span>
 								<p>销售额</p>
 							</li>
 							<li style="width: 30%;">
-								<span>{{goStoreSum[0].turnover_rate}}</span>
+								<span style="font-family: numFont">{{goStoreSum[0].turnover_rate}}</span>
 								<p>成交率</p>
 							</li>
 						</ul>
 					</section>
-					
+
 					<section v-if="sumOrDiff === '1'">
 						<table class="diffTable">
 							<tr>
@@ -127,7 +127,7 @@
 				<li class="charts-wrap cwB">
 					<h4 class="title-guest-chart">客流统计</h4>
 					<div style="padding:10px 0 12px;text-align:center;">
-												
+
 						<el-radio-group v-model="statisticsType" @change="customerClass" size="small">
 							<el-radio-button label="1" onclick="clickTotal('301','客流趋势',1)">客流趋势</el-radio-button>
 							<el-radio-button label="2" onclick="clickTotal('302','成交率',1)">成交率</el-radio-button>
@@ -139,29 +139,29 @@
 				</li>
 				<template v-if="sumOrDiff === '0'">
 					<li v-show="statisticsType === '1'" class="charts-wrap cwColumnPie">
-						<h4 class="title-guest-chart">新客熟客占比</h4>						
+						<h4 class="title-guest-chart">新客熟客占比</h4>
 						<new-old-chart :sumOrDiff="sumOrDiff" :newOldData="guestParameters" :changeFlag="changeFlag"></new-old-chart>
 					</li>
 					<li v-show="statisticsType === '1'" class="charts-wrap cwColumnPie">
-						<h4 class="title-guest-chart">年龄段占比</h4>	
+						<h4 class="title-guest-chart">年龄段占比</h4>
 						<age-chart :sumOrDiff="sumOrDiff" :ageData="guestParameters" :changeFlag="changeFlag"></age-chart>
 					</li>
 					<li v-show="statisticsType === '1'" class="charts-wrap cwColumnPie">
-						<h4 class="title-guest-chart">性别占比</h4>	
+						<h4 class="title-guest-chart">性别占比</h4>
 						<sex-chart :sumOrDiff="sumOrDiff" :sexData="guestParameters" :changeFlag="changeFlag"></sex-chart>
 					</li>
 				</template>
 				<template v-else>
 					<li v-show="statisticsType === '1'" class="charts-wrap cwColumnPie">
-						<h4 class="title-guest-chart">新客熟客占比</h4>	
+						<h4 class="title-guest-chart">新客熟客占比</h4>
 						<column-new-chart :sumOrDiff="sumOrDiff" :columnNew="guestParameters" :changeFlag="changeFlag"></column-new-chart>
 					</li>
 					<li v-show="statisticsType === '1'" class="charts-wrap cwColumnPie">
-						<h4 class="title-guest-chart">年龄段占比</h4>	
+						<h4 class="title-guest-chart">年龄段占比</h4>
 						<column-age-chart :sumOrDiff="sumOrDiff" :columnAge="guestParameters" :changeFlag="changeFlag"></column-age-chart>
 					</li>
 					<li v-show="statisticsType === '1'" class="charts-wrap cwColumnPie">
-						<h4 class="title-guest-chart">性别占比</h4>	
+						<h4 class="title-guest-chart">性别占比</h4>
 						<column-sex-chart :sumOrDiff="sumOrDiff" :columnSex="guestParameters" :changeFlag="changeFlag"></column-sex-chart>
 					</li>
 				</template>
@@ -169,7 +169,7 @@
 			</ul>
 
 			<div class="bottomTable" v-if="statisticsType === '1'">
-				<h4 class="title-guest-chart">客流列表</h4>	
+				<h4 class="title-guest-chart">客流列表</h4>
 				<el-table :data="tableData" stripe v-loading="loading" style="width: 100%;margin-top: 30px;" border @sort-change="changeSort">
 					<el-table-column type="index" :index="indexRank" label="排名" width="60" align="center">
 					</el-table-column>

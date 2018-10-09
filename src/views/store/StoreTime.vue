@@ -21,7 +21,7 @@
 			</el-time-select>
 		</div>
 		<div class="saveBtn">
-			<el-button type="primary" class="save-btn" @click="fnTimeSet" onclick="clickTotal('405','营业时间设置',1)">保存</el-button>
+			<el-button size="mini" class="save-btn" @click="fnTimeSet" onclick="clickTotal('405','营业时间设置',1)">保存</el-button>
 		</div>
 	</div>
     </el-col>

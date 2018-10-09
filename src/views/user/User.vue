@@ -1,7 +1,7 @@
 <template>
 	<div class="account-set-page">
 		<div class="top-box">
-			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()" onclick="clickTotal('413','新增账号',1)">新增</el-button>
+			<el-button size="mini" class="add-btn" @click="fnAdds()" onclick="clickTotal('413','新增账号',1)">新增</el-button>
 		</div>
 		<div>
 			<el-form :inline="true" :model="requestParameters" class="demo-form-inline" size="mini">
@@ -17,12 +17,12 @@
 				    <el-input v-model.trim="requestParameters.phone"></el-input>
 				</el-form-item>
 				<el-form-item>
-				    <el-button type="primary" @click="onSubmitSearch" onclick="clickTotal('412','查询账号',1)">查询</el-button>
-				    <el-button type="primary" @click="resetSearch">重置</el-button>
+				    <el-button size="mini" @click="onSubmitSearch" onclick="clickTotal('412','查询账号',1)">查询</el-button>
+				    <el-button size="mini" @click="resetSearch">重置</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
-		
+
     <table width="100%" class="yingyanTable">
       <thead>
       <tr height="50">
@@ -69,7 +69,7 @@
 
 
 		<!-- 添加 -->
-	    <el-dialog title="添加" :visible.sync="userDialogFormVisible">
+	    <el-dialog center title="新增账号" :visible.sync="userDialogFormVisible">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <el-form-item label="岗位：">
           <el-select v-model="ruleForm.role_id" placeholder="请选择">
@@ -91,11 +91,11 @@
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="fnCancel">取 消</el-button>
-				<el-button type="primary" @click="addSubmitForm">确 定</el-button>
+				<el-button @click="addSubmitForm">确 定</el-button>
 			</div>
 		</el-dialog>
     <!--编辑-->
-    <el-dialog title="编辑" :visible.sync="userEditVisible" :before-close="editDialogClose">
+    <el-dialog center title="编辑" :visible.sync="userEditVisible" :before-close="editDialogClose">
     <el-form :model="editForm" :rules="rules" ref="editForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="岗位：">
         <el-select v-model="editForm.role_id" placeholder="请选择">
@@ -126,7 +126,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="fnEditCancel">取 消</el-button>
-      <el-button type="primary" @click="submitForm(editForm)">确 定</el-button>
+      <el-button @click="submitForm(editForm)">确 定</el-button>
     </div>
     </el-dialog>
 	</div>

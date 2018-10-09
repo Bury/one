@@ -27,8 +27,8 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="onSubmit" onclick="clickTotal('454','设备查询时长',3);clickDevie('456','设备查询次数',1)">查询</el-button>
-					<el-button type="primary" @click="resetSearch">重置</el-button>
+					<el-button size="mini"  @click="onSubmit" onclick="clickTotal('454','设备查询时长',3);clickDevie('456','设备查询次数',1)">查询</el-button>
+					<el-button size="mini" @click="resetSearch">重置</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -87,7 +87,7 @@
 		</div>
 
 		<!-- 分配 -->
-		<el-dialog title="分配" :visible.sync="distributionFormVisible">
+		<el-dialog center title="分配" :visible.sync="distributionFormVisible">
 			<div style="margin-bottom:20px;"><span style="display:inline-block;width:106px;text-align:center;">编号：</span>{{distributionForm.device_id}}</div>
 			<el-form :model="distributionForm" :rules="operationRules" ref="distributionForm" label-width="100px" class="demo-ruleForm" style="margin-bottom:50px;">
 				<el-form-item label="门店架构：">
@@ -103,15 +103,15 @@
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="distributionCancel">取 消</el-button>
-				<el-button type="primary" @click="distributionSubmit"  onclick="clickTotal('401','分配确定',1)">确 定</el-button>
+				<el-button @click="distributionSubmit"  onclick="clickTotal('401','分配确定',1)">确 定</el-button>
 			</div>
 		</el-dialog>
 
 		<!-- 编辑 -->
-		<el-dialog title="编辑" :visible.sync="editFormVisible">
+		<el-dialog center title="编辑" :visible.sync="editFormVisible">
 			<div style="margin-bottom:20px;"><span style="display:inline-block;width:100px;text-align:center;">编号：</span>{{editForm.device_id}}</div>
 			<div style="margin-bottom:20px;"><span style="display:inline-block;width:100px;text-align:center;">所属门店：</span>{{editForm.store_name}}</div>
-			<el-form :model="editForm" :rules="editRules" ref="editForm" label-width="100px" class="demo-ruleForm" style="margin-bottom:50px;">
+			<el-form size="mini" :model="editForm" :rules="editRules" ref="editForm" label-width="100px" class="demo-ruleForm" style="margin-bottom:50px;">
 				<el-form-item label="类型：">
 					<el-select v-model="editForm.locate" placeholder="请选择">
 						<el-option label="收银" value="cashier"></el-option>
@@ -123,8 +123,8 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="editCancel">取 消</el-button>
-				<el-button type="primary" @click="editSubmit('editForm')">确 定</el-button>
+				<el-button size="mini" @click="editCancel">取 消</el-button>
+				<el-button size="mini" @click="editSubmit('editForm')">确 定</el-button>
 			</div>
 		</el-dialog>
 	</div>

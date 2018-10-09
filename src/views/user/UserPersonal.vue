@@ -3,9 +3,9 @@
 		<div class="top-box">
 			<h3>个人资料</h3>
 			<div class="editBtn">
-				<el-button type="primary" size="small" plain @click="personalSet()">个人设置</el-button>
-				<el-button type="primary" size="small" plain @click="fnChangeTel()">修改手机</el-button>
-				<el-button type="primary" size="small" plain @click="fnChangePWD()">修改密码</el-button>
+				<el-button size="mini" @click="personalSet()">个人设置</el-button>
+				<el-button size="mini" @click="fnChangeTel()">修改手机</el-button>
+				<el-button size="mini" @click="fnChangePWD()">修改密码</el-button>
 			</div>
 		</div>
 		<el-form ref="userForm" :model="userForm" label-width="75px" enabled>
@@ -43,14 +43,14 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="cancelUnit">取 消</el-button>
-				<el-button type="primary" @click="submitUnit">确 定</el-button>
+				<el-button size="mini" @click="cancelUnit">取 消</el-button>
+				<el-button size="mini" @click="submitUnit">确 定</el-button>
 			</div>
 		</el-dialog>
 
 		<!-- 修改密码 -->
-		<el-dialog title="修改密码" :visible.sync="dialogFormVisible" :before-close="dialogClose" style="min-width:800px;">
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+		<el-dialog center title="修改密码" :visible.sync="dialogFormVisible" :before-close="dialogClose" style="min-width:800px;">
+			<el-form size="mini" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="当前密码：" prop="oldPwd">
 					<el-input type="password" v-model="ruleForm.oldPwd"></el-input>
 				</el-form-item>
@@ -62,14 +62,14 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="cancel">取 消</el-button>
-				<el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+				<el-button size="mini" @click="cancel">取 消</el-button>
+				<el-button size="mini" @click="submitForm('ruleForm')">确 定</el-button>
 			</div>
 		</el-dialog>
 
 		<!--修改手机号-->
-		<el-dialog title="修改手机号" :visible.sync="dialogFormVisibleTel" :before-close="dialogCloseTel" style="min-width:800px;">
-			<el-form :model="telForm" :rules="rules" ref="telForm" label-width="100px" class="demo-ruleForm">
+		<el-dialog center title="修改手机号" :visible.sync="dialogFormVisibleTel" :before-close="dialogCloseTel" style="min-width:800px;">
+			<el-form size="mini" :model="telForm" :rules="rules" ref="telForm" label-width="100px" class="demo-ruleForm">
 				<el-row>
 					<el-form-item label="新手机号：" prop="phone">
 						<el-col :span="16">
@@ -85,8 +85,8 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="cancelTel">取 消</el-button>
-				<el-button type="primary" @click="submitFromTel('ruleForm')">确 定</el-button>
+				<el-button size="mini" @click="cancelTel">取 消</el-button>
+				<el-button size="mini" @click="submitFromTel('ruleForm')">确 定</el-button>
 			</div>
 		</el-dialog>
 	</div>

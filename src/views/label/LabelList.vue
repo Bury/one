@@ -11,7 +11,7 @@
 				<tr v-for="(item,index) in tableData" :key="index" height="50">
 					<td>{{item.name}}</td>
 					<td>
-						<el-button type="primary"  plain  size="small" @click="fnGoPage(item)">编辑</el-button>
+						<el-button  size="mini" @click="fnGoPage(item)">编辑</el-button>
 					</td>
 				</tr>
 			</tbody>

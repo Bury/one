@@ -45,7 +45,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="onSubmit">查询</el-button>
+					<el-button size="mini" @click="onSubmit">查询</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -225,7 +225,7 @@
 	.el-table thead {
 		color: #333;
 	}
-	
+
 	.el-pagination {
 		margin: 10px;
 		float: right;

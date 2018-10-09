@@ -69,7 +69,7 @@ ul,li{list-style: none;}
  .el-submenu__title i{
  	color: #fff;
  }
- 
+
  /*表格初始化样式*/
  .yingyanTable thead tr{
  	color: #666666;
@@ -80,9 +80,20 @@ ul,li{list-style: none;}
  	color: #2A2A2A;
  	border-bottom: solid 1px #F5F5F5;
  }
- 
+
  /*分页底部样式*/
 .paginationBox{
 	text-align: center;
+}
+/*输入框和按钮的圆角*/
+.el-input__inner{
+  -webkit-border-radius:2px;
+  -moz-border-radius:2px;
+  border-radius:2px;
+}
+button,.el-button{
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
 }
 </style>

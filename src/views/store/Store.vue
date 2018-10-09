@@ -1,7 +1,7 @@
 <template>
 	<div class="store-set-page">
 		<div class="top-box">
-			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">创建门店</el-button>
+			<el-button size="mini" class="add-btn" @click="fnAdds()">创建门店</el-button>
 		</div>
 
 		<el-form :inline="true"  size="mini">
@@ -16,12 +16,12 @@
 				</el-select>
 			</el-form-item>
 			<el-form-item>
-				<el-button type="primary" @click="lookSubmit">查询</el-button>
-				<el-button type="primary" @click="fnReset">重置</el-button>
+				<el-button size="mini" @click="lookSubmit">查询</el-button>
+				<el-button size="mini" @click="fnReset">重置</el-button>
 			</el-form-item>
 		</el-form>
 
-		<table width="100%" class="yingyanTable"> 
+		<table width="100%" class="yingyanTable">
 			<thead>
 				<tr height="50">
 					<th class="col-md-1 text-center">序号</th>
@@ -58,7 +58,7 @@
 		</div>
 
 		<!-- 添加、修改 -->
-		<el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" @close="closeClear">
+		<el-dialog center :title="dialogTitle" :visible.sync="dialogFormVisible" @close="closeClear">
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="门店名称：" prop="name">
 					<el-input v-model="ruleForm.name"></el-input>
@@ -75,8 +75,8 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="cancel">取 消</el-button>
-				<el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+				<el-button size="mini" @click="cancel">取 消</el-button>
+				<el-button size="mini" @click="submitForm('ruleForm')">确 定</el-button>
 			</div>
 		</el-dialog>
 	</div>

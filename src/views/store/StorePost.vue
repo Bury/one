@@ -1,7 +1,7 @@
 <template>
 	<div class="store-set-page">
 		<div class="top-box">
-			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
+			<el-button size="mini" class="add-btn" @click="fnAdds()">新增</el-button>
 		</div>
 		<table width="60%" class="yingyanTable">
 			<thead>
@@ -33,7 +33,7 @@
 		</div>
 
 		<!-- 添加-->
-		<el-dialog title="添加岗位" :visible.sync="dialogFormVisible" :before-close="closeDialog">
+		<el-dialog center title="添加岗位" :visible.sync="dialogFormVisible" :before-close="closeDialog">
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="岗位名称：" prop="name">
 					<el-input v-model="ruleForm.name"></el-input>
@@ -54,11 +54,11 @@
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="cancel">取 消</el-button>
-				<el-button type="primary" @click="submitForm('ruleForm')"  onclick="clickTotal('403','新增岗位确定',1)">确 定</el-button>
+				<el-button @click="submitForm('ruleForm')"  onclick="clickTotal('403','新增岗位确定',1)">确 定</el-button>
 			</div>
 		</el-dialog>
 		<!-- 修改 -->
-		<el-dialog title="修改岗位" :visible.sync="editFormVisible" :before-close="editClose">
+		<el-dialog center title="修改岗位" :visible.sync="editFormVisible" :before-close="editClose">
 			<el-form :model="editForm" :rules="rules" ref="editForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="岗位名称：" prop="name">
 					<el-input v-model="editForm.name"></el-input>
@@ -66,11 +66,11 @@
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="editCancle">取 消</el-button>
-				<el-button type="primary" @click="editSubmitForm('editForm')">确 定</el-button>
+				<el-button @click="editSubmitForm('editForm')">确 定</el-button>
 			</div>
 		</el-dialog>
 		<!--权限-->
-		<el-dialog title="权限管理" :visible.sync="dialogForm2Visible" :before-close="editManageClose">
+		<el-dialog center title="权限管理" :visible.sync="dialogForm2Visible" :before-close="editManageClose">
 			<h4 class="role-info"><span>岗位名称：</span>{{currentName}}</h4>
 			<div style="margin: 30px 0;">
 				<h4 class="role-info" style="float:left;"><span>等级：</span></h4>
@@ -87,7 +87,7 @@
 			</div>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="fnCancel">取 消</el-button>
-				<el-button type="primary" @click="submitForm2" onclick="clickTotal('404','权限确定',1)">确 定</el-button>
+				<el-button @click="submitForm2" onclick="clickTotal('404','权限确定',1)">确 定</el-button>
 			</div>
 		</el-dialog>
 	</div>

@@ -1,12 +1,12 @@
 <template>
 
 	<div class="store-set-page">
-        <el-button type="primary" size="small" @click="goBack">返回</el-button>
+        <el-button size="mini" @click="goBack">返回</el-button>
 		<h3>
 			{{this.$route.query.StoreName}}
 		</h3>
 		<div class="top-box">
-			<el-button type="primary" size="small" class="add-btn" @click="fnAdds()">新增</el-button>
+			<el-button size="mini" class="add-btn" @click="fnAdds()">新增</el-button>
 		</div>
 		<el-form :inline="true" ref="searchForm" size="mini">
 			<el-form-item label="账号：">
@@ -24,8 +24,8 @@
 				</el-select>
 			</el-form-item>
 			<el-form-item>
-				<el-button type="primary" @click="searchList">查询</el-button>
-				<el-button type="primary" @click="resetList">重置</el-button>
+				<el-button @click="searchList">查询</el-button>
+				<el-button @click="resetList">重置</el-button>
 			</el-form-item>
 		</el-form>
 		<table width="100%" class="yingyanTable">
@@ -68,7 +68,7 @@
 		</div>
 
 		<!-- 编辑 -->
-		<el-dialog title="编辑" :visible.sync="editFormVisible">
+		<el-dialog center title="编辑" :visible.sync="editFormVisible">
 			<el-form :model="editFormData" :rules="editRules" ref="editFormData" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="帐号：" prop="username">
 					<el-input :disabled="true" v-model="editFormData.username"></el-input>
@@ -87,12 +87,12 @@
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="editCancel">取 消</el-button>
-				<el-button type="primary" @click="editSubmit('editFormData')">确 定</el-button>
+				<el-button @click="editSubmit('editFormData')">确 定</el-button>
 			</div>
 		</el-dialog>
 
 		<!-- 修改密码 -->
-		<el-dialog title="修改密码" :visible.sync="changePwdFormVisible">
+		<el-dialog center title="修改密码" :visible.sync="changePwdFormVisible">
 			<el-form :model="changePwdFormData" :rules="changePwdRules" ref="changePwdFormData" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="新密码：" prop="password">
 					<el-input type="password" v-model="changePwdFormData.password"></el-input>
@@ -103,12 +103,12 @@
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="editPasswordCancel">取 消</el-button>
-				<el-button type="primary" @click="editPasswordSubmit('changePwdFormData')">确 定</el-button>
+				<el-button @click="editPasswordSubmit('changePwdFormData')">确 定</el-button>
 			</div>
 		</el-dialog>
 
 		<!-- 添加 -->
-		<el-dialog :title="!avatarFormVisible? '添加' : '关联头像'" :visible.sync="addsFormVisible" :fullscreen="avatarFormVisible" :before-close="closeChange">
+		<el-dialog center :title="!avatarFormVisible? '新增门店' : '关联头像'" :visible.sync="addsFormVisible" :fullscreen="avatarFormVisible" :before-close="closeChange">
 			<el-form :model="addsFormData" :rules="addsRules" ref="addsFormData" label-width="100px" class="demo-ruleForm" v-if="!avatarFormVisible">
 				<el-form-item label="帐号：" prop="username">
 					<el-input v-model="addsFormData.username"></el-input>
@@ -138,7 +138,7 @@
 			</el-form>
 			<div slot="footer" class="dialog-footer" v-if="!avatarFormVisible">
 				<el-button @click="addCancel">取 消</el-button>
-				<el-button type="primary" @click="addsSubmit('addsFormData')">确 定</el-button>
+				<el-button @click="addsSubmit('addsFormData')">确 定</el-button>
 			</div>
 			<!--<guest-list v-if="avatarFormVisible" :avatarFormVisible="avatarFormVisible" @getChildData="getAvatarData"></guest-list>-->
 		</el-dialog>

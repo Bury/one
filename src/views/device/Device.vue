@@ -2,8 +2,8 @@
 	<div class="device-list-page">
 		<div class="top-box">
 			<div class="btn-wrap">
-				<el-button :type="isShow==true ? 'primary' : ''" size="small" @click="selectPath('Lists')">按设备</el-button>
-				<el-button :type="isShow==false ? 'primary' : ''" size="small" @click="selectPath('StoreDeviceSumLists')">按门店</el-button>
+				<el-button :type="isShow==true ? 'primary' : ''" size="mini" @click="selectPath('Lists')">按设备</el-button>
+				<el-button :type="isShow==false ? 'primary' : ''" size="mini" @click="selectPath('StoreDeviceSumLists')">按门店</el-button>
 			</div>
 		</div>
 		<router-view></router-view>
@@ -23,13 +23,13 @@
 		},
 		created(){
 			this.$route.name === "Lists" ? this.$data.isShow = true : this.$data.isShow = false;
-		
-			 
+
+
 		},
 		methods:{
 			selectPath(val){
 				this.$router.push({name:val})
-				val === "Lists" ? this.$data.isShow = true : this.$data.isShow = false;				
+				val === "Lists" ? this.$data.isShow = true : this.$data.isShow = false;
 			}
 		}
 	}
