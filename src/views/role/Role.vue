@@ -19,11 +19,11 @@
 					<td>{{item.name}}</td>
 					<!--<td>{{item.sort}}</td>-->
 					<td>
-						<el-button type="primary" plain icon="el-icon-setting" circle size="small" @click="fnSet(item)"></el-button>
+						<i class="newI color1 el-icon-yy-shezhi1" @click="fnSet(item)"></i>
 					</td>
 					<td>
-						<el-button type="warning" plain icon="el-icon-edit" circle size="small" @click="fnEdit(item)"></el-button>
-						<el-button type="danger" plain icon="el-icon-delete" circle size="small" @click="fnRemove(item)" onclick="clickTotal('411','删除岗位',1)"></el-button>
+						<i class="newI color1 el-icon-yy-Group-" @click="fnEdit(item)"></i>
+						<i class="newI color2 el-icon-yy-shanchu" @click="fnRemove(item)" onclick="clickTotal('411','删除岗位',1)"></i>
 					</td>
 				</tr>
 			</tbody>

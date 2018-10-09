@@ -25,7 +25,7 @@
 					<td>{{item.sort}}</td>
 					<td>{{item.name}}</td>
 					<td>
-						<el-button type="warning" plain icon="el-icon-edit" circle size="small" @click="fnEdit(item)"></el-button>
+						<i class="newI color1 el-icon-yy-Group-" @click="fnEdit(item)"></i>
 					</td>
 				</tr>
 			</tbody>

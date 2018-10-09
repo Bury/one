@@ -46,8 +46,9 @@
         <td>{{item.status == '1' ? '启用' : '禁用' }}</td>
         <td>{{item.created_at | date(4)}}</td>
         <td>
-          <el-button @click="fnEdit(item)" type="primary" size="small" circle plain icon="el-icon-edit" onclick="clickTotal('414','编辑账号',1)"></el-button>
-          <el-button @click="fnRemove(item)" type="danger" size="small" circle plain icon="el-icon-delete" onclick="clickTotal('415','删除账号',1)"></el-button>
+          <i @click="fnEdit(item)" class="newI color1 el-icon-yy-Group-" onclick="clickTotal('414','编辑账号',1)"></i>	
+          <i @click="fnRemove(item)" class="newI color2 el-icon-yy-shanchu" onclick="clickTotal('415','删除账号',1)"></i>
+         
         </td>
       </tr>
       </tbody>

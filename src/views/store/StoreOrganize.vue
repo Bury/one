@@ -9,9 +9,9 @@
 				<span class="custom-tree-node" slot-scope="{ node, data }">
                 <span>{{ node.label }}</span>
 				<span>
-                  <el-button type="text" size="mini" @click="addAndEdit(node,data,'add')" onclick="clickTotal('402','架构新建',1)">创建</el-button>
-                  <el-button type="text" size="mini" @click="addAndEdit(node,data,'edit')">编辑</el-button>
-                  <el-button type="text" size="mini"  @click="remove(node,data)">删除</el-button>
+					<i class="newI color1 el-icon-yy-tianjia" style="font-size: 17px;" @click="addAndEdit(node,data,'add')" onclick="clickTotal('402','架构新建',1)"></i>
+                  <i class="newI color1 el-icon-yy-Group-"  style="font-size: 17px;" @click="addAndEdit(node,data,'edit')"></i>
+                  <i class="newI color2 el-icon-yy-shanchu"   style="font-size: 17px;" @click="remove(node,data)"></i>
                 </span>
 				</span>
 			</el-tree>

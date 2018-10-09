@@ -39,10 +39,9 @@
 						<td>{{item.organizes.name}}</td>
 						<td>{{item.province.name + item.city.name + item.area.name}}</td>
 						<td>
-							<el-button type="primary" size="mini" circle plain icon="el-icon-more" @click="fnGoPage(item)"></el-button>
-							<el-button type="warning" size="mini" circle plain icon="el-icon-edit" @click="fnEdit(item)"></el-button>
-							<el-button type="danger" size="mini" circle plain icon="el-icon-delete" @click="fnRemove(item)"></el-button>
-
+							<i class="newI color1 el-icon-yy-chakan" @click="fnGoPage(item)"></i>
+							<i class="newI color1 el-icon-yy-Group-" @click="fnEdit(item)"></i>
+							<i class="newI color2 el-icon-yy-shanchu" @click="fnRemove(item)"></i>
 						</td>
 					</tr>
 				</template>
@@ -58,7 +57,7 @@
 		</div>
 
 		<!-- 添加、修改 -->
-		<el-dialog center :title="dialogTitle" :visible.sync="dialogFormVisible" @close="closeClear">
+		<el-dialog center :title="dialogTitle" v-if='dialogFormVisible' :visible.sync="dialogFormVisible" @close="closeClear">
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="门店名称：" prop="name">
 					<el-input v-model="ruleForm.name"></el-input>

@@ -2,7 +2,7 @@
 	<div class="chartWrap">
 		<div class="chartLine">
 			<vue-highcharts :highcharts="Highcharts" :options="options" ref="guestCharts"></vue-highcharts>
-		</div>		
+		</div>
 		<el-radio-group v-model="chartOptionsType" @change="customerType" class="el-radio-select" v-if="isShow">
 			<div>
 				<el-radio :label="0">默认</el-radio>
@@ -63,7 +63,7 @@
 				options: {
 					chart: {
 						type: 'line',
-						height:'320',
+						height: '320',
 					},
 					title: {
 						text: ''
@@ -82,23 +82,23 @@
 					},
 					colors: [
 						'#7CB5EC',
-                        '#FFC200',
-                        '#F15780',
-                        '#8085E9',
-                        '#90ED7D',
-                        '#909399'
+						'#FFC200',
+						'#F15780',
+						'#8085E9',
+						'#90ED7D',
+						'#909399'
 					],
 					plotOptions: {
-            series:{
-              dataLabels:{
-                border: 1,
-                align: 'center',
-                enabled: true,
-                rotation: -30,
-                x: 2,
-                y: -10
-              }
-            },
+						series: {
+							dataLabels: {
+								border: 1,
+								align: 'center',
+								enabled: true,
+								rotation: -30,
+								x: 2,
+								y: -10
+							}
+						},
 						line: {
 							// 关闭鼠标跟踪，对应的提示框、点击事件会失效
 							enableMouseTracking: true
@@ -504,10 +504,12 @@
 	.chartWrap {
 		position: relative;
 	}
-     .chartLine{
-     	margin-left: 0;
-     	width: calc(100% - 110px);
-     }
+	
+	.chartLine {
+		margin-left: 0;
+		width: calc(100% - 110px);
+	}
+	
 	.el-radio-select {
 		position: absolute;
 		width: 100px;

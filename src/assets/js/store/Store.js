@@ -48,19 +48,15 @@ import globalRules from '@/config/global_rules';
 		            { required: true, message: '请输入门店名称', trigger: 'blur' },
 		            { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
 		          ],
-		          person_in_charge:[
-		          	{ required: true, message: '请输入负责人姓名', trigger: 'blur' },
-		            { min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
-		          ],
 		          address:[
 		             { required: true, message: '请输入详细地址', trigger: 'blur' },
 		             { min: 2, max: 30, message: '长度在 2 到 30 个字符', trigger: 'blur' }
 		          ],
 		          merchant_organize_id:[
-		             { required: true, message: '请选择门店架构',trigger: 'change'},
+		             { required: true, message: '请选择门店架构'},
 		          ],
 		          locate:[
-		             {required: true, message: '请选择省市',trigger: 'change'}
+		             {required: true, message: '请选择省市'}
 		          ]
 		        },
 				requestParameters: {
@@ -72,9 +68,8 @@ import globalRules from '@/config/global_rules';
 			}
 		},
 		watch: {
-               dialogFormVisible: function() {
-               	
-               }
+            dialogFormVisible: function() {
+            }
         },
 		created:function(){
 			this.storeLists();
@@ -86,7 +81,6 @@ import globalRules from '@/config/global_rules';
 			storeLists(){
 				let qs = require('querystring')
 	    		storeApi.lists(qs.stringify(this.$data.requestParameters)).then((res) => {
-	    			console.log(res)
 	    			if(res.data.errno === 0){
 	    				if(res.data.data !== null){
 	    				  this.$data.tableData = res.data.data.list;
@@ -146,20 +140,20 @@ import globalRules from '@/config/global_rules';
 			},
 			fnEdit(row){
 				let moi = [];
-				row.organizes.id.split(',').forEach(function(val){
+				if(row.organizes.id != ""){
+				   row.organizes.id.split(',').forEach(function(val){
 					moi.push(parseInt(val))
-				});
+				  });
+				}				
 				this.$data.dialogTitle = '门店编辑';
 				this.$data.currentId = row.id;
 				this.$data.ruleForm = {
-					      name: row.name,
-		          	merchant_organize_id:row.organizes.id.split(','),
+					name: row.name,
 		          	locate:[String(row.province.code),String(row.city.code),String(row.area.code)],
 		          	merchant_organize_id:moi,
-                address:row.address,
+                    address:row.address
 				}
 				this.$data.dialogFormVisible = true;
-
 			},
 			fnAdds(){
 				this.$data.dialogTitle = '门店添加';
@@ -169,6 +163,7 @@ import globalRules from '@/config/global_rules';
 			},
 			cancel(){
 				this.$data.dialogFormVisible = false;
+				this.$refs.ruleForm.clearValidate();
 				this.$data.currentId = '';
 				this.$data.ruleForm = {
 		          	name: '',
@@ -176,11 +171,11 @@ import globalRules from '@/config/global_rules';
 		          	locate:[],
 		          	address:'',
 		          	merchant_organize_id:[],
-		        };
-		        this.$refs.ruleForm.resetFields()
+		       };		        
 				this.clearRuleForm();
 			},
 			submitForm(formName){
+				console.log(this.$data.ruleForm.merchant_organize_id)
 				this.$refs[formName].validate((valid) => {
 			        if (valid) {
 						if(this.$data.currentId !== ''){

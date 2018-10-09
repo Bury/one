@@ -50,9 +50,9 @@
 						<td>{{item.storeRole.name}}</td>
 						<td>{{item.created_at | date(4)}}</td>
 						<td>
-							<el-button type="primary" plain icon="el-icon-view" circle size="small" @click="fnEditPassword(item)"></el-button>
-							<el-button type="warning" plain icon="el-icon-edit" circle size="small" @click="fnEdit(item)"></el-button>
-							<el-button type="danger" plain icon="el-icon-delete" circle size="small" @click="fnRemove(item)"></el-button>
+							<i class="newI color1 el-icon-yy-suo1" @click="fnEditPassword(item)"></i>
+							<i class="newI color1 el-icon-yy-Group-" @click="fnEdit(item)"></i>
+							<i class="newI color2 el-icon-yy-shanchu" @click="fnRemove(item)"></i>
 						</td>
 					</tr>
 				</template>

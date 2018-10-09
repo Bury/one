@@ -59,3 +59,20 @@
 .home .sendCode .el-button {
   height: 38px;
 }
+
+/*图标i样式*/
+.newI{
+	cursor: pointer;
+}
+
+.newI+.newI{	
+	margin-left: 10px;
+}
+
+.color1{
+	color: #7dcbff;
+}
+
+.color2{
+	color: #ff5b45;
+}
