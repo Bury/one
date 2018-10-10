@@ -8,10 +8,10 @@
 			<el-tree :data="treeData" node-key="id" default-expand-all :expand-on-click-node="false" :props="defaultProps">
 				<span class="custom-tree-node" slot-scope="{ node, data }">
                 <span>{{ node.label }}</span>
-				<span>
-					<i class="newI color1 el-icon-yy-tianjia" style="font-size: 17px;" @click="addAndEdit(node,data,'add')" onclick="clickTotal('402','架构新建',1)"></i>
+				<span style="width: 80px;">
+				  <i class="newI color1 el-icon-yy-tianjia" style="font-size: 17px;" @click="addAndEdit(node,data,'add')" onclick="clickTotal('402','架构新建',1)"></i>
                   <i class="newI color1 el-icon-yy-Group-"  style="font-size: 17px;" @click="addAndEdit(node,data,'edit')"></i>
-                  <i class="newI color2 el-icon-yy-shanchu"   style="font-size: 17px;" @click="remove(node,data)"></i>
+                  <i v-if="data.parent_id != 0" class="newI color2 el-icon-yy-shanchu"   style="font-size: 17px;" @click="remove(node,data)"></i>
                 </span>
 				</span>
 			</el-tree>

@@ -52,7 +52,7 @@
 			return {
 				Highcharts: Highcharts,
 				chartOptionsType: 0,
-                meanValue:'', //平均线的值
+                meanValue:0, //平均线的值
                 meanFlag:false, //平均是否显示
 				isShow: false,
 				chartData: "",
