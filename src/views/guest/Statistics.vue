@@ -165,7 +165,6 @@
 						<column-sex-chart :sumOrDiff="sumOrDiff" :columnSex="guestParameters" :changeFlag="changeFlag"></column-sex-chart>
 					</li>
 				</template>
-				<li style="clear: both;"></li>
 			</ul>
 
 			<div class="bottomTable" v-if="statisticsType === '1'">
