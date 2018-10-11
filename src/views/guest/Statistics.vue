@@ -39,7 +39,7 @@
 					</el-radio-group>
 				</el-form-item>
 				<el-form-item label="范围选择：">
-					<button class="yy-button yy-btn-mini yy-btn-checked" @click="editSumDiff">{{selectType}}</button>
+					<button class="yy-button yy-btn-mini yy-btn-checked" @click.prevent="editSumDiff">{{selectType}}</button>
 				</el-form-item>
 			</el-form>
 
