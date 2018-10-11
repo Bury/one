@@ -3,9 +3,9 @@
     <el-menu :default-active="currentMenu"
              class="el-menu-vertical-demo"
              :collapse="isCollapse && isShow"
-             background-color="#40166e"
-             text-color="#fff"
-             active-text-color="#409EFF"
+             background-color="#272454"
+             text-color="#95C7FF"
+             active-text-color="#FFFFFF"
              @select="handleSelect">
 
       <template v-for="(item,index) in tableData">
@@ -131,6 +131,9 @@
     border: 0;
   }
   .leftIcon i{
-  	color: #fff;
+  	color: #95c7ff;
+  }
+  .left-menu1 .el-menu-item.is-active {
+    background-color: #457adb !important;
   }
 </style>

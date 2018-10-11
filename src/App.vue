@@ -67,7 +67,7 @@ ul,li{list-style: none;}
 
 /*左侧导航栏图标颜色重置*/
  .el-submenu__title i{
- 	color: #fff;
+ 	color: #95c7ff;
  }
 
  /*表格初始化样式*/
@@ -95,5 +95,48 @@ button,.el-button{
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
+}
+
+/*客流统计折线图分类样式重置*/
+.el-radio-button__orig-radio:checked+.el-radio-button__inner{
+	background-color: #FFFFFF;
+	color:#409EFF;
+}
+
+.yy-button{
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #dcdfe6;
+    color: #606266;
+    -webkit-appearance: none;
+    text-align: center;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: 0;
+    margin: 0;
+    -webkit-transition: .1s;
+    transition: .1s;
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+.yy-btn-mini{
+	border-radius: 2px;
+	font-size: 12px;
+	padding: 7px 15px;
+}
+.yy-btn-checked{
+	border-color: #409EFF;
+	color: #409EFF;
+}
+.yy-button+.yy-button{
+	margin-left: 10px;
+}
+.yy-button:hover{
+	border-color: #409EFF;
+	color: #409EFF;
 }
 </style>

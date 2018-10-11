@@ -1,7 +1,7 @@
 <template>
 	<div class="store-set-page">
 		<div class="top-box">
-			<el-button size="mini" class="add-btn" @click="fnAdds()">新增</el-button>
+			<button class="yy-button yy-btn-mini yy-btn-checked add-btn" @click="fnAdds()">新增</button>
 		</div>
 		<table width="60%" class="yingyanTable">
 			<thead>
@@ -28,7 +28,7 @@
 		</table>
 		<!-- 分页 -->
 		<div v-if="tableData.length > 0" class="paginationBox">
-			<el-pagination background class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
+			<el-pagination  class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
 			</el-pagination>
 		</div>
 
@@ -53,8 +53,8 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="cancel">取 消</el-button>
-				<el-button @click="submitForm('ruleForm')"  onclick="clickTotal('403','新增岗位确定',1)">确 定</el-button>
+				<el-button plain @click="cancel">取 消</el-button>
+				<el-button plain @click="submitForm('ruleForm')"  onclick="clickTotal('403','新增岗位确定',1)">确 定</el-button>
 			</div>
 		</el-dialog>
 		<!-- 修改 -->
@@ -65,8 +65,8 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="editCancle">取 消</el-button>
-				<el-button @click="editSubmitForm('editForm')">确 定</el-button>
+				<el-button plain @click="editCancle">取 消</el-button>
+				<el-button plain @click="editSubmitForm('editForm')">确 定</el-button>
 			</div>
 		</el-dialog>
 		<!--权限-->
@@ -86,8 +86,8 @@
 				<el-tree :data="editManage" ref="editTree" class="permission-tree"></el-tree>
 			</div>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="fnCancel">取 消</el-button>
-				<el-button @click="submitForm2" onclick="clickTotal('404','权限确定',1)">确 定</el-button>
+				<el-button plain @click="fnCancel">取 消</el-button>
+				<el-button plain @click="submitForm2" onclick="clickTotal('404','权限确定',1)">确 定</el-button>
 			</div>
 		</el-dialog>
 	</div>

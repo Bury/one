@@ -1,7 +1,7 @@
 <template>
 	<div class="device-box">
     <div class="top-box">
-      <el-button size="mini" class="add-btn" @click="goBack()">返回</el-button>
+      <el-button plain size="mini" class="add-btn" @click="goBack()">返回</el-button>
     </div>
 		<h4>
 			所属门店：{{this.$route.query.storeName}}
@@ -55,7 +55,6 @@
 	    <!-- 分页 -->
 		<div v-if="tableData.length > 0" class="paginationBox">
 			<el-pagination
-				background
 	            class="pagination"
 	            layout="prev, pager, next"
 	            small
@@ -82,8 +81,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="distributionCancel">取 消</el-button>
-        <el-button @click="distributionSubmit">确 定</el-button>
+        <el-button plain @click="distributionCancel">取 消</el-button>
+        <el-button plain @click="distributionSubmit">确 定</el-button>
       </div>
     </el-dialog>
 

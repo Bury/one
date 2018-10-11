@@ -27,8 +27,8 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item>
-					<el-button size="mini"  @click="onSubmit" onclick="clickTotal('454','设备查询时长',3);clickDevie('456','设备查询次数',1)">查询</el-button>
-					<el-button size="mini" @click="resetSearch">重置</el-button>
+					<el-button plain size="mini"  @click="onSubmit" onclick="clickTotal('454','设备查询时长',3);clickDevie('456','设备查询次数',1)">查询</el-button>
+					<el-button plain size="mini" @click="resetSearch">重置</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -82,7 +82,7 @@
 
 		<!-- 分页 -->
 		<div v-if="tableData.length > 0" class="paginationBox">
-			<el-pagination background class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
+			<el-pagination  class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
 			</el-pagination>
 		</div>
 
@@ -102,8 +102,8 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="distributionCancel">取 消</el-button>
-				<el-button @click="distributionSubmit"  onclick="clickTotal('401','分配确定',1)">确 定</el-button>
+				<el-button plain @click="distributionCancel">取 消</el-button>
+				<el-button plain @click="distributionSubmit"  onclick="clickTotal('401','分配确定',1)">确 定</el-button>
 			</div>
 		</el-dialog>
 
@@ -123,8 +123,8 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button size="mini" @click="editCancel">取 消</el-button>
-				<el-button size="mini" @click="editSubmit('editForm')">确 定</el-button>
+				<el-button plain size="mini" @click="editCancel">取 消</el-button>
+				<el-button plain size="mini" @click="editSubmit('editForm')">确 定</el-button>
 			</div>
 		</el-dialog>
 	</div>

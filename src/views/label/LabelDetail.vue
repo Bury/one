@@ -1,10 +1,10 @@
 <template>
 	<div class="label-detail-page">
 		<div class="top-box">
-			<el-button size="mini" class="add-btn1" @click="fnGoback()">返回</el-button>
+			<el-button plain size="mini" class="add-btn1" @click="fnGoback()">返回</el-button>
 		</div>
 		<div class="saveBox">
-			<el-button size="mini" @click="saveSelectTag" onclick="clickTotal('407','来客标签保存',1)">保存</el-button>
+			<el-button plain size="mini" @click="saveSelectTag" onclick="clickTotal('407','来客标签保存',1)">保存</el-button>
 		</div>
 		<table width="60%" class="yingyanTable">
 			<thead>
@@ -38,7 +38,7 @@
 
 		<!-- 分页 -->
 		<div v-if="tableData.length > 0"  class="paginationBox">
-			<el-pagination background class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
+			<el-pagination class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
 			</el-pagination>
 		</div>
 
@@ -50,8 +50,8 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button size="mini" @click="cancel">取 消</el-button>
-				<el-button size="mini" @click="submitForm('ruleForm')">确 定</el-button>
+				<el-button plain size="mini" @click="cancel">取 消</el-button>
+				<el-button plain size="mini" @click="submitForm('ruleForm')">确 定</el-button>
 			</div>
 		</el-dialog>
 

@@ -31,7 +31,7 @@
 				Highcharts: Highcharts,
 				options: {
 					chart: {
-						height:'320',
+						height: '320',
 						type: 'pie'
 					},
 					title: {
@@ -51,6 +51,11 @@
 						'#90ED7D',
 						'#909399'
 					],
+					plotOptions: {
+						pie: {
+							innerSize: "60%",
+						}
+					},
 					series: []
 				}
 			}

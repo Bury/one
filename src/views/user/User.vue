@@ -1,7 +1,7 @@
 <template>
 	<div class="account-set-page">
 		<div class="top-box">
-			<el-button size="mini" class="add-btn" @click="fnAdds()" onclick="clickTotal('413','新增账号',1)">新增</el-button>
+			<button class="yy-button yy-btn-mini yy-btn-checked add-btn" @click="fnAdds()" onclick="clickTotal('413','新增账号',1)">新增</button>
 		</div>
 		<div>
 			<el-form :inline="true" :model="requestParameters" class="demo-form-inline" size="mini">
@@ -17,8 +17,8 @@
 				    <el-input v-model.trim="requestParameters.phone"></el-input>
 				</el-form-item>
 				<el-form-item>
-				    <el-button size="mini" @click="onSubmitSearch" onclick="clickTotal('412','查询账号',1)">查询</el-button>
-				    <el-button size="mini" @click="resetSearch">重置</el-button>
+				    <el-button plain size="mini" @click="onSubmitSearch" onclick="clickTotal('412','查询账号',1)">查询</el-button>
+				    <el-button plain size="mini" @click="resetSearch">重置</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -56,8 +56,7 @@
     </table>
 	    <!-- 分页 -->
 	   <div v-if="tableData.length > 0" class="paginationBox">
-	    	<el-pagination
-				background
+	    	<el-pagination				
 	            class="pagination"
 	            layout="prev, pager, next"
 	            small
@@ -91,8 +90,8 @@
           </el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="fnCancel">取 消</el-button>
-				<el-button @click="addSubmitForm">确 定</el-button>
+				<el-button plain @click="fnCancel">取 消</el-button>
+				<el-button plain @click="addSubmitForm">确 定</el-button>
 			</div>
 		</el-dialog>
     <!--编辑-->
@@ -126,8 +125,8 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="fnEditCancel">取 消</el-button>
-      <el-button @click="submitForm(editForm)">确 定</el-button>
+      <el-button plain @click="fnEditCancel">取 消</el-button>
+      <el-button plain @click="submitForm(editForm)">确 定</el-button>
     </div>
     </el-dialog>
 	</div>

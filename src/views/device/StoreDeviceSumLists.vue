@@ -23,7 +23,6 @@
 	    <!-- 分页 -->
 		<div v-if="tableData.length > 0"  class="paginationBox">
 			<el-pagination
-				background
 	            class="pagination"
 	            layout="prev, pager, next"
 	            small

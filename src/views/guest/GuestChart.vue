@@ -194,8 +194,8 @@
 
 			//绘制图形
 			drawChart(value) {
-                let meanFlag = this.$data.meanFlag,
-                    meanValue = this.$data.meanValue;
+//              let meanFlag = this.$data.meanFlag,
+//                  meanValue = this.$data.meanValue;
 				let dataRate = {
 					tooltip: {
 						formatter: function() {
@@ -215,13 +215,6 @@
 							var positions = [0, 0.2, 0.4, 0.6, 0.8, 1];
 							return positions;
 						},
-						plotLines: [{
-							color: meanFlag ? 'rgba(255, 196, 1,1)' : 'rgba(255, 196, 1,0)',
-							dashStyle: 'Dash', 
-							value: meanValue, 
-							width: 2,
-							zIndex:10
-						}]
 
 					}
 				};
@@ -242,24 +235,12 @@
 						tickPositioner: function() {
 							let positions = [],
 								increment;
-							if(meanValue > 10){
-								increment = parseFloat(meanValue) > this.dataMax ? Math.ceil(meanValue / 4) : 
-								Math.ceil(this.dataMax / 4);
-							}else{
-								increment = this.dataMax > 10 ? Math.ceil(this.dataMax / 4) : 2;
-							}
+							increment = this.dataMax > 10 ? Math.ceil(this.dataMax / 4) : 2;
 							for(let i = 0; i < 6; i++) {
 								positions.push(increment * i)
 							};
 							return positions;
 						},
-						plotLines: [{
-							color: meanFlag ? 'rgba(255, 196, 1,1)' : 'rgba(255, 196, 1,0)', 
-							dashStyle: 'Dash', 
-							value: meanValue, 
-							width: 2,
-							zIndex:10
-						}]
 					}
 				};
 				let guestCharts = this.$refs.guestCharts;
@@ -304,8 +285,8 @@
 
 			//客流统计特征图
 			postFeatureSum(flag) {
-				this.$data.meanValue = 0;
-				this.$data.meanFlag = false;
+//				this.$data.meanValue = 0;
+//				this.$data.meanFlag = false;
 				let postData = {
 					feature: flag,
 					begin_time: this.$props.postVal.begin_time,
@@ -345,13 +326,13 @@
 								data: res.data.data.sum,
 								time: res.data.data.time
 							}];
-							if(typeof(res.data.data.mean) != 'undefined'){
-								this.$data.meanValue = res.data.data.mean.toFixed(1);
-								this.$data.meanFlag = true;
-							}else{
-								this.$data.meanValue = 0;
-								this.$data.meanFlag = false;
-							};
+//							if(typeof(res.data.data.mean) != 'undefined'){
+//								this.$data.meanValue = res.data.data.mean.toFixed(1);
+//								this.$data.meanFlag = true;
+//							}else{
+//								this.$data.meanValue = 0;
+//								this.$data.meanFlag = false;
+//							};
 							this.drawChart(arr);
 						} else {
 							this.drawChart([])
@@ -362,8 +343,8 @@
 
 			//客流统计折线图比对
 			getCustomerDiff() {
-				this.$data.meanValue = 0;
-				this.$data.meanFlag = false; // 隐藏平均线
+//				this.$data.meanValue = 0;
+//				this.$data.meanFlag = false; // 隐藏平均线
 				statisticsApi.getCustomerDiff(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
 						if(res.data.data !== null) {
@@ -394,13 +375,13 @@
 								data: res.data.data.success,
 								time: res.data.data.time
 							}];
-							if(typeof(res.data.data.mean) != 'undefined'){
-								this.$data.meanValue = res.data.data.mean.toFixed(2);
-								this.$data.meanFlag = true;
-							}else{
-								this.$data.meanValue = 0;
-								this.$data.meanFlag = false;
-							};
+//							if(typeof(res.data.data.mean) != 'undefined'){
+//								this.$data.meanValue = res.data.data.mean.toFixed(2);
+//								this.$data.meanFlag = true;
+//							}else{
+//								this.$data.meanValue = 0;
+//								this.$data.meanFlag = false;
+//							};
 							this.drawChart(arr);
 						} else {
 							this.drawChart([])
@@ -411,8 +392,8 @@
 
 			//成交率折线图比对
 			orderDiff() {
-				this.$data.meanValue = 0;
-				this.$data.meanFlag = false;
+//				this.$data.meanValue = 0;
+//				this.$data.meanFlag = false;
 				statisticsApi.getOrderDiff(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
 						if(res.data.data !== null) {
@@ -436,8 +417,8 @@
 
 			//潜在客户流失率
 			customerLostSum() {
-				this.$data.meanValue = 0;
-				this.$data.meanFlag = false;
+//				this.$data.meanValue = 0;
+//				this.$data.meanFlag = false;
 				statisticsApi.customerlostSum(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
 						if(res.data.data !== null) {
@@ -460,8 +441,8 @@
 
 			//潜在客户流失率比对
 			customerLostDiff() {
-				this.$data.meanValue = 0;
-				this.$data.meanFlag = false;
+//				this.$data.meanValue = 0;
+//				this.$data.meanFlag = false;
 				statisticsApi.customerlostDiff(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
 						if(res.data.data !== null) {
@@ -485,8 +466,8 @@
 
 			//成交客户流失率
 			orderLostSum() {
-				this.$data.meanValue = 0;
-				this.$data.meanFlag = false;
+//				this.$data.meanValue = 0;
+//				this.$data.meanFlag = false;
 				statisticsApi.orderlostSum(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
 						if(res.data.data !== null) {
@@ -509,8 +490,8 @@
 
 			//成交客户流失率比对
 			orderLostDiff() {
-				this.$data.meanValue = 0;
-				this.$data.meanFlag = false;
+//				this.$data.meanValue = 0;
+//				this.$data.meanFlag = false;
 				statisticsApi.orderlostDiff(this.$data.postParameters).then((res) => {
 					if(res.data.errno === 0) {
 						if(res.data.data !== null) {

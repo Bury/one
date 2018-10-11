@@ -1,7 +1,7 @@
 <template>
 	<div class="store-set-page">
 		<div class="top-box">
-			<el-button size="mini" class="add-btn" @click="fnAdds()">创建门店</el-button>
+			<button class="yy-button yy-btn-mini yy-btn-checked add-btn" @click="fnAdds()">创建门店</button>
 		</div>
 
 		<el-form :inline="true"  size="mini">
@@ -16,8 +16,8 @@
 				</el-select>
 			</el-form-item>
 			<el-form-item>
-				<el-button size="mini" @click="lookSubmit">查询</el-button>
-				<el-button size="mini" @click="fnReset">重置</el-button>
+				<el-button plain size="mini" @click="lookSubmit">查询</el-button>
+				<el-button plain size="mini" @click="fnReset">重置</el-button>
 			</el-form-item>
 		</el-form>
 
@@ -52,7 +52,7 @@
 		</table>
 		<!-- 分页 -->
 		<div v-if="tableData.length > 0" class="paginationBox">
-			<el-pagination background class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
+			<el-pagination  class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
 			</el-pagination>
 		</div>
 
@@ -74,8 +74,8 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button size="mini" @click="cancel">取 消</el-button>
-				<el-button size="mini" @click="submitForm('ruleForm')">确 定</el-button>
+				<el-button plain  @click="cancel">取 消</el-button>
+				<el-button plain @click="submitForm('ruleForm')">确 定</el-button>
 			</div>
 		</el-dialog>
 	</div>

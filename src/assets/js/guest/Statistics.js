@@ -27,7 +27,11 @@ export default {
 			changeFlag: true,
 			sumOrDiff: '0',
 			goStoreSum: [{
-				passenger_flow: 0
+				passenger_flow: 0,
+				name:'',
+				sales_singular:'0',
+				sales_volume:'0',
+				turnover_rate:'0'
 			}],
 			isAll: true,
 			datadialog: {
@@ -258,11 +262,10 @@ export default {
 						this.$message(`请选择第${i + 1}个门店组织`)
 						break;
 					}
-				}
-
+				}		
+                
 			} else {
 				//求和时一些操作
-
 				if(this.$data.datadialog.summationType == "1") {
 					this.$data.isAll = true;
 					flag = false;
@@ -291,11 +294,42 @@ export default {
 			};
 			this.$data.datadialog.dataDialogVisible = true;
 		},
+		
+		repetFlag(){
+			//判断是否选择店铺是否重复了
+			let mArr = [],sArr = [];
+			let val = this.$data.storeGroup;
+			let repetF = true;
+			for(let i = 0;i<val.length;i++){
+				if(val[i].storeId !== ''){
+					if(mArr.indexOf(val[i].storeId) == -1){
+						mArr.push(val[i].storeId);
+					}else{
+						repetF = false;
+						break
+					}
+				}else{
+					if(sArr.indexOf(val[i].organizeId[val[i].organizeId.length - 1]) == -1){
+						sArr.push(val[i].organizeId[val[i].organizeId.length - 1]);
+					}else{
+						repetF = false;
+						break;
+					}
+					
+				}
+			}		
+			return repetF;
+		},
 
 		//选择后的提交
-		setSubmit() {
-			if(this.beforeSubmit() === true) {
+		setSubmit() {	
+			if(this.beforeSubmit() === true ) {		
 				return false;
+			}else{
+				if(this.repetFlag() === false){
+					this.$message(`输入了重复的店铺!`);
+					return false;
+				}
 			};
 			this.$data.copyPattern = this.$data.pattern.slice(0, 1) //复制模式选择的值，如果没有提交就返回原来的选择数据
 			this.$data.copyGroup = this.$data.storeGroup.slice(0, this.$data.storeGroup.length); //复制一个选择的门店数组，如果没有提交就返回原来的选择数据

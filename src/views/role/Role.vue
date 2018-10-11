@@ -1,7 +1,7 @@
 <template>
 	<div class="role-set-page">
 		<div class="top-box">
-			<el-button size="mini" class="add-btn" @click="fnAdds()" onclick="clickTotal('408','新增岗位',1)">新增</el-button>
+			<button class="yy-button yy-btn-mini yy-btn-checked add-btn" @click="fnAdds()" onclick="clickTotal('408','新增岗位',1)">新增</button>
 		</div>
 		<table width="80%" class="yingyanTable">
 			<thead>
@@ -60,8 +60,8 @@
         </el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="fnCancel('ruleForm')">取 消</el-button>
-				<el-button @click="submitForm('ruleForm')">确 定</el-button>
+				<el-button plain @click="fnCancel('ruleForm')">取 消</el-button>
+				<el-button plain @click="submitForm('ruleForm')">确 定</el-button>
 			</div>
 		</el-dialog>
 
@@ -73,8 +73,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancel">取 消</el-button>
-        <el-button type="primary" @click="submitForm('ruleForm')" onclick="clickTotal('409','修改岗位名称',1)">确 定</el-button>
+        <el-button plain @click="cancel">取 消</el-button>
+        <el-button plain type="primary" @click="submitForm('ruleForm')" onclick="clickTotal('409','修改岗位名称',1)">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -88,8 +88,8 @@
 				</el-tree>
 			</div>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="fnCancel">取 消</el-button>
-				<el-button @click="submitForm2" onclick="clickTotal('410','权限确定',1)">确 定</el-button>
+				<el-button plain @click="fnCancel">取 消</el-button>
+				<el-button plain @click="submitForm2" onclick="clickTotal('410','权限确定',1)">确 定</el-button>
 			</div>
 		</el-dialog>
 	</div>

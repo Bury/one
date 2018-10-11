@@ -25,26 +25,31 @@ export default {
 			Highcharts: Highcharts,
 			options: {
 				chart: {
-					height:'320',
+					height: '320',
 					type: 'pie'
 				},
 				title: {
 					text: ''
 				},
 				tooltip: {
-					pointFormat:'{series.name}: <b>{point.y}</b><br/>占比:{point.percentage:.1f}%'
+					pointFormat: '{series.name}: <b>{point.y}</b><br/>占比:{point.percentage:.1f}%'
 				},
 				credits: {
 					text: '',
 				},
 				colors: [
 					'#7CB5EC',
-                    '#FFC200', 
-                    '#F15780',
-                    '#8085E9',
-                    '#90ED7D',
-                    '#909399'
+					'#FFC200',
+					'#F15780',
+					'#8085E9',
+					'#90ED7D',
+					'#909399'
 				],
+				plotOptions: {
+					pie: {
+						innerSize: "60%",
+					}
+				},
 				series: []
 			}
 		}

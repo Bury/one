@@ -28,7 +28,7 @@
 				</el-form-item>
 
 				<el-form-item>
-					<el-button size="mini" @click="onSubmit">查询</el-button>
+					<el-button plain size="mini" @click="onSubmit">查询</el-button>
 				</el-form-item>
 			</el-form>
 			<el-form class="demo-form-inline" size="mini">
@@ -39,7 +39,7 @@
 					</el-radio-group>
 				</el-form-item>
 				<el-form-item label="范围选择：">
-					<el-button type="primary" @click="editSumDiff" plain>{{selectType}}</el-button>
+					<button class="yy-button yy-btn-mini yy-btn-checked" @click="editSumDiff">{{selectType}}</button>
 				</el-form-item>
 			</el-form>
 
@@ -198,7 +198,7 @@
 					</el-table-column>
 				</el-table>
 				<div style="text-align: center;">
-					<el-pagination background class="pagination" layout="prev, pager, next" small @current-change="currentPage" :current-page="pagination.currentPage" :page-size="listParameters.page_size" :page-count="pagination.totalCount">
+					<el-pagination class="pagination" layout="prev, pager, next" small @current-change="currentPage" :current-page="pagination.currentPage" :page-size="listParameters.page_size" :page-count="pagination.totalCount">
 					</el-pagination>
 				</div>
 			</div>

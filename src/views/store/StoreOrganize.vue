@@ -17,15 +17,15 @@
 			</el-tree>
 		</div>
 
-		<el-dialog :title="titleName" :visible.sync="addAndEditDialog" width="50%">
+		<el-dialog center :title="titleName" :visible.sync="addAndEditDialog" width="50%">
 			<el-form :model="editVlaue" status-icon :rules="rules" ref="editForm" label-width="100px" @submit.native.prevent>
 				<el-form-item label="名称：" prop="name">
 					<el-input type="text" v-model="editVlaue.name" auto-complete="off" class="edit-input" placeholder="请输入名称"></el-input>
 				</el-form-item>
 			</el-form>
 			<span slot="footer" class="dialog-footer">
-                 <el-button @click="addAndEditDialog = false">取 消</el-button>
-                 <el-button type="primary" @click="onsubmit">确 定</el-button>
+                 <el-button plain @click="addAndEditDialog = false">取 消</el-button>
+                 <el-button plain  @click="onsubmit">确 定</el-button>
            </span>
 		</el-dialog>
 

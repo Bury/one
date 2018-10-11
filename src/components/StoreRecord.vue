@@ -18,7 +18,6 @@
 		<!-- 分页 -->
 		<div>
 			<el-pagination 
-				background
 	            class="pagination" 
 	            layout="prev, pager, next" 
 	            small 

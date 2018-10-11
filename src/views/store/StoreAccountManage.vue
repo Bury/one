@@ -2,7 +2,7 @@
 
 	<div class="store-set-page">
 		<div class="top-box">
-			<el-button size="mini" class="add-btn" @click="fnAdds()">创建账号</el-button>
+			<button class="yy-button yy-btn-mini yy-btn-checked add-btn" @click="fnAdds()">创建账号</button>
 		</div>
 		<el-form :inline="true" ref="searchForm" size="mini">
 			<el-form-item label="门店架构：">
@@ -31,8 +31,8 @@
 			</el-form-item>
 
 			<el-form-item>
-				<el-button @click="clickSearch">查询</el-button>
-				<el-button @click="resetForm">重置</el-button>
+				<el-button plain @click="clickSearch">查询</el-button>
+				<el-button plain @click="resetForm">重置</el-button>
 			</el-form-item>
 		</el-form>
 		<table width="100%" class="yingyanTable">
@@ -74,7 +74,7 @@
 		</table>
 		<!-- 分页 -->
 		<div v-if="tableData.length > 0" class="paginationBox">
-			<el-pagination background class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
+			<el-pagination  class="pagination" layout="prev, pager, next" small @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-size="requestParameters.page_size" :total="pagination.totalCount">
 			</el-pagination>
 		</div>
 
@@ -112,8 +112,8 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="editCancel">取 消</el-button>
-				<el-button @click="editSubmit('editFormData')">确 定</el-button>
+				<el-button plain @click="editCancel">取 消</el-button>
+				<el-button plain @click="editSubmit('editFormData')">确 定</el-button>
 			</div>
 		</el-dialog>
 
@@ -128,8 +128,8 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="editPasswordCancel">取 消</el-button>
-				<el-button @click="editPasswordSubmit('changePwdFormData')">确 定</el-button>
+				<el-button plain @click="editPasswordCancel">取 消</el-button>
+				<el-button plain @click="editPasswordSubmit('changePwdFormData')">确 定</el-button>
 			</div>
 		</el-dialog>
 
@@ -173,8 +173,8 @@
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer" v-if="!avatarFormVisible">
-				<el-button @click="addCancel">取 消</el-button>
-				<el-button @click="addsSubmit('addsFormData')" onclick="clickTotal('400','新建账号确定',1)">确 定</el-button>
+				<el-button plain @click="addCancel">取 消</el-button>
+				<el-button plain @click="addsSubmit('addsFormData')" onclick="clickTotal('400','新建账号确定',1)">确 定</el-button>
 			</div>
 			<!--<guest-list v-if="avatarFormVisible" :avatarFormVisible="avatarFormVisible" @getChildData="getAvatarData"></guest-list>-->
 		</el-dialog>
