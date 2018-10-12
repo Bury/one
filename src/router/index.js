@@ -71,7 +71,7 @@ const router = new Router({
       meta: { requiresAuth: true },
       component: Main,
 
-      children: [        
+      children: [
         {path: 'Statistics',name: 'Statistics',component: Statistics},
         {path: 'Guest',name: 'Guest',component: Guest},
         {path: 'Order',name: 'Order',component: Order},
@@ -85,7 +85,7 @@ const router = new Router({
           {path: 'StoreDeviceSumLists',name: 'StoreDeviceSumLists',component: StoreDeviceSumLists},
           {path: 'StoreDeviceDetailLists',name: 'StoreDeviceDetailLists',component: StoreDeviceDetailLists},
          ]
-        },        
+        },
         {path: 'Store',name:'Store',component:Store},
         {path: 'StoreOrganize',name:'StoreOrganize',component:StoreOrganize},
         {path: 'StoreAccount',name:'StoreAccount',component:StoreAccount},
@@ -110,11 +110,11 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   let knock_knock = window.localStorage.getItem('knock_knock')
   if (to.matched.some(record => record.meta.requiresAuth)&& (!knock_knock || knock_knock === null)) {
-               window.location.href = '/';
-// next({
-// path: '/login',
-// query: { redirect: to.fullPath }
-// })
+               // window.location.href = '/';
+next({
+path: '/login',
+query: { redirect: to.fullPath }
+})
   } else {
     next()
   }
