@@ -30,21 +30,6 @@
                 </el-dropdown>
             </div>
             <span class="el-icon-yy-home_icon briefing-btn" @click="goDataView"></span>
-          <!--<div class="user1">-->
-            <!--<el-dropdown trigger="hover" >-->
-                    <!--<span class="el-dropdown-link" style="color:#fff;">-->
-                      <!--通知-->
-                      <!--<i class="el-icon-caret-bottom el-icon&#45;&#45;right"></i>-->
-                    <!--</span>-->
-              <!--<el-dropdown-menu slot="dropdown" style="text-align:center;">-->
-                <!--<el-dropdown-item divided @click.native="created_notice">创建通知</el-dropdown-item>-->
-                <!--<el-dropdown-item divided @click.native="inbox">收件箱</el-dropdown-item>-->
-                <!--<el-dropdown-item divided @click.native="outbox">发件箱</el-dropdown-item>-->
-                <!--<el-dropdown-item divided @click.native="drafts">草稿箱</el-dropdown-item>-->
-              <!--</el-dropdown-menu>-->
-            <!--</el-dropdown>-->
-          <!--</div>-->
-
 
         </div>
         <div class="left-menu-wrap">
