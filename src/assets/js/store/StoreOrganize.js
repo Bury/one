@@ -46,7 +46,6 @@ import storeRoleApi from '@/api/store_role'
 			getTreeData() {
 				storeRoleApi.organizeTree().then((res) => {
 					if(res.data.errno == 0) {
-						console.log(res.data)
 						this.$data.treeData = res.data.data
 					} else {
 						this.$message(res.data.msg)
@@ -55,8 +54,6 @@ import storeRoleApi from '@/api/store_role'
 			},
 
 			remove(node, data) {
-				console.log(node)
-				console.log(data)
 				this.$confirm(`是否删除${data.name}地区?`, '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
