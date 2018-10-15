@@ -163,46 +163,4 @@
 	</div>
 </template>
 <script src="@/assets/js/order/order.js"></script>
-<style lang="scss" scoped>
-	.el-table thead {
-		color: #333;
-	}
-
-	.el-pagination {
-		margin: 10px;
-		float: right;
-	}
-
-	.numberPrice {
-		border: 1px solid #e4e7ed;
-		height: 3.5rem;
-		width: 8rem;
-		background-color: #f5f7fa;
-		border-radius: 3px;
-		text-align: center;
-		color: #606266;
-		line-height: 3rem;
-	}
-
-	.totalAll {
-		overflow: hidden;
-		P {
-			float: right;
-			font-weight: 700;
-			.totalNumber,
-			.totalPrice {
-				display: inline-block;
-				padding: 0;
-				margin: 0 3px;
-				width: 100px;
-				height: 40px;
-				line-height: 40px;
-				border-radius: 3px;
-				border: 0;
-				background: #eee;
-				border: 1px solid #999;
-				text-align: center;
-			}
-		}
-	}
-</style>
+<style lang="scss" scoped src="@/assets/css/order/Order.scss">
