@@ -92,7 +92,7 @@
 						<ul class="sumBottom">
 							<li style="width: 30%;">
 								<span style="font-family: numFont">{{goStoreSum[0].sales_singular}}</span>
-								<p>订单数</p>
+								<p>订单人数</p>
 							</li>
 							<li style="width: 40%;">
 								<span style="font-family: numFont">{{goStoreSum[0].sales_volume | hundredMillion}}</span>
@@ -110,7 +110,7 @@
 							<tr>
 								<th>店名</th>
 								<th>到店人数</th>
-								<th>订单数</th>
+								<th>订单人数</th>
 								<th>销售额</th>
 								<th>成交率</th>
 							</tr>

@@ -88,7 +88,7 @@
 
 		<!-- 分配 -->
 		<el-dialog center title="分配" :visible.sync="distributionFormVisible">
-			<div style="margin-bottom:20px;"><span style="display:inline-block;width:106px;text-align:center;">编号：</span>{{distributionForm.device_id}}</div>
+			<div style="margin-bottom:20px;"><span class="yy-form-item wd100">编号：</span>{{distributionForm.device_id}}</div>
 			<el-form :model="distributionForm" :rules="operationRules" ref="distributionForm" label-width="100px" class="demo-ruleForm" style="margin-bottom:50px;">
 				<el-form-item label="门店架构：">
 					<el-cascader :options="organizes" v-model='dorganizeCode' :props='defaultAttr' @change="dialogStore">
@@ -109,8 +109,8 @@
 
 		<!-- 编辑 -->
 		<el-dialog center title="编辑" :visible.sync="editFormVisible">
-			<div style="margin-bottom:20px;"><span style="display:inline-block;width:100px;text-align:center;">编号：</span>{{editForm.device_id}}</div>
-			<div style="margin-bottom:20px;"><span style="display:inline-block;width:100px;text-align:center;">所属门店：</span>{{editForm.store_name}}</div>
+			<div style="margin-bottom:20px;"><span class="yy-form-item wd100">编号：</span>{{editForm.device_id}}</div>
+			<div style="margin-bottom:20px;"><span  class="yy-form-item wd100">所属门店：</span>{{editForm.store_name}}</div>
 			<el-form size="mini" :model="editForm" :rules="editRules" ref="editForm" label-width="100px" class="demo-ruleForm" style="margin-bottom:50px;">
 				<el-form-item label="类型：">
 					<el-select v-model="editForm.locate" placeholder="请选择">

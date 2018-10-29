@@ -11,6 +11,7 @@
         top: 0;
         left: 0;
         width: 100%;
+        min-width: 1204px;
         z-index: 99;
         height: 70px;
         box-shadow: 0 0 3px #999999;
@@ -33,11 +34,6 @@
             margin-top: 25px;
             //line-height: 70px;
         }
-        .user1 {
-            position: absolute;
-            right: 50px;
-            line-height: 70px;
-        }
     }
     .left-menu-wrap {
         position: fixed;
@@ -50,7 +46,6 @@
         overflow-y: auto;
         // -ms-overflow-style:none;
         // overflow:-moz-scrollbars-none;
-        .left-menu {}
         .leftNav {
             margin-top: 20px;
             margin-bottom: 20px;
